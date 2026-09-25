@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
+import * as ExpoCrypto from 'expo-crypto';
 import { Platform } from 'react-native';
 
 import { secureSessionStorage } from './secure-storage';
+import { installNativeWebCrypto } from './native-webcrypto';
+
+if (Platform.OS !== 'web') installNativeWebCrypto(globalThis, ExpoCrypto);
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;

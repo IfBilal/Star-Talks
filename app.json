@@ -27,8 +27,8 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#080B46",
-          "image": "./assets/images/star-talks-logo.png",
-          "imageWidth": 180
+          "image": "./assets/images/star-talks-lockup.png",
+          "imageWidth": 240
         }
       ],
       "expo-secure-store",

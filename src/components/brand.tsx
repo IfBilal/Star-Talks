@@ -24,12 +24,13 @@ export function BrandLogo({ size = 112, wordmark = false }: {size?: number; word
 export function Sunrise({height = 240}: {height?: number}) {
   return <View style={{height,width:'100%',overflow:'hidden'}}>
     <Svg width="100%" height="100%" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice">
-      <Defs><SvgGradient id="sky" x1="0" y1="0" x2="0" y2="1"><Stop offset="0" stopColor="#3D348B"/><Stop offset=".55" stopColor="#9582CF"/><Stop offset="1" stopColor="#F4D58C"/></SvgGradient><SvgGradient id="sun" x1="0" y1="0" x2="0" y2="1"><Stop offset="0" stopColor="#FFF6D9"/><Stop offset="1" stopColor="#E8BC73"/></SvgGradient></Defs>
-      <Path d="M0 0h400v240H0z" fill="url(#sky)"/><Circle cx="200" cy="158" r="56" fill="#F5D68B" opacity=".16"/><Circle cx="200" cy="158" r="38" fill="url(#sun)"/>
-      <Path d="M0 143 42 145 77 128 117 143 150 132 183 147 219 134 251 149 293 131 329 144 360 124 400 140v100H0z" fill="#514594" opacity=".7"/>
-      <Path d="M0 169 45 175 78 157 121 173 157 161 196 177 231 163 273 177 310 156 354 170 400 151v89H0z" fill="#252B5C"/>
-      <Path d="M0 211c53-17 96 15 152 1s83-16 129-1 79 15 119-2v31H0z" fill="#171C5D"/>
-      {[31,74,112,150,250,296,335,373].map((x,i)=><Circle key={x} cx={x} cy={30+(i*29)%70} r={i%3===0?2:1.4} fill="#F9EBC6" opacity={.55}/>) }
+      <Defs><SvgGradient id="sky" x1="0" y1="0" x2="0" y2="1"><Stop offset="0%" stopColor="#090A45"/><Stop offset="58%" stopColor="#17205F"/><Stop offset="100%" stopColor="#514486"/></SvgGradient><SvgGradient id="sun" x1="0" y1="0" x2="0" y2="1"><Stop offset="0%" stopColor="#FFF7DF"/><Stop offset="100%" stopColor="#E8BC73"/></SvgGradient></Defs>
+      <Path d="M0 0h400v240H0z" fill="url(#sky)"/>
+      {[23,55,92,128,166,214,249,286,327,369,388,75,304,188].map((x,i)=><Circle key={`${x}-${i}`} cx={x} cy={[18,43,26,61,34,57,22,48,31,65,14,82,91,104][i]} r={i%4===0?1.8:1.2} fill="#F9EBC6" opacity={i%3===0?.8:.55}/>) }
+      <Circle cx="200" cy="188" r="69" fill="#F5D68B" opacity=".11"/><Circle cx="200" cy="188" r="43" fill="#F5D68B" opacity=".13"/><Circle cx="200" cy="188" r="34" fill="url(#sun)"/>
+      <Path d="M0 171 28 175 51 161 79 169 104 151 133 162 158 147 183 164 210 155 236 164 264 150 291 162 316 145 345 159 370 150 400 166v74H0z" fill="#464079" opacity=".86"/>
+      <Path d="M0 190q31-9 58 2t54-3q29-16 58 0t56-1q30-15 59 0t58-4q30-12 57 1v55H0z" fill="#252B5C"/>
+      <Path d="M0 218q40-18 79-4t78 0q38-16 78-2t81 0q43-14 84 3v25H0z" fill="#171C5D"/>
     </Svg>
   </View>;
 }
