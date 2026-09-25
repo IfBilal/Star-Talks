@@ -1,24 +1,156 @@
-import { Bell, BookOpen, CalendarDays, ChevronRight, CircleUserRound, Compass, Home, MoonStar, Sparkles, Stars, Wallet } from 'lucide-react-native';
+import {
+  Bell,
+  BookOpen,
+  ChevronRight,
+  CircleUserRound,
+  GraduationCap,
+  Headphones,
+  House,
+  MapPin,
+  MessageCircle,
+  MessagesSquare,
+  Search,
+  Sparkles,
+  Sun,
+  UserRound,
+  Video,
+  WalletCards,
+} from 'lucide-react-native';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import { Screen } from '@/components/brand';
-import { Colors } from '@/constants/theme';
+import { Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Svg, { Circle, Path } from 'react-native-svg';
+
 import { requireSupabase } from '@/lib/supabase';
 
-const services=[{name:'AI Astrology',icon:Stars,tint:'#EEEBFF'},{name:'Tarot Reading',icon:Sparkles,tint:'#FCECF0'},{name:'Daily Insight',icon:MoonStar,tint:'#FFF5E5'},{name:'Birth Chart',icon:Compass,tint:'#E7F2F4'},{name:'Astrology Reports',icon:BookOpen,tint:'#E8EDFC'},{name:'Courses',icon:CalendarDays,tint:'#F4EAF7'}];
-export default function HomeScreen(){const [name,setName]=useState('');useEffect(()=>{void requireSupabase().auth.getUser().then(async({data})=>{if(!data.user)return;const {data:profile}=await requireSupabase().from('profiles').select('display_name').eq('id',data.user.id).maybeSingle();if(profile?.display_name)setName(profile.display_name.split(' ')[0])})},[]);return <Screen dark style={{paddingHorizontal:0,paddingTop:0,paddingBottom:0}}>
- <ScrollView contentContainerStyle={{paddingBottom:12}}>
-  <LinearGradient colors={['#17175B','#252B5C','#353A75']} style={{paddingHorizontal:21,paddingTop:14,paddingBottom:23,borderBottomLeftRadius:21,borderBottomRightRadius:21}}>
-   <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:23}}><View style={{flexDirection:'row',alignItems:'center',gap:9}}><View style={{width:32,height:32,borderRadius:16,backgroundColor:'#E4DDF0',alignItems:'center',justifyContent:'center'}}><CircleUserRound color={Colors.indigo} size={22}/></View><View><Text style={{fontFamily:'Poppins_600SemiBold',fontSize:14,color:'white'}}>Hello, {name||'Star Seeker'}</Text><Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:'#E4DDF0'}}>Good morning</Text></View></View><Pressable style={{width:34,height:34,borderRadius:18,backgroundColor:'#FFFFFF20',alignItems:'center',justifyContent:'center'}}><Bell color="white" size={17}/></Pressable></View>
-   <View style={{borderRadius:15,overflow:'hidden',padding:16,backgroundColor:'#7770B5'}}><LinearGradient colors={['#A89BE0','#F0CBE0','#FFF0D0']} style={{position:'absolute',left:0,right:0,top:0,bottom:0,opacity:.95}}/><Text style={{fontFamily:'Poppins_600SemiBold',fontSize:18,color:'#29245B',lineHeight:25}}>Discover Answers{ '\n'}for a Brighter Tomorrow</Text><View style={{marginTop:13,height:40,backgroundColor:'white',borderRadius:9,flexDirection:'row',alignItems:'center',paddingHorizontal:11,gap:8}}><SearchIcon/><Text style={{flex:1,color:'#85869A',fontFamily:'Poppins_400Regular',fontSize:10}}>Ask your question</Text><View style={{width:24,height:24,borderRadius:12,backgroundColor:Colors.indigo,alignItems:'center',justifyContent:'center'}}><ChevronRight color="white" size={15}/></View></View></View>
-  </LinearGradient>
-  <View style={{paddingHorizontal:18,paddingTop:14}}><View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-between',rowGap:10}}>{services.map(({name:label,icon:Icon,tint})=><Pressable key={label} onPress={()=>{}} style={{width:'31.7%',height:78,backgroundColor:'#FFFFFF',borderRadius:11,alignItems:'center',justifyContent:'center',gap:6,borderWidth:1,borderColor:'#EFEDF2'}}><View style={{width:34,height:34,borderRadius:10,backgroundColor:tint,alignItems:'center',justifyContent:'center'}}><Icon size={19} color={Colors.indigo}/></View><Text numberOfLines={1} style={{fontFamily:'Poppins_500Medium',fontSize:9,color:Colors.text}}>{label}</Text></Pressable>)}</View>
-   <View style={{height:48,backgroundColor:Colors.indigo,borderRadius:11,marginTop:13,paddingHorizontal:12,flexDirection:'row',alignItems:'center',gap:8}}><Wallet color={Colors.gold} size={18}/><View style={{flex:1}}><Text style={{fontFamily:'Poppins_600SemiBold',fontSize:10,color:'white'}}>Your Stars & Credits</Text><Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:'#D5D2E9'}}>Credits and offers will appear here</Text></View><ChevronRight color="white" size={15}/></View>
-   <View style={{height:43,borderRadius:10,marginTop:10,paddingHorizontal:12,flexDirection:'row',alignItems:'center',gap:8,backgroundColor:'#39356F'}}><Sparkles color="#F3D994" size={16}/><Text style={{flex:1,fontFamily:'Poppins_500Medium',fontSize:9,color:'white'}}>Daily cosmic guidance</Text><Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:'#E9DFAF'}}>Coming soon</Text></View>
-  </View>
- </ScrollView>
- <View style={{height:58,backgroundColor:'#11154D',borderTopWidth:1,borderColor:'#383968',flexDirection:'row',alignItems:'center',justifyContent:'space-around'}}>{[[Home,'Home'],[Stars,'AI'],[BookOpen,'Reports'],[Wallet,'Credits'],[CircleUserRound,'Profile']].map(([Icon,label]:any)=><Pressable key={label} onPress={()=>label==='Profile'?router.push('/profile'):undefined} style={{alignItems:'center',gap:3}}><Icon size={17} color={label==='Home'?Colors.gold:'#A9A8BC'}/><Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:label==='Home'?Colors.gold:'#A9A8BC'}}>{label}</Text></Pressable>)}</View>
- </Screen>}
-function SearchIcon(){return <Text style={{fontSize:15,color:'#8D8EA0'}}>⌕</Text>}
+const services = [
+  { name: 'AI Astrology', icon: Sun, tint: '#FFF2D7', ink: '#B38B42' },
+  { name: 'Find Astrologers', icon: MapPin, tint: '#ECEBFF', ink: '#5456A8' },
+  { name: 'Chat', icon: MessagesSquare, tint: '#FBE9EE', ink: '#A74F75' },
+  { name: 'Audio Consultation', icon: Headphones, tint: '#E5F5F3', ink: '#438C8C' },
+  { name: 'Video Consultation', icon: Video, tint: '#EDEBFC', ink: '#5E59A4' },
+  { name: 'Reports', icon: BookOpen, tint: '#FBEAF0', ink: '#A84D76' },
+  { name: 'Courses', icon: GraduationCap, tint: '#F0EAFE', ink: '#6453A2' },
+  { name: 'Wallet & Credits', icon: WalletCards, tint: '#E4F5F2', ink: '#428984' },
+];
+
+const tabs = [
+  { name: 'Home', icon: House },
+  { name: 'Chat', icon: MessageCircle },
+  { name: 'Reports', icon: BookOpen },
+  { name: 'Credits', icon: WalletCards },
+  { name: 'Profile', icon: UserRound },
+];
+
+export default function HomeScreen() {
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const db = requireSupabase();
+        const { data: { user } } = await db.auth.getUser();
+        if (!user) return;
+        const { data: profile } = await db
+          .from('profiles')
+          .select('display_name')
+          .eq('id', user.id)
+          .maybeSingle();
+        if (profile?.display_name) setName(profile.display_name.split(' ')[0]);
+      } catch {
+        // The dashboard remains available while profile data is loading or unavailable.
+      }
+    })();
+  }, []);
+
+  const initials = name ? name.slice(0, 1).toUpperCase() : 'S';
+
+  return (
+    <View style={{ flex: 1, width: '100%', overflow: 'hidden', backgroundColor: '#FBF9F5' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#171C5C" />
+
+      <SafeAreaView edges={['top']} style={{ width: '100%', backgroundColor: '#171C5C' }}>
+        <View style={{ width: '100%', backgroundColor: '#171C5C', paddingHorizontal: 20, paddingTop: 12, paddingBottom: 23 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 30 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <View style={{ width: 39, height: 39, borderRadius: 22, backgroundColor: '#F6F3F0', borderWidth: 2, borderColor: '#D8D0F7', alignItems: 'center', justifyContent: 'center' }}>
+                {name ? <Text style={{ color: '#353477', fontFamily: 'Poppins_600SemiBold', fontSize: 15 }}>{initials}</Text> : <CircleUserRound color="#353477" size={23} />}
+              </View>
+              <View>
+                <Text style={{ color: '#FFFDFB', fontFamily: 'Poppins_600SemiBold', fontSize: 14 }}>Hello, {name || 'Star Seeker'}</Text>
+                <Text style={{ color: '#D9D9EF', fontFamily: 'Poppins_400Regular', fontSize: 10, marginTop: 1 }}>Good morning</Text>
+              </View>
+            </View>
+            <Pressable accessibilityLabel="Notifications" style={{ width: 38, height: 38, alignItems: 'center', justifyContent: 'center' }}>
+              <Bell color="#FFFDFB" size={21} strokeWidth={1.8} />
+              <View style={{ position: 'absolute', right: 7, top: 6, width: 6, height: 6, borderRadius: 4, backgroundColor: '#F5CC79' }} />
+            </Pressable>
+          </View>
+
+          <View style={{ height: 190, borderRadius: 17, overflow: 'hidden', backgroundColor: '#E9D5F5' }}>
+            <LinearGradient colors={['#D8C5F1', '#F7E5E8', '#FFF2D5']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
+            <View style={{ position: 'absolute', inset: 0, opacity: 0.5 }}>
+              <Svg width="100%" height="100%" viewBox="0 0 360 140" preserveAspectRatio="xMidYMid slice">
+                <Circle cx="284" cy="17" r="46" fill="#FFF1CB" opacity=".35" />
+                <Circle cx="284" cy="17" r="26" fill="#FFF8E1" opacity=".42" />
+                <Path d="M0 91 Q50 66 93 88 T184 85 T272 89 T360 73 V140 H0Z" fill="#F0CFE3" opacity=".48" />
+                <Path d="M0 111 Q46 87 91 106 T181 105 T270 101 T360 94 V140 H0Z" fill="#C7B8E9" opacity=".58" />
+                <Path d="M0 123 Q53 104 105 121 T207 119 T309 111 T360 113 V140 H0Z" fill="#8D83CF" opacity=".48" />
+              </Svg>
+            </View>
+            <Sparkles color="#F7E8BB" size={15} style={{ position: 'absolute', right: 24, top: 13 }} />
+            <Text style={{ position: 'absolute', left: 17, right: 13, top: 21, color: '#34345F', fontFamily: 'Poppins_600SemiBold', fontSize: 17, lineHeight: 23, textAlign: 'center' }}>
+              Discover Answers{'\n'}for a Brighter Tomorrow
+            </Text>
+            <Pressable accessibilityRole="button" style={{ position: 'absolute', left: 10, right: 10, bottom: 9, height: 45, borderRadius: 25, backgroundColor: '#FFFEFC', flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 8, gap: 10 }}>
+              <Search color="#555987" size={17} />
+              <Text style={{ flex: 1, color: '#89899B', fontFamily: 'Poppins_400Regular', fontSize: 10 }}>Ask your question...</Text>
+              <View style={{ width: 30, height: 30, borderRadius: 16, backgroundColor: '#312D91', alignItems: 'center', justifyContent: 'center' }}>
+                <ChevronRight color="white" size={18} />
+              </View>
+            </Pressable>
+          </View>
+        </View>
+      </SafeAreaView>
+
+      <ScrollView style={{ flex: 1, flexShrink: 1, minHeight: 0, width: '100%', minWidth: 0 }} contentContainerStyle={{ width: '100%', paddingHorizontal: 18, paddingTop: 12, paddingBottom: 12 }} showsVerticalScrollIndicator={false}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', columnGap: 8, rowGap: 9 }}>
+          {services.map(({ name: label, icon: Icon, tint, ink }) => (
+            <Pressable key={label} accessibilityRole="button" accessibilityLabel={label} style={{ width: '31.5%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
+              <Icon color={ink} size={25} strokeWidth={1.8} />
+              <Text numberOfLines={2} style={{ minHeight: 27, marginTop: 8, color: '#30334F', fontFamily: 'Poppins_500Medium', fontSize: 9.5, lineHeight: 13, textAlign: 'center' }}>{label}</Text>
+            </Pressable>
+          ))}
+        </View>
+
+        <Pressable accessibilityRole="button" style={{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }}>
+          <LinearGradient colors={['#252A80', '#27266F', '#302D84']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
+          <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginRight: 9 }}>
+            <Sparkles color="#FFE28F" size={28} strokeWidth={1.7} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ color: '#FFFDFB', fontFamily: 'Poppins_600SemiBold', fontSize: 10.5 }}>Watch 5 Ads &amp; Get 5 Free AI Credits Daily</Text>
+            <Text style={{ color: '#D8D9F2', fontFamily: 'Poppins_400Regular', fontSize: 8.5, marginTop: 3 }}>Earn 1 credit per ad  •  Max 5 per day</Text>
+          </View>
+          <ChevronRight color="#D9D5F3" size={17} />
+        </Pressable>
+      </ScrollView>
+
+      <SafeAreaView edges={['bottom']} style={{ flexShrink: 0, width: '100%', backgroundColor: '#FFFDFB' }}>
+        <View style={{ width: '100%', height: 56, backgroundColor: '#FFFDFB', borderTopWidth: 1, borderTopColor: '#EEEAF0', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+          {tabs.map(({ name: label, icon: Icon }) => {
+            const active = label === 'Home';
+            return (
+              <Pressable key={label} accessibilityRole="button" onPress={() => label === 'Profile' && router.push('/profile')} style={{ width: '20%', height: 52, alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+                <Icon color={active ? '#283276' : '#8F91A2'} size={17} strokeWidth={active ? 2.2 : 1.8} />
+                <Text style={{ color: active ? '#283276' : '#8F91A2', fontFamily: active ? 'Poppins_600SemiBold' : 'Poppins_400Regular', fontSize: 8 }}>{label}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </SafeAreaView>
+    </View>
+  );
+}
