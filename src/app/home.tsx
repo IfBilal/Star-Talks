@@ -19,9 +19,8 @@ import {
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Alert, ImageBackground, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Svg, { Circle, Path } from 'react-native-svg';
 
 import { requireSupabase } from '@/lib/supabase';
 
@@ -83,28 +82,20 @@ export default function HomeScreen() {
                 <Text style={{ color: '#D9D9EF', fontFamily: 'Poppins_400Regular', fontSize: 10, marginTop: 1 }}>Good morning</Text>
               </View>
             </View>
-            <Pressable accessibilityLabel="Notifications" style={{ width: 38, height: 38, alignItems: 'center', justifyContent: 'center' }}>
+            <Pressable accessibilityRole="button" accessibilityLabel="Notifications" onPress={() => Alert.alert('Notifications', "You're all caught up.")} style={{ width: 38, height: 38, alignItems: 'center', justifyContent: 'center' }}>
               <Bell color="#FFFDFB" size={21} strokeWidth={1.8} />
               <View style={{ position: 'absolute', right: 7, top: 6, width: 6, height: 6, borderRadius: 4, backgroundColor: '#F5CC79' }} />
             </Pressable>
           </View>
 
           <View style={{ height: 190, borderRadius: 17, overflow: 'hidden', backgroundColor: '#E9D5F5' }}>
-            <LinearGradient colors={['#D8C5F1', '#F7E5E8', '#FFF2D5']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
-            <View style={{ position: 'absolute', inset: 0, opacity: 0.5 }}>
-              <Svg width="100%" height="100%" viewBox="0 0 360 140" preserveAspectRatio="xMidYMid slice">
-                <Circle cx="284" cy="17" r="46" fill="#FFF1CB" opacity=".35" />
-                <Circle cx="284" cy="17" r="26" fill="#FFF8E1" opacity=".42" />
-                <Path d="M0 91 Q50 66 93 88 T184 85 T272 89 T360 73 V140 H0Z" fill="#F0CFE3" opacity=".48" />
-                <Path d="M0 111 Q46 87 91 106 T181 105 T270 101 T360 94 V140 H0Z" fill="#C7B8E9" opacity=".58" />
-                <Path d="M0 123 Q53 104 105 121 T207 119 T309 111 T360 113 V140 H0Z" fill="#8D83CF" opacity=".48" />
-              </Svg>
-            </View>
+            <ImageBackground source={require('../../assets/images/star-talks-splash-background.png')} resizeMode="cover" accessibilityLabel="Starry sunrise card background" imageStyle={{ opacity: 0.86 }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }} />
+            <LinearGradient colors={['rgba(228, 219, 248, 0.17)', 'rgba(255, 241, 218, 0.08)']} style={{ position: 'absolute', inset: 0 }} />
             <Sparkles color="#F7E8BB" size={15} style={{ position: 'absolute', right: 24, top: 13 }} />
             <Text style={{ position: 'absolute', left: 17, right: 13, top: 21, color: '#34345F', fontFamily: 'Poppins_600SemiBold', fontSize: 17, lineHeight: 23, textAlign: 'center' }}>
               Discover Answers{'\n'}for a Brighter Tomorrow
             </Text>
-            <Pressable accessibilityRole="button" style={{ position: 'absolute', left: 10, right: 10, bottom: 9, height: 45, borderRadius: 25, backgroundColor: '#FFFEFC', flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 8, gap: 10 }}>
+            <Pressable accessibilityRole="button" accessibilityLabel="Ask your question" onPress={() => Alert.alert('Ask your question', 'Question readings will be available soon.')} style={{ position: 'absolute', left: 10, right: 10, bottom: 9, height: 45, borderRadius: 25, backgroundColor: '#FFFEFC', flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 8, gap: 10 }}>
               <Search color="#555987" size={17} />
               <Text style={{ flex: 1, color: '#89899B', fontFamily: 'Poppins_400Regular', fontSize: 10 }}>Ask your question...</Text>
               <View style={{ width: 30, height: 30, borderRadius: 16, backgroundColor: '#312D91', alignItems: 'center', justifyContent: 'center' }}>
@@ -118,14 +109,14 @@ export default function HomeScreen() {
       <ScrollView style={{ flex: 1, flexShrink: 1, minHeight: 0, width: '100%', minWidth: 0 }} contentContainerStyle={{ width: '100%', paddingHorizontal: 18, paddingTop: 12, paddingBottom: 12 }} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', columnGap: 8, rowGap: 9 }}>
           {services.map(({ name: label, icon: Icon, tint, ink }) => (
-            <Pressable key={label} accessibilityRole="button" accessibilityLabel={label} style={{ width: '31.5%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
+            <Pressable key={label} accessibilityRole="button" accessibilityLabel={label} onPress={() => Alert.alert(label, `${label} is coming soon.`)} style={{ width: '31.5%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
               <Icon color={ink} size={25} strokeWidth={1.8} />
               <Text numberOfLines={2} style={{ minHeight: 27, marginTop: 8, color: '#30334F', fontFamily: 'Poppins_500Medium', fontSize: 9.5, lineHeight: 13, textAlign: 'center' }}>{label}</Text>
             </Pressable>
           ))}
         </View>
 
-        <Pressable accessibilityRole="button" style={{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Daily AI credit offer" onPress={() => Alert.alert('Daily AI credits', 'Ad rewards will be available soon.')} style={{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }}>
           <LinearGradient colors={['#252A80', '#27266F', '#302D84']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
           <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginRight: 9 }}>
             <Sparkles color="#FFE28F" size={28} strokeWidth={1.7} />
@@ -143,7 +134,11 @@ export default function HomeScreen() {
           {tabs.map(({ name: label, icon: Icon }) => {
             const active = label === 'Home';
             return (
-              <Pressable key={label} accessibilityRole="button" onPress={() => label === 'Profile' && router.push('/profile')} style={{ width: '20%', height: 52, alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+              <Pressable key={label} accessibilityRole="button" accessibilityLabel={`${label} tab`} onPress={() => {
+                if (label === 'Home') router.replace('/home');
+                else if (label === 'Profile') router.push('/profile');
+                else Alert.alert(label, `${label} is coming soon.`);
+              }} style={{ width: '20%', height: 52, alignItems: 'center', justifyContent: 'center', gap: 3 }}>
                 <Icon color={active ? '#283276' : '#8F91A2'} size={17} strokeWidth={active ? 2.2 : 1.8} />
                 <Text style={{ color: active ? '#283276' : '#8F91A2', fontFamily: active ? 'Poppins_600SemiBold' : 'Poppins_400Regular', fontSize: 8 }}>{label}</Text>
               </Pressable>
