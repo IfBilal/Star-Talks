@@ -38,7 +38,7 @@ The UI JPEG is an overview rather than seven independent source files. Use its s
 - **Date/time correctness:** Store the entered local birth date/time, IANA time-zone ID, and resolved UTC instant. Preserve whether the time is unknown. Resolve historical DST using the IANA time-zone database; detect nonexistent and ambiguous local times and ask the user to resolve them rather than silently shifting the birth time.
 - **Calculations:** Use a separable chart-calculation module with explicit input/output types, deterministic inputs, and recorded method/version metadata. Do not use a Swiss Ephemeris dependency unless its commercial license is approved. Record the selected ephemeris/ayanamsa assumptions in the implementation notes and expose a calculator interface so Phase 2 modules can consume one canonical result.
 - **AI registry:** Register the nine proposal modules with stable IDs, display names, supported input requirements, methodology labels, and question-domain boundaries. The registry is metadata and routing structure only; it must not make generic AI calls in Phase 1.
-- **UI assets:** Reuse `docs/logo.jpeg`. Create original SVG/native vector scenery, flags, map silhouette, buttons, and line icons from the references. Use a commercially usable bundled font selected in code; no additional client-sourced illustration/font pack is required.
+- **UI assets:** Use the supplied transparent Star Talks logo and `docs/splash-screen.png` as the splash artwork. Create flags, map silhouette, buttons, and line icons from the references. Use a commercially usable bundled font selected in code; no additional client-sourced illustration/font pack is required.
 - **Configuration:** Commit `.env.example`, never `.env` or secret keys. Required runtime settings are the Supabase URL and publishable key, plus the chosen place-provider setting. Clearly document provider-side setup for Google sign-in/OTP.
 
 ## Implementation phases and completion gates
@@ -136,7 +136,7 @@ The client owns Supabase and any third-party provider accounts as required by th
 
 ## Implementation status
 
-- [x] Expo/TypeScript/Expo Router Android app shell, Star Talks app identity, Poppins font, supplied logo conversion, and original vector splash/map decoration.
+- [x] Expo/TypeScript/Expo Router Android app shell, Star Talks app identity, Poppins font, supplied logo conversion, supplied splash background, and vector map decoration.
 - [x] Seven Phase 1 routes and form flow; no live astrologer/consultation services or palm permissions.
 - [x] Supabase Auth wiring for email/password, email OTP, and configurable OAuth providers; secure mobile token storage.
 - [x] Applied profile, birth profile, calculated chart, and AI module schema with owner-scoped RLS and indexes to project `thoknhjxmgsyisxuyamb`.
