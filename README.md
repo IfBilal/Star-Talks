@@ -1,56 +1,32 @@
-# Welcome to your Expo app 👋
+# Star Talks
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Star Talks is an Android-first astrology app built with Expo, React Native, TypeScript, Expo Router, and Supabase. Phase 1 implements onboarding through the Home screen and the account, birth data, place/time-zone, chart-calculation, and AI-module registry foundations.
 
-## Get started
+## Run locally
 
-1. Install dependencies
+1. Install Node.js and Android Studio (or use an Android device with Expo Go / a development build).
+2. Install packages with `npm install`.
+3. Copy `.env.example` to `.env.local` and add the project’s Supabase URL and publishable API key. Add a Geoapify key for live birthplace search.
+4. Run `npm run android` for the Android emulator or `npm start` and scan the QR code on a device.
 
-   ```bash
-   npm install
-   ```
+The ignored `.env.local` file is loaded by Expo and is not committed. Supabase publishable keys are intended for client applications; never put a Supabase secret/service-role key in the app.
 
-2. Start the app
+## Services
 
-   ```bash
-   npx expo start
-   ```
+- **Supabase:** Project `thoknhjxmgsyisxuyamb` (Star-Talks). The SQL source of truth is in `supabase/migrations/`. The Phase 1 migrations are applied to this project. Email sign-in and verification use Supabase Auth. Google and Apple buttons use Supabase OAuth and require each provider to be enabled and its redirect URLs configured in the client-owned Supabase project.
+- **Geoapify:** Create a client-owned free account and an API key, then set `EXPO_PUBLIC_GEOAPIFY_API_KEY` in `.env.local`. Geoapify currently advertises 3,000 free requests/day without a payment card. The app sends requests only after a user types at least three characters, waits 450 ms, caches results briefly, and shows Geoapify/OpenStreetMap attribution. API keys embedded in a mobile app can be extracted; configure quota and endpoint restrictions for the key and rotate it if exposed. If production traffic grows, move the proxy/key to a Supabase Edge Function.
+- **Time zones:** `tz-lookup` maps selected coordinates to IANA time-zone identifiers. `src/features/birth/timezone.ts` resolves local birth time to UTC using the runtime IANA database and returns ambiguous/nonexistent DST cases for explicit user handling.
+- **Charts:** `astronomy-engine` supplies planetary positions. `src/features/astrology/chart.ts` records tropical and sidereal placements, whole-sign ascendants/houses, lunar nakshatra/pada and the birth Vimshottari mahadasha balance. The Lahiri correction is a documented mean precession approximation. The calculator version and assumptions are saved with each chart. Unknown birth time remains unknown and does not generate a chart using an invented clock time. Do not use these results for professional-grade predictions without validating the ephemeris and ayanamsa choices against an agreed reference.
+- **AI registry:** `src/features/ai/moduleRegistry.ts` describes nine isolated modules. It does not call a general-purpose AI endpoint; module experiences are later milestones.
 
-In the output, you'll find options to open the app in a
+## Check the work
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- `npm run typecheck`
+- `npm test`
+- `npx expo export --platform android`
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Phase boundaries
 
-## Get a fresh project
+This build intentionally excludes live astrologer discovery/consultations. It does not implement AI readings, wallet/credit transactions, payment processing, reports, courses, ads, or palm-photo permissions. The Home cards are design previews for later milestones.
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The original Aurelia proposal and design references remain in `docs/`; the current product name and supplied Star Talks logo are used in the app.

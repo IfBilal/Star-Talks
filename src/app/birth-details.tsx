@@ -1,0 +1,40 @@
+import DateTimePicker, { type DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { CalendarDays, Clock3, MapPin, Search, Sun, X } from 'lucide-react-native';
+import { router } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Alert, Platform, Pressable, Text, View } from 'react-native';
+import tzLookup from 'tz-lookup';
+import { PrimaryButton, Screen, TextField, Title } from '@/components/brand';
+import { Colors } from '@/constants/theme';
+import { calculateChart, CALCULATOR_VERSION } from '@/features/astrology/chart';
+import { resolveLocalBirthTime } from '@/features/birth/timezone';
+import { searchBirthplaces, type Place } from '@/features/places/geoapify';
+import { preferences, readRegion } from '@/lib/preferences';
+import { requireSupabase } from '@/lib/supabase';
+
+const apiKey=process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY??'';
+const dateLabel=(d:Date)=>d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+const localDate=(d:Date)=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const timeLabel=(d:Date)=>d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+export default function BirthDetailsScreen(){
+ const [date,setDate]=useState(new Date(1995,0,12));const [time,setTime]=useState(new Date(1995,0,12,10,30));const [known,setKnown]=useState(true);const [picker,setPicker]=useState<'date'|'time'|null>(null);const [query,setQuery]=useState('');const [place,setPlace]=useState<Place|null>(null);const [results,setResults]=useState<Place[]>([]);const [searching,setSearching]=useState(false);const [message,setMessage]=useState('');const [busy,setBusy]=useState(false);const abort=useRef<AbortController|null>(null);
+ useEffect(()=>{if(query.trim().length<3||place){setResults([]);return}const timer=setTimeout(async()=>{abort.current?.abort();const controller=new AbortController();abort.current=controller;setSearching(true);try{const items=await searchBirthplaces(query.trim(),apiKey,controller.signal);if(controller.signal.aborted)return;setResults(items);setMessage('')}catch(e){if(!controller.signal.aborted)setMessage(e instanceof Error?e.message:'Place search is unavailable.')}finally{if(!controller.signal.aborted)setSearching(false)}},450);return()=>clearTimeout(timer)},[query,place]);
+ const onPicker=(event:DateTimePickerEvent,value?:Date)=>{if(Platform.OS==='android')setPicker(null);if(event.type==='set'&&value){if(picker==='date'){setDate(value);const revised=new Date(time);revised.setFullYear(value.getFullYear(),value.getMonth(),value.getDate());setTime(revised)}else if(picker==='time')setTime(value)}};
+ const save=async()=>{if(!place){setMessage('Search and select your birthplace to continue.');return}setBusy(true);setMessage('');try{const zone=tzLookup(place.lat,place.lon);let instant:string|null=null;if(known){const resolved=resolveLocalBirthTime({year:date.getFullYear(),month:date.getMonth()+1,day:date.getDate(),hour:time.getHours(),minute:time.getMinutes()},zone);if(resolved.status==='ambiguous'){Alert.alert('Birth time needs confirmation','The local time happened twice when clocks changed. Choose which occurrence is correct before continuing.');return}if(resolved.status==='nonexistent'){Alert.alert('Invalid local birth time','The selected time did not occur in this place because clocks changed. Please choose another time.');return}instant=resolved.instant.toISOString()}
+   const db=requireSupabase();const user=(await db.auth.getUser()).data.user;if(!user)throw new Error('Your sign-in session expired. Please sign in again.');const payload={user_id:user.id,display_name:'My Birth Profile',relationship:'self',birth_date:localDate(date),birth_time:known?`${String(time.getHours()).padStart(2,'0')}:${String(time.getMinutes()).padStart(2,'0')}:00`:null,birth_time_known:known,place_label:place.label,latitude:place.lat,longitude:place.lon,time_zone:zone,birth_instant:instant};const {data,error}=await db.from('birth_profiles').upsert(payload,{onConflict:'user_id,relationship'}).select('id').single();if(error)throw error;
+   if(instant){const chart=calculateChart({birthInstant:instant,latitude:place.lat,longitude:place.lon,timeKnown:known,timeZone:zone});const result=await db.from('calculated_charts').upsert({user_id:user.id,birth_profile_id:data.id,calculator_version:CALCULATOR_VERSION,method_settings:{westernHouseSystem:chart.western.houseSystem,vedicHouseSystem:chart.vedic.houseSystem,ayanamsa:chart.vedic.ayanamsa},chart_data:chart},{onConflict:'birth_profile_id,calculator_version'});if(result.error)throw result.error}else{const {error:clearError}=await db.from('calculated_charts').delete().eq('birth_profile_id',data.id);if(clearError)throw clearError}
+   await preferences.setOnboardingComplete(true);router.replace('/home');
+  }catch(e){setMessage(e instanceof Error?e.message:'Could not save birth details.')}finally{setBusy(false)}};
+ return <Screen scroll style={{paddingTop:30}}><View style={{flex:1}}><Title subtitle="These details help us create your personal chart.">Your Birth Details</Title>
+  <Pressable onPress={()=>setPicker('date')}><TextField editable={false} label="Date of Birth" value={dateLabel(date)} icon={<CalendarDays color={Colors.indigo} size={17}/>} placeholder="Date of birth"/></Pressable>
+  <Pressable onPress={()=>known&&setPicker('time')}><TextField editable={false} label="Time of Birth" value={known?timeLabel(time):'Unknown'} icon={<Clock3 color={Colors.indigo} size={17}/>} placeholder="Time of birth"/></Pressable>
+  <TextField label="Place of Birth" value={query} onChangeText={value=>{setPlace(null);setQuery(value)}} icon={<MapPin color={Colors.indigo} size={17}/>} placeholder="Search city or town" autoCorrect={false}/>
+  {searching?<ActivityIndicator color={Colors.indigo} style={{marginVertical:8}}/>:null}
+  {results.length>0?<View style={{backgroundColor:'white',borderRadius:9,borderWidth:1,borderColor:'#E5E3DF',marginTop:-10,marginBottom:12,overflow:'hidden'}}>{results.map(item=><Pressable key={item.id} onPress={()=>{setPlace(item);setQuery(item.label);setResults([])}} style={{minHeight:48,flexDirection:'row',alignItems:'center',paddingHorizontal:12,borderBottomWidth:.5,borderBottomColor:'#ECEAE7',gap:8}}><MapPin color={Colors.muted} size={16}/><Text numberOfLines={2} style={{flex:1,fontFamily:'Poppins_400Regular',fontSize:11,color:Colors.text}}>{item.label}</Text></Pressable>)}<Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:Colors.muted,padding:6,textAlign:'right'}}>Powered by Geoapify · OpenStreetMap</Text></View>:null}
+  <Pressable onPress={()=>setKnown(!known)} style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingVertical:14,borderTopWidth:1,borderTopColor:'#ECEAE7',marginTop:4}}><View style={{flexDirection:'row',alignItems:'center',gap:9}}><Sun color={Colors.gold} size={17}/><View><Text style={{fontFamily:'Poppins_500Medium',fontSize:11,color:Colors.text}}>Not sure about the time?</Text><Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:Colors.muted}}>I don't know my exact time</Text></View></View><View style={{width:38,height:22,borderRadius:11,backgroundColor:known?'#D7D5DD':Colors.indigo,padding:3,justifyContent:'center',alignItems:known?'flex-start':'flex-end'}}><View style={{width:16,height:16,borderRadius:9,backgroundColor:'white'}}/></View></Pressable>
+  {message?<Text accessibilityRole="alert" style={{color:Colors.danger,fontFamily:'Poppins_400Regular',fontSize:10,marginTop:7}}>{message}</Text>:null}
+  {picker?<DateTimePicker value={picker==='date'?date:time} mode={picker} display={Platform.OS==='ios'?'spinner':'default'} maximumDate={picker==='date'?new Date():undefined} onChange={onPicker}/>:null}
+  <View style={{flex:1,minHeight:20}}/><PrimaryButton title="Continue" loading={busy} onPress={save}/>
+  <Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:Colors.muted,textAlign:'center',marginTop:8}}>Search by city or town. Your selected place determines the historical time zone used.</Text>
+ </View></Screen>
+}

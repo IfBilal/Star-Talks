@@ -1,38 +1,39 @@
 {
   "expo": {
-    "name": "star-talks-scaffold",
-    "slug": "star-talks-scaffold",
-    "version": "1.0.0",
+    "name": "Star Talks",
+    "slug": "star-talks",
+    "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "startalksscaffold",
-    "userInterfaceStyle": "automatic",
-    "ios": {
-      "icon": "./assets/expo.icon"
-    },
+    "icon": "./assets/images/star-talks-logo.png",
+    "scheme": "startalks",
+    "userInterfaceStyle": "light",
     "android": {
+      "package": "com.startalks.mobile",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#080B46",
+        "foregroundImage": "./assets/images/star-talks-logo.png",
+        "monochromeImage": "./assets/images/star-talks-logo.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/star-talks-logo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          "backgroundColor": "#080B46",
+          "image": "./assets/images/star-talks-logo.png",
+          "imageWidth": 180
         }
-      ]
+      ],
+      "expo-secure-store",
+      "expo-localization",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,
