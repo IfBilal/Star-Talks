@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { Camera, ChevronDown, LogOut } from 'lucide-react-native';
-import { ActivityIndicator, Alert, Modal, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Modal, Pressable, Text, View } from 'react-native';
 import { PrimaryButton, Screen, TextField, Title } from '@/components/brand';
 import { Colors } from '@/constants/theme';
 import { preferences, readRegion } from '@/lib/preferences';
@@ -73,7 +73,7 @@ export default function ProfileScreen() {
       if (saveError) throw saveError;
 
       if (hasBirthProfile) {
-        Alert.alert('Profile updated', 'Your profile details have been saved.');
+        router.replace('/home');
       } else {
         router.push('/birth-details');
       }
