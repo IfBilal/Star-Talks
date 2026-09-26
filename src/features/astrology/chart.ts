@@ -1,6 +1,6 @@
-import { Body, EclipticLongitude, SiderealTime, SunPosition } from 'astronomy-engine';
+import { Body, Ecliptic, GeoVector, SiderealTime, SunPosition } from 'astronomy-engine';
 
-export const CALCULATOR_VERSION = 'star-talks-chart/0.2.0-astronomy-engine-2.1.19';
+export const CALCULATOR_VERSION = 'star-talks-chart/0.3.0-astronomy-engine-2.1.19-geocentric';
 const signs = ['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
 const nakshatras=['Ashwini','Bharani','Krittika','Rohini','Mrigashira','Ardra','Punarvasu','Pushya','Ashlesha','Magha','Purva Phalguni','Uttara Phalguni','Hasta','Chitra','Swati','Vishakha','Anuradha','Jyeshtha','Mula','Purva Ashadha','Uttara Ashadha','Shravana','Dhanishta','Shatabhisha','Purva Bhadrapada','Uttara Bhadrapada','Revati'];
 const dashaLords=['Ketu','Venus','Sun','Moon','Mars','Rahu','Jupiter','Saturn','Mercury'];
@@ -8,7 +8,9 @@ const dashaYears=[7,20,6,10,7,18,16,19,17];
 const bodies: [string,Body][]=[['Sun',Body.Sun],['Moon',Body.Moon],['Mercury',Body.Mercury],['Venus',Body.Venus],['Mars',Body.Mars],['Jupiter',Body.Jupiter],['Saturn',Body.Saturn],['Uranus',Body.Uranus],['Neptune',Body.Neptune],['Pluto',Body.Pluto]];
 const norm=(angle:number)=>((angle%360)+360)%360;
 const signAt=(longitude:number)=>signs[Math.floor(norm(longitude)/30)];
-const eclipticLongitude=(body:Body,date:Date)=>body===Body.Sun?SunPosition(date).elon:EclipticLongitude(body,date);
+// Natal placements use geocentric longitudes (as viewed from Earth), not the
+// heliocentric orbital longitudes returned by Astronomy Engine's EclipticLongitude.
+const eclipticLongitude=(body:Body,date:Date)=>body===Body.Sun?SunPosition(date).elon:Ecliptic(GeoVector(body,date,true)).elon;
 export type Planet = { name:string; tropicalLongitude:number; tropicalSign:string; siderealLongitude:number; siderealSign:string; degree:number; retrograde:boolean };
 export type ChartInput = { birthInstant:string; latitude:number; longitude:number; timeKnown:boolean; timeZone:string };
 export type ChartResult = {

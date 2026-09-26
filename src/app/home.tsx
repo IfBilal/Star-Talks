@@ -23,6 +23,7 @@ import { Alert, Animated, ImageBackground, Pressable, ScrollView, StatusBar, Tex
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { requireSupabase } from '@/lib/supabase';
+import { ensureCurrentChart } from '@/features/astrology/ensureCurrentChart';
 
 const services = [
   { name: 'AI Astrology', icon: Sun, tint: '#FFF2D7', ink: '#B38B42' },
@@ -72,6 +73,11 @@ export default function HomeScreen() {
           .eq('id', user.id)
           .maybeSingle();
         if (profile?.display_name) setName(profile.display_name.split(' ')[0]);
+        try {
+          await ensureCurrentChart(db, user.id);
+        } catch {
+          // Chart regeneration can retry the next time Home is opened.
+        }
       } catch {
         // The dashboard remains available while profile data is loading or unavailable.
       }

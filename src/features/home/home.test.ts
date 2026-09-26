@@ -5,7 +5,17 @@ jest.mock('expo-router', () => ({ router: { push: jest.fn(), replace: jest.fn() 
 jest.mock('react-native', () => {
   const React = require('react');
   const host = (name: string) => ({ children, ...props }: { children?: React.ReactNode }) => React.createElement(name, props, children);
+  const animation = { start: jest.fn() };
+  const animatedValue = () => ({ interpolate: ({ outputRange }: { outputRange: number[] }) => outputRange[1] });
   return {
+    Animated: {
+      Value: jest.fn(animatedValue),
+      View: host('AnimatedView'),
+      timing: jest.fn(() => animation),
+      delay: jest.fn(() => animation),
+      sequence: jest.fn(() => animation),
+      stagger: jest.fn(() => animation),
+    },
     Alert: { alert: jest.fn() },
     ImageBackground: host('ImageBackground'),
     Pressable: host('Pressable'),
