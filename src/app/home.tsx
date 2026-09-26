@@ -18,8 +18,8 @@ import {
 } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useState } from 'react';
-import { Alert, ImageBackground, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, Animated, ImageBackground, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { requireSupabase } from '@/lib/supabase';
@@ -45,6 +45,20 @@ const tabs = [
 
 export default function HomeScreen() {
   const [name, setName] = useState('');
+  const tileEntrance = useRef(services.map(() => new Animated.Value(0))).current;
+  const offerEntrance = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.stagger(45, tileEntrance.map(value => Animated.timing(value, {
+      toValue: 1,
+      duration: 260,
+      useNativeDriver: true,
+    }))).start();
+    Animated.sequence([
+      Animated.delay(220),
+      Animated.timing(offerEntrance, { toValue: 1, duration: 300, useNativeDriver: true }),
+    ]).start();
+  }, [offerEntrance, tileEntrance]);
 
   useEffect(() => {
     void (async () => {
@@ -108,25 +122,30 @@ export default function HomeScreen() {
 
       <ScrollView style={{ flex: 1, flexShrink: 1, minHeight: 0, width: '100%', minWidth: 0 }} contentContainerStyle={{ width: '100%', paddingHorizontal: 18, paddingTop: 12, paddingBottom: 12 }} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', columnGap: 8, rowGap: 9 }}>
-          {services.map(({ name: label, icon: Icon, tint, ink }) => (
-            <Pressable key={label} accessibilityRole="button" accessibilityLabel={label} onPress={() => Alert.alert(label, `${label} is coming soon.`)} style={({ pressed }) => [{ width: '31.5%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, pressed && { opacity: 0.88, transform: [{ scale: 0.97 }] }]}>
-              <Icon color={ink} size={25} strokeWidth={1.8} />
-              <Text numberOfLines={2} style={{ minHeight: 27, marginTop: 8, color: '#30334F', fontFamily: 'Poppins_500Medium', fontSize: 9.5, lineHeight: 13, textAlign: 'center' }}>{label}</Text>
-            </Pressable>
-          ))}
+          {services.map(({ name: label, icon: Icon, tint, ink }, index) => {
+            const entrance = tileEntrance[index];
+            return <Animated.View key={label} style={{ width: '31.5%', opacity: entrance, transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) }, { scale: entrance.interpolate({ inputRange: [0, 1], outputRange: [0.97, 1] }) }] }}>
+              <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={() => Alert.alert(label, `${label} is coming soon.`)} style={({ pressed }) => [{ width: '100%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, pressed && { opacity: 0.88 }]}>
+                <Icon color={ink} size={25} strokeWidth={1.8} />
+                <Text numberOfLines={2} style={{ minHeight: 27, marginTop: 8, color: '#30334F', fontFamily: 'Poppins_500Medium', fontSize: 9.5, lineHeight: 13, textAlign: 'center' }}>{label}</Text>
+              </Pressable>
+            </Animated.View>;
+          })}
         </View>
 
-        <Pressable accessibilityRole="button" accessibilityLabel="Daily AI credit offer" onPress={() => Alert.alert('Daily AI credits', 'Ad rewards will be available soon.')} style={({ pressed }) => [{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }, pressed && { opacity: 0.92, transform: [{ scale: 0.985 }] }]}>
-          <LinearGradient colors={['#252A80', '#27266F', '#302D84']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
-          <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginRight: 9 }}>
-            <Sparkles color="#FFE28F" size={28} strokeWidth={1.7} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={{ color: '#FFFDFB', fontFamily: 'Poppins_600SemiBold', fontSize: 10.5 }}>Watch 5 Ads &amp; Get 5 Free AI Credits Daily</Text>
-            <Text style={{ color: '#D8D9F2', fontFamily: 'Poppins_400Regular', fontSize: 8.5, marginTop: 3 }}>Earn 1 credit per ad  •  Max 5 per day</Text>
-          </View>
-          <ChevronRight color="#D9D5F3" size={17} />
-        </Pressable>
+        <Animated.View style={{ opacity: offerEntrance, transform: [{ translateY: offerEntrance.interpolate({ inputRange: [0, 1], outputRange: [10, 0] }) }] }}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Daily AI credit offer" onPress={() => Alert.alert('Daily AI credits', 'Ad rewards will be available soon.')} style={({ pressed }) => [{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }, pressed && { opacity: 0.92, transform: [{ scale: 0.985 }] }]}>
+            <LinearGradient colors={['#252A80', '#27266F', '#302D84']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
+            <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginRight: 9 }}>
+              <Sparkles color="#FFE28F" size={28} strokeWidth={1.7} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: '#FFFDFB', fontFamily: 'Poppins_600SemiBold', fontSize: 10.5 }}>Watch 5 Ads &amp; Get 5 Free AI Credits Daily</Text>
+              <Text style={{ color: '#D8D9F2', fontFamily: 'Poppins_400Regular', fontSize: 8.5, marginTop: 3 }}>Earn 1 credit per ad  •  Max 5 per day</Text>
+            </View>
+            <ChevronRight color="#D9D5F3" size={17} />
+          </Pressable>
+        </Animated.View>
       </ScrollView>
 
       <SafeAreaView edges={['bottom']} style={{ flexShrink: 0, width: '100%', backgroundColor: '#FFFDFB' }}>
