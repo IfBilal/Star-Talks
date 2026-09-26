@@ -1,14 +1,19 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { ChevronDown, ChevronRight, CircleCheck, Eye, EyeOff, MapPin, Sparkles } from 'lucide-react-native';
-import { useState, type PropsWithChildren, type ReactNode } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps, type ViewStyle } from 'react-native';
+import { useEffect, useRef, useState, type PropsWithChildren, type ReactNode } from 'react';
+import { ActivityIndicator, Animated, Easing, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgGradient, Path, Stop } from 'react-native-svg';
 import { Colors, Radius } from '@/constants/theme';
 
 export function Screen({ children, dark = false, scroll = false, style }: PropsWithChildren<{dark?: boolean; scroll?: boolean; style?: ViewStyle}>) {
-  const inner = <View style={[styles.screenInner, style]}>{children}</View>;
+  const entrance = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(entrance, { toValue: 1, duration: 280, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
+  }, [entrance]);
+  const animatedStyle = { opacity: entrance, transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] };
+  const inner = <Animated.View style={[styles.screenInner, style, animatedStyle]}>{children}</Animated.View>;
   return <SafeAreaView style={[styles.safe, dark && styles.dark]} edges={['top','bottom']}>
     {scroll ? <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scroll}>{inner}</ScrollView> : inner}
   </SafeAreaView>;
@@ -42,7 +47,12 @@ export function MapArtwork() {
 }
 
 export function Title({children, subtitle}: {children: ReactNode; subtitle?: string}) { return <View style={styles.titleBlock}><Text style={styles.title}>{children}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>; }
-export function PrimaryButton({title,onPress,loading,disabled}: {title:string; onPress:()=>void; loading?:boolean; disabled?:boolean}) {return <Pressable accessibilityRole="button" disabled={disabled||loading} onPress={onPress} style={({pressed})=>[styles.primary, (pressed||disabled)&&{opacity:.8}]}><LinearGradient colors={['#302B86',Colors.indigo]} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.primaryGradient}>{loading?<ActivityIndicator color="white"/>:<><Text style={styles.primaryText}>{title}</Text><ChevronRight color="white" size={18}/></>}</LinearGradient></Pressable>;}
+export function PrimaryButton({title,onPress,loading,disabled}: {title:string; onPress:()=>void; loading?:boolean; disabled?:boolean}) {
+  const scale = useRef(new Animated.Value(1)).current;
+  const pressIn = () => Animated.spring(scale, { toValue: 0.985, speed: 28, bounciness: 3, useNativeDriver: true }).start();
+  const pressOut = () => Animated.spring(scale, { toValue: 1, speed: 22, bounciness: 5, useNativeDriver: true }).start();
+  return <Animated.View style={{ transform: [{ scale }] }}><Pressable accessibilityRole="button" disabled={disabled||loading} onPressIn={pressIn} onPressOut={pressOut} onPress={onPress} style={({pressed})=>[styles.primary, (pressed||disabled)&&{opacity:.86}]}><LinearGradient colors={['#302B86',Colors.indigo]} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.primaryGradient}>{loading?<ActivityIndicator color="white"/>:<><Text style={styles.primaryText}>{title}</Text><ChevronRight color="white" size={18}/></>}</LinearGradient></Pressable></Animated.View>;
+}
 export function TextField({label,icon,secure,...props}: TextInputProps & {label?:string;icon?:ReactNode;secure?:boolean}) {
   const [hidden,setHidden]=useState(secure??false);
   return <View style={styles.fieldWrap}>{label?<Text style={styles.fieldLabel}>{label}</Text>:null}<View style={styles.field}>{icon?<View style={styles.fieldIcon}>{icon}</View>:null}<TextInput placeholderTextColor="#9698A8" style={styles.input} secureTextEntry={secure?hidden:false} autoCapitalize={props.keyboardType==='email-address'?'none':props.autoCapitalize} {...props}/>{secure?<Pressable onPress={()=>setHidden(!hidden)}>{hidden?<Eye color={Colors.muted} size={18}/>:<EyeOff color={Colors.muted} size={18}/>}</Pressable>:null}</View></View>

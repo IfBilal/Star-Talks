@@ -22,7 +22,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <Stack screenOptions={{ headerShown: false, animation: 'fade', contentStyle: { backgroundColor: Colors.ivory } }}>
+        <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: Colors.ivory } }}>
           <Stack.Screen name="index" />
           <Stack.Screen name="region" />
           <Stack.Screen name="language" />

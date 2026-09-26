@@ -95,7 +95,7 @@ export default function HomeScreen() {
             <Text style={{ position: 'absolute', left: 17, right: 13, top: 21, color: '#34345F', fontFamily: 'Poppins_600SemiBold', fontSize: 17, lineHeight: 23, textAlign: 'center' }}>
               Discover Answers{'\n'}for a Brighter Tomorrow
             </Text>
-            <Pressable accessibilityRole="button" accessibilityLabel="Ask your question" onPress={() => Alert.alert('Ask your question', 'Question readings will be available soon.')} style={{ position: 'absolute', left: 10, right: 10, bottom: 9, height: 45, borderRadius: 25, backgroundColor: '#FFFEFC', flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 8, gap: 10 }}>
+            <Pressable accessibilityRole="button" accessibilityLabel="Ask your question" onPress={() => Alert.alert('Ask your question', 'Question readings will be available soon.')} style={({ pressed }) => [{ position: 'absolute', left: 10, right: 10, bottom: 9, height: 45, borderRadius: 25, backgroundColor: '#FFFEFC', flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 8, gap: 10 }, pressed && { opacity: 0.9, transform: [{ scale: 0.985 }] }]}>
               <Search color="#555987" size={17} />
               <Text style={{ flex: 1, color: '#89899B', fontFamily: 'Poppins_400Regular', fontSize: 10 }}>Ask your question...</Text>
               <View style={{ width: 30, height: 30, borderRadius: 16, backgroundColor: '#312D91', alignItems: 'center', justifyContent: 'center' }}>
@@ -109,14 +109,14 @@ export default function HomeScreen() {
       <ScrollView style={{ flex: 1, flexShrink: 1, minHeight: 0, width: '100%', minWidth: 0 }} contentContainerStyle={{ width: '100%', paddingHorizontal: 18, paddingTop: 12, paddingBottom: 12 }} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', columnGap: 8, rowGap: 9 }}>
           {services.map(({ name: label, icon: Icon, tint, ink }) => (
-            <Pressable key={label} accessibilityRole="button" accessibilityLabel={label} onPress={() => Alert.alert(label, `${label} is coming soon.`)} style={{ width: '31.5%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
+            <Pressable key={label} accessibilityRole="button" accessibilityLabel={label} onPress={() => Alert.alert(label, `${label} is coming soon.`)} style={({ pressed }) => [{ width: '31.5%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, pressed && { opacity: 0.88, transform: [{ scale: 0.97 }] }]}>
               <Icon color={ink} size={25} strokeWidth={1.8} />
               <Text numberOfLines={2} style={{ minHeight: 27, marginTop: 8, color: '#30334F', fontFamily: 'Poppins_500Medium', fontSize: 9.5, lineHeight: 13, textAlign: 'center' }}>{label}</Text>
             </Pressable>
           ))}
         </View>
 
-        <Pressable accessibilityRole="button" accessibilityLabel="Daily AI credit offer" onPress={() => Alert.alert('Daily AI credits', 'Ad rewards will be available soon.')} style={{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Daily AI credit offer" onPress={() => Alert.alert('Daily AI credits', 'Ad rewards will be available soon.')} style={({ pressed }) => [{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }, pressed && { opacity: 0.92, transform: [{ scale: 0.985 }] }]}>
           <LinearGradient colors={['#252A80', '#27266F', '#302D84']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
           <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginRight: 9 }}>
             <Sparkles color="#FFE28F" size={28} strokeWidth={1.7} />
@@ -138,7 +138,7 @@ export default function HomeScreen() {
                 if (label === 'Home') router.replace('/home');
                 else if (label === 'Profile') router.push('/profile');
                 else Alert.alert(label, `${label} is coming soon.`);
-              }} style={{ width: '20%', height: 52, alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+              }} style={({ pressed }) => [{ width: '20%', height: 52, alignItems: 'center', justifyContent: 'center', gap: 3 }, pressed && { opacity: 0.72, transform: [{ scale: 0.94 }] }]}>
                 <Icon color={active ? '#283276' : '#8F91A2'} size={17} strokeWidth={active ? 2.2 : 1.8} />
                 <Text style={{ color: active ? '#283276' : '#8F91A2', fontFamily: active ? 'Poppins_600SemiBold' : 'Poppins_400Regular', fontSize: 8 }}>{label}</Text>
               </Pressable>
