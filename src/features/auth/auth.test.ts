@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-jest.mock('expo-router', () => ({ router: { replace: jest.fn() } }));
+jest.mock('expo-router', () => ({ router: { replace: jest.fn() }, useLocalSearchParams: () => ({}) }));
 jest.mock('lucide-react-native', () => ({ Mail: () => null, Lock: () => null }));
 jest.mock('expo-image', () => {
   const React = require('react');

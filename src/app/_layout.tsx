@@ -28,6 +28,7 @@ export default function RootLayout() {
           <Stack.Screen name="language" />
           <Stack.Screen name="auth" />
           <Stack.Screen name="auth/callback" />
+          <Stack.Screen name="auth/reset-password" />
           <Stack.Screen name="profile" />
           <Stack.Screen name="birth-details" />
           <Stack.Screen name="home" />
