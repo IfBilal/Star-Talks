@@ -90,6 +90,10 @@ export default function ProfileScreen() {
     try {
       const { error: signOutError } = await requireSupabase().auth.signOut();
       if (signOutError) throw signOutError;
+      // Profile is pushed from Home, so replacing only Profile leaves Home
+      // underneath it in the native stack. Clear that history before routing
+      // to login so Android Back cannot reveal the signed-out Home screen.
+      router.dismissAll();
       router.replace('/auth');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not log out. Please try again.');
