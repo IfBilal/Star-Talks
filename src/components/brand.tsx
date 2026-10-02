@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
-import { ChevronDown, ChevronRight, CircleCheck, Eye, EyeOff, MapPin, Sparkles } from 'lucide-react-native';
+import { ArrowRight, ChevronDown, CircleCheck, Eye, EyeOff, MapPin, Sparkle, Sparkles } from 'lucide-react-native';
 import { useEffect, useRef, useState, type PropsWithChildren, type ReactNode } from 'react';
 import { ActivityIndicator, Animated, Easing, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -46,12 +46,12 @@ export function MapArtwork() {
   </Svg></View>;
 }
 
-export function Title({children, subtitle}: {children: ReactNode; subtitle?: string}) { return <View style={styles.titleBlock}><Text style={styles.title}>{children}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>; }
+export function Title({children, subtitle, star}: {children: ReactNode; subtitle?: string; star?: boolean}) { return <View style={styles.titleBlock}>{star ? <Sparkle size={17} color={Colors.gold} fill={Colors.gold} strokeWidth={1.2} style={{marginBottom: 28}} /> : null}<Text style={styles.title}>{children}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>; }
 export function PrimaryButton({title,onPress,loading,disabled}: {title:string; onPress:()=>void; loading?:boolean; disabled?:boolean}) {
   const scale = useRef(new Animated.Value(1)).current;
   const pressIn = () => Animated.spring(scale, { toValue: 0.985, speed: 28, bounciness: 3, useNativeDriver: true }).start();
   const pressOut = () => Animated.spring(scale, { toValue: 1, speed: 22, bounciness: 5, useNativeDriver: true }).start();
-  return <Animated.View style={{ transform: [{ scale }] }}><Pressable accessibilityRole="button" disabled={disabled||loading} onPressIn={pressIn} onPressOut={pressOut} onPress={onPress} style={({pressed})=>[styles.primary, (pressed||disabled)&&{opacity:.86}]}><LinearGradient colors={['#302B86',Colors.indigo]} start={{x:0,y:0}} end={{x:1,y:1}} style={styles.primaryGradient}>{loading?<ActivityIndicator color="white"/>:<><Text style={styles.primaryText}>{title}</Text><ChevronRight color="white" size={18}/></>}</LinearGradient></Pressable></Animated.View>;
+  return <Animated.View style={{ transform: [{ scale }] }}><Pressable accessibilityRole="button" disabled={disabled||loading} onPressIn={pressIn} onPressOut={pressOut} onPress={onPress} style={({pressed})=>[styles.primary, (pressed||disabled)&&{opacity:.86}]}><LinearGradient colors={[Colors.primaryFrom,Colors.primaryTo]} start={{x:0,y:0.5}} end={{x:1,y:0.5}} style={styles.primaryGradient}>{loading?<ActivityIndicator color="white"/>:<><Text style={styles.primaryText}>{title}</Text><ArrowRight color="white" size={17}/></>}</LinearGradient></Pressable></Animated.View>;
 }
 export function TextField({label,icon,secure,...props}: TextInputProps & {label?:string;icon?:ReactNode;secure?:boolean}) {
   const [hidden,setHidden]=useState(secure??false);

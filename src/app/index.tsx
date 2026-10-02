@@ -2,13 +2,26 @@ import { useEffect } from 'react';
 import { router } from 'expo-router';
 import { StatusBar, Text, View } from 'react-native';
 import { Image } from 'expo-image';
+import { useTranslation } from 'react-i18next';
 import { Screen } from '@/components/brand';
 import { preferences } from '@/lib/preferences';
 import { Colors } from '@/constants/theme';
 import { supabase } from '@/lib/supabase';
 
 export default function SplashScreen(){
-  useEffect(()=>{const timer=setTimeout(async()=>{const done=await preferences.getOnboardingComplete();const session=await supabase?.auth.getSession();router.replace(done==='true'?(session?.data.session?'/home':'/auth'):'/region')},2400);return()=>clearTimeout(timer)},[]);
+  const {t}=useTranslation();
+  useEffect(()=>{const timer=setTimeout(async()=>{
+    const session=(await supabase?.auth.getSession())?.data.session;
+    if(session&&supabase){
+      // A signed-in account already knows its own onboarding state, so skip region/language.
+      const {data}=await supabase.from('birth_profiles').select('id').eq('user_id',session.user.id).eq('relationship','self').maybeSingle();
+      if(data){await preferences.setOnboardingComplete(true);router.replace('/home');return}
+      router.replace('/profile-setup');return
+    }
+    const [done,region,language]=await Promise.all([preferences.getOnboardingComplete(),preferences.getRegion(),preferences.getLanguage()]);
+    // Country is asked once: as soon as it has been picked, later launches skip it.
+    router.replace(done==='true'||(region&&language)?'/auth':region?'/language':'/region')
+  },2400);return()=>clearTimeout(timer)},[]);
   return <Screen dark style={{paddingHorizontal:0,paddingTop:0,paddingBottom:0,overflow:'hidden'}}>
     <StatusBar barStyle="light-content" backgroundColor={Colors.midnight}/>
     <View style={{position:'absolute',top:-36,bottom:-36,left:0,right:0,pointerEvents:'none'}}>
@@ -17,11 +30,11 @@ export default function SplashScreen(){
     <View style={{flex:1,alignItems:'center',justifyContent:'space-between',paddingTop:'23%',paddingBottom:18}}>
       <View style={{width:'100%',alignItems:'center'}}>
         <Image source={require('../../assets/images/star-talks-lockup.png')} contentFit="cover" style={{width:'84%',maxWidth:340,height:138}} />
-      <Text style={{fontSize:9,color:'#E5DDF4',letterSpacing:3,marginTop:1,fontFamily:'Poppins_400Regular'}}>YOUR COSMIC GUIDE</Text>
+      <Text style={{fontSize:9,color:'#E5DDF4',letterSpacing:3,marginTop:1,fontFamily:'Poppins_400Regular'}}>{t('splash.tagline')}</Text>
       </View>
       <View style={{alignItems:'center'}}>
-        <Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:'#E7E2F3',letterSpacing:.7}}>Astrology  ·  Tarot  ·  Numerology</Text>
-        <Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:'#E7E2F3',letterSpacing:.7,marginTop:1}}>Vedic  ·  Western  ·  Lal Kitab</Text>
+        <Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:'#E7E2F3',letterSpacing:.7}}>{t('splash.disciplines1')}</Text>
+        <Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:'#E7E2F3',letterSpacing:.7,marginTop:1}}>{t('splash.disciplines2')}</Text>
       </View>
     </View>
   </Screen>

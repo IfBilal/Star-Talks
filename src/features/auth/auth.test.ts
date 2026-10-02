@@ -9,6 +9,7 @@ jest.mock('expo-image', () => {
 jest.mock('expo-web-browser', () => ({}));
 jest.mock('expo-linking', () => ({ createURL: () => 'startalks://auth/callback' }));
 jest.mock('@/lib/supabase', () => ({ requireSupabase: jest.fn() }));
+jest.mock('@/lib/preferences', () => ({ preferences: { setOnboardingComplete: jest.fn() } }));
 jest.mock('react-native', () => {
   const React = require('react');
   const Host = ({ children }: { children: React.ReactNode }) => React.createElement('View', null, children);

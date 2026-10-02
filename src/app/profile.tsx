@@ -1,133 +1,99 @@
-import { useEffect, useState } from 'react';
+import {
+  Award, Bell, CalendarCheck, CircleDollarSign, Clock3, Globe, LockKeyhole, LogOut, MessageCircle, Settings, ShieldCheck,
+  Sparkles, Trash2, UserRound, UserRoundX, Wallet,
+} from 'lucide-react-native';
 import { router } from 'expo-router';
-import { Camera, ChevronDown, LogOut } from 'lucide-react-native';
-import { ActivityIndicator, Modal, Pressable, Text, View } from 'react-native';
-import { PrimaryButton, Screen, TextField, Title } from '@/components/brand';
+import { useEffect, useState } from 'react';
+import { Alert, Pressable, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { SUPPORTED_LANGUAGES } from '@/lib/i18n/languages';
+import { Avatar, AppBar, AppScreen, Card, go, ListRow, Type } from '@/components/ui';
 import { Colors } from '@/constants/theme';
-import { preferences, readRegion } from '@/lib/preferences';
 import { requireSupabase } from '@/lib/supabase';
 
-export default function ProfileScreen() {
-  const [name, setName] = useState('');
-  const [gender, setGender] = useState('Female');
-  const [genderOpen, setGenderOpen] = useState(false);
-  const [hasBirthProfile, setHasBirthProfile] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
+type Row = { icon: (c: string) => React.ReactNode; title: string; subtitle: string; href?: string; danger?: boolean; action?: 'logout' };
+
+export default function ProfileTab() {
+  const { i18n } = useTranslation();
+  const currentLanguage = SUPPORTED_LANGUAGES.find(l => l.code === i18n.language)?.label ?? 'English';
+  const [name, setName] = useState('Neha Sharma');
+  const [email, setEmail] = useState('neha.sharma@gmail.com');
 
   useEffect(() => {
-    let active = true;
     void (async () => {
       try {
         const db = requireSupabase();
-        const user = (await db.auth.getUser()).data.user;
-        if (!user) {
-          router.replace('/auth');
-          return;
-        }
-        const [{ data: profile }, { data: birthProfile }] = await Promise.all([
-          db.from('profiles').select('display_name,gender').eq('id', user.id).maybeSingle(),
-          db.from('birth_profiles').select('id').eq('user_id', user.id).eq('relationship', 'self').maybeSingle(),
-        ]);
-        if (!active) return;
-        if (profile?.display_name) setName(profile.display_name);
-        if (profile?.gender && ['female', 'male', 'other'].includes(profile.gender.toLowerCase())) {
-          setGender(profile.gender[0].toUpperCase() + profile.gender.slice(1).toLowerCase());
-        }
-        setHasBirthProfile(Boolean(birthProfile));
-      } catch (e) {
-        if (active) setError(e instanceof Error ? e.message : 'Could not load your profile.');
-      } finally {
-        if (active) setLoading(false);
+        const { data: { user } } = await db.auth.getUser();
+        if (!user) return;
+        if (user.email) setEmail(user.email);
+        const { data } = await db.from('profiles').select('display_name').eq('id', user.id).maybeSingle();
+        if (data?.display_name) setName(data.display_name);
+      } catch {
+        // Demo values stay in place when no account data is available.
       }
     })();
-    return () => { active = false; };
   }, []);
 
-  const save = async () => {
-    if (!name.trim()) {
-      setError('Enter your name to continue.');
-      return;
-    }
-    setBusy(true);
-    setError('');
+  const logoutAll = async () => {
     try {
-      const db = requireSupabase();
-      const user = (await db.auth.getUser()).data.user;
-      if (!user) throw new Error('Please sign in to save your profile.');
-      const rawRegion = await preferences.getRegion();
-      const region = readRegion(rawRegion);
-      const language = await preferences.getLanguage() ?? 'English';
-      const languageCode = language === 'हिन्दी' ? 'hi' : language === 'اردو' ? 'ur' : language === 'Español' ? 'es' : language === 'Français' ? 'fr' : language === 'العربية' ? 'ar' : 'en';
-      const { error: saveError } = await db.from('profiles').upsert({
-        id: user.id,
-        display_name: name.trim(),
-        gender: gender.toLowerCase(),
-        country_code: region?.code,
-        country_name: region?.name,
-        currency_code: region?.currency,
-        date_format: region?.dateFormat,
-        language_code: languageCode,
-      }, { onConflict: 'id' });
-      if (saveError) throw saveError;
-
-      if (hasBirthProfile) {
-        router.replace('/home');
-      } else {
-        router.push('/birth-details');
-      }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not save profile.');
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const logout = async () => {
-    setBusy(true);
-    setError('');
-    try {
-      const { error: signOutError } = await requireSupabase().auth.signOut();
-      if (signOutError) throw signOutError;
-      // Profile is pushed from Home, so replacing only Profile leaves Home
-      // underneath it in the native stack. Clear that history before routing
-      // to login so Android Back cannot reveal the signed-out Home screen.
+      const { error } = await requireSupabase().auth.signOut({ scope: 'global' });
+      if (error) throw error;
       router.dismissAll();
       router.replace('/auth');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not log out. Please try again.');
-    } finally {
-      setBusy(false);
+      Alert.alert('Could not log out', e instanceof Error ? e.message : 'Please try again.');
     }
   };
 
-  if (loading) {
-    return <Screen><View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color={Colors.indigo} /></View></Screen>;
-  }
+  const rows: Row[] = [
+    { icon: c => <UserRound size={19} color={c} strokeWidth={1.7} />, title: 'Edit Profile', subtitle: 'Update your personal information', href: '/profile-setup' },
+    { icon: c => <CalendarCheck size={19} color={c} strokeWidth={1.7} />, title: 'Birth Details', subtitle: 'Date, time and place of birth', href: '/birth-details' },
+    { icon: c => <MessageCircle size={19} color={c} strokeWidth={1.7} />, title: 'Language', subtitle: currentLanguage, href: '/settings/language' },
+    { icon: c => <Globe size={19} color={c} strokeWidth={1.7} />, title: 'Country / Region', subtitle: 'India', href: '/settings/language' },
+    { icon: c => <CircleDollarSign size={19} color={c} strokeWidth={1.7} />, title: 'Currency Preferences', subtitle: 'INR (₹)', href: '/settings/currency' },
+    { icon: c => <Bell size={19} color={c} strokeWidth={1.7} />, title: 'Notification Settings', subtitle: 'Manage your notifications', href: '/notifications/settings' },
+    { icon: c => <Settings size={19} color={c} strokeWidth={1.7} />, title: 'Account Settings', subtitle: 'Account preferences', href: '/settings/account' },
+    { icon: c => <ShieldCheck size={19} color={c} strokeWidth={1.7} />, title: 'Security Settings', subtitle: 'Password, login & device management', href: '/settings/account' },
+    { icon: c => <Clock3 size={19} color={c} strokeWidth={1.7} />, title: 'View History', subtitle: 'Your activity history', href: '/history' },
+    { icon: c => <Award size={19} color={c} strokeWidth={1.7} />, title: 'Certificates', subtitle: 'View and download certificates', href: '/certificates' },
+    { icon: c => <Wallet size={19} color={c} strokeWidth={1.7} />, title: 'Wallet', subtitle: 'Manage your wallet', href: '/wallet' },
+    { icon: c => <Sparkles size={19} color={c} strokeWidth={1.7} />, title: 'AI Credit Balance', subtitle: 'View your AI credits', href: '/wallet' },
+    { icon: c => <UserRound size={19} color={c} strokeWidth={1.7} />, title: 'Saved Profiles', subtitle: 'Family, partner, friends & more', href: '/profiles' },
+    { icon: c => <LockKeyhole size={19} color={c} strokeWidth={1.7} />, title: 'Privacy Settings', subtitle: 'Data and privacy controls', href: '/settings/account' },
+    { icon: c => <Trash2 size={19} color={c} strokeWidth={1.7} />, title: 'Delete AI Conversations', subtitle: 'Clear your AI chat history', href: '/settings/delete/conversations' },
+    { icon: c => <Trash2 size={19} color={c} strokeWidth={1.7} />, title: 'Delete Saved Profiles', subtitle: 'Remove saved profiles', href: '/settings/delete/profiles', danger: true },
+    { icon: c => <UserRoundX size={19} color={c} strokeWidth={1.7} />, title: 'Delete Account', subtitle: 'Permanently delete your account', href: '/settings/delete/account', danger: true },
+    { icon: c => <LogOut size={19} color={c} strokeWidth={1.7} />, title: 'Logout From All Devices', subtitle: 'Secure logout', action: 'logout' },
+  ];
 
-  return <Screen scroll style={{ paddingTop: 30 }}>
-    <View style={{ flex: 1, zIndex: 1 }}>
-      <Title subtitle={hasBirthProfile ? 'Manage your account details.' : "Let's get to know you better."}>{hasBirthProfile ? 'Your Profile' : 'Create Your Profile'}</Title>
-      {!hasBirthProfile ? <Pressable style={{ alignSelf: 'center', width: 74, height: 74, borderRadius: 50, backgroundColor: '#ECE9F9', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}><Camera color={Colors.indigo} size={25} /></Pressable> : null}
-      <TextField label="Full Name" value={name} onChangeText={setName} placeholder="Your full name" />
-      <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 12, color: Colors.text, marginBottom: 6, marginTop: 3 }}>Gender</Text>
-      <Pressable onPress={() => setGenderOpen(true)} style={{ height: 43, borderRadius: 8, borderWidth: 1, borderColor: '#E5E3DF', backgroundColor: 'white', paddingHorizontal: 12, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
-        <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 12, color: Colors.text }}>{gender}</Text>
-        <ChevronDown color={Colors.muted} size={17} />
-      </Pressable>
-      {error ? <Text accessibilityRole="alert" style={{ color: Colors.danger, fontSize: 11, marginTop: 8 }}>{error}</Text> : null}
-      <View style={{ flex: 1, minHeight: 20 }} />
-      <PrimaryButton title={hasBirthProfile ? 'Save Changes' : 'Continue'} loading={busy} onPress={save} />
-      {hasBirthProfile ? <Pressable accessibilityRole="button" disabled={busy} onPress={logout} style={{ minHeight: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 8 }}>
-        <LogOut color={Colors.danger} size={17} />
-        <Text style={{ fontFamily: 'Poppins_500Medium', color: Colors.danger, fontSize: 12 }}>Log Out</Text>
-      </Pressable> : null}
-    </View>
-    <Modal visible={genderOpen} animationType="fade" transparent onRequestClose={() => setGenderOpen(false)}>
-      <Pressable onPress={() => setGenderOpen(false)} style={{ flex: 1, backgroundColor: '#0005', justifyContent: 'center', paddingHorizontal: 35 }}>
-        <View style={{ backgroundColor: 'white', borderRadius: 14, padding: 8 }}>{['Female', 'Male', 'Other'].map(g => <Pressable key={g} onPress={() => { setGender(g); setGenderOpen(false); }} style={{ height: 48, justifyContent: 'center', paddingHorizontal: 12, borderBottomWidth: .5, borderBottomColor: '#EEE' }}><Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 13, color: Colors.text }}>{g}</Text></Pressable>)}</View>
-      </Pressable>
-    </Modal>
-  </Screen>;
+  return (
+    <AppScreen tab="profile" header={<AppBar brand menu right={<View />} />} pad={12} contentStyle={{ paddingTop: 8 }}>
+      <Card style={{ padding: 12, flexDirection: 'row', alignItems: 'center', gap: 14, borderRadius: 16 }}>
+        <Avatar name={name} size={62} bg="#E6DEF3" />
+        <View style={{ flex: 1 }}>
+          <Text style={[Type.h2, { fontSize: 15.5 }]} numberOfLines={1}>{name}</Text>
+          <Text style={[Type.rowSub, { fontSize: 11, marginTop: 3 }]} numberOfLines={1}>{email}</Text>
+        </View>
+        <Pressable accessibilityRole="button" onPress={() => go('/profile-setup')} style={{ height: 30, paddingHorizontal: 11, borderRadius: 15, borderWidth: 1, borderColor: '#C9C4E2', backgroundColor: '#fff', justifyContent: 'center' }}>
+          <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10.5, color: Colors.navy }}>Edit Profile</Text>
+        </Pressable>
+      </Card>
+
+      <View style={{ gap: 3.5, marginTop: 10 }}>
+        {rows.map(r => (
+          <Card key={r.title} style={{ borderRadius: 12 }}>
+            <ListRow
+              icon={r.icon}
+              title={r.title}
+              subtitle={r.subtitle}
+              tileBg={r.danger ? '#FBE4E6' : undefined}
+              iconColor={r.danger ? '#B4424D' : undefined}
+              onPress={r.action === 'logout' ? logoutAll : () => go(r.href!)}
+              style={{ minHeight: 64 }}
+            />
+          </Card>
+        ))}
+      </View>
+    </AppScreen>
+  );
 }

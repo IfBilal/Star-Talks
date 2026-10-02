@@ -3,11 +3,13 @@ import { router } from 'expo-router';
 import { Lock } from 'lucide-react-native';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { Image } from 'expo-image';
+import { useTranslation } from 'react-i18next';
 import { PrimaryButton, Screen, TextField, Title } from '@/components/brand';
 import { Colors } from '@/constants/theme';
 import { requireSupabase } from '@/lib/supabase';
 
 export default function ResetPasswordScreen() {
+  const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [ready, setReady] = useState(false);
@@ -29,11 +31,11 @@ export default function ResetPasswordScreen() {
 
   const savePassword = async () => {
     if (!password || !confirmPassword) {
-      setMessage('Enter and confirm your new password.');
+      setMessage(t('resetPassword.enterConfirm'));
       return;
     }
     if (password !== confirmPassword) {
-      setMessage('The passwords do not match.');
+      setMessage(t('resetPassword.passwordsMismatch'));
       return;
     }
 
@@ -52,7 +54,7 @@ export default function ResetPasswordScreen() {
       }
       router.replace({ pathname: '/auth', params: { passwordReset: 'success' } });
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Could not update your password. Request a new reset link and try again.');
+      setMessage(error instanceof Error ? error.message : t('resetPassword.updateFailed'));
     } finally {
       setBusy(false);
     }
@@ -65,20 +67,20 @@ export default function ResetPasswordScreen() {
         {!ready ? (
           <View style={{ alignItems: 'center', marginTop: 36 }}>
             <ActivityIndicator color={Colors.indigo} />
-            <Text style={{ color: Colors.muted, marginTop: 12, fontFamily: 'Poppins_400Regular', fontSize: 12 }}>Checking your reset link…</Text>
+            <Text style={{ color: Colors.muted, marginTop: 12, fontFamily: 'Poppins_400Regular', fontSize: 12 }}>{t('resetPassword.checkingLink')}</Text>
           </View>
         ) : !hasSession ? (
           <>
-            <Title subtitle="The link may have expired. Request a fresh password reset link to continue.">Reset Link Expired</Title>
-            <PrimaryButton title="Back to Log In" onPress={() => router.replace('/auth')} />
+            <Title subtitle={t('resetPassword.expiredSubtitle')}>{t('resetPassword.expiredTitle')}</Title>
+            <PrimaryButton title={t('auth.backToLogin')} onPress={() => router.replace('/auth')} />
           </>
         ) : (
           <>
-            <Title subtitle="Choose a new password for your account">Create a New Password</Title>
-            <TextField label="New Password" icon={<Lock size={16} color={Colors.muted} />} secure value={password} onChangeText={setPassword} placeholder="New password" />
-            <TextField label="Confirm New Password" icon={<Lock size={16} color={Colors.muted} />} secure value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Re-enter new password" />
+            <Title subtitle={t('resetPassword.newPasswordSubtitle')}>{t('resetPassword.newPasswordTitle')}</Title>
+            <TextField label={t('resetPassword.newPasswordLabel')} icon={<Lock size={16} color={Colors.muted} />} secure value={password} onChangeText={setPassword} placeholder={t('resetPassword.newPasswordPlaceholder')} />
+            <TextField label={t('resetPassword.confirmPasswordLabel')} icon={<Lock size={16} color={Colors.muted} />} secure value={confirmPassword} onChangeText={setConfirmPassword} placeholder={t('resetPassword.confirmPasswordPlaceholder')} />
             {message ? <Text accessibilityRole="alert" style={{ color: Colors.danger, fontFamily: 'Poppins_400Regular', fontSize: 11, marginBottom: 8 }}>{message}</Text> : null}
-            <PrimaryButton title="Update Password" loading={busy} onPress={savePassword} />
+            <PrimaryButton title={t('resetPassword.updatePasswordBtn')} loading={busy} onPress={savePassword} />
           </>
         )}
       </View>

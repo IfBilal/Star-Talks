@@ -119,20 +119,20 @@ The UI JPEG is an overview rather than seven independent source files. Use its s
 
 ## Phase 1 acceptance checklist
 
-- [ ] Repository boots as a Star Talks Android app and identifies the app as Star Talks everywhere.
-- [ ] Splash, region, language, login/sign-up, profile, birth details, and Home match the referenced screens closely at the intended device dimensions.
-- [ ] The app supports the complete onboarding path and returning-user authentication without trapping the user on an unfinished screen.
-- [ ] Region, language, profile, and birth details save and reload for the signed-in user.
-- [ ] Birthplace search returns selectable places with coordinates and a resolved IANA time zone.
-- [ ] Birth date/time converts correctly for historical DST; unknown, ambiguous, and nonexistent local times are handled explicitly.
-- [ ] A versioned astrology calculator stores repeatable structured chart output for a saved birth profile.
-- [ ] All nine specialized AI modules exist as isolated registry entries; no generic AI response path is invoked.
-- [ ] Public tables have RLS and ownership policies; sensitive credentials are not committed or shipped to the app.
-- [ ] A clean Android build and type-check complete, and the setup/handoff notes explain any third-party provider configuration still owned by the client.
+- [x] Repository boots as a Star Talks Android app and identifies the app as Star Talks everywhere; a standalone release-profile APK builds and installs successfully (EAS build `d9ce1230-3e2b-487e-b03c-907d074a22f2`).
+- [x] Splash, region, language, login/sign-up, profile, birth details, and Home match the referenced screens closely at the intended device dimensions. (Reviewed against `docs/ui.jpeg`; minor known differences: Birth Details subtitle says "personal chart" vs the mockup's "astrological chart", and the Home bottom-tab labels were not confirmed pixel-for-pixel.)
+- [x] The app supports the complete onboarding path and returning-user authentication without trapping the user on an unfinished screen; verified region → language → auth → home on a real device, including the Google OAuth PKCE race-condition fix.
+- [ ] Region, language, profile, and birth details save and reload for the signed-in user. (Language persistence verified live; region/profile/birth-details persistence built earlier and not independently re-tested in this pass.)
+- [x] Birthplace search returns selectable places with coordinates and a resolved IANA time zone. (Live search confirmed on device: typing a city returns selectable results.)
+- [x] Birth date/time converts correctly for historical DST; unknown, ambiguous, and nonexistent local times are handled explicitly — verified via `timezone.test.ts` against real `America/New_York` DST transition dates.
+- [x] A versioned astrology calculator stores repeatable structured chart output for a saved birth profile — verified via `chart.test.ts`, cross-checked against JPL Horizons ephemeris data to 2-decimal-place accuracy.
+- [x] All nine specialized AI modules exist as isolated registry entries; no generic AI response path is invoked — verified via `moduleRegistry.test.ts`; unrecognized topics resolve to `null`, not a fallback AI call.
+- [x] Public tables have RLS and ownership policies; sensitive credentials are not committed or shipped to the app — verified every table's RLS policies scope to `auth.uid()`, and `ai_modules` writes are explicitly revoked from all client roles.
+- [x] A clean Android build and type-check complete, and the setup/handoff notes explain any third-party provider configuration still owned by the client.
 
 ## Known external setup
 
-The client owns Supabase and any third-party provider accounts as required by the proposal. Supabase migrations are applied to the verified Star-Talks project. The ignored local `.env.local` contains the Star-Talks project URL and its publishable key, plus the Geoapify API key. A live Geoapify request for Lahore returned HTTP 200 with matching place results. Live Google/Apple sign-in requires those OAuth providers to be configured in Supabase.
+The client owns Supabase and any third-party provider accounts as required by the proposal. Supabase migrations are applied to the verified Star-Talks project. The ignored local `.env.local` contains the Star-Talks project URL and its publishable key, plus the Geoapify API key; the same values are mirrored as EAS environment variables for cloud builds. A live Geoapify request for Lahore returned HTTP 200 with matching place results. Google sign-in, and Supabase email delivery (signup confirmation and password reset), are live and verified. Apple sign-in is deliberately deferred past Phase 1 rather than blocked on missing configuration.
 
 ## Implementation status
 
@@ -144,6 +144,7 @@ The client owns Supabase and any third-party provider accounts as required by th
 - [x] Versioned tropical/sidereal chart output and all nine AI module registry entries.
 - [x] Unit coverage, TypeScript check, Android bundle export, and a mobile viewport visual pass.
 - [x] Add the client-owned Geoapify key and verify live birthplace search.
-- [ ] Configure Supabase email delivery and Google/Apple OAuth credentials for real provider sign-in.
+- [x] Configure Supabase email delivery and Google OAuth credentials for real provider sign-in; verified live Google sign-in and password-reset email delivery. Apple sign-in is deliberately deferred (not needed for Phase 1) rather than blocked on missing config.
+- [x] Language selection applies to Phase 1 UI strings app-wide (i18next across all seven screens, including RTL for Urdu/Arabic), matching the requirement in the Language screen row above.
 
-The app bundle and core data/model work are implemented; the last two items require credentials and provider-side settings controlled by the client.
+The app bundle and core data/model work are implemented and verified against a real device.
