@@ -6,10 +6,12 @@ import { Colors } from '@/constants/theme';
 import { preferences } from '@/lib/preferences';
 import { requireSupabase } from '@/lib/supabase';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { hasVerifiedPhone } from '@/features/auth/phone-verification';
 
 async function goToPostAuthScreen(db: SupabaseClient, signInIncompleteMessage: string) {
   const { data: { user } } = await db.auth.getUser();
   if (!user) throw new Error(signInIncompleteMessage);
+  if (!hasVerifiedPhone(user)) { router.replace('/auth/verify-phone'); return; }
   const { data } = await db.from('birth_profiles').select('id').eq('user_id', user.id).eq('relationship', 'self').maybeSingle();
   if (data) await preferences.setOnboardingComplete(true);
   router.replace(data ? '/home' : '/profile-setup');

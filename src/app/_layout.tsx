@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, router, useSegments } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { PlayfairDisplay_500Medium, PlayfairDisplay_600SemiBold, PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display';
@@ -11,6 +11,43 @@ import { I18nextProvider } from 'react-i18next';
 import { AuthProvider } from '@/lib/auth-context';
 import { Colors } from '@/constants/theme';
 import i18n, { initI18n } from '@/lib/i18n';
+import { useAuth } from '@/lib/auth-context';
+import { supabase } from '@/lib/supabase';
+import { hasVerifiedPhone } from '@/features/auth/phone-verification';
+
+function GuardedStack() {
+  const { session, loading } = useAuth();
+  const segments = useSegments();
+  const path = segments.join('/');
+  useEffect(() => {
+    if (loading || path === '') return;
+    const isPublic = path === 'index' || path === 'auth' || path === 'auth/callback' || path === 'auth/reset-password' || path === 'region' || path === 'language' || path.startsWith('legal/');
+    if (!session) {
+      if (!isPublic) router.replace('/auth');
+      return;
+    }
+    if (isPublic || path === 'auth/verify-phone') return;
+    let active = true;
+    void supabase?.auth.getUser().then(({ data, error }) => {
+      if (active && !error && !hasVerifiedPhone(data.user)) router.replace('/auth/verify-phone');
+    });
+    return () => { active = false; };
+  }, [loading, path, session]);
+  return <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: Colors.ivory } }}>
+    <Stack.Screen name="index" />
+    <Stack.Screen name="region" />
+    <Stack.Screen name="language" />
+    <Stack.Screen name="auth" />
+    <Stack.Screen name="auth/callback" />
+    <Stack.Screen name="auth/reset-password" />
+    <Stack.Screen name="auth/verify-phone" />
+    <Stack.Screen name="profile-setup" />
+    <Stack.Screen name="birth-details" />
+    <Stack.Screen name="palm-photo" />
+    <Stack.Screen name="permissions" />
+    <Stack.Screen name="home" />
+  </Stack>;
+}
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -38,19 +75,7 @@ export default function RootLayout() {
     <I18nextProvider i18n={i18n}>
       <SafeAreaProvider>
         <AuthProvider>
-          <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: Colors.ivory } }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="region" />
-            <Stack.Screen name="language" />
-            <Stack.Screen name="auth" />
-            <Stack.Screen name="auth/callback" />
-            <Stack.Screen name="auth/reset-password" />
-            <Stack.Screen name="profile-setup" />
-            <Stack.Screen name="birth-details" />
-            <Stack.Screen name="palm-photo" />
-            <Stack.Screen name="permissions" />
-            <Stack.Screen name="home" />
-          </Stack>
+          <GuardedStack />
         </AuthProvider>
       </SafeAreaProvider>
     </I18nextProvider>
