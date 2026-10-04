@@ -61,7 +61,8 @@ export default function AiHome() {
       </View>
 
       <View style={{ flex: 1, marginTop: 16, backgroundColor: '#FDF9F4', borderTopLeftRadius: 22, borderTopRightRadius: 22, paddingHorizontal: 16, paddingTop: 16 }}>
-        <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 14, color: Colors.navy, marginBottom: 12 }}>Choose Your AI Module</Text>
+        <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 14, color: Colors.navy, marginBottom: 3 }}>Choose Your AI Module</Text>
+        <Text style={{ fontFamily:'Poppins_400Regular',fontSize:10,color:Colors.slate,marginBottom:10 }}>Available during preview · daily use limit applies</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 9 }}>
           {MODULES.map(m => (
             <Pressable key={m.id} accessibilityRole="button" onPress={() => router.push({pathname:'/ai/[module]',params:{module:m.id,...(profileId?{profileId}:{})}})} style={{ width: '31.6%', height: 100, borderRadius: 14, backgroundColor: '#FFFDFB', borderWidth: 1, borderColor: '#F0EAF5', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
@@ -74,7 +75,6 @@ export default function AiHome() {
       <Sheet visible={menu} onClose={() => setMenu(false)} items={[
         { label: 'Conversation history', onPress: () => go('/ai/history') },
         { label: 'AI safety & responsible responses', onPress: () => go('/ai/safety') },
-        { label: 'Credits & wallet', onPress: () => go('/wallet') },
       ]} />
     </AppScreen>
   );

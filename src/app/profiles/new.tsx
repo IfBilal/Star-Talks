@@ -21,6 +21,7 @@ export default function NewProfile() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
+  const [numerologyName,setNumerologyName]=useState('');
   const [rel, setRel] = useState('');
   const [relOpen, setRelOpen] = useState(false);
   const [gender, setGender] = useState('Female');
@@ -43,6 +44,7 @@ export default function NewProfile() {
       const { data, error } = await db.from('birth_profiles').select('*').eq('id', id).single();
       if (error) { setMessage(error.message); return; }
       setName(data.display_name);
+      setNumerologyName(data.numerology_name??'');
       setRel(data.relationship[0].toUpperCase() + data.relationship.slice(1));
       setGender(data.gender || 'Other');
       const [year, month, day] = data.birth_date.split('-').map(Number);
@@ -96,8 +98,10 @@ export default function NewProfile() {
       const { data: { user }, error: authError } = await db.auth.getUser();
       if (authError) throw authError;
       if (!user) throw new Error('Please sign in again.');
+      const confirmedName=numerologyName.trim();
+      if(confirmedName && !/^[A-Za-zÀ-ž\s.'-]+$/.test(confirmedName))throw new Error('For Numerology, enter a Latin-letter transliteration of the full birth name or leave it blank.');
       const payload = {
-        user_id: user.id, display_name: name.trim(), numerology_name: /^[A-Za-zÀ-ž\s.'-]+$/.test(name.trim()) ? name.trim() : null, relationship: rel.toLowerCase(), gender,
+        user_id: user.id, display_name: name.trim(), numerology_name: confirmedName||null, relationship: rel.toLowerCase(), gender,
         birth_date: dateValue(dob), birth_time: timeKnown ? timeValue(birthTime) : null,
         birth_time_known: timeKnown, place_label: place.label, latitude: place.lat,
         longitude: place.lon, time_zone: zone, birth_instant: instant,
@@ -116,11 +120,12 @@ export default function NewProfile() {
     <Stepper steps={['Personal', 'Birth Details', 'Review']} current={step} />
     {step === 0 ? <>
       <Field label="Full Name *" placeholder="Enter full name" value={name} onChangeText={setName} />
+      <Field label="Full birth name for Numerology (optional)" placeholder="Confirm full birth name in Latin letters" value={numerologyName} onChangeText={setNumerologyName} />
       <Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.ink, marginBottom: 6 }}>Relationship *</Text>
       <Pressable onPress={() => setRelOpen(true)} style={{ height: 44, borderRadius: 10, borderWidth: 1, borderColor: '#E6E1EF', backgroundColor: '#fff', paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}><Text style={{ fontFamily: F.r, fontSize: 12, color: rel ? Colors.ink : '#9AA0B8' }}>{rel || 'Select relationship'}</Text><ChevronDown size={17} color={Colors.navy} /></Pressable>
       <Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.ink, marginBottom: 8 }}>Gender</Text>
       <View style={{ flexDirection: 'row', gap: 10, marginBottom: 14 }}>{['Male', 'Female', 'Other'].map(g => <Pressable key={g} onPress={() => setGender(g)} style={{ flex: 1, height: 42, borderRadius: 10, backgroundColor: gender === g ? '#4B4FAE' : '#fff', borderWidth: 1, borderColor: gender === g ? '#4B4FAE' : '#ECE7F4', alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontFamily: F.m, fontSize: 12, color: gender === g ? '#fff' : Colors.navy }}>{g}</Text></Pressable>)}</View>
-      <Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate }}>Use the full birth name for name-based Numerology. You can edit it later.</Text>
+      <Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate }}>Name-based numbers are calculated only when you confirm a full birth name. For another script, enter your own Latin transliteration.</Text>
     </> : step === 1 ? <>
       <OutlineField label="Date of Birth" value={formatDate(dob)} onPress={() => setPicker('date')} right={<CalendarDays size={18} color={Colors.navy} />} />
       <OutlineField label="Time of Birth" value={timeKnown ? birthTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Unknown'} onPress={() => timeKnown && setPicker('time')} right={<Clock3 size={18} color={Colors.navy} />} />
@@ -132,7 +137,7 @@ export default function NewProfile() {
       {picker ? <DateTimePicker value={picker === 'date' ? dob : birthTime} mode={picker} display={Platform.OS === 'ios' ? 'spinner' : 'default'} maximumDate={picker === 'date' ? new Date() : undefined} onChange={onPicker} /> : null}
     </> : <>
       <Text style={{ fontFamily: F.s, fontSize: 18, color: Colors.navy, marginBottom: 15 }}>Review birth profile</Text>
-      {[["Name",name],["Relationship",rel],["Date",formatDate(dob)],["Time",timeKnown ? birthTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Unknown'],["Place",place?.label ?? '']].map(([label,value]) => <View key={label} style={{ paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#E9E5F0' }}><Text style={{ fontFamily: F.r, fontSize: 10, color: Colors.slate }}>{label}</Text><Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.navy }}>{value}</Text></View>)}
+      {[["Name",name],["Numerology birth name",numerologyName||'Not confirmed'],["Relationship",rel],["Date",formatDate(dob)],["Time",timeKnown ? birthTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Unknown'],["Place",place?.label ?? '']].map(([label,value]) => <View key={label} style={{ paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#E9E5F0' }}><Text style={{ fontFamily: F.r, fontSize: 10, color: Colors.slate }}>{label}</Text><Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.navy }}>{value}</Text></View>)}
     </>}
     {message ? <Text accessibilityRole="alert" style={{ fontFamily: F.r, fontSize: 11, color: Colors.danger, marginTop: 12 }}>{message}</Text> : null}
     <Button title={step < 2 ? 'Next' : 'Save Profile'} height={50} disabled={busy} style={{ borderRadius: 14, marginTop: 22 }} onPress={() => void next()} />

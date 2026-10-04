@@ -34,7 +34,7 @@ export default function VerifyPhoneScreen() {
     const { data, error: profileError } = await db.from('birth_profiles').select('id').eq('user_id', user!.id).eq('relationship', 'self').maybeSingle();
     if (profileError) throw profileError;
     if (data) await preferences.setOnboardingComplete(true);
-    router.replace(data ? '/home' : '/profile-setup');
+    router.replace(data ? '/home' : await preferences.getOnboardingComplete()==='true' ? '/ai' : '/profile-setup');
   };
 
   useEffect(() => {

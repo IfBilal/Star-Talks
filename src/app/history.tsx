@@ -25,9 +25,9 @@ export default function UserHistory() {
   const [aiCount,setAiCount]=useState<number|null>(null);
   const [compatibilityCount,setCompatibilityCount]=useState<number|null>(null);
   useFocusEffect(useCallback(()=>{let active=true;void Promise.all([
-    aiCall<{conversations:AiConversation[];error?:string}>('list-conversations'),
-    aiCall<{analyses:{id:string}[];error?:string}>('list-compatibility'),
-  ]).then(([ai,compatibility])=>{if(active){setAiCount(ai.conversations.length);setCompatibilityCount(compatibility.analyses.length);}}).catch(()=>{if(active){setAiCount(null);setCompatibilityCount(null);}});return()=>{active=false};},[]));
+    aiCall<{conversations:AiConversation[];total?:number;error?:string}>('list-conversations'),
+    aiCall<{analyses:{id:string}[];total?:number;error?:string}>('list-compatibility'),
+  ]).then(([ai,compatibility])=>{if(active){setAiCount(ai.total??ai.conversations.length);setCompatibilityCount(compatibility.total??compatibility.analyses.length);}}).catch(()=>{if(active){setAiCount(null);setCompatibilityCount(null);}});return()=>{active=false};},[]));
   const list = rows.filter(r => f === 'All' || r.cat === f);
   return (
     <AppScreen tab="profile" header={<AppBar brand />} contentStyle={{ paddingTop: 4 }} pad={0}>

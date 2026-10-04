@@ -5,6 +5,7 @@ export type AiMessage = {
   body: string; created_at: string; request_id?: string|null;
   structured_payload?: {
     directAnswer?: string;
+    insights?: {title:string;body:string;sourceRefs:string[]}[];
     supportingFactors?: {sourceRef:string;explanation:string}[];
     conflictingFactors?: {sourceRef:string;explanation:string}[];
     timing?: string|null; uncertainty?: string; plainLanguageExplanation?: string;
@@ -15,7 +16,8 @@ export type AiConversation = { id:string; module_id:string; title:string; first_
   created_at:string; updated_at:string; birth_profile_id?:string|null;
   input_snapshot?: {profileName?:string;tarotCards?:{id:string;cardName:string;orientation:string;position:string}[];warnings?:string[]} };
 
-type AiResponse = { error?:string; requestId?:string; conversation?:AiConversation; messages?:AiMessage[]; conversations?:AiConversation[]; saved?:boolean; deleted?:boolean; title?:string };
+export type AiCursor = {updatedAt:string;id:string};
+type AiResponse = { error?:string; requestId?:string; conversation?:AiConversation; messages?:AiMessage[]; conversations?:AiConversation[]; total?:number; nextCursor?:AiCursor|null; saved?:boolean; deleted?:boolean; title?:string };
 
 export async function aiCall<T extends AiResponse = AiResponse>(action:string, args:Record<string,unknown> = {}):Promise<T> {
   const { data, error } = await requireSupabase().functions.invoke('ai', { body: {action,...args} });

@@ -19,6 +19,7 @@ export default function SplashScreen(){
       // A signed-in account already knows its own onboarding state, so skip region/language.
       const {data}=await supabase.from('birth_profiles').select('id').eq('user_id',session.user.id).eq('relationship','self').maybeSingle();
       if(data){await preferences.setOnboardingComplete(true);router.replace('/home');return}
+      if(await preferences.getOnboardingComplete()==='true'){router.replace('/ai');return}
       router.replace('/profile-setup');return
     }
     const [done,region,language]=await Promise.all([preferences.getOnboardingComplete(),preferences.getRegion(),preferences.getLanguage()]);

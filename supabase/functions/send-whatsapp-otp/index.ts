@@ -61,8 +61,15 @@ Deno.serve(async (request) => {
       }),
       signal: AbortSignal.timeout(4000),
     });
-    // Never log the response body: a provider error can echo the request and OTP.
-    if (!response.ok) return json({ error: { http_code: 502, message: 'WhatsApp delivery could not be started' } }, 502);
+    // Provider errors can echo an OTP, so inspect the body but never log it.
+    const providerBody = (await response.text()).slice(0, 4096);
+    let rejected = !response.ok || /^\s*(error|failed|false)\b/i.test(providerBody);
+    try {
+      const result = JSON.parse(providerBody) as {success?:boolean;status?:string;type?:string;error?:unknown;errors?:unknown};
+      rejected ||= result.success === false || /^(error|failed|failure)$/i.test(result.status ?? '') ||
+        /^(error|failed|failure)$/i.test(result.type ?? '') || Boolean(result.error || result.errors);
+    } catch { /* Some MSG91 success responses are plain text. */ }
+    if (rejected) return json({ error: { http_code: 502, message: 'WhatsApp delivery could not be started' } }, 502);
     return json({});
   } catch {
     return json({ error: { http_code: 502, message: 'WhatsApp delivery could not be started' } }, 502);

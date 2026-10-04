@@ -142,6 +142,8 @@ create table public.ai_request_claims (
   user_id uuid not null references auth.users(id) on delete cascade,
   request_id uuid not null,
   created_at timestamptz not null default now(),
+  leased_at timestamptz,
+  completed_at timestamptz,
   primary key(user_id,request_id)
 );
 create index ai_request_claims_recent on public.ai_request_claims(user_id,created_at desc);
@@ -163,6 +165,32 @@ end;
 $$;
 revoke all on function public.claim_ai_preview_request(uuid,uuid,integer) from public, anon, authenticated;
 grant execute on function public.claim_ai_preview_request(uuid,uuid,integer) to service_role;
+
+create or replace function public.lease_ai_preview_request(p_user_id uuid, p_request_id uuid)
+returns text language plpgsql security definer set search_path = '' as $$
+declare v_claim public.ai_request_claims%rowtype;
+begin
+  select * into v_claim from public.ai_request_claims where user_id=p_user_id and request_id=p_request_id for update;
+  if not found then raise exception 'Request was not claimed'; end if;
+  if v_claim.completed_at is not null then return 'complete'; end if;
+  if v_claim.leased_at is not null and v_claim.leased_at > now()-interval '2 minutes' then return 'busy'; end if;
+  update public.ai_request_claims set leased_at=now() where user_id=p_user_id and request_id=p_request_id;
+  return 'acquired';
+end;
+$$;
+revoke all on function public.lease_ai_preview_request(uuid,uuid) from public, anon, authenticated;
+grant execute on function public.lease_ai_preview_request(uuid,uuid) to service_role;
+
+create or replace function public.finish_ai_preview_request(p_user_id uuid, p_request_id uuid, p_success boolean)
+returns void language plpgsql security definer set search_path = '' as $$
+begin
+  update public.ai_request_claims
+  set leased_at=null, completed_at=case when p_success then now() else completed_at end
+  where user_id=p_user_id and request_id=p_request_id;
+end;
+$$;
+revoke all on function public.finish_ai_preview_request(uuid,uuid,boolean) from public, anon, authenticated;
+grant execute on function public.finish_ai_preview_request(uuid,uuid,boolean) to service_role;
 
 alter table public.ai_conversations enable row level security;
 alter table public.ai_messages enable row level security;

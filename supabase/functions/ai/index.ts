@@ -15,6 +15,7 @@ const must = <T>(value: T | null | undefined, message: string, status = 422): T 
 
 type Body = { action?: string; moduleId?: unknown; profileId?: unknown; mediaId?: unknown; spread?: unknown;
   conversationId?: unknown; question?: unknown; requestId?: unknown; title?: unknown; moduleFilter?: unknown;
+  search?: unknown; cursor?: unknown;
   messageId?: unknown; helpful?: unknown; reasons?: unknown; reportNote?: unknown;
   firstProfileId?: unknown; secondProfileId?: unknown; relationshipType?: unknown; method?: unknown; analysisId?: unknown; confirmation?: unknown; consentScope?: unknown };
 const CONSENT_VERSION = '2026-10-04-v1';
@@ -63,6 +64,20 @@ async function claim(db: SupabaseClient, userId: string, requestId: string) {
   const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit});
   if(error)throw new HttpError(503,'Unable to check the AI preview limit.');
   if(!data)throw new HttpError(429,'Today’s AI preview limit has been reached. Please try again later.');
+}
+async function lease(db:SupabaseClient,userId:string,requestId:string) {
+  const {data,error}=await db.rpc('lease_ai_preview_request',{p_user_id:userId,p_request_id:requestId});
+  if(error)throw new HttpError(503,'Unable to reserve this AI request.');
+  if(data!=='acquired')throw new HttpError(409,data==='busy'?'This request is still processing. Please wait and retry.':'This request has already completed. Reopen its saved result.');
+}
+async function finish(db:SupabaseClient,userId:string,requestId:string,success:boolean) {
+  const {error}=await db.rpc('finish_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_success:success});
+  if(error)console.error(JSON.stringify({category:'request_lease_release_failed',requestId}));
+}
+function requireEnabled(moduleId:string) {
+  if(Deno.env.get('AI_DISABLED')==='true'||Deno.env.get('AI_DISABLED')==='1')throw new HttpError(503,'AI readings are temporarily unavailable. Your saved history is still available.');
+  const disabled=(Deno.env.get('AI_DISABLED_MODULES')??'').split(',').map(item=>item.trim());
+  if(disabled.includes(moduleId))throw new HttpError(503,'This AI module is temporarily unavailable. Your saved history is still available.');
 }
 
 async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleId, body: Body): Promise<{snapshot:Snapshot;profileId:string|null}> {
@@ -169,7 +184,11 @@ async function generated(db:SupabaseClient,conversation:{id:string;user_id:strin
 }
 
 async function handleAction(db:SupabaseClient,userId:string,body:Body) {
-  if(body.action==='list-modules') return {modules:Object.entries(MODULES).map(([id,config])=>({id,name:config.name,input:config.input,available:true})),version:MODULE_POLICY_VERSION};
+  if(body.action==='list-modules') {
+    const allDisabled=['true','1'].includes(Deno.env.get('AI_DISABLED')??'');
+    const disabled=(Deno.env.get('AI_DISABLED_MODULES')??'').split(',').map(item=>item.trim());
+    return {modules:Object.entries(MODULES).map(([id,config])=>({id,name:config.name,input:config.input,available:!allDisabled&&!disabled.includes(id)})),version:MODULE_POLICY_VERSION};
+  }
   if(body.action==='get-consent') {
     const {data,error}=await db.from('ai_consent').select('scope,text_version,revoked_at').eq('user_id',userId);
     if(error)throw new HttpError(503,'AI consent could not be loaded.');
@@ -197,8 +216,8 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     return {deleted:true};
   }
   if(body.action==='list-compatibility') {
-    const {data,error}=await db.from('compatibility_analyses').select('id,relationship_type,module_id,result,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(30);
-    if(error)throw new HttpError(503,'Compatibility history is unavailable.');return {analyses:data??[]};
+    const {data,error,count}=await db.from('compatibility_analyses').select('id,relationship_type,module_id,result,created_at',{count:'exact'}).eq('user_id',userId).order('created_at',{ascending:false}).limit(30);
+    if(error)throw new HttpError(503,'Compatibility history is unavailable.');return {analyses:data??[],total:count??data?.length??0};
   }
   if(body.action==='get-compatibility') {
     const id=must(uuid(body.analysisId)?body.analysisId:null,'A valid analysis ID is required.');
@@ -216,6 +235,7 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const method=body.method;
     if(!['western','vedic','numerology','chinese-zodiac','korean-astrology'].includes(String(method)))throw new HttpError(422,'Choose a supported compatibility method.');
     const selectedMethod=method as CompatibilityMethod;
+    requireEnabled(selectedMethod);
     const {data:existing}=await db.from('compatibility_analyses').select('*').eq('user_id',userId).eq('request_id',requestId).maybeSingle();
     if(existing)return {analysis:existing};
     const {data:people,error}=await db.from('birth_profiles').select('id,display_name,birth_date,birth_time,birth_instant,birth_time_known,latitude,longitude,time_zone,numerology_name').eq('user_id',userId).in('id',[firstId,secondId]);
@@ -224,38 +244,52 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     let evidence:ReturnType<typeof buildCompatibility>;
     try{evidence=buildCompatibility(first,second,selectedMethod);}catch(cause){throw new HttpError(422,cause instanceof Error?cause.message:'Compatibility inputs are incomplete.');}
     await claim(db,userId,requestId);
-    const {result,model}=await generateCompatibility({method:selectedMethod,relationshipType:String(type),firstName:first.display_name,secondName:second.display_name,factors:evidence.factors,warnings:evidence.warnings,language:await languageFor(db,userId)});
-    const stored={...result,firstName:first.display_name,secondName:second.display_name,score:evidence.score,scoreExplanation:evidence.scoreExplanation,warnings:evidence.warnings,providerModel:model};
-    const {data:analysis,error:saveError}=await db.from('compatibility_analyses').insert({user_id:userId,first_profile_id:firstId,second_profile_id:secondId,relationship_type:type,module_id:selectedMethod,method_version:evidence.version,factors:evidence.factors,result:stored,request_id:requestId}).select('*').single();
-    if(saveError||!analysis)throw new HttpError(503,'Compatibility analysis could not be saved.');return {analysis};
+    await lease(db,userId,requestId);
+    try {
+      const {result,model}=await generateCompatibility({method:selectedMethod,relationshipType:String(type),firstName:first.display_name,secondName:second.display_name,factors:evidence.factors,warnings:evidence.warnings,language:await languageFor(db,userId)});
+      const stored={...result,firstName:first.display_name,secondName:second.display_name,score:evidence.score,scoreExplanation:evidence.scoreExplanation,warnings:evidence.warnings,providerModel:model};
+      const {data:analysis,error:saveError}=await db.from('compatibility_analyses').insert({user_id:userId,first_profile_id:firstId,second_profile_id:secondId,relationship_type:type,module_id:selectedMethod,method_version:evidence.version,factors:evidence.factors,result:stored,request_id:requestId}).select('*').single();
+      if(saveError||!analysis)throw new HttpError(503,'Compatibility analysis could not be saved.');
+      await finish(db,userId,requestId,true);return {analysis};
+    }catch(error){await finish(db,userId,requestId,false);throw error;}
   }
   if(body.action==='list-conversations') {
-    let query=db.from('ai_conversations').select('id,module_id,title,first_reading_status,created_at,updated_at,birth_profile_id').eq('user_id',userId).order('updated_at',{ascending:false}).limit(50);
+    const pageSize=20;
+    let query=db.from('ai_conversations').select('id,module_id,title,first_reading_status,created_at,updated_at,birth_profile_id',{count:'exact'}).eq('user_id',userId).order('updated_at',{ascending:false}).order('id',{ascending:false}).limit(pageSize+1);
     if(isModuleId(body.moduleFilter))query=query.eq('module_id',body.moduleFilter);
-    const {data,error}=await query;if(error)throw new HttpError(503,'Reading history is unavailable.');
-    return {conversations:data??[]};
+    const search=typeof body.search==='string'?body.search.trim().slice(0,80):'';
+    if(search)query=query.ilike('title',`%${search.replace(/[\\%_]/g,'\\$&')}%`);
+    const cursor=body.cursor as {updatedAt?:unknown;id?:unknown}|null;
+    if(cursor&&typeof cursor.updatedAt==='string'&&/^\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|\+\d{2}:\d{2})$/.test(cursor.updatedAt)&&uuid(cursor.id))
+      query=query.or(`updated_at.lt.${cursor.updatedAt},and(updated_at.eq.${cursor.updatedAt},id.lt.${cursor.id})`);
+    const {data,error,count}=await query;if(error)throw new HttpError(503,'Reading history is unavailable.');
+    const rows=data??[];const page=rows.slice(0,pageSize);const last=page[page.length-1];
+    return {conversations:page,total:count??page.length,nextCursor:rows.length>pageSize&&last?{updatedAt:last.updated_at,id:last.id}:null};
   }
   if(body.action==='start-reading') {
     await requireConsent(db,userId,'birth_and_questions');
     const moduleId=must(isModuleId(body.moduleId)?body.moduleId:null,'Select a valid AI module.');
+    requireEnabled(moduleId);
     const requestId=must(uuid(body.requestId)?body.requestId:null,'A valid request ID is required.');
     const {data:existing}=await db.from('ai_conversations').select('*').eq('user_id',userId).eq('start_request_id',requestId).maybeSingle();
     if(existing) {
       const messages=await storedMessages(db,existing.id);
       if(messages.length)return {conversation:existing,messages};
-      if(existing.first_reading_status==='pending')throw new HttpError(409,'This reading is still being prepared. Please wait and retry.');
+      if(existing.first_reading_status==='pending'&&Date.now()-new Date(existing.created_at).getTime()<120000)throw new HttpError(409,'This reading is still being prepared. Please wait and retry.');
       await requireConversationMediaAccess(db,userId,existing);
       await claim(db,userId,requestId);
-      const regenerated=await generated(db,existing,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);
-      return {conversation:{...existing,first_reading_status:'ready'},messages:regenerated};
+      await lease(db,userId,requestId);
+      try{const regenerated=await generated(db,existing,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);await finish(db,userId,requestId,true);return {conversation:{...existing,first_reading_status:'ready'},messages:regenerated};}
+      catch(error){await finish(db,userId,requestId,false);throw error;}
     }
     const {snapshot,profileId}=await evidenceFor(db,userId,moduleId,body);
     if(!snapshot.factors.length)throw new HttpError(422,'More input is needed for this reading.');
     await claim(db,userId,requestId);
+    await lease(db,userId,requestId);
     const {data:conversation,error}=await db.from('ai_conversations').insert({user_id:userId,module_id:moduleId,birth_profile_id:profileId,title:`${MODULES[moduleId].name} reading`,methodology_version:snapshot.version,prompt_version:MODULE_POLICY_VERSION,calculator_version:snapshot.version,input_fingerprint:JSON.stringify(snapshot.factors.map(f=>[f.id,f.value])),input_snapshot:snapshot,start_request_id:requestId}).select('*').single();
-    if(error||!conversation)throw new HttpError(503,'Reading could not be started.');
-    try { const messages=await generated(db,conversation,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);return {conversation:{...conversation,first_reading_status:'ready'},messages}; }
-    catch(error){await db.from('ai_conversations').update({first_reading_status:'failed'}).eq('id',conversation.id);throw error;}
+    if(error||!conversation){await finish(db,userId,requestId,false);throw new HttpError(503,'Reading could not be started.');}
+    try { const messages=await generated(db,conversation,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);await finish(db,userId,requestId,true);return {conversation:{...conversation,first_reading_status:'ready'},messages}; }
+    catch(error){await db.from('ai_conversations').update({first_reading_status:'failed'}).eq('id',conversation.id);await finish(db,userId,requestId,false);throw error;}
   }
   const conversationId=must(uuid(body.conversationId)?body.conversationId:null,'A valid conversation ID is required.');
   const {data:conversation,error:conversationError}=await db.from('ai_conversations').select('*').eq('id',conversationId).eq('user_id',userId).maybeSingle();
@@ -265,8 +299,9 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     if(!messages.length && conversation.first_reading_status==='failed' && conversation.start_request_id) {
       await requireConsent(db,userId,'birth_and_questions');
       await requireConversationMediaAccess(db,userId,conversation);
-      const regenerated=await generated(db,conversation,`Give my ${conversation.module_id==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,conversation.start_request_id,true);
-      return {conversation:{...conversation,first_reading_status:'ready'},messages:regenerated};
+      await claim(db,userId,conversation.start_request_id);await lease(db,userId,conversation.start_request_id);
+      try{const regenerated=await generated(db,conversation,`Give my ${conversation.module_id==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,conversation.start_request_id,true);await finish(db,userId,conversation.start_request_id,true);return {conversation:{...conversation,first_reading_status:'ready'},messages:regenerated};}
+      catch(error){await finish(db,userId,conversation.start_request_id,false);throw error;}
     }
     return {conversation,messages};
   }
@@ -297,6 +332,7 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   if(body.action==='ask-module') {
     await requireConsent(db,userId,'birth_and_questions');
     await requireConversationMediaAccess(db,userId,conversation);
+    requireEnabled(conversation.module_id);
     const requestId=must(uuid(body.requestId)?body.requestId:null,'A valid request ID is required.');
     const question=typeof body.question==='string'?body.question.trim():'';
     if(question.length<2||question.length>800)throw new HttpError(422,'Ask a question of 2–800 characters.');
@@ -314,8 +350,9 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const moderation=await moderate(question);
     if(moderation.flagged)throw new HttpError(422,'I cannot answer that question as a reading. If someone is in immediate danger, please contact local emergency help.');
     await claim(db,userId,requestId);
-    const rows=await generated(db,conversation,question,requestId,false);
-    return {conversation,messages:rows};
+    await lease(db,userId,requestId);
+    try{const rows=await generated(db,conversation,question,requestId,false);await finish(db,userId,requestId,true);return {conversation,messages:rows};}
+    catch(error){await finish(db,userId,requestId,false);throw error;}
   }
   if(body.action==='submit-ai-feedback') {
     const messageId=must(uuid(body.messageId)?body.messageId:null,'Select a response.');

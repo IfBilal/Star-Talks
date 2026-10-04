@@ -47,7 +47,7 @@ export default function ProfileScreen() {
     return () => { active = false; };
   }, []);
 
-  const save = async () => {
+  const save = async (skipBirth = false) => {
     if (!name.trim()) {
       setError(t('profile.enterNameError'));
       return;
@@ -73,7 +73,10 @@ export default function ProfileScreen() {
       }, { onConflict: 'id' });
       if (saveError) throw saveError;
 
-      if (hasBirthProfile) {
+      if (skipBirth) {
+        await preferences.setOnboardingComplete(true);
+        router.replace('/ai');
+      } else if (hasBirthProfile) {
         router.replace('/home');
       } else {
         router.push('/birth-details');
@@ -121,7 +124,8 @@ export default function ProfileScreen() {
       </Pressable>
       {error ? <Text accessibilityRole="alert" style={{ color: Colors.danger, fontSize: 11, marginTop: 8 }}>{error}</Text> : null}
       <View style={{ flex: 1, minHeight: 20 }} />
-      <PrimaryButton title={hasBirthProfile ? t('profile.saveChanges') : t('common.continue')} loading={busy} onPress={save} />
+      <PrimaryButton title={hasBirthProfile ? t('profile.saveChanges') : t('common.continue')} loading={busy} onPress={() => void save()} />
+      {!hasBirthProfile ? <Pressable accessibilityRole="button" disabled={busy} onPress={() => void save(true)} style={{alignItems:'center',padding:12}}><Text style={{fontFamily:'Poppins_500Medium',fontSize:11,color:Colors.indigo}}>Explore Tarot without birth details</Text></Pressable> : null}
       {hasBirthProfile ? <Pressable accessibilityRole="button" disabled={busy} onPress={logout} style={{ minHeight: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 8 }}>
         <LogOut color={Colors.danger} size={17} />
         <Text style={{ fontFamily: 'Poppins_500Medium', color: Colors.danger, fontSize: 12 }}>{t('profile.logOut')}</Text>
