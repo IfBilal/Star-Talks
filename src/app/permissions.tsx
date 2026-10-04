@@ -2,7 +2,7 @@ import { replace } from '@/components/ui';
 import { Camera, Images } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Pressable, Text, View } from 'react-native';
+import { Linking, Pressable, Text, View } from 'react-native';
 import { PrimaryButton, Screen, Title } from '@/components/brand';
 import { Colors } from '@/constants/theme';
 
@@ -19,11 +19,11 @@ export default function PermissionsScreen() {
   const [gallery, setGallery] = useState(false);
   const [notice,setNotice]=useState('');
   useEffect(()=>{void Promise.all([ImagePicker.getCameraPermissionsAsync(),ImagePicker.getMediaLibraryPermissionsAsync()]).then(([c,g])=>{setCamera(c.granted);setGallery(g.granted);});},[]);
-  const requestCamera=async()=>{const status=await ImagePicker.requestCameraPermissionsAsync();setCamera(status.granted);if(!status.granted)setNotice('Camera access can be changed in device settings. You can also choose a gallery photo later.');};
-  const requestGallery=async()=>{const status=await ImagePicker.requestMediaLibraryPermissionsAsync();setGallery(status.granted);if(!status.granted)setNotice('Photo access can be changed in device settings. You can also use the camera later.');};
+  const requestCamera=async(next:boolean)=>{if(!next){setNotice('To turn off camera access, change it in device settings.');await Linking.openSettings();return;}const status=await ImagePicker.requestCameraPermissionsAsync();setCamera(status.granted);if(!status.granted)setNotice('Camera access can be changed in device settings. You can also choose a gallery photo later.');};
+  const requestGallery=async(next:boolean)=>{if(!next){setNotice('To turn off photo access, change it in device settings.');await Linking.openSettings();return;}const status=await ImagePicker.requestMediaLibraryPermissionsAsync();setGallery(status.granted);if(!status.granted)setNotice('Photo access can be changed in device settings. You can also use the camera later.');};
   const items = [
-    { icon: Camera, title: 'Camera', text: 'To take palm or face photos for readings', value: camera, set: () => void requestCamera() },
-    { icon: Images, title: 'Photo Gallery', text: 'To choose palm or face photos for readings', value: gallery, set: () => void requestGallery() },
+    { icon: Camera, title: 'Camera', text: 'To take palm or face photos for readings', value: camera, set: (next:boolean) => void requestCamera(next) },
+    { icon: Images, title: 'Photo Gallery', text: 'To choose palm or face photos for readings', value: gallery, set: (next:boolean) => void requestGallery(next) },
   ];
   return (
     <Screen style={{ paddingTop: 34 }}>

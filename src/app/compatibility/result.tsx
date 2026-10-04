@@ -5,7 +5,7 @@ import { Pressable, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { AppBar, AppScreen, Button, Card, F, Segmented } from '@/components/ui';
 import { CosmicBg } from '@/components/ui/art';
-import { aiCall } from '@/features/ai/api';
+import { aiCall, type AiConversation } from '@/features/ai/api';
 import { Colors } from '@/constants/theme';
 
 type Analysis={id:string;relationship_type:string;module_id:string;created_at:string;result:{firstName:string;secondName:string;score:number;scoreExplanation:string;overview:string;strengths:string[];challenges:string[];dynamics:string;longTermOutlook:string;timing:string|null;warnings:string[]}};
@@ -16,10 +16,12 @@ export default function CompatibilityResult() {
   const [tab,setTab]=useState('Overview');
   const [analysis,setAnalysis]=useState<Analysis|null>(null);
   const [error,setError]=useState(id?'':'Select a saved compatibility analysis first.');
+  const [chatBusy,setChatBusy]=useState(false);
   useEffect(()=>{if(!id)return;let alive=true;void aiCall<{analysis:Analysis;error?:string}>('get-compatibility',{analysisId:id}).then(data=>{if(alive)setAnalysis(data.analysis);}).catch(cause=>{if(alive)setError(cause instanceof Error?cause.message:'Analysis is unavailable.');});return()=>{alive=false};},[id]);
+  const openChat=async()=>{if(!analysis||chatBusy)return;setChatBusy(true);setError('');try{const result=await aiCall<{conversation:AiConversation;error?:string}>('open-compatibility-chat',{analysisId:analysis.id});router.push({pathname:'/ai/[module]',params:{module:result.conversation.module_id,conversationId:result.conversation.id}});}catch(cause){setError(cause instanceof Error?cause.message:'Compatibility chat could not be opened.');}finally{setChatBusy(false);}};
   const result=analysis?.result;
   const list=tab==='Strengths'?result?.strengths:tab==='Challenges'?result?.challenges:null;
-  return <AppScreen header={<AppBar brand />} footer={<View style={{paddingHorizontal:16,paddingBottom:8}}><Button title="Start another analysis" height={46} style={{borderRadius:12}} onPress={()=>router.push('/compatibility')} /></View>} contentStyle={{paddingTop:2}}>
+  return <AppScreen header={<AppBar brand />} footer={analysis?<View style={{paddingHorizontal:16,paddingBottom:8,flexDirection:'row',gap:10}}><Button title="Saved Analysis" variant="light" height={46} style={{borderRadius:12,flex:1}} disabled onPress={()=>{}} /><Button title={chatBusy?'Opening…':'Ask AI About This'} height={46} style={{borderRadius:12,flex:1}} disabled={chatBusy} onPress={()=>void openChat()} /></View>:undefined} contentStyle={{paddingTop:2}}>
     {error?<Card style={{padding:18,borderRadius:14}}><Text accessibilityRole="alert" style={{fontFamily:F.r,fontSize:12,color:Colors.danger}}>{error}</Text></Card>:null}
     {!analysis&&!error?<Text style={{fontFamily:F.r,fontSize:12,color:Colors.slate,textAlign:'center',marginTop:30}}>Loading saved analysis…</Text>:null}
     {analysis&&result?<>

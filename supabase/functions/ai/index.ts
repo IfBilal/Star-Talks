@@ -52,6 +52,7 @@ async function authenticatedUser(request: Request, db: SupabaseClient) {
 }
 
 async function selectedProfile(db: SupabaseClient, userId: string, profileId: unknown): Promise<Profile> {
+  if(profileId!=null&&!uuid(profileId))throw new HttpError(422,'Choose a valid birth profile.');
   let query=db.from('birth_profiles').select('id,birth_date,birth_time,birth_instant,birth_time_known,latitude,longitude,time_zone,numerology_name,display_name').eq('user_id',userId);
   query=uuid(profileId)?query.eq('id',profileId):query.eq('relationship','self');
   const {data,error}=await query.maybeSingle();
@@ -164,7 +165,7 @@ async function generated(db:SupabaseClient,conversation:{id:string;user_id:strin
   const messages=first?[]:await storedMessages(db,conversation.id);
   const {answer,model}=await generateAnswer({moduleId:conversation.module_id,evidence:snapshot,allowedSourceRefs:refs,question,
     history:messages.slice(-10).map(item=>({role:item.role,body:item.body})),summary:conversation.summary||'',language:await languageFor(db,conversation.user_id),first});
-  const postModeration=await moderate(answer.directAnswer);
+  const postModeration=await moderate([answer.directAnswer,...answer.insights.flatMap(item=>[item.title,item.body]),...answer.supportingFactors.map(item=>item.explanation),...answer.conflictingFactors.map(item=>item.explanation),...answer.followUps].join('\n'));
   if(postModeration.flagged)throw new HttpError(422,'The generated answer could not be shown safely. Please ask in another way.');
   const body=answer.directAnswer;
   const rows=first?[{conversation_id:conversation.id,user_id:conversation.user_id,role:'assistant',kind:'first',body,structured_payload:answer,source_refs:answer.sourceRefs,request_id:requestId,provider_model:model}]
@@ -211,7 +212,7 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const {error}=await db.from('ai_conversations').delete().eq('user_id',userId);
     if(error)throw new HttpError(503,'AI history could not be deleted.');
     const paths=(media??[]).map(item=>item.storage_path);
-    if(paths.length){const {error:storageError}=await db.storage.from('ai-private').remove(paths);if(storageError)throw new HttpError(503,'AI history was deleted, but some photos could not be removed.');}
+    for(let offset=0;offset<paths.length;offset+=100){const {error:storageError}=await db.storage.from('ai-private').remove(paths.slice(offset,offset+100));if(storageError)throw new HttpError(503,'AI history was deleted, but some photos could not be removed.');}
     await db.from('ai_media').delete().eq('user_id',userId);
     return {deleted:true};
   }
@@ -223,6 +224,28 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const id=must(uuid(body.analysisId)?body.analysisId:null,'A valid analysis ID is required.');
     const {data,error}=await db.from('compatibility_analyses').select('*').eq('id',id).eq('user_id',userId).maybeSingle();
     if(error||!data)throw new HttpError(404,'Compatibility analysis was not found.');return {analysis:data};
+  }
+  if(body.action==='open-compatibility-chat') {
+    await requireConsent(db,userId,'birth_and_questions');
+    const analysisId=must(uuid(body.analysisId)?body.analysisId:null,'A valid analysis ID is required.');
+    const {data:analysis,error:analysisError}=await db.from('compatibility_analyses').select('*').eq('id',analysisId).eq('user_id',userId).maybeSingle();
+    if(analysisError||!analysis)throw new HttpError(404,'Compatibility analysis was not found.');
+    const {data:existing}=await db.from('ai_conversations').select('id,module_id').eq('user_id',userId).eq('compatibility_analysis_id',analysisId).maybeSingle();
+    if(existing)return {conversation:existing};
+    const factors=(analysis.factors as Array<{id:string;label:string;value:string;explanation:string}>).map(item=>({id:item.id,label:item.label,value:item.value,rule:item.explanation}));
+    const result=analysis.result as {firstName:string;secondName:string;overview:string;strengths:string[];challenges:string[];dynamics:string;longTermOutlook:string;timing:string|null;sourceRefs:string[];warnings?:string[]};
+    const snapshot:Snapshot={moduleId:analysis.module_id,version:analysis.method_version,factors,warnings:result.warnings??[],profileName:`${result.firstName} & ${result.secondName}`,data:{compatibility:true,analysisId,relationshipType:analysis.relationship_type}};
+    const {data:conversation,error}=await db.from('ai_conversations').insert({user_id:userId,module_id:analysis.module_id,compatibility_analysis_id:analysisId,title:`${result.firstName} & ${result.secondName} compatibility`,methodology_version:analysis.method_version,prompt_version:MODULE_POLICY_VERSION,input_snapshot:snapshot,input_fingerprint:JSON.stringify(factors.map(item=>[item.id,item.value])),first_reading_status:'ready'}).select('id,module_id').single();
+    if(error||!conversation){const {data:concurrent}=await db.from('ai_conversations').select('id,module_id').eq('user_id',userId).eq('compatibility_analysis_id',analysisId).maybeSingle();if(concurrent)return {conversation:concurrent};throw new HttpError(503,'Compatibility chat could not be opened.');}
+    const sourceRefs=Array.isArray(result.sourceRefs)?result.sourceRefs:[];
+    const insights=[
+      {title:'Strengths',body:result.strengths.slice(0,3).join(' • '),sourceRefs},
+      {title:'Challenges',body:result.challenges.slice(0,3).join(' • '),sourceRefs},
+      {title:'Relationship dynamics',body:result.dynamics,sourceRefs},
+    ];
+    const {error:messageError}=await db.from('ai_messages').insert({conversation_id:conversation.id,user_id:userId,role:'assistant',kind:'first',body:result.overview,structured_payload:{directAnswer:result.overview,insights,supportingFactors:[],conflictingFactors:[],timing:result.timing,uncertainty:'Symbolic comparison, not a prediction of relationship success.',plainLanguageExplanation:result.longTermOutlook,followUps:['How can we work with our strengths?','Where might we need more communication?'],sourceRefs},source_refs:sourceRefs});
+    if(messageError){await db.from('ai_conversations').delete().eq('id',conversation.id).eq('user_id',userId);throw new HttpError(503,'Compatibility chat could not be prepared.');}
+    return {conversation};
   }
   if(body.action==='analyze-compatibility') {
     await requireConsent(db,userId,'birth_and_questions');
@@ -247,6 +270,8 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     await lease(db,userId,requestId);
     try {
       const {result,model}=await generateCompatibility({method:selectedMethod,relationshipType:String(type),firstName:first.display_name,secondName:second.display_name,factors:evidence.factors,warnings:evidence.warnings,language:await languageFor(db,userId)});
+      const outputModeration=await moderate([result.overview,...result.strengths,...result.challenges,result.dynamics,result.longTermOutlook].join('\n'));
+      if(outputModeration.flagged)throw new HttpError(422,'The compatibility result could not be shown safely. Please try again later.');
       const stored={...result,firstName:first.display_name,secondName:second.display_name,score:evidence.score,scoreExplanation:evidence.scoreExplanation,warnings:evidence.warnings,providerModel:model};
       const {data:analysis,error:saveError}=await db.from('compatibility_analyses').insert({user_id:userId,first_profile_id:firstId,second_profile_id:secondId,relationship_type:type,module_id:selectedMethod,method_version:evidence.version,factors:evidence.factors,result:stored,request_id:requestId}).select('*').single();
       if(saveError||!analysis)throw new HttpError(503,'Compatibility analysis could not be saved.');
@@ -303,7 +328,11 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
       try{const regenerated=await generated(db,conversation,`Give my ${conversation.module_id==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,conversation.start_request_id,true);await finish(db,userId,conversation.start_request_id,true);return {conversation:{...conversation,first_reading_status:'ready'},messages:regenerated};}
       catch(error){await finish(db,userId,conversation.start_request_id,false);throw error;}
     }
-    return {conversation,messages};
+    const answerIds=messages.filter(item=>item.role==='assistant').map(item=>item.id);
+    if(!answerIds.length)return {conversation,messages,feedback:[]};
+    const {data:feedback,error:feedbackError}=await db.from('ai_feedback').select('message_id,helpful,reasons,report_note,reported_at').eq('user_id',userId).in('message_id',answerIds);
+    if(feedbackError)throw new HttpError(503,'Conversation feedback could not be loaded.');
+    return {conversation,messages,feedback:feedback??[]};
   }
   if(body.action==='rename-conversation') {
     const title=typeof body.title==='string'?body.title.trim():'';
@@ -358,7 +387,8 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const messageId=must(uuid(body.messageId)?body.messageId:null,'Select a response.');
     const {data:message}=await db.from('ai_messages').select('id,role').eq('id',messageId).eq('conversation_id',conversationId).eq('user_id',userId).maybeSingle();
     if(!message||message.role!=='assistant')throw new HttpError(404,'Response was not found.');
-    const reasons=Array.isArray(body.reasons)?body.reasons.filter(x=>typeof x==='string'&&x.length<80).slice(0,5):[];
+    const allowedReasons=new Set(['Too generic','Did not answer','Incorrect interpretation','Unclear','Too long','Other']);
+    const reasons=Array.isArray(body.reasons)?[...new Set(body.reasons.filter(x=>typeof x==='string'&&allowedReasons.has(x)))].slice(0,5):[];
     const reportNote=typeof body.reportNote==='string'?body.reportNote.slice(0,1000):null;
     const {error}=await db.from('ai_feedback').upsert({message_id:messageId,user_id:userId,helpful:typeof body.helpful==='boolean'?body.helpful:null,reasons,report_note:reportNote,reported_at:reportNote?new Date().toISOString():null,updated_at:new Date().toISOString()});
     if(error)throw new HttpError(503,'Feedback could not be saved.');return {saved:true};

@@ -1,4 +1,4 @@
-import { CircleAlert, Clock3, Flower2, Gavel, HeartCrack, HeartPulse, ShieldCheck, ShieldAlert, Skull, Stethoscope, Swords, TriangleAlert, UserRound, Wallet, CircleCheck } from 'lucide-react-native';
+import { CircleAlert, Clock3, Flower2, Gavel, HeartCrack, HeartPulse, ShieldCheck, ShieldAlert, Skull, Stethoscope, Swords, TriangleAlert, Wallet, CircleCheck } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
@@ -60,7 +60,7 @@ export default function AiSafety() {
         <View style={{ flex: 1 }}>
           <Text style={{ fontFamily: F.s, fontSize: 12.5, color: Colors.navy }}>Report a Response</Text>
           <Text style={{ fontFamily: F.r, fontSize: 10.5, lineHeight: 16, color: Colors.slate, marginTop: 2 }}>If you find an AI response unsafe, inappropriate or incorrect, please report it.</Text>
-          <Pressable accessibilityRole="button" onPress={() => go('/feedback')} style={{ alignSelf: 'flex-start', marginTop: 10, height: 32, paddingHorizontal: 18, borderRadius: 16, borderWidth: 1, borderColor: Colors.navy, justifyContent: 'center' }}><Text style={{ fontFamily: F.m, fontSize: 11, color: Colors.navy }}>Report Response</Text></Pressable>
+          <Pressable accessibilityRole="button" onPress={() => go('/ai/history')} style={{ alignSelf: 'flex-start', marginTop: 10, height: 32, paddingHorizontal: 18, borderRadius: 16, borderWidth: 1, borderColor: Colors.navy, justifyContent: 'center' }}><Text style={{ fontFamily: F.m, fontSize: 11, color: Colors.navy }}>Choose a response to report</Text></Pressable>
         </View>
       </Card>
       <LinearGradient colors={['#E9E1F8', '#D9CFF0']} style={{ marginTop: 10, borderRadius: 14, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>

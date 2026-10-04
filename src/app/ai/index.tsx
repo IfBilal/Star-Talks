@@ -28,12 +28,12 @@ export default function AiHome() {
   const [profileName, setProfileName] = useState('');
   useEffect(() => { if (!profileId) return; void requireSupabase().from('birth_profiles').select('display_name').eq('id',profileId).maybeSingle().then(({data}) => setProfileName(data?.display_name ?? '')); }, [profileId]);
   return (
-    <AppScreen tab="ai" scroll={false} pad={0} noTopInset bg="#FCF7F1">
+    <AppScreen tab="ai" pad={0} noTopInset bg="#FCF7F1">
       <StatusBar barStyle="light-content" />
       <LinearGradient colors={['#23245F', '#393286', '#6F62BD', '#B9AEDF']} locations={[0, 0.45, 0.8, 1]} style={{ height: 262 }}>
         <SafeAreaView edges={['top']}>
           <View style={{ height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18 }}>
-            <Menu size={21} color="#fff" />
+            <Pressable onPress={() => setMenu(true)} hitSlop={10} accessibilityLabel="AI menu" accessibilityRole="button"><Menu size={21} color="#fff" /></Pressable>
             <Pressable onPress={() => setMenu(true)} hitSlop={10} accessibilityLabel="More"><EllipsisVertical size={19} color="#fff" /></Pressable>
           </View>
         </SafeAreaView>
@@ -60,7 +60,7 @@ export default function AiHome() {
         </Pressable>
       </View>
 
-      <View style={{ flex: 1, marginTop: 16, backgroundColor: '#FDF9F4', borderTopLeftRadius: 22, borderTopRightRadius: 22, paddingHorizontal: 16, paddingTop: 16 }}>
+      <View style={{ marginTop: 16, backgroundColor: '#FDF9F4', borderTopLeftRadius: 22, borderTopRightRadius: 22, paddingHorizontal: 16, paddingTop: 16,paddingBottom:22 }}>
         <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 14, color: Colors.navy, marginBottom: 3 }}>Choose Your AI Module</Text>
         <Text style={{ fontFamily:'Poppins_400Regular',fontSize:10,color:Colors.slate,marginBottom:10 }}>Available during preview · daily use limit applies</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 9 }}>

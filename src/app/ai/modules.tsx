@@ -1,18 +1,23 @@
 import { Search } from 'lucide-react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Text, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { AppBar, AppScreen, Card, ListRow, Type } from '@/components/ui';
 import { MODULES } from '@/features/uiData/ai';
 import { Colors } from '@/constants/theme';
 
 export default function ModuleSelection() {
   const { profileId } = useLocalSearchParams<{ profileId?: string }>();
+  const [searchOpen,setSearchOpen]=useState(false);
+  const [query,setQuery]=useState('');
+  const visible=MODULES.filter(module=>`${module.name} ${module.tagline}`.toLowerCase().includes(query.trim().toLowerCase()));
   return (
-    <AppScreen header={<AppBar brand={false} title="AI Astrology" right={<Search size={19} color={Colors.navy} />} />} contentStyle={{ paddingTop: 10 }}>
+    <AppScreen header={<AppBar brand={false} title="AI Astrology" right={<Pressable onPress={()=>setSearchOpen(value=>!value)} accessibilityRole="button" accessibilityLabel="Search AI modules" hitSlop={10}><Search size={19} color={Colors.navy} /></Pressable>} />} contentStyle={{ paddingTop: 10 }}>
       <Text style={[Type.h1, { fontSize: 19 }]}>Choose a Module</Text>
       <Text style={[Type.body, { color: Colors.navy, marginTop: 3, marginBottom: 14, fontSize: 12.5 }]}>Select your preferred astrology system</Text>
+      {searchOpen?<TextInput value={query} onChangeText={setQuery} placeholder="Search modules" autoFocus style={{height:42,borderRadius:11,borderWidth:1,borderColor:'#E5DDF1',backgroundColor:'#fff',paddingHorizontal:12,marginBottom:12,fontSize:12,color:Colors.navy}} />:null}
       <View style={{ gap: 7 }}>
-        {MODULES.map(m => (
+        {visible.map(m => (
           <Card key={m.id} style={{ borderRadius: 14 }}>
             <ListRow
               icon={() => m.icon(m.ink, 22)}
@@ -24,6 +29,7 @@ export default function ModuleSelection() {
             />
           </Card>
         ))}
+        {!visible.length?<Text style={[Type.body,{textAlign:'center',marginTop:18}]}>No modules match your search.</Text>:null}
       </View>
     </AppScreen>
   );

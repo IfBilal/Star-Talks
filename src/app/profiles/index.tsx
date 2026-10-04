@@ -39,11 +39,11 @@ export default function MyProfiles() {
   }, []);
   useFocusEffect(useCallback(() => { void load(); }, [load]));
 
-  const filtered = rel === 'Self' || rel === 'All' ? profiles : profiles.filter(p => labelFor(p.relationship) === rel);
+  const filtered = rel === 'All' ? profiles : profiles.filter(p => labelFor(p.relationship) === rel);
   const active = profiles.find(p => p.id === menu);
   const remove = (profile: BirthProfile) => {
     if (profile.relationship === 'self') { setMessage('Your main birth profile can be edited but cannot be deleted here.'); return; }
-    Alert.alert('Delete profile?', `Delete ${profile.display_name} and its saved readings?`, [
+    Alert.alert('Delete profile?', `Delete ${profile.display_name}? Compatibility analyses using this profile will be removed. Existing AI conversations stay in history.`, [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Delete', style: 'destructive', onPress: () => void (async () => {
         const { error } = await requireSupabase().from('birth_profiles').delete().eq('id', profile.id);

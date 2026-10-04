@@ -116,6 +116,12 @@ create table public.compatibility_analyses (
   constraint compatibility_second_owner_fk foreign key (second_profile_id,user_id) references public.birth_profiles(id,user_id) on delete cascade,
   constraint compatibility_owner_request_unique unique (user_id,request_id)
 );
+alter table public.compatibility_analyses add constraint compatibility_analyses_id_user_unique unique(id,user_id);
+alter table public.ai_conversations add column compatibility_analysis_id uuid;
+alter table public.ai_conversations add constraint ai_conversations_compatibility_owner_fk
+  foreign key (compatibility_analysis_id,user_id) references public.compatibility_analyses(id,user_id) on delete cascade;
+create unique index ai_conversations_one_per_compatibility on public.ai_conversations(user_id,compatibility_analysis_id)
+  where compatibility_analysis_id is not null;
 
 create table public.ai_media (
   id uuid primary key default extensions.gen_random_uuid(),

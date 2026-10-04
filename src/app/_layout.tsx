@@ -29,7 +29,7 @@ function GuardedStack() {
     if (isPublic || path === 'auth/verify-phone') return;
     let active = true;
     void supabase?.auth.getUser().then(({ data, error }) => {
-      if (active && !error && !hasVerifiedPhone(data.user)) router.replace('/auth/verify-phone' as Href);
+      if (active && (error || !hasVerifiedPhone(data.user))) router.replace('/auth/verify-phone' as Href);
     });
     return () => { active = false; };
   }, [loading, path, session]);
