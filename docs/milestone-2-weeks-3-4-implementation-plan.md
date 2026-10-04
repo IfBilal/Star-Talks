@@ -7,6 +7,8 @@
 **Delivery target:** Android app backed by the existing Star Talks Supabase project.
 **Milestone name in the proposal:** “The nine AI modules.”
 
+**Added account requirement (owner decision, October 2026):** Every account must verify a WhatsApp-capable phone number with an MSG91-delivered OTP before entering the protected app. This is a cross-milestone authentication prerequisite added after the original proposal. The cost reference is `docs/MSG91_WhatsApp_OTP_Cost_Overview.pdf`.
+
 ## 0. How to use this plan
 
 1. Read this document, the proposal, the dev plan, and the relevant reference crops before changing an AI screen.
@@ -44,6 +46,7 @@ By the end of Weeks 3–4, a signed-in user can select any of the nine AI module
 - Conversation persistence and per-module history: list, filter, search, reopen, rename, delete one, and delete all owned AI history.
 - Response feedback: helpful, not helpful, reasons, and report. Store enough context for eventual admin review.
 - Multiple profiles: add, edit, delete, select for reading, and select two for compatibility.
+- Mandatory WhatsApp phone verification for account creation and existing unverified accounts at next sign-in, before access to protected profile/AI content. Email/password and Google remain primary sign-in methods; phone verification is an additional account-activation step, not a new phone-only login method.
 - Compatibility for love, marriage, friendship, and business with a saved result, strengths, challenges, dynamics, long-term outlook, and conditional timing.
 - Palm and face image selection/capture, upload, private storage, analysis of visible features, and user consent. Do not force these inputs during general onboarding.
 - Server-side AI orchestration, moderation, access control, limits, observability, and reproducible evaluation fixtures.
@@ -94,6 +97,8 @@ The coding agent handles application code, SQL, visual asset preparation, fixtur
 | Brand-approved wording for spiritual guidance and face reading. | Readings must not imply factual diagnosis or certainty. | Before client acceptance. | Conservative symbolic language with visible-feature evidence. |
 | A small set of representative, consented or synthetic example profiles/questions for acceptance review. | Needed to judge specificity and whether outputs feel useful. | Before final evaluation. | Agent creates synthetic fixtures; no real personal information in repository. |
 | Budget ceiling for preview requests and image calls. | Prevents runaway AI cost before wallet work ships. | Before public distribution. | Conservative server quota and provider spend limit; values kept configurable. |
+| Client-owned MSG91 account, WhatsApp Business sender, approved authentication template, confirmed Meta eligibility, billing and server auth key. | Mandatory WhatsApp OTP cannot be delivered until this is operational; MSG91 says authentication-template eligibility is restricted. | Before Phase 2-0 live delivery test. | WhatsApp-only verification; no automatic SMS substitute. |
+| Test consumer WhatsApp numbers in at least India and one intended international market. | Verify approved template delivery and country-code handling; business-account recipients may not accept this template. | Before client APK acceptance. | Use synthetic accounts and owner-approved test numbers. |
 
 If an AI provider credential is unavailable, complete the deterministic calculations, database, UI and mocked-server integration locally, but **do not mark Milestone 2 delivered** until live server calls pass all nine module acceptance checks. No additional assets are strictly required from the owner if the agent can create lawful Tarot artwork and capture guidance illustrations.
 
@@ -110,6 +115,20 @@ If an AI provider credential is unavailable, complete the deterministic calculat
 - Deterministic engines: pure TypeScript calculation packages callable from server workflows and fixture tests; reuse the Phase 1 chart model when validated.
 - Networking: app calls typed backend functions; no direct client writes to server-controlled AI answer/status fields.
 
+### Required signup phone verification architecture
+
+The existing email/password or Google sign-in creates the Supabase user. Immediately after the email confirmation/OAuth callback has produced a session, route an unverified user to `/auth/verify-phone`. The user chooses an international dialing code, enters an E.164 phone number and requests a WhatsApp OTP. Supabase Auth remains the authority for the code and the confirmed-phone state: call `auth.updateUser({ phone })`, configure a **Supabase Send SMS Hook** to deliver that OTP through MSG91's approved WhatsApp authentication-template API, and verify with `auth.verifyOtp({ phone, token, type: 'phone_change' })`. Despite the hook's name, its delivery channel is WhatsApp. Do not use a parallel self-declared `phone_verified` value in editable profile metadata.
+
+The hook validates its signed payload and calls MSG91 from server code with `MSG91_AUTH_KEY` and sender/template secrets stored only in Supabase server secrets. It must return failure if MSG91 did not accept delivery, and must never log an OTP, full phone number or auth key. The app shows masked destination, code input, countdown, resend with cooldown, edit-number action, wrong/expired-code errors, delivery failure and a path to log out. An OTP must never be submitted to a general AI endpoint.
+
+Apply the verification gate at three layers: route guard after every signup/login/callback and app relaunch; an authenticated server check before AI/media/compatibility calls; and database access policies or narrowly scoped security-definer checks for user-owned protected tables so a direct Supabase client cannot bypass the UI. The source of truth is Supabase's confirmed phone state, checked server-side; app state is only a cache. Allow only verification, sign-out, password recovery, account deletion and required support actions while pending. Require existing unverified accounts to complete this step on next sign-in.
+
+The current Supabase phone-update flow has a documented stale `phone_change` collision risk. Before shipping, test abandoned attempts and duplicate pending numbers, prevent concurrent claims for the same E.164 number where possible, clean stale pending attempts through a reviewed privileged procedure, and confirm that `auth.getUser()` after verification reports the same user ID and a confirmed phone. Do not assume a returned `verifyOtp` success is enough to link the right account. If this cannot be made safe on the deployed Supabase version, replace only this subflow with MSG91's server-verified token and a server-owned unique verified-phone table; keep the same app contract and guard.
+
+Use MSG91's **direct WhatsApp authentication-template API** for the Send SMS Hook. The PDF's separate OTP Widget monthly-price note does not prove that WhatsApp is enabled in the widget: MSG91's widget subscription guide currently says WhatsApp support is forthcoming, while its WhatsApp OTP guide documents direct API delivery. Verify the exact endpoint, template fields, sender status, country availability, Meta eligibility and actual charges in the client's account before release.
+
+The supplied cost overview lists India authentication messages at ₹0.115 before 18% GST and gives examples for international destinations. Treat these as dated budgeting inputs, not a fixed contract. Record actual India and target-country rates, retries/resends, platform charges, tax and a spending cap. A phone without reachable consumer WhatsApp cannot finish the required flow under the current WhatsApp-only decision; show a clear explanation and support path, and obtain a separate product decision before adding SMS/voice fallback.
+
 ### Knowledge retrieval and RAG decision
 
 The product owner's model choice is `gpt-4o-mini`. **A vector database is not a prerequisite for Milestone 2.** The initial answer pipeline supplies the model with four kinds of bounded, versioned context: (1) the selected user's calculated evidence, (2) the module's reviewed interpretation rules, (3) relevant messages from that module's current conversation, and (4) the requested output/safety contract. This is retrieval of exact application data, without embedding it in a vector store.
@@ -119,6 +138,10 @@ Use exact lookup by module, factor IDs, card IDs or rule IDs for Tarot meanings,
 Add semantic RAG only if evaluation shows that exact rule lookup misses needed material or a module has a large approved corpus. In that case, implement it as a server-side, **module-filtered** retrieval step: chunk and version approved reference documents, attach module/methodology/source metadata, search within the active module only, pass a small set of relevant excerpts with source IDs, and validate that the answer cites those IDs. Use OpenAI File Search/vector stores or a private database index only after comparing quality, latency, storage cost and deletion needs. Never put user birth data, chats or palm/face photos into a shared knowledge index.
 
 RAG cannot calculate planetary positions, draw Tarot cards, derive Numerology numbers, resolve historical time zones or find a face/palm feature. Those come from the deterministic calculators and image observation stage. A retrieved paragraph also cannot override the module, safety, ownership or consent rules. Conversation memory comes from the user's protected database records, not from a public knowledge base.
+
+### LangChain/LangGraph decision
+
+Start with small typed Edge Function services and the direct OpenAI API adapter. The defined request state machine in section 7 supplies all required branching, persistence, retries and audit IDs without an agent framework. Do not add LangChain or LangGraph merely because there are nine modules: they share transport but have separate method packages. Reconsider LangGraph if an evaluated workflow later requires durable multi-step graph checkpoints, several independent tools/agents, human review pauses, or branching that becomes difficult to reason about in the typed state machine. If that happens, prototype one module, compare runtime fit in Supabase Edge Functions, latency, cost, observability and failure recovery, then adopt it deliberately. [LangGraph's own workflow guide](https://docs.langchain.com/oss/javascript/langgraph/thinking-in-langgraph) describes the checkpoint/branching use case.
 
 ### Request path
 
@@ -393,6 +416,7 @@ The already-built UI is the starting point. For each route, open the named mocku
 | `/ai/[module]` module protection | `ai-10.png` | Explain boundary and button to deliberately open suggested module. Preserve unsent original question for optional copy into destination composer; do not auto-submit. |
 | `/ai/history` | `ai-11.png` | Filter chips for all nine modules, search, list, reopen, rename, delete and empty states. No static `HISTORY`. |
 | `/ai/safety` | `safety.png` | Explain interpretive nature, uncertainty, data use and feedback route in approved language. |
+| `/auth/verify-phone` (new) | Derived from login/confirmation mockup in `ui.jpeg` | Country code and number, send via WhatsApp, masked-number code entry, resend cooldown, edit number, recovery and pending-account guard; reuse Star Talks auth typography and colors. |
 | `/profiles` | `my-profiles.png` | List saved people, active selection, add/edit/delete, relationship labels, loading and empty states. |
 | `/profiles/new` | `add-profile.png` | Multi-step name/relationship/birth details/place validation, unknown-time handling and save confirmation. |
 | `/compatibility` | `compat-00.png` | Choose two distinct saved profiles, relationship type and supported method; disable submit until valid. |
@@ -441,6 +465,20 @@ The already-built UI is the starting point. For each route, open the named mocku
 ## 9. Phased implementation schedule and gates
 
 The ordering below is a dependency sequence, not a promise that all work can fit into fourteen calendar days with one engineer. The milestone is complete only after every gate passes. Parallelize independent calculation modules only after the contracts and privacy model are fixed; avoid parallel edits to migrations or shared route components.
+
+### Phase 2-0 — Mandatory WhatsApp verification prerequisite
+
+**Work**
+
+1. Confirm the client-owned MSG91/Meta account can send an approved authentication template to a consumer WhatsApp test number. Record template ID/language, sender and current pricing without committing credentials.
+2. Configure Supabase phone auth and a signed Send SMS Hook that sends Supabase-generated OTPs through MSG91's direct WhatsApp template API. Keep the OTP authority in Supabase.
+3. Implement `/auth/verify-phone` with international E.164 input, code entry, resend/edit-number, cooldown, loading and delivery-error states. Keep the mockup login design language.
+4. Route new email/password and Google accounts to verification after their existing first-factor flow. Route existing unverified users there at next sign-in and after relaunch.
+5. Add server and RLS gates for protected account data/functions. Never use an editable client profile field as proof of verification.
+6. Test incorrect/expired code, delivery failure, no WhatsApp, resend abuse, duplicate phone, abandoned `phone_change`, wrong-account linking, Google account, email account and password-reset return.
+7. Document server secrets, provider setup, rate limits, support process, WhatsApp-only limitation and real per-country costs.
+
+**Gate:** a real user can complete WhatsApp OTP and reach Home; an unverified user cannot reach protected data by navigation or direct API; verified phone belongs to the same Supabase user; existing login/reset flows still work.
 
 ### Phase 2A — Freeze references, audit baseline and decide external inputs
 
@@ -594,6 +632,10 @@ The proposal has a milestone description rather than a formal test checklist. Th
 | Case | Expected result |
 | --- | --- |
 | New account opens Tarot without any birth profile. | Tarot can generate a real persisted Current Energy spread/reading. No birth-data gate. |
+| New email/password or Google account attempts to enter Home before WhatsApp OTP. | Redirected to phone verification; protected API/RLS denies access until verified. |
+| User enters international E.164 number and correct MSG91-delivered WhatsApp OTP. | Supabase confirms phone on the same user ID; protected app becomes available. |
+| User enters wrong/expired OTP, resends repeatedly or abandons verification. | Clear recoverable states, server-enforced limits, no wrong-user phone link, no protected access. |
+| Existing unverified user signs in or returns through password reset. | Required verification screen appears until phone is confirmed. |
 | User opens Vedic with complete birth data. | 3–6 insight cards trace to the selected profile's sidereal calculation and version. |
 | User opens Vedic with unknown birth time. | Time-dependent claims are withheld; exact missing data/limitations are explained. |
 | User opens Numerology with confirmed birth name/date. | All applicable numbers and cycles are computed and evidence-linked; no fixed Life Path example. |
@@ -669,6 +711,7 @@ This is an implementation sequence to make work reviewable. If a gate slips, mov
 
 | Window | Critical path | Client-visible checkpoint |
 | --- | --- | --- |
+| Prerequisite before live Milestone 2 access | Phase 2-0 MSG91 eligibility, WhatsApp OTP hook and phone gate. | Client verifies a phone on the installed app; bypass attempts fail. |
 | Start of Week 3 | Phase 2A decisions, migration design, photo/privacy wording. | Reviewable data/API contract and screen-gap list. |
 | Week 3, first half | Phase 2B database/RLS/Storage and Phase 2C deterministic calculators. | Two-user access checks and calculation fixtures. |
 | Week 3, second half | Phase 2D server/provider adapter, Phase 2E Tarot plus one chart-based first reading. | Live Tarot and Vedic examples on an installed preview build. |
@@ -733,6 +776,10 @@ The largest schedule risks are verified AI provider access/budget, accuracy of f
 These sources support architecture decisions; verify their current syntax and limits at implementation time. The local proposal and dev plan remain the product requirements.
 
 - [Supabase authenticated Edge Functions](https://supabase.com/docs/guides/functions/auth): user JWT handling and secure server paths.
+- [Supabase Send SMS Hook](https://supabase.com/docs/guides/auth/auth-hooks/send-sms-hook): use an alternate delivery channel such as WhatsApp while Supabase owns the OTP.
+- [Supabase phone update and OTP verification](https://supabase.com/docs/guides/auth/phone-login): authenticated phone confirmation flow.
+- [Supabase stale phone-change guidance](https://supabase.com/docs/guides/troubleshooting/unexpected-behavior-with-authupdateuser-phone-phone-linked-to-incorrect-user-id-45368f): duplicate-pending-phone risk to test and mitigate.
+- [MSG91 WhatsApp OTP](https://msg91.com/help/whatsapp/whatsapp-otp) and [MSG91 pricing](https://msg91.com/help/whatsapp/whatsapp-pricing-): direct template API, business eligibility and country pricing.
 - [Supabase Edge Function secrets](https://supabase.com/docs/guides/functions/secrets): server-side provider key storage.
 - [Supabase Edge Function limits](https://supabase.com/docs/guides/functions/limits): request timeout, CPU and memory constraints.
 - [Supabase Storage access control](https://supabase.com/docs/guides/storage/security/access-control): private object policies.

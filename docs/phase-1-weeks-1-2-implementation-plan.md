@@ -148,3 +148,7 @@ The client owns Supabase and any third-party provider accounts as required by th
 - [x] Language selection applies to Phase 1 UI strings app-wide (i18next across all seven screens, including RTL for Urdu/Arabic), matching the requirement in the Language screen row above.
 
 The app bundle and core data/model work are implemented and verified against a real device.
+
+## Account requirement added after the original Phase 1 scope
+
+In October 2026, the owner added mandatory phone verification during account activation, with an OTP delivered on WhatsApp through MSG91. The existing email/password and Google signup code does not yet enforce this requirement. New accounts, and existing accounts without a confirmed phone at their next sign-in, must complete the verification gate before protected app access once this change is deployed. Implementation steps and acceptance checks are in Phase 2-0 of `docs/milestone-2-weeks-3-4-implementation-plan.md`; the owner-provided cost reference is `docs/MSG91_WhatsApp_OTP_Cost_Overview.pdf`.
