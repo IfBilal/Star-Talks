@@ -18,7 +18,7 @@ export default function VerifyPhoneScreen() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [cooldownUntil, setCooldownUntil] = useState(0);
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(0);
   const remaining = Math.max(0, Math.ceil((cooldownUntil - now) / 1000));
 
   useEffect(() => {

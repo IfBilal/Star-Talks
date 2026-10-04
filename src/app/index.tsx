@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { StatusBar, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ export default function SplashScreen(){
     const session=(await supabase?.auth.getSession())?.data.session;
     if(session&&supabase){
       const { data: { user } } = await supabase.auth.getUser();
-      if (!hasVerifiedPhone(user)) { router.replace('/auth/verify-phone'); return; }
+      if (!hasVerifiedPhone(user)) { router.replace('/auth/verify-phone' as Href); return; }
       // A signed-in account already knows its own onboarding state, so skip region/language.
       const {data}=await supabase.from('birth_profiles').select('id').eq('user_id',session.user.id).eq('relationship','self').maybeSingle();
       if(data){await preferences.setOnboardingComplete(true);router.replace('/home');return}

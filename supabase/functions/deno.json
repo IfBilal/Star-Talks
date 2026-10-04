@@ -1,0 +1,6 @@
+{
+  "nodeModulesDir": "auto",
+  "imports": {
+    "astronomy-engine": "npm:astronomy-engine@2.1.19"
+  }
+}

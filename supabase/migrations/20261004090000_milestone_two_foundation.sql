@@ -15,6 +15,8 @@ grant execute on function public.has_verified_phone() to authenticated;
 alter table public.birth_profiles drop constraint if exists birth_profiles_user_relationship_unique;
 create unique index if not exists birth_profiles_one_self_per_user
   on public.birth_profiles (user_id) where relationship = 'self';
+alter table public.birth_profiles add column if not exists gender text;
+alter table public.birth_profiles add column if not exists numerology_name text;
 
 alter table public.calculated_charts add column if not exists input_fingerprint text;
 
@@ -51,6 +53,7 @@ create table public.ai_conversations (
   title text not null default 'New reading' check (char_length(title) between 1 and 120),
   methodology_version text not null,
   prompt_version text not null,
+  start_request_id uuid,
   calculator_version text,
   input_fingerprint text,
   input_snapshot jsonb not null default '{}'::jsonb,
@@ -62,6 +65,7 @@ create table public.ai_conversations (
 );
 create index ai_conversations_owner_recent on public.ai_conversations(user_id,updated_at desc);
 create index ai_conversations_owner_module_recent on public.ai_conversations(user_id,module_id,updated_at desc);
+create unique index ai_conversations_owner_start_request on public.ai_conversations(user_id,start_request_id) where start_request_id is not null;
 
 create table public.ai_messages (
   id uuid primary key default extensions.gen_random_uuid(),
@@ -107,8 +111,8 @@ create table public.compatibility_analyses (
   request_id uuid not null,
   created_at timestamptz not null default now(),
   constraint compatibility_different_profiles check (first_profile_id <> second_profile_id),
-  constraint compatibility_first_owner_fk foreign key (first_profile_id,user_id) references public.birth_profiles(id,user_id),
-  constraint compatibility_second_owner_fk foreign key (second_profile_id,user_id) references public.birth_profiles(id,user_id),
+  constraint compatibility_first_owner_fk foreign key (first_profile_id,user_id) references public.birth_profiles(id,user_id) on delete cascade,
+  constraint compatibility_second_owner_fk foreign key (second_profile_id,user_id) references public.birth_profiles(id,user_id) on delete cascade,
   constraint compatibility_owner_request_unique unique (user_id,request_id)
 );
 
@@ -118,10 +122,37 @@ create table public.ai_media (
   kind text not null check (kind in ('palm','face')),
   storage_path text not null unique,
   mime_type text not null check (mime_type in ('image/jpeg','image/png','image/webp')),
+  metadata jsonb not null default '{}'::jsonb,
   consent_at timestamptz not null,
   created_at timestamptz not null default now(),
   constraint ai_media_owner_path check (split_part(storage_path,'/',1)=user_id::text)
 );
+
+create table public.ai_request_claims (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  request_id uuid not null,
+  created_at timestamptz not null default now(),
+  primary key(user_id,request_id)
+);
+create index ai_request_claims_recent on public.ai_request_claims(user_id,created_at desc);
+alter table public.ai_request_claims enable row level security;
+
+create or replace function public.claim_ai_preview_request(p_user_id uuid, p_request_id uuid, p_daily_limit integer)
+returns boolean language plpgsql security definer set search_path = '' as $$
+declare v_count integer;
+begin
+  if p_daily_limit < 1 or p_daily_limit > 1000 then raise exception 'Invalid preview limit'; end if;
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(p_user_id::text)::bigint);
+  if exists (select 1 from public.ai_request_claims where user_id=p_user_id and request_id=p_request_id) then return true; end if;
+  select count(*) into v_count from public.ai_request_claims
+    where user_id=p_user_id and created_at > now()-interval '24 hours';
+  if v_count >= p_daily_limit then return false; end if;
+  insert into public.ai_request_claims(user_id,request_id) values (p_user_id,p_request_id);
+  return true;
+end;
+$$;
+revoke all on function public.claim_ai_preview_request(uuid,uuid,integer) from public, anon, authenticated;
+grant execute on function public.claim_ai_preview_request(uuid,uuid,integer) to service_role;
 
 alter table public.ai_conversations enable row level security;
 alter table public.ai_messages enable row level security;

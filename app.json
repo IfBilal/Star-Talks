@@ -33,6 +33,10 @@
       ],
       "expo-secure-store",
       "expo-localization",
+      ["expo-image-picker", {
+        "photosPermission": "Star Talks uses a selected palm or face photo only when you request an AI reading.",
+        "cameraPermission": "Star Talks uses the camera only when you choose to take a palm or face photo."
+      }],
       "@react-native-community/datetimepicker"
     ],
     "experiments": {

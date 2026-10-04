@@ -1,4 +1,4 @@
-import { Stack, router, useSegments } from 'expo-router';
+import { Stack, router, useSegments, type Href } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { PlayfairDisplay_500Medium, PlayfairDisplay_600SemiBold, PlayfairDisplay_700Bold } from '@expo-google-fonts/playfair-display';
@@ -29,7 +29,7 @@ function GuardedStack() {
     if (isPublic || path === 'auth/verify-phone') return;
     let active = true;
     void supabase?.auth.getUser().then(({ data, error }) => {
-      if (active && !error && !hasVerifiedPhone(data.user)) router.replace('/auth/verify-phone');
+      if (active && !error && !hasVerifiedPhone(data.user)) router.replace('/auth/verify-phone' as Href);
     });
     return () => { active = false; };
   }, [loading, path, session]);

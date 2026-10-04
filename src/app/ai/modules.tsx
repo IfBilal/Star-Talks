@@ -1,10 +1,12 @@
-import { ChevronRight, Search } from 'lucide-react-native';
+import { Search } from 'lucide-react-native';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
-import { AppBar, AppScreen, Card, go, ListRow, Type } from '@/components/ui';
+import { AppBar, AppScreen, Card, ListRow, Type } from '@/components/ui';
 import { MODULES } from '@/features/uiData/ai';
 import { Colors } from '@/constants/theme';
 
 export default function ModuleSelection() {
+  const { profileId } = useLocalSearchParams<{ profileId?: string }>();
   return (
     <AppScreen header={<AppBar brand={false} title="AI Astrology" right={<Search size={19} color={Colors.navy} />} />} contentStyle={{ paddingTop: 10 }}>
       <Text style={[Type.h1, { fontSize: 19 }]}>Choose a Module</Text>
@@ -17,7 +19,7 @@ export default function ModuleSelection() {
               tileBg={m.tint}
               title={m.name}
               subtitle={m.tagline}
-              onPress={() => go(`/ai/${m.id}`)}
+              onPress={() => router.push({pathname:'/ai/[module]',params:{module:m.id,...(profileId?{profileId}:{})}})}
               style={{ minHeight: 68 }}
             />
           </Card>
