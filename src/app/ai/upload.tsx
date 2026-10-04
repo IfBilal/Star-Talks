@@ -10,6 +10,7 @@ import { Pressable, Text, View } from 'react-native';
 import { AppBar, AppScreen, Button, Card, F } from '@/components/ui';
 import { Colors } from '@/constants/theme';
 import { requireSupabase } from '@/lib/supabase';
+import { aiCall } from '@/features/ai/api';
 
 export default function AiUpload() {
   const { module } = useLocalSearchParams<{ module?: string }>();
@@ -45,6 +46,7 @@ export default function AiUpload() {
       const { data: { user }, error: authError } = await db.auth.getUser();
       if (authError) throw authError;
       if (!user) throw new Error('Please sign in again.');
+      await aiCall('accept-consent', { consentScope: kind === 'palm' ? 'palm_image' : 'face_image' });
       const bytes = await new File(uri).arrayBuffer();
       if (bytes.byteLength > 10 * 1024 * 1024) throw new Error('This image is too large. Choose a smaller one.');
       const path = `${user.id}/${kind}/${ExpoCrypto.randomUUID()}.jpg`;

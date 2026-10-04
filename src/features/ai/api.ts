@@ -5,14 +5,15 @@ export type AiMessage = {
   body: string; created_at: string; request_id?: string|null;
   structured_payload?: {
     directAnswer?: string;
-    supportingFactors?: Array<{sourceRef:string;explanation:string}>;
-    conflictingFactors?: Array<{sourceRef:string;explanation:string}>;
+    supportingFactors?: {sourceRef:string;explanation:string}[];
+    conflictingFactors?: {sourceRef:string;explanation:string}[];
     timing?: string|null; uncertainty?: string; plainLanguageExplanation?: string;
     followUps?: string[]; sourceRefs?: string[]; recommendedModuleId?: string;
   };
 };
 export type AiConversation = { id:string; module_id:string; title:string; first_reading_status:string;
-  created_at:string; updated_at:string; birth_profile_id?:string|null };
+  created_at:string; updated_at:string; birth_profile_id?:string|null;
+  input_snapshot?: {profileName?:string;tarotCards?:{id:string;cardName:string;orientation:string;position:string}[];warnings?:string[]} };
 
 type AiResponse = { error?:string; requestId?:string; conversation?:AiConversation; messages?:AiMessage[]; conversations?:AiConversation[]; saved?:boolean; deleted?:boolean; title?:string };
 

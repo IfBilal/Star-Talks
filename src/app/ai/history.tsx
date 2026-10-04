@@ -1,7 +1,7 @@
 import { EllipsisVertical, Search } from 'lucide-react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { AppBar, AppScreen, Card, Chip, ListRow } from '@/components/ui';
 import { aiCall, type AiConversation } from '@/features/ai/api';
 import { moduleById, MODULES } from '@/features/uiData/ai';
@@ -20,6 +20,10 @@ export default function AiHistory() {
     finally { setLoading(false); }
   }, []);
   useFocusEffect(useCallback(() => { void load(); }, [load]));
+  const deleteAll = () => Alert.alert('Delete all AI history?', 'This permanently removes your AI conversations, messages, feedback, and reading photos.', [
+    {text:'Cancel',style:'cancel'},
+    {text:'Delete all',style:'destructive',onPress:()=>void (async()=>{try{await aiCall('delete-all-ai-history',{confirmation:'DELETE'});await load();}catch(cause){setError(cause instanceof Error?cause.message:'Could not delete AI history.');}})()},
+  ]);
   const list = conversations.filter(item => (filter === 'All' || item.module_id === filter) && item.title.toLowerCase().includes(query.toLowerCase()));
   return <AppScreen tab="ai" header={<AppBar title="AI Astrology" right={<Pressable onPress={() => void load()} accessibilityLabel="Refresh history"><EllipsisVertical size={18} color={Colors.navy} /></Pressable>} />} pad={0} contentStyle={{ paddingTop: 6 }}>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }} style={{ flexGrow: 0 }}>
@@ -31,6 +35,7 @@ export default function AiHistory() {
         <Search size={17} color={Colors.navy} /><TextInput value={query} onChangeText={setQuery} placeholder="Search conversations..." placeholderTextColor="#9AA0B8" style={{ flex: 1, fontFamily: 'Poppins_400Regular', fontSize: 12, color: Colors.ink, paddingVertical: 0 }} />
       </View>
       {error ? <Text accessibilityRole="alert" style={{ textAlign: 'center', color: Colors.danger, fontFamily: 'Poppins_400Regular', fontSize: 11, marginTop: 20 }}>{error}</Text> : null}
+      {conversations.length ? <Pressable onPress={deleteAll} accessibilityRole="button" style={{alignSelf:'flex-end',paddingVertical:10}}><Text style={{fontFamily:'Poppins_500Medium',fontSize:11,color:Colors.danger}}>Delete all AI history</Text></Pressable> : null}
       {loading ? <Text style={{ textAlign: 'center', color: Colors.slate, fontFamily: 'Poppins_400Regular', fontSize: 12, marginTop: 30 }}>Loading conversations…</Text> : null}
       <View style={{ gap: 4, marginTop: 10 }}>
         {list.map(item => { const module = moduleById(item.module_id); return <Card key={item.id} style={{ borderRadius: 14 }}><ListRow icon={() => module.icon(module.ink, 21)} tileBg={module.tint} title={item.title} subtitle={`${module.name}  •  ${new Date(item.updated_at).toLocaleDateString()}${item.first_reading_status==='failed'?'  •  Retry needed':''}`} onPress={() => router.push({ pathname: '/ai/[module]', params: { module: item.module_id, conversationId: item.id } })} style={{ minHeight: 62 }} /></Card>; })}

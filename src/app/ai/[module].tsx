@@ -32,8 +32,10 @@ export default function AiChat() {
   const [feedback, setFeedback] = useState<AiMessage | null>(null);
   const [feedbackReasons, setFeedbackReasons] = useState<string[]>([]);
   const [vote, setVote] = useState<boolean | null>(null);
+  const [reportNote, setReportNote] = useState('');
   const [rename, setRename] = useState(false);
   const [title, setTitle] = useState('');
+  const [consentNeeded, setConsentNeeded] = useState(false);
   const startRequest = useRef(ExpoCrypto.randomUUID());
   const scroll = useRef<ScrollView>(null);
 
@@ -41,6 +43,9 @@ export default function AiChat() {
     let active = true;
     const load = async () => {
       try {
+        const consent = await aiCall<{accepted:{birth_and_questions:boolean};error?:string}>('get-consent');
+        if (!consent.accepted.birth_and_questions) { if(active){setConsentNeeded(true);setLoading(false);} return; }
+        if(active)setConsentNeeded(false);
         const result = params.conversationId
           ? await aiCall('get-conversation', { conversationId: params.conversationId })
           : await aiCall('start-reading', { moduleId: m.id, profileId: params.profileId, mediaId: params.mediaId, requestId: startRequest.current });
@@ -66,11 +71,18 @@ export default function AiChat() {
     finally { setBusy(false); }
   };
 
+  const acceptConsent = async () => {
+    setBusy(true);setError('');
+    try { await aiCall('accept-consent',{consentScope:'birth_and_questions'});setConsentNeeded(false);setLoading(true);setRestart(n=>n+1); }
+    catch(cause){setError(cause instanceof Error?cause.message:'Consent could not be saved.');}
+    finally{setBusy(false);}
+  };
+
   const submitFeedback = async () => {
     if (!conversation || !feedback) return;
     try {
-      await aiCall('submit-ai-feedback', { conversationId: conversation.id, messageId: feedback.id, helpful: vote, reasons: feedbackReasons });
-      setFeedback(null); setFeedbackReasons([]);
+      await aiCall('submit-ai-feedback', { conversationId: conversation.id, messageId: feedback.id, helpful: vote, reasons: feedbackReasons, reportNote:reportNote.trim()||null });
+      setFeedback(null); setFeedbackReasons([]);setReportNote('');setVote(null);
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Could not save feedback.'); }
   };
 
@@ -90,6 +102,13 @@ export default function AiChat() {
         try { await aiCall('delete-conversation', { conversationId: conversation.id }); router.replace('/ai/history'); }
         catch (cause) { setError(cause instanceof Error ? cause.message : 'Could not delete conversation.'); }
       })() },
+    ]);
+  };
+  const deletePhoto = () => {
+    if (!conversation) return;
+    Alert.alert('Delete uploaded photo?', 'The saved reading remains, but new questions in this conversation will require a new photo and reading.', [
+      {text:'Cancel',style:'cancel'},
+      {text:'Delete photo',style:'destructive',onPress:()=>void aiCall('delete-reading-photo',{conversationId:conversation.id}).catch(cause=>setError(cause instanceof Error?cause.message:'Could not delete photo.'))},
     ]);
   };
 
@@ -112,7 +131,7 @@ export default function AiChat() {
     <LinearGradient colors={['#E6DDF6', '#F3EDF8', '#FCF7F3']} style={{ paddingBottom: 6 }}><SafeAreaView edges={['top']}>
       <View style={{ height: 54, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, gap: 12 }}>
         <Pressable onPress={back} hitSlop={10} accessibilityLabel="Back" accessibilityRole="button"><ArrowLeft size={21} color={Colors.navy} /></Pressable>
-        <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 16, color: Colors.navy }}>{m.name}</Text>
+        <View><Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 16, color: Colors.navy }}>{m.name}</Text>{conversation?.input_snapshot?.profileName?<Text style={{fontFamily:'Poppins_400Regular',fontSize:9,color:Colors.slate}}>Reading for {conversation.input_snapshot.profileName}</Text>:null}</View>
         <View style={{ height: 24, paddingHorizontal: 11, borderRadius: 12, backgroundColor: '#5B54B5', justifyContent: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 9.5, color: '#fff' }}>{m.badge}</Text></View>
         <View style={{ flex: 1 }} />
         <Pressable onPress={() => setMenu(true)} hitSlop={10} accessibilityLabel="More" accessibilityRole="button"><EllipsisVertical size={18} color={Colors.navy} /></Pressable>
@@ -129,6 +148,7 @@ export default function AiChat() {
               <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: '#F8E9D6', alignItems: 'center', justifyContent: 'center' }}>{m.icon('#9A6A35', 20)}</View>
               <View style={{ flex: 1 }}><Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: m.titleColor ?? Colors.navy }}>{m.readingTitle}</Text>{m.readingSub ? <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 11.5, color: Colors.navy }}>{m.readingSub}</Text> : null}</View>
             </Card>
+            {m.id==='tarot'&&conversation?.input_snapshot?.tarotCards?.length?<View style={{flexDirection:'row',flexWrap:'wrap',gap:7,marginTop:8}}>{conversation.input_snapshot.tarotCards.map(card=><LinearGradient key={card.id} colors={['#28256E','#5C50A0']} style={{width:conversation.input_snapshot!.tarotCards!.length>3?'18%':'31%',minHeight:92,borderRadius:9,borderWidth:1,borderColor:'#DCC58E',alignItems:'center',justifyContent:'center',padding:5}}><Gem size={16} color="#E4C681" /><Text numberOfLines={2} style={{fontFamily:'Poppins_600SemiBold',fontSize:9,color:'#fff',textAlign:'center',marginTop:4}}>{card.cardName}</Text><Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:'#E9E4F7',textAlign:'center'}}>{card.position} • {card.orientation}</Text></LinearGradient>)}</View>:null}
             <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}><Avatar /><Bubble style={{ flex: 1 }}>{answerBody(message)}</Bubble></View>
             {message.structured_payload?.followUps?.length ? <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginLeft: 42, marginTop: 10 }}>{message.structured_payload.followUps.map(chip => <Chip key={chip} label={chip} onPress={() => void send(chip)} style={{ height: 34, paddingHorizontal: 15, borderRadius: 17, backgroundColor: '#fff', borderColor: '#D9D4EC' }} />)}</View> : null}
           </View>;
@@ -144,6 +164,8 @@ export default function AiChat() {
       { label: 'Rename conversation', onPress: () => setRename(true) },
       { label: 'Conversation history', onPress: () => go('/ai/history') },
       { label: 'Switch module', onPress: () => go('/ai/modules') },
+      { label: m.id==='tarot'?'Draw new cards':'New reading', onPress: () => router.push({pathname:'/ai/[module]',params:{module:m.id,nonce:ExpoCrypto.randomUUID()}}) },
+      ...(m.id==='palmistry'||m.id==='face-reading'?[{label:'Delete uploaded photo',danger:true,onPress:deletePhoto}]:[]),
       { label: 'Delete conversation', danger: true, onPress: deleteConversation },
     ]} />
     <Sheet visible={rename} onClose={() => setRename(false)} title="Rename conversation"><TextInput value={title} onChangeText={setTitle} placeholder="Conversation title" style={{ borderWidth: 1, borderColor: '#D9D4EC', borderRadius: 10, padding: 10, fontFamily: 'Poppins_400Regular', fontSize: 13, color: Colors.navy, marginBottom: 12 }} /><Button title="Save title" onPress={() => void saveTitle()} /></Sheet>
@@ -151,7 +173,13 @@ export default function AiChat() {
       <View style={{ flexDirection: 'row', gap: 10, marginBottom: 12 }}><Button title="Helpful" variant={vote === true ? 'primary' : 'light'} height={42} style={{ flex: 1 }} onPress={() => setVote(true)} /><Button title="Not helpful" variant={vote === false ? 'primary' : 'light'} height={42} style={{ flex: 1 }} onPress={() => setVote(false)} /></View>
       <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 12, color: Colors.navy, marginBottom: 8 }}>What could improve?</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 14 }}>{reasons.map(reason => <Chip key={reason} label={reason} on={feedbackReasons.includes(reason)} onPress={() => setFeedbackReasons(previous => previous.includes(reason) ? previous.filter(value => value !== reason) : [...previous, reason])} />)}</View>
+      <TextInput value={reportNote} onChangeText={setReportNote} maxLength={1000} multiline placeholder="Report a safety or accuracy concern (optional)" placeholderTextColor={Colors.slate} style={{borderWidth:1,borderColor:'#D9D4EC',borderRadius:10,padding:10,minHeight:62,fontFamily:'Poppins_400Regular',fontSize:11,color:Colors.navy,marginBottom:12}} />
       <Button title="Submit feedback" height={46} onPress={() => void submitFeedback()} />
+    </Sheet>
+    <Sheet visible={consentNeeded} onClose={() => { setConsentNeeded(false); back(); }} title="Before your AI reading">
+      <Text style={{ ...body, marginBottom: 14 }}>Star Talks sends the birth details you select, your questions, and relevant conversation context to its AI provider to create this reading. Your conversations are saved privately in your account so you can return to them. You can delete them from AI History and revoke future AI use in Settings.</Text>
+      <Button title={busy?'Saving…':'I agree and continue'} disabled={busy} onPress={()=>void acceptConsent()} />
+      <Button title="Not now" variant="light" style={{marginTop:8}} onPress={back} />
     </Sheet>
   </View>;
 }

@@ -1,15 +1,16 @@
-import { Award, BadgeCheck, BookOpen, ClipboardList, CreditCard, GraduationCap, HeartHandshake, LifeBuoy, MessagesSquare, Sparkles, TrendingUp, Wallet } from 'lucide-react-native';
-import { useState } from 'react';
+import { Award, BadgeCheck, BookOpen, ClipboardList, CreditCard, GraduationCap, HeartHandshake, LifeBuoy, MessagesSquare, Wallet } from 'lucide-react-native';
+import { useCallback, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import { AppBar, AppScreen, Card, Chip, F, go, IconTile, ListRow, Type } from '@/components/ui';
+import { AppBar, AppScreen, Card, Chip, F, go, ListRow, Type } from '@/components/ui';
 import { MODULES } from '@/features/uiData/ai';
 import { Colors } from '@/constants/theme';
+import { aiCall, type AiConversation } from '@/features/ai/api';
 
 const rows = [
   { cat: 'AI', icon: (c: string) => <CreditCard size={19} color={c} strokeWidth={1.6} />, title: 'Payment History', sub: 'View all payments and refunds', n: 24, href: '/wallet?tab=Transactions', all: true },
   { cat: 'AI', icon: (c: string) => <Wallet size={19} color={c} strokeWidth={1.6} />, title: 'Wallet Transactions', sub: 'Add money, credits and usage', n: 18, href: '/wallet?tab=Transactions', all: true },
-  { cat: 'AI', icon: (c: string) => <TrendingUp size={19} color={c} strokeWidth={1.6} />, title: 'AI Question / Credit Usage', sub: 'Track your AI credits and questions', n: 36, href: '/wallet' },
-  { cat: 'AI', icon: (c: string) => <MessagesSquare size={19} color={c} strokeWidth={1.6} />, title: 'AI Conversations', sub: 'View AI chat history', n: 15, href: '/ai/history' },
+  { cat: 'AI', icon: (c: string) => <MessagesSquare size={19} color={c} strokeWidth={1.6} />, title: 'AI Conversations', sub: 'View AI chat history', n: 0, href: '/ai/history' },
   { cat: 'Reports', icon: (c: string) => <ClipboardList size={19} color={c} strokeWidth={1.6} />, title: 'Astrology Reports', sub: 'View and download reports', n: 6, href: '/reports/history' },
   { cat: 'Courses', icon: (c: string) => <BookOpen size={19} color={c} strokeWidth={1.6} />, title: 'Enrolled Courses', sub: 'View your enrolled courses', n: 3, href: '/courses/mine' },
   { cat: 'Courses', icon: (c: string) => <GraduationCap size={19} color={c} strokeWidth={1.6} />, title: 'Course Progress', sub: 'Track your learning progress', n: 2, href: '/courses/mine' },
@@ -21,6 +22,12 @@ const rows = [
 
 export default function UserHistory() {
   const [f, setF] = useState('All');
+  const [aiCount,setAiCount]=useState<number|null>(null);
+  const [compatibilityCount,setCompatibilityCount]=useState<number|null>(null);
+  useFocusEffect(useCallback(()=>{let active=true;void Promise.all([
+    aiCall<{conversations:AiConversation[];error?:string}>('list-conversations'),
+    aiCall<{analyses:{id:string}[];error?:string}>('list-compatibility'),
+  ]).then(([ai,compatibility])=>{if(active){setAiCount(ai.conversations.length);setCompatibilityCount(compatibility.analyses.length);}}).catch(()=>{if(active){setAiCount(null);setCompatibilityCount(null);}});return()=>{active=false};},[]));
   const list = rows.filter(r => f === 'All' || r.cat === f);
   return (
     <AppScreen tab="profile" header={<AppBar brand />} contentStyle={{ paddingTop: 4 }} pad={0}>
@@ -34,7 +41,7 @@ export default function UserHistory() {
       <View style={{ paddingHorizontal: 16, marginTop: 14, gap: 4 }}>
         {list.map(r => (
           <Card key={r.title} style={{ borderRadius: 14 }}>
-            <ListRow icon={r.icon} title={r.title} subtitle={r.sub} value={String(r.n)} onPress={() => go(r.href)} style={{ minHeight: 64 }} />
+            <ListRow icon={r.icon} title={r.title} subtitle={r.sub} value={r.title==='AI Conversations'?(aiCount===null?'':String(aiCount)):r.title==='Compatibility Reports'?(compatibilityCount===null?'':String(compatibilityCount)):''} onPress={() => go(r.title==='Compatibility Reports'?'/compatibility':r.href)} style={{ minHeight: 64 }} />
           </Card>
         ))}
       </View>

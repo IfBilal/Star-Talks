@@ -11,8 +11,8 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 }
 
 export default function AccountSettings() {
-  const [name, setName] = useState('Neha Sharma');
-  const [email, setEmail] = useState('neha.sharma@gmail.com');
+  const [name, setName] = useState('Your account');
+  const [email, setEmail] = useState('');
   useEffect(() => {
     void (async () => {
       try {
@@ -22,7 +22,7 @@ export default function AccountSettings() {
         if (user.email) setEmail(user.email);
         const { data } = await db.from('profiles').select('display_name').eq('id', user.id).maybeSingle();
         if (data?.display_name) setName(data.display_name);
-      } catch { /* demo values */ }
+      } catch { /* Show the neutral account label until data can be loaded. */ }
     })();
   }, []);
   const logoutAll = async () => {
@@ -60,7 +60,7 @@ export default function AccountSettings() {
         <ShieldCheck size={30} color={Colors.navy} strokeWidth={1.4} />
         <View style={{ flex: 1 }}>
           <Text style={{ fontFamily: F.s, fontSize: 11.5, color: Colors.navy }}>How We Use Your Data</Text>
-          <Text style={{ fontFamily: F.r, fontSize: 10.5, lineHeight: 16, color: '#4A5590', marginTop: 3 }}>Your birth details, palm images and AI conversations are used only to provide personalized astrology services and are never shared with third parties.</Text>
+          <Text style={{ fontFamily: F.r, fontSize: 10.5, lineHeight: 16, color: '#4A5590', marginTop: 3 }}>Selected birth details, questions and consented photos are sent to our AI provider for readings. You can manage future AI use and delete saved history here.</Text>
         </View>
       </Card>
     </AppScreen>

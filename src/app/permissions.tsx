@@ -1,6 +1,7 @@
 import { replace } from '@/components/ui';
 import { Camera, Images } from 'lucide-react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as ImagePicker from 'expo-image-picker';
 import { Pressable, Text, View } from 'react-native';
 import { PrimaryButton, Screen, Title } from '@/components/brand';
 import { Colors } from '@/constants/theme';
@@ -14,11 +15,15 @@ function BlueToggle({ value, onChange }: { value: boolean; onChange: (v: boolean
 }
 
 export default function PermissionsScreen() {
-  const [camera, setCamera] = useState(true);
-  const [gallery, setGallery] = useState(true);
+  const [camera, setCamera] = useState(false);
+  const [gallery, setGallery] = useState(false);
+  const [notice,setNotice]=useState('');
+  useEffect(()=>{void Promise.all([ImagePicker.getCameraPermissionsAsync(),ImagePicker.getMediaLibraryPermissionsAsync()]).then(([c,g])=>{setCamera(c.granted);setGallery(g.granted);});},[]);
+  const requestCamera=async()=>{const status=await ImagePicker.requestCameraPermissionsAsync();setCamera(status.granted);if(!status.granted)setNotice('Camera access can be changed in device settings. You can also choose a gallery photo later.');};
+  const requestGallery=async()=>{const status=await ImagePicker.requestMediaLibraryPermissionsAsync();setGallery(status.granted);if(!status.granted)setNotice('Photo access can be changed in device settings. You can also use the camera later.');};
   const items = [
-    { icon: Camera, title: 'Camera', text: 'To upload palm photos and\nfor video consultations', value: camera, set: setCamera },
-    { icon: Images, title: 'Photo Gallery', text: 'To select images and\nsave reports', value: gallery, set: setGallery },
+    { icon: Camera, title: 'Camera', text: 'To take palm or face photos for readings', value: camera, set: () => void requestCamera() },
+    { icon: Images, title: 'Photo Gallery', text: 'To choose palm or face photos for readings', value: gallery, set: () => void requestGallery() },
   ];
   return (
     <Screen style={{ paddingTop: 34 }}>
@@ -36,6 +41,7 @@ export default function PermissionsScreen() {
             </View>
           ))}
         </View>
+        {notice?<Text accessibilityRole="alert" style={{fontFamily:'Poppins_400Regular',fontSize:11,color:Colors.slate,marginTop:12}}>{notice}</Text>:null}
         <View style={{ flex: 1, minHeight: 16 }} />
         <PrimaryButton title="Continue" onPress={() => replace('/home')} />
         <Pressable onPress={() => replace('/home')} style={{ alignItems: 'center', padding: 12 }}>

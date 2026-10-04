@@ -1,20 +1,25 @@
 import { useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { AppBar, AppScreen, Card, F, Toggle } from '@/components/ui';
 import { Colors } from '@/constants/theme';
+import { aiCall } from '@/features/ai/api';
 
 const pages: Record<string, { title: string; sections: [string, string][] }> = {
-  privacy: { title: 'Privacy Policy', sections: [['What we collect', 'Your name, email, birth date, time and place, and any photos you choose to upload for a reading.'], ['How we use it', 'Only to create charts, readings and reports for you, and to run your account. We never sell your data.'], ['Your rights', 'You can view, export or delete your data at any time from Account Settings.']] },
-  terms: { title: 'Terms & Conditions', sections: [['Using Star Talks', 'Readings are for guidance and entertainment and are not guaranteed predictions or professional advice.'], ['Credits and payments', 'One submitted question uses one AI credit. Failed responses are never charged.'], ['Your account', 'Keep your login secure. You can delete your account at any time.']] },
+  privacy: { title: 'Privacy Policy', sections: [['What we collect', 'Your name, email, birth date, time and place, and any photos you choose to upload for a reading.'], ['How we use it', 'To create charts and readings, selected birth details, questions and consented photos are sent to our AI provider. Your AI conversations are saved in your account. We do not sell your data.'], ['Your rights', 'You can delete AI history and manage future AI consent from Account Settings.']] },
+  terms: { title: 'Terms & Conditions', sections: [['Using Star Talks', 'Readings are for guidance and entertainment and are not guaranteed predictions or professional advice.'], ['AI preview', 'AI readings currently use a daily preview limit. The app does not deduct AI credits during this milestone.'], ['Your account', 'Keep your login secure. You can manage your data in Account Settings.']] },
   data: { title: 'Data Protection', sections: [['How your data is stored', 'Birth details, images and conversations are encrypted in transit and at rest.'], ['Who can see it', 'Only you. Support staff can see a ticket only when you send one.'], ['Deletion', 'Deleted items are removed from active systems immediately and from backups within 30 days.']] },
 };
 
 export default function Legal() {
   const { page } = useLocalSearchParams<{ page: string }>();
-  const [c, setC] = useState({ personal: true, photos: true, analytics: false, marketing: false });
+  const [c, setC] = useState({ birth_and_questions: false, palm_image: false, face_image: false });
+  const [message,setMessage]=useState('');
+  const [busy,setBusy]=useState(false);
+  useEffect(()=>{if(page!=='consent')return;let active=true;void aiCall<{accepted:typeof c;error?:string}>('get-consent').then(result=>{if(active)setC(result.accepted);}).catch(cause=>{if(active)setMessage(cause instanceof Error?cause.message:'Consent could not be loaded.');});return()=>{active=false};},[page]);
+  const setConsent=async(scope:keyof typeof c,value:boolean)=>{if(busy)return;setBusy(true);setMessage('');try{await aiCall(value?'accept-consent':'revoke-consent',{consentScope:scope});setC(previous=>({...previous,[scope]:value}));}catch(cause){setMessage(cause instanceof Error?cause.message:'Consent could not be changed.');}finally{setBusy(false);}};
   if (page === 'consent') {
-    const rows: [keyof typeof c, string, string][] = [['personal', 'Personal & birth details', 'Needed to calculate your charts and readings.'], ['photos', 'Palm & face photos', 'Used only for the Palmistry and Face Reading modules.'], ['analytics', 'Usage analytics', 'Helps us improve the app. Anonymous.'], ['marketing', 'Offers & promotions', 'Personalised offers by notification or email.']];
+    const rows: [keyof typeof c, string, string][] = [['birth_and_questions', 'AI birth details & questions', 'Send selected birth details, questions and conversation context to the AI provider.'], ['palm_image', 'Palm photos', 'Send a selected palm photo for a Palmistry reading.'], ['face_image', 'Face photos', 'Send a selected face photo for a Face Reading.']];
     return (
       <AppScreen header={<AppBar title="Consent Management" />} contentStyle={{ paddingTop: 6 }}>
         <Text style={{ fontFamily: F.r, fontSize: 11.5, lineHeight: 18, color: Colors.slate, marginBottom: 12 }}>Choose how your information is used. You can change this at any time.</Text>
@@ -22,10 +27,12 @@ export default function Legal() {
           {rows.map(([k, t, s], i) => (
             <View key={k} style={{ minHeight: 66, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, borderBottomWidth: i < rows.length - 1 ? 1 : 0, borderBottomColor: '#EFEBF6' }}>
               <View style={{ flex: 1 }}><Text style={{ fontFamily: F.s, fontSize: 12.5, color: Colors.navy }}>{t}</Text><Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate, marginTop: 2 }}>{s}</Text></View>
-              <Toggle value={c[k]} onChange={v => setC(p => ({ ...p, [k]: v }))} />
+              <Toggle value={c[k]} onChange={v => void setConsent(k,v)} />
             </View>
           ))}
         </Card>
+        {message?<Text accessibilityRole="alert" style={{fontFamily:F.r,fontSize:11,color:Colors.danger,marginTop:10}}>{message}</Text>:null}
+        <Text style={{fontFamily:F.r,fontSize:10.5,lineHeight:17,color:Colors.slate,marginTop:12}}>Turning off consent stops future AI requests using that data. To remove saved readings and uploaded photos, delete your AI history in Account Settings.</Text>
       </AppScreen>
     );
   }

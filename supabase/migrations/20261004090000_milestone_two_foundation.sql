@@ -58,6 +58,7 @@ create table public.ai_conversations (
   input_fingerprint text,
   input_snapshot jsonb not null default '{}'::jsonb,
   summary text not null default '',
+  summary_message_count integer not null default 0,
   first_reading_status text not null default 'pending' check (first_reading_status in ('pending','ready','blocked','failed')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -66,6 +67,7 @@ create table public.ai_conversations (
 create index ai_conversations_owner_recent on public.ai_conversations(user_id,updated_at desc);
 create index ai_conversations_owner_module_recent on public.ai_conversations(user_id,module_id,updated_at desc);
 create unique index ai_conversations_owner_start_request on public.ai_conversations(user_id,start_request_id) where start_request_id is not null;
+alter table public.ai_conversations add constraint ai_conversations_id_user_unique unique (id,user_id);
 
 create table public.ai_messages (
   id uuid primary key default extensions.gen_random_uuid(),
@@ -82,7 +84,6 @@ create table public.ai_messages (
   created_at timestamptz not null default now(),
   constraint ai_messages_conversation_owner_fk foreign key (conversation_id,user_id) references public.ai_conversations(id,user_id) on delete cascade
 );
-alter table public.ai_conversations add constraint ai_conversations_id_user_unique unique (id,user_id);
 create index ai_messages_conversation_order on public.ai_messages(conversation_id,created_at,id);
 create unique index ai_messages_owner_request_role_unique on public.ai_messages(user_id,request_id,role) where request_id is not null;
 alter table public.ai_messages add constraint ai_messages_id_user_unique unique(id,user_id);
@@ -128,6 +129,15 @@ create table public.ai_media (
   constraint ai_media_owner_path check (split_part(storage_path,'/',1)=user_id::text)
 );
 
+create table public.ai_consent (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  scope text not null check (scope in ('birth_and_questions','palm_image','face_image')),
+  text_version text not null,
+  accepted_at timestamptz not null default now(),
+  revoked_at timestamptz,
+  primary key (user_id,scope)
+);
+
 create table public.ai_request_claims (
   user_id uuid not null references auth.users(id) on delete cascade,
   request_id uuid not null,
@@ -159,6 +169,7 @@ alter table public.ai_messages enable row level security;
 alter table public.ai_feedback enable row level security;
 alter table public.compatibility_analyses enable row level security;
 alter table public.ai_media enable row level security;
+alter table public.ai_consent enable row level security;
 
 create policy ai_conversations_owner_read on public.ai_conversations for select to authenticated using (user_id=(select auth.uid()) and (select public.has_verified_phone()));
 create policy ai_conversations_owner_delete on public.ai_conversations for delete to authenticated using (user_id=(select auth.uid()) and (select public.has_verified_phone()));
@@ -171,12 +182,14 @@ create policy compatibility_owner_read on public.compatibility_analyses for sele
 create policy ai_media_owner_read on public.ai_media for select to authenticated using (user_id=(select auth.uid()) and (select public.has_verified_phone()));
 create policy ai_media_owner_insert on public.ai_media for insert to authenticated with check (user_id=(select auth.uid()) and (select public.has_verified_phone()));
 create policy ai_media_owner_delete on public.ai_media for delete to authenticated using (user_id=(select auth.uid()) and (select public.has_verified_phone()));
+create policy ai_consent_owner_read on public.ai_consent for select to authenticated using (user_id=(select auth.uid()) and (select public.has_verified_phone()));
 
 grant select,update(title),delete on public.ai_conversations to authenticated;
 grant select on public.ai_messages to authenticated;
 grant select,insert,update on public.ai_feedback to authenticated;
 grant select on public.compatibility_analyses to authenticated;
 grant select,insert,delete on public.ai_media to authenticated;
+grant select on public.ai_consent to authenticated;
 
 insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
 values ('ai-private','ai-private',false,10485760,array['image/jpeg','image/png','image/webp'])
