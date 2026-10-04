@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { back, Button, Card, Chip, go, Sheet } from '@/components/ui';
-import { aiCall, type AiConversation, type AiFeedback, type AiMessage } from '@/features/ai/api';
+import { aiCall, type AiConversation, type AiFeedback, type AiMessage, type AiMessageCursor } from '@/features/ai/api';
 import { moduleById } from '@/features/uiData/ai';
 import { Colors } from '@/constants/theme';
 
@@ -19,10 +19,12 @@ function Bubble({ children, mine, style }: { children: React.ReactNode; mine?: b
 const Avatar = () => <View style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: '#E6DFF7', alignItems: 'center', justifyContent: 'center' }}><Gem size={15} color="#5B4FB0" strokeWidth={1.8} /></View>;
 
 export default function AiChat() {
-  const params = useLocalSearchParams<{ module: string; conversationId?: string; profileId?: string; mediaId?: string }>();
+  const params = useLocalSearchParams<{ module: string; conversationId?: string; profileId?: string; mediaId?: string; spread?: string }>();
   const m = moduleById(params.module);
   const [conversation, setConversation] = useState<AiConversation | null>(null);
   const [messages, setMessages] = useState<AiMessage[]>([]);
+  const [messageCursor,setMessageCursor]=useState<AiMessageCursor|null>(null);
+  const [olderBusy,setOlderBusy]=useState(false);
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -36,6 +38,7 @@ export default function AiChat() {
   const [reportNote, setReportNote] = useState('');
   const [rename, setRename] = useState(false);
   const [title, setTitle] = useState('');
+  const [showCards,setShowCards]=useState(false);
   const [consentNeeded, setConsentNeeded] = useState(false);
   const startRequest = useRef(ExpoCrypto.randomUUID());
   const scroll = useRef<ScrollView>(null);
@@ -49,14 +52,14 @@ export default function AiChat() {
         if(active)setConsentNeeded(false);
         const result = params.conversationId
           ? await aiCall('get-conversation', { conversationId: params.conversationId })
-          : await aiCall('start-reading', { moduleId: m.id, profileId: params.profileId, mediaId: params.mediaId, requestId: startRequest.current });
-        if (active) { setConversation(result.conversation ?? null); setMessages(result.messages ?? []); setTitle(result.conversation?.title ?? '');setFeedbackById(Object.fromEntries((result.feedback??[]).map(item=>[item.message_id,item]))); }
+          : await aiCall('start-reading', { moduleId: m.id, profileId: params.profileId, mediaId: params.mediaId, spread:params.spread, requestId: startRequest.current });
+        if (active) { setConversation(result.conversation ?? null); setMessages(result.messages ?? []);setMessageCursor(result.nextMessageCursor??null); setTitle(result.conversation?.title ?? '');setFeedbackById(Object.fromEntries((result.feedback??[]).map(item=>[item.message_id,item])));setTimeout(()=>scroll.current?.scrollToEnd({animated:false}),150); }
       } catch (cause) { if (active) setError(cause instanceof Error ? cause.message : 'Reading is unavailable.'); }
       finally { if (active) setLoading(false); }
     };
     void load();
     return () => { active = false; };
-  }, [m.id, params.conversationId, params.mediaId, params.profileId, restart]);
+  }, [m.id, params.conversationId, params.mediaId, params.profileId, params.spread, restart]);
 
   const send = async (value: string) => {
     const question = value.trim();
@@ -78,6 +81,7 @@ export default function AiChat() {
     catch(cause){setError(cause instanceof Error?cause.message:'Consent could not be saved.');}
     finally{setBusy(false);}
   };
+  const loadOlder=async()=>{if(!conversation||!messageCursor||olderBusy)return;setOlderBusy(true);try{const result=await aiCall('get-conversation',{conversationId:conversation.id,messageCursor});setMessages(previous=>[...(result.messages??[]),...previous]);setMessageCursor(result.nextMessageCursor??null);setFeedbackById(previous=>({...Object.fromEntries((result.feedback??[]).map(item=>[item.message_id,item])),...previous}));}catch(cause){setError(cause instanceof Error?cause.message:'Earlier messages could not be loaded.');}finally{setOlderBusy(false);}};
 
   const submitFeedback = async () => {
     if (!conversation || !feedback) return;
@@ -143,8 +147,9 @@ export default function AiChat() {
     </SafeAreaView></LinearGradient>
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView ref={scroll} contentContainerStyle={{ paddingHorizontal: 14, paddingTop: 4, paddingBottom: 14 }} showsVerticalScrollIndicator={false}>
+        {messageCursor?<Pressable accessibilityRole="button" disabled={olderBusy} onPress={()=>void loadOlder()} style={{alignSelf:'center',padding:10}}><Text style={{fontFamily:'Poppins_500Medium',fontSize:11,color:Colors.indigo}}>{olderBusy?'Loading…':'Load earlier messages'}</Text></Pressable>:null}
         {loading ? <Text style={{ ...body, textAlign: 'center', padding: 22 }}>Preparing your {m.name} reading…</Text> : null}
-        {error ? <Card style={{ borderRadius: 14, padding: 16, marginTop: 10 }}><Text accessibilityRole="alert" style={{ ...body, color: Colors.danger }}>{error}</Text>{!conversation ? <Button title={m.id === 'palmistry' || m.id === 'face-reading' ? 'Choose a photo' : error.includes('birth profile')?'Add birth profile':'Try again'} height={40} style={{ marginTop: 12 }} onPress={() => { if (m.id === 'palmistry' || m.id === 'face-reading') router.push(`/ai/upload?module=${m.id}` as Href); else if(error.includes('birth profile'))router.push('/profiles/new'); else { setLoading(true); setError(''); setRestart(n => n + 1); } }} /> : null}</Card> : null}
+        {error ? <Card style={{ borderRadius: 14, padding: 16, marginTop: 10 }}><Text accessibilityRole="alert" style={{ ...body, color: Colors.danger }}>{error}</Text>{!conversation ? <Button title={m.id === 'palmistry' || m.id === 'face-reading' ? 'Choose a photo' : error.includes('birth profile')?'Add birth profile':error.includes('birth time')?'Edit birth profile':'Try again'} height={40} style={{ marginTop: 12 }} onPress={() => { if (m.id === 'palmistry' || m.id === 'face-reading') router.push(`/ai/upload?module=${m.id}` as Href); else if(error.includes('birth profile'))router.push('/profiles/new');else if(error.includes('birth time'))router.push('/profiles'); else { setLoading(true); setError(''); setRestart(n => n + 1); } }} /> : null}</Card> : null}
         {messages.map(message => {
           if (message.role === 'user') return <Bubble key={message.id} mine style={{ marginTop: 10 }}><Text style={{ ...body, color: Colors.navy }}>{message.body}</Text></Bubble>;
           if (message.kind === 'first') return <View key={message.id}>
@@ -152,7 +157,7 @@ export default function AiChat() {
               <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: '#F8E9D6', alignItems: 'center', justifyContent: 'center' }}>{m.icon('#9A6A35', 20)}</View>
               <View style={{ flex: 1 }}><Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: m.titleColor ?? Colors.navy }}>{m.readingTitle}</Text>{m.readingSub ? <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 11.5, color: Colors.navy }}>{m.readingSub}</Text> : null}</View>
             </Card>
-            {m.id==='tarot'&&conversation?.input_snapshot?.tarotCards?.length?<View style={{flexDirection:'row',flexWrap:'wrap',gap:7,marginTop:8}}>{conversation.input_snapshot.tarotCards.map(card=><LinearGradient key={card.id} colors={['#28256E','#5C50A0']} style={{width:conversation.input_snapshot!.tarotCards!.length>3?'18%':'31%',minHeight:92,borderRadius:9,borderWidth:1,borderColor:'#DCC58E',alignItems:'center',justifyContent:'center',padding:5}}><Gem size={16} color="#E4C681" /><Text numberOfLines={2} style={{fontFamily:'Poppins_600SemiBold',fontSize:9,color:'#fff',textAlign:'center',marginTop:4}}>{card.cardName}</Text><Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:'#E9E4F7',textAlign:'center'}}>{card.position} • {card.orientation}</Text></LinearGradient>)}</View>:null}
+            {m.id==='tarot'&&conversation?.input_snapshot?.tarotCards?.length?<><Pressable accessibilityRole="button" onPress={()=>setShowCards(value=>!value)} style={{alignSelf:'flex-end',paddingVertical:7,paddingHorizontal:4}}><Text style={{fontFamily:'Poppins_500Medium',fontSize:10,color:Colors.indigo}}>{showCards?'Hide drawn cards':'View drawn cards'}</Text></Pressable>{showCards?<View style={{flexDirection:'row',flexWrap:'wrap',gap:7,marginTop:2}}>{conversation.input_snapshot.tarotCards.map(card=><LinearGradient key={card.id} colors={['#28256E','#5C50A0']} style={{width:conversation.input_snapshot!.tarotCards!.length>3?'18%':'31%',minHeight:92,borderRadius:9,borderWidth:1,borderColor:'#DCC58E',alignItems:'center',justifyContent:'center',padding:5}}><Gem size={16} color="#E4C681" /><Text numberOfLines={2} style={{fontFamily:'Poppins_600SemiBold',fontSize:9,color:'#fff',textAlign:'center',marginTop:4}}>{card.cardName}</Text><Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:'#E9E4F7',textAlign:'center'}}>{card.position} • {card.orientation}</Text></LinearGradient>)}</View>:null}</>:null}
             {message.structured_payload?.insights?.map((insight,index)=><Card key={`${message.id}:${index}`} style={{borderRadius:14,padding:12,marginTop:7,flexDirection:'row',gap:11,alignItems:'flex-start'}}><View style={{width:32,height:32,borderRadius:16,backgroundColor:m.tint,alignItems:'center',justifyContent:'center'}}>{m.icon(m.ink,16)}</View><View style={{flex:1}}><Text style={{fontFamily:'Poppins_600SemiBold',fontSize:12,color:Colors.navy}}>{insight.title}</Text><Text style={{...body,fontSize:10.5,lineHeight:16,marginTop:2}}>{insight.body}</Text></View></Card>)}
             {conversation?.input_snapshot?.warnings?.map((warning,index)=><View key={`${message.id}:warning:${index}`} style={{marginTop:8}}><Text style={{...body,fontSize:10.5,color:Colors.slate}}>{warning}</Text>{m.id==='numerology'&&warning.includes('full birth name')&&conversation.birth_profile_id?<Pressable onPress={()=>router.push({pathname:'/profiles/new',params:{id:conversation.birth_profile_id!}})} style={{paddingVertical:5}}><Text style={{fontFamily:'Poppins_500Medium',fontSize:11,color:Colors.indigo}}>Confirm birth name in profile</Text></Pressable>:null}</View>)}
             <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}><Avatar /><Bubble style={{ flex: 1 }}>{answerBody(message)}</Bubble></View>
@@ -170,7 +175,8 @@ export default function AiChat() {
       { label: 'Rename conversation', onPress: () => setRename(true) },
       { label: 'Conversation history', onPress: () => go('/ai/history') },
       { label: 'Switch module', onPress: () => go('/ai/modules') },
-      { label: m.id==='tarot'?'Draw new cards':'New reading', onPress: () => router.push({pathname:'/ai/[module]',params:{module:m.id,nonce:ExpoCrypto.randomUUID()}}) },
+      { label: m.id==='tarot'?'Draw new cards':'New reading', onPress: () => m.id==='palmistry'||m.id==='face-reading'?router.push(`/ai/upload?module=${m.id}` as Href):router.push({pathname:'/ai/[module]',params:{module:m.id,...(conversation?.birth_profile_id?{profileId:conversation.birth_profile_id}:{}),nonce:ExpoCrypto.randomUUID()}}) },
+      ...(m.id==='tarot'?[{label:'Draw Celtic Cross (10 cards)',onPress:()=>router.push({pathname:'/ai/[module]',params:{module:m.id,spread:'celtic',nonce:ExpoCrypto.randomUUID()}})}]:[]),
       ...(m.id==='palmistry'||m.id==='face-reading'?[{label:'Delete uploaded photo',danger:true,onPress:deletePhoto}]:[]),
       { label: 'Delete conversation', danger: true, onPress: deleteConversation },
     ]} />

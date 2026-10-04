@@ -11,6 +11,69 @@ $$;
 revoke all on function public.has_verified_phone() from public, anon;
 grant execute on function public.has_verified_phone() to authenticated;
 
+-- Server-owned WhatsApp challenge avoids Supabase's ambiguous phone_change lookup.
+create table public.phone_otp_challenges (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  phone text not null check (phone ~ '^\+[1-9][0-9]{7,14}$'),
+  code_hash text not null check (code_hash ~ '^[0-9a-f]{64}$'),
+  expires_at timestamptz not null,
+  sent_at timestamptz not null default now(),
+  attempt_count integer not null default 0 check (attempt_count between 0 and 5)
+);
+create table public.phone_otp_sends (
+  id uuid primary key default extensions.gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  phone text not null,
+  sent_at timestamptz not null default now()
+);
+create index phone_otp_sends_user_recent on public.phone_otp_sends(user_id,sent_at desc);
+create index phone_otp_sends_phone_recent on public.phone_otp_sends(phone,sent_at desc);
+alter table public.phone_otp_challenges enable row level security;
+alter table public.phone_otp_sends enable row level security;
+
+create or replace function public.reserve_phone_otp(p_user_id uuid,p_phone text,p_hash text)
+returns text language plpgsql security definer set search_path = '' as $$
+declare v_last timestamptz;
+begin
+  if p_phone !~ '^\+[1-9][0-9]{7,14}$' or p_hash !~ '^[0-9a-f]{64}$' then raise exception 'Invalid phone challenge'; end if;
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(p_user_id::text)::bigint);
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(p_phone)::bigint);
+  select sent_at into v_last from public.phone_otp_challenges where user_id=p_user_id;
+  if v_last is not null and v_last > now()-interval '60 seconds' then return 'cooldown'; end if;
+  if (select count(*) from public.phone_otp_sends where user_id=p_user_id and sent_at>now()-interval '24 hours')>=10 then return 'user_limit'; end if;
+  if (select count(*) from public.phone_otp_sends where phone=p_phone and sent_at>now()-interval '24 hours')>=20 then return 'phone_limit'; end if;
+  insert into public.phone_otp_challenges(user_id,phone,code_hash,expires_at,sent_at,attempt_count)
+  values(p_user_id,p_phone,p_hash,now()+interval '5 minutes',now(),0)
+  on conflict(user_id) do update set phone=excluded.phone,code_hash=excluded.code_hash,expires_at=excluded.expires_at,sent_at=excluded.sent_at,attempt_count=0;
+  insert into public.phone_otp_sends(user_id,phone) values(p_user_id,p_phone);
+  return 'reserved';
+end;
+$$;
+revoke all on function public.reserve_phone_otp(uuid,text,text) from public, anon, authenticated;
+grant execute on function public.reserve_phone_otp(uuid,text,text) to service_role;
+
+create or replace function public.consume_phone_otp(p_user_id uuid,p_hash text)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare v_challenge public.phone_otp_challenges%rowtype;
+begin
+  select * into v_challenge from public.phone_otp_challenges where user_id=p_user_id for update;
+  if not found then return pg_catalog.jsonb_build_object('status','missing'); end if;
+  if v_challenge.expires_at <= now() then
+    delete from public.phone_otp_challenges where user_id=p_user_id;
+    return pg_catalog.jsonb_build_object('status','expired');
+  end if;
+  if v_challenge.attempt_count >= 5 then return pg_catalog.jsonb_build_object('status','blocked'); end if;
+  if v_challenge.code_hash <> p_hash then
+    update public.phone_otp_challenges set attempt_count=attempt_count+1 where user_id=p_user_id;
+    return pg_catalog.jsonb_build_object('status','invalid');
+  end if;
+  delete from public.phone_otp_challenges where user_id=p_user_id;
+  return pg_catalog.jsonb_build_object('status','verified','phone',v_challenge.phone);
+end;
+$$;
+revoke all on function public.consume_phone_otp(uuid,text) from public, anon, authenticated;
+grant execute on function public.consume_phone_otp(uuid,text) to service_role;
+
 -- Existing relationship uniqueness prevents two family or partner profiles.
 alter table public.birth_profiles drop constraint if exists birth_profiles_user_relationship_unique;
 create unique index if not exists birth_profiles_one_self_per_user
@@ -19,6 +82,13 @@ alter table public.birth_profiles add column if not exists gender text;
 alter table public.birth_profiles add column if not exists numerology_name text;
 
 alter table public.calculated_charts add column if not exists input_fingerprint text;
+
+update public.ai_modules set methodology='Four Pillars with solar-term year/month boundaries, Day Master, five elements and missing-hour limits',
+  required_inputs=array['birth-date','birth-place']::text[],updated_at=now() where module_id='chinese-zodiac';
+update public.ai_modules set methodology='Saju Palja interpretation of computed Four Pillars centered on Ilgan and element balance',
+  required_inputs=array['birth-date','birth-place']::text[],updated_at=now() where module_id='korean-astrology';
+update public.ai_modules set methodology='Pythagorean date numbers and name numbers only from a user-confirmed full birth name',
+  required_inputs=array['birth-date']::text[],updated_at=now() where module_id='numerology';
 
 -- Remove Phase 1 policies before granting verified accounts access.
 drop policy if exists "Users can view their profile" on public.profiles;

@@ -18,7 +18,8 @@ export type AiConversation = { id:string; module_id:string; title:string; first_
 export type AiFeedback = {message_id:string;helpful:boolean|null;reasons:string[];report_note:string|null;reported_at:string|null};
 
 export type AiCursor = {updatedAt:string;id:string};
-type AiResponse = { error?:string; requestId?:string; conversation?:AiConversation; messages?:AiMessage[]; conversations?:AiConversation[]; feedback?:AiFeedback[]; total?:number; nextCursor?:AiCursor|null; saved?:boolean; deleted?:boolean; title?:string };
+export type AiMessageCursor = {createdAt:string;id:string};
+type AiResponse = { error?:string; requestId?:string; conversation?:AiConversation; messages?:AiMessage[]; conversations?:AiConversation[]; feedback?:AiFeedback[]; total?:number; nextCursor?:AiCursor|null; nextMessageCursor?:AiMessageCursor|null; saved?:boolean; deleted?:boolean; title?:string };
 
 export async function aiCall<T extends AiResponse = AiResponse>(action:string, args:Record<string,unknown> = {}):Promise<T> {
   const { data, error } = await requireSupabase().functions.invoke('ai', { body: {action,...args} });

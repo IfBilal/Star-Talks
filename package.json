@@ -71,7 +71,8 @@
     "testMatch": [
       "**/__tests__/**/*.test.[jt]s",
       "**/?(*.)+(spec|test).[jt]s"
-    ]
+    ],
+    "testPathIgnorePatterns": ["/node_modules/", "/supabase/functions/"]
   },
   "overrides": {
     "decode-uri-component": "^0.5.0",

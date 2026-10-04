@@ -15,7 +15,7 @@ const must = <T>(value: T | null | undefined, message: string, status = 422): T 
 
 type Body = { action?: string; moduleId?: unknown; profileId?: unknown; mediaId?: unknown; spread?: unknown;
   conversationId?: unknown; question?: unknown; requestId?: unknown; title?: unknown; moduleFilter?: unknown;
-  search?: unknown; cursor?: unknown;
+  search?: unknown; cursor?: unknown; messageCursor?: unknown;
   messageId?: unknown; helpful?: unknown; reasons?: unknown; reportNote?: unknown;
   firstProfileId?: unknown; secondProfileId?: unknown; relationshipType?: unknown; method?: unknown; analysisId?: unknown; confirmation?: unknown; consentScope?: unknown };
 const CONSENT_VERSION = '2026-10-04-v1';
@@ -75,10 +75,12 @@ async function finish(db:SupabaseClient,userId:string,requestId:string,success:b
   const {error}=await db.rpc('finish_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_success:success});
   if(error)console.error(JSON.stringify({category:'request_lease_release_failed',requestId}));
 }
-function requireEnabled(moduleId:string) {
+async function requireEnabled(db:SupabaseClient,moduleId:string) {
   if(Deno.env.get('AI_DISABLED')==='true'||Deno.env.get('AI_DISABLED')==='1')throw new HttpError(503,'AI readings are temporarily unavailable. Your saved history is still available.');
   const disabled=(Deno.env.get('AI_DISABLED_MODULES')??'').split(',').map(item=>item.trim());
   if(disabled.includes(moduleId))throw new HttpError(503,'This AI module is temporarily unavailable. Your saved history is still available.');
+  const {data,error}=await db.from('ai_modules').select('is_active').eq('module_id',moduleId).maybeSingle();
+  if(error||!data||!data.is_active)throw new HttpError(503,'This AI module is temporarily unavailable. Your saved history is still available.');
 }
 
 async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleId, body: Body): Promise<{snapshot:Snapshot;profileId:string|null}> {
@@ -115,6 +117,7 @@ async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleI
     return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors,warnings:result.warnings,data:{animals:result.animals,boundary:result.boundary}}};
   }
   if(moduleId==='vedic'||moduleId==='western'||moduleId==='lal-kitab') {
+    if(moduleId==='lal-kitab'&&!profile.birth_time_known)throw new HttpError(422,'A known birth time is needed for Lal Kitab house rules. Edit this birth profile to add it.');
     const result=buildChartEvidence(profile,moduleId);
     return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors:result.factors,warnings:result.warnings,data:{asOf:result.asOf,exactBirthTime:result.exactBirthTime}}};
   }
@@ -131,6 +134,17 @@ async function storedMessages(db:SupabaseClient,conversationId:string) {
   const {data,error}=await db.from('ai_messages').select('id,role,kind,body,structured_payload,source_refs,created_at,request_id').eq('conversation_id',conversationId).order('created_at',{ascending:true}).order('id',{ascending:true});
   if(error)throw new HttpError(503,'Conversation could not be loaded.');
   return data??[];
+}
+async function pagedMessages(db:SupabaseClient,conversationId:string,cursor:unknown) {
+  const pageSize=50;
+  let query=db.from('ai_messages').select('id,role,kind,body,structured_payload,source_refs,created_at,request_id').eq('conversation_id',conversationId).order('created_at',{ascending:false}).order('id',{ascending:false}).limit(pageSize+1);
+  const before=cursor as {createdAt?:unknown;id?:unknown}|null;
+  if(before&&typeof before.createdAt==='string'&&/^\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|\+\d{2}:\d{2})$/.test(before.createdAt)&&uuid(before.id))
+    query=query.or(`created_at.lt.${before.createdAt},and(created_at.eq.${before.createdAt},id.lt.${before.id})`);
+  const {data,error}=await query;
+  if(error)throw new HttpError(503,'Conversation messages could not be loaded.');
+  const rows=data??[];const page=rows.slice(0,pageSize);const last=page[page.length-1];
+  return {messages:page.reverse(),nextMessageCursor:rows.length>pageSize&&last?{createdAt:last.created_at,id:last.id}:null};
 }
 
 async function removeMedia(db:SupabaseClient,userId:string,mediaId:string) {
@@ -188,7 +202,10 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   if(body.action==='list-modules') {
     const allDisabled=['true','1'].includes(Deno.env.get('AI_DISABLED')??'');
     const disabled=(Deno.env.get('AI_DISABLED_MODULES')??'').split(',').map(item=>item.trim());
-    return {modules:Object.entries(MODULES).map(([id,config])=>({id,name:config.name,input:config.input,available:!allDisabled&&!disabled.includes(id)})),version:MODULE_POLICY_VERSION};
+    const {data,error}=await db.from('ai_modules').select('module_id,is_active');
+    if(error)throw new HttpError(503,'AI module registry is unavailable.');
+    const active=new Set((data??[]).filter(row=>row.is_active).map(row=>row.module_id));
+    return {modules:Object.entries(MODULES).map(([id,config])=>({id,name:config.name,input:config.input,available:!allDisabled&&!disabled.includes(id)&&active.has(id)})),version:MODULE_POLICY_VERSION};
   }
   if(body.action==='get-consent') {
     const {data,error}=await db.from('ai_consent').select('scope,text_version,revoked_at').eq('user_id',userId);
@@ -223,7 +240,10 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   if(body.action==='get-compatibility') {
     const id=must(uuid(body.analysisId)?body.analysisId:null,'A valid analysis ID is required.');
     const {data,error}=await db.from('compatibility_analyses').select('*').eq('id',id).eq('user_id',userId).maybeSingle();
-    if(error||!data)throw new HttpError(404,'Compatibility analysis was not found.');return {analysis:data};
+    if(error||!data)throw new HttpError(404,'Compatibility analysis was not found.');
+    const {data:profiles, error:profilesError}=await db.from('birth_profiles').select('id,updated_at').eq('user_id',userId).in('id',[data.first_profile_id,data.second_profile_id]);
+    if(profilesError)throw new HttpError(503,'Profile versions could not be checked.');
+    return {analysis:data,stale:profiles?.some(profile=>new Date(profile.updated_at).getTime()>new Date(data.created_at).getTime())??false};
   }
   if(body.action==='open-compatibility-chat') {
     await requireConsent(db,userId,'birth_and_questions');
@@ -256,9 +276,9 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const type=body.relationshipType;
     if(!['love','marriage','friendship','business'].includes(String(type)))throw new HttpError(422,'Choose a relationship type.');
     const method=body.method;
-    if(!['western','vedic','numerology','chinese-zodiac','korean-astrology'].includes(String(method)))throw new HttpError(422,'Choose a supported compatibility method.');
+    if(!['western','vedic','numerology','chinese-zodiac','korean-astrology','tarot'].includes(String(method)))throw new HttpError(422,'Choose a supported compatibility method.');
     const selectedMethod=method as CompatibilityMethod;
-    requireEnabled(selectedMethod);
+    await requireEnabled(db,selectedMethod);
     const {data:existing}=await db.from('compatibility_analyses').select('*').eq('user_id',userId).eq('request_id',requestId).maybeSingle();
     if(existing)return {analysis:existing};
     const {data:people,error}=await db.from('birth_profiles').select('id,display_name,birth_date,birth_time,birth_instant,birth_time_known,latitude,longitude,time_zone,numerology_name').eq('user_id',userId).in('id',[firstId,secondId]);
@@ -294,7 +314,7 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   if(body.action==='start-reading') {
     await requireConsent(db,userId,'birth_and_questions');
     const moduleId=must(isModuleId(body.moduleId)?body.moduleId:null,'Select a valid AI module.');
-    requireEnabled(moduleId);
+    await requireEnabled(db,moduleId);
     const requestId=must(uuid(body.requestId)?body.requestId:null,'A valid request ID is required.');
     const {data:existing}=await db.from('ai_conversations').select('*').eq('user_id',userId).eq('start_request_id',requestId).maybeSingle();
     if(existing) {
@@ -320,19 +340,19 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   const {data:conversation,error:conversationError}=await db.from('ai_conversations').select('*').eq('id',conversationId).eq('user_id',userId).maybeSingle();
   if(conversationError||!conversation)throw new HttpError(404,'Conversation was not found.');
   if(body.action==='get-conversation') {
-    const messages=await storedMessages(db,conversationId);
+    const {messages,nextMessageCursor}=await pagedMessages(db,conversationId,body.messageCursor);
     if(!messages.length && conversation.first_reading_status==='failed' && conversation.start_request_id) {
       await requireConsent(db,userId,'birth_and_questions');
       await requireConversationMediaAccess(db,userId,conversation);
       await claim(db,userId,conversation.start_request_id);await lease(db,userId,conversation.start_request_id);
-      try{const regenerated=await generated(db,conversation,`Give my ${conversation.module_id==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,conversation.start_request_id,true);await finish(db,userId,conversation.start_request_id,true);return {conversation:{...conversation,first_reading_status:'ready'},messages:regenerated};}
+      try{const regenerated=await generated(db,conversation,`Give my ${conversation.module_id==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,conversation.start_request_id,true);await finish(db,userId,conversation.start_request_id,true);return {conversation:{...conversation,first_reading_status:'ready'},messages:regenerated,nextMessageCursor:null};}
       catch(error){await finish(db,userId,conversation.start_request_id,false);throw error;}
     }
     const answerIds=messages.filter(item=>item.role==='assistant').map(item=>item.id);
-    if(!answerIds.length)return {conversation,messages,feedback:[]};
+    if(!answerIds.length)return {conversation,messages,feedback:[],nextMessageCursor};
     const {data:feedback,error:feedbackError}=await db.from('ai_feedback').select('message_id,helpful,reasons,report_note,reported_at').eq('user_id',userId).in('message_id',answerIds);
     if(feedbackError)throw new HttpError(503,'Conversation feedback could not be loaded.');
-    return {conversation,messages,feedback:feedback??[]};
+    return {conversation,messages,feedback:feedback??[],nextMessageCursor};
   }
   if(body.action==='rename-conversation') {
     const title=typeof body.title==='string'?body.title.trim():'';
@@ -361,7 +381,7 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   if(body.action==='ask-module') {
     await requireConsent(db,userId,'birth_and_questions');
     await requireConversationMediaAccess(db,userId,conversation);
-    requireEnabled(conversation.module_id);
+    await requireEnabled(db,conversation.module_id);
     const requestId=must(uuid(body.requestId)?body.requestId:null,'A valid request ID is required.');
     const question=typeof body.question==='string'?body.question.trim():'';
     if(question.length<2||question.length>800)throw new HttpError(422,'Ask a question of 2–800 characters.');

@@ -5,7 +5,7 @@ import { Phone, ShieldCheck } from 'lucide-react-native';
 import { Pressable, Text, View } from 'react-native';
 import { PrimaryButton, Screen, TextField, Title } from '@/components/brand';
 import { Colors } from '@/constants/theme';
-import { hasVerifiedPhone, normalizeE164 } from '@/features/auth/phone-verification';
+import { hasVerifiedPhone, normalizeE164, phoneVerificationCall } from '@/features/auth/phone-verification';
 import { preferences } from '@/lib/preferences';
 import { requireSupabase } from '@/lib/supabase';
 
@@ -43,12 +43,11 @@ export default function VerifyPhoneScreen() {
 
   const send = async () => {
     if (remaining > 0 || busy) return;
-    const value = normalizeE164(phone);
+    const value = normalizeE164(sentTo||phone);
     if (!value) { setMessage('Enter your full number with country code, for example +923001234567.'); return; }
     setBusy(true); setMessage('');
     try {
-      const { error } = await requireSupabase().auth.updateUser({ phone: value });
-      if (error) throw error;
+      await phoneVerificationCall('send',{phone:value});
       setSentTo(value);
       setCooldownUntil(Date.now() + COOLDOWN_SECONDS * 1000);
     } catch (error) {
@@ -62,14 +61,18 @@ export default function VerifyPhoneScreen() {
     setBusy(true); setMessage('');
     try {
       const db = requireSupabase();
-      const { error } = await db.auth.verifyOtp({ phone: sentTo, token: code.trim(), type: 'phone_change' });
-      if (error) throw error;
+      const result=await phoneVerificationCall<{verified:boolean;userId:string;error?:string}>('verify',{code:code.trim()});
+      if(!result.verified)throw new Error('Phone verification was not confirmed.');
       await db.auth.refreshSession();
+      const {data:{user}}=await db.auth.getUser();
+      if(user?.id!==result.userId)throw new Error('The verified phone did not match this account. Please sign in again.');
       await continueToApp();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'That code could not be verified.');
     } finally { setBusy(false); }
   };
+
+  const resend = async () => {setCode('');await send();};
 
   const signOut = async () => {
     setBusy(true);
@@ -90,7 +93,7 @@ export default function VerifyPhoneScreen() {
       <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 12, color: Colors.muted, textAlign: 'center', marginBottom: 12 }}>Code sent to WhatsApp at {sentTo.replace(/(\d{2})\d{4}(\d{2})$/, '$1••••$2')}</Text>
       <TextField label="Six-digit code" icon={<ShieldCheck size={16} color={Colors.muted} />} value={code} onChangeText={setCode} keyboardType="number-pad" placeholder="Enter code" />
       <PrimaryButton title="Verify and continue" loading={busy} onPress={verify} />
-      <Pressable disabled={busy || remaining > 0} onPress={send} style={{ padding: 13, alignItems: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', color: remaining ? Colors.muted : Colors.indigo, fontSize: 12 }}>{remaining ? `Resend in ${remaining}s` : 'Resend code'}</Text></Pressable>
+      <Pressable disabled={busy || remaining > 0} onPress={() => void resend()} style={{ padding: 13, alignItems: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', color: remaining ? Colors.muted : Colors.indigo, fontSize: 12 }}>{remaining ? `Resend in ${remaining}s` : 'Resend code'}</Text></Pressable>
       <Pressable disabled={busy} onPress={() => { setSentTo(''); setCode(''); setMessage(''); }} style={{ padding: 9, alignItems: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', color: Colors.indigo, fontSize: 12 }}>Edit number</Text></Pressable>
     </>}
     {message ? <Text accessibilityRole="alert" style={{ fontFamily: 'Poppins_400Regular', color: Colors.danger, fontSize: 11, marginTop: 12, textAlign: 'center' }}>{message}</Text> : null}

@@ -1,6 +1,6 @@
 # Star Talks
 
-Star Talks is an Android-first astrology app built with Expo, React Native, TypeScript, Expo Router, and Supabase. Phase 1 implements onboarding through the Home screen and the account, birth data, place/time-zone, chart-calculation, and AI-module registry foundations.
+Star Talks is an Android-first astrology app built with Expo, React Native, TypeScript, Expo Router, and Supabase. Phase 1 implements onboarding, account and birth-profile setup, place/time-zone lookup, chart calculations, and the AI module registry. Milestone 2 source adds nine AI reading flows, conversation history, compatibility, multiple profiles, photo consent, and WhatsApp phone verification. Live deployment and acceptance status is tracked in [the Milestone 2 handoff](docs/milestone-2-deployment-handoff.md).
 
 ## Run locally
 
@@ -17,16 +17,18 @@ The ignored `.env.local` file is loaded by Expo and is not committed. Supabase p
 - **Geoapify:** Create a client-owned free account and an API key, then set `EXPO_PUBLIC_GEOAPIFY_API_KEY` in `.env.local`. Geoapify currently advertises 3,000 free requests/day without a payment card. The app sends requests only after a user types at least three characters, waits 450 ms, caches results briefly, and shows Geoapify/OpenStreetMap attribution. API keys embedded in a mobile app can be extracted; configure quota and endpoint restrictions for the key and rotate it if exposed. If production traffic grows, move the proxy/key to a Supabase Edge Function.
 - **Time zones:** `tz-lookup` maps selected coordinates to IANA time-zone identifiers. `src/features/birth/timezone.ts` resolves local birth time to UTC using the runtime IANA database and returns ambiguous/nonexistent DST cases for explicit user handling.
 - **Charts:** `astronomy-engine` supplies planetary positions. `src/features/astrology/chart.ts` records tropical and sidereal placements, whole-sign ascendants/houses, lunar nakshatra/pada and the birth Vimshottari mahadasha balance. The Lahiri correction is a documented mean precession approximation. The calculator version and assumptions are saved with each chart. Unknown birth time remains unknown and does not generate a chart using an invented clock time. Do not use these results for professional-grade predictions without validating the ephemeris and ayanamsa choices against an agreed reference.
-- **AI registry:** `src/features/ai/moduleRegistry.ts` describes nine isolated modules. It does not call a general-purpose AI endpoint; module experiences are later milestones.
+- **AI registry and readings:** `src/features/ai/moduleRegistry.ts` describes nine isolated modules. The `ai` Edge Function provides server-side GPT-4o-mini readings, evidence checks, conversations, compatibility and preview limits. The OpenAI key belongs in Supabase Function secrets.
+- **WhatsApp verification:** `verify-whatsapp-phone` sends a server-owned OTP through MSG91 and links the confirmed number to the signed-in Supabase user. It requires the Milestone 2 migration, function secrets and an approved MSG91 template before use.
 
 ## Check the work
 
 - `npm run typecheck`
 - `npm test`
+- `npx -y deno@2.5.0 test --config supabase/functions/deno.json supabase/functions/_shared/evidence.test.ts`
 - `npx expo export --platform android`
 
 ## Phase boundaries
 
-This build intentionally excludes live astrologer discovery/consultations. It does not implement AI readings, wallet/credit transactions, payment processing, reports, courses, ads, or palm-photo permissions. The Home cards are design previews for later milestones.
+This build intentionally excludes live astrologer discovery/consultations, wallet/credit transactions, payment processing, reports, courses and ads. The Home cards for those later milestones remain design previews. Milestone 2 AI and phone features require deployment and live acceptance before client use.
 
 The original Aurelia proposal and design references remain in `docs/`; the current product name and supplied Star Talks logo are used in the app.

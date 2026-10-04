@@ -10,6 +10,7 @@ import { GoldStar } from '@/components/ui/icons';
 import { MODULES } from '@/features/uiData/ai';
 import { Colors } from '@/constants/theme';
 import { requireSupabase } from '@/lib/supabase';
+import { aiCall } from '@/features/ai/api';
 
 function Compass({ size = 64 }: { size?: number }) {
   return (
@@ -26,7 +27,10 @@ export default function AiHome() {
   const { profileId } = useLocalSearchParams<{ profileId?: string }>();
   const [menu, setMenu] = useState(false);
   const [profileName, setProfileName] = useState('');
+  const [availability,setAvailability]=useState<Record<string,boolean>|null>(null);
+  const [serviceMessage,setServiceMessage]=useState('');
   useEffect(() => { if (!profileId) return; void requireSupabase().from('birth_profiles').select('display_name').eq('id',profileId).maybeSingle().then(({data}) => setProfileName(data?.display_name ?? '')); }, [profileId]);
+  useEffect(()=>{let active=true;void aiCall<{modules:{id:string;available:boolean}[];error?:string}>('list-modules').then(result=>{if(active)setAvailability(Object.fromEntries(result.modules.map(item=>[item.id,item.available])));}).catch(cause=>{if(active)setServiceMessage(cause instanceof Error?cause.message:'AI modules are unavailable.');});return()=>{active=false};},[]);
   return (
     <AppScreen tab="ai" pad={0} noTopInset bg="#FCF7F1">
       <StatusBar barStyle="light-content" />
@@ -63,11 +67,13 @@ export default function AiHome() {
       <View style={{ marginTop: 16, backgroundColor: '#FDF9F4', borderTopLeftRadius: 22, borderTopRightRadius: 22, paddingHorizontal: 16, paddingTop: 16,paddingBottom:22 }}>
         <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 14, color: Colors.navy, marginBottom: 3 }}>Choose Your AI Module</Text>
         <Text style={{ fontFamily:'Poppins_400Regular',fontSize:10,color:Colors.slate,marginBottom:10 }}>Available during preview · daily use limit applies</Text>
+        {serviceMessage?<Text accessibilityRole="alert" style={{fontFamily:'Poppins_400Regular',fontSize:10,color:Colors.danger,marginBottom:9}}>{serviceMessage}</Text>:null}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 9 }}>
           {MODULES.map(m => (
-            <Pressable key={m.id} accessibilityRole="button" onPress={() => router.push({pathname:'/ai/[module]',params:{module:m.id,...(profileId?{profileId}:{})}})} style={{ width: '31.6%', height: 100, borderRadius: 14, backgroundColor: '#FFFDFB', borderWidth: 1, borderColor: '#F0EAF5', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }}>
+            <Pressable key={m.id} accessibilityRole="button" disabled={!availability?.[m.id]} onPress={() => router.push({pathname:'/ai/[module]',params:{module:m.id,...(profileId?{profileId}:{})}})} style={{ width: '31.6%', height: 100, borderRadius: 14, backgroundColor: '#FFFDFB', borderWidth: 1, borderColor: '#F0EAF5', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4,opacity:availability?.[m.id]?1:0.5 }}>
               <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: m.tint, alignItems: 'center', justifyContent: 'center' }}>{m.icon(m.ink, 22)}</View>
               <Text numberOfLines={2} style={{ marginTop: 9, textAlign: 'center', fontFamily: 'Poppins_600SemiBold', fontSize: 10.5, lineHeight: 14, color: Colors.navy }}>{m.name}</Text>
+              {availability&&availability[m.id]===false?<Text style={{fontFamily:'Poppins_400Regular',fontSize:8,color:Colors.danger}}>Unavailable</Text>:null}
             </Pressable>
           ))}
         </View>

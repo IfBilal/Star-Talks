@@ -1,4 +1,5 @@
 import { calculateChart, CALCULATOR_VERSION, type ChartResult } from '../../../src/features/astrology/chart.ts';
+import { lalKitabHouseRule, LAL_KITAB_RULES_VERSION } from './lal-kitab.ts';
 
 export const CHART_RULES_VERSION = 'chart-rules/1.0.0';
 type Profile = { birth_date: string; birth_instant: string | null; birth_time_known: boolean; latitude: number; longitude: number; time_zone: string };
@@ -21,11 +22,6 @@ const houseThemes = [
   'self and presentation','resources and values','communication and nearby life','home and roots',
   'creativity and pleasure','daily work and health routines','partnerships','shared resources and change',
   'study and wider horizons','career and public life','friends and community','retreat and the private inner life',
-];
-const lalHouseThemes = [
-  'personal conduct and vitality','family resources and speech','effort and siblings','home and maternal ties',
-  'learning and children','service and practical obstacles','partnership agreements','inheritance and hidden matters',
-  'belief, teachers and ethics','work, reputation and duty','gains and networks','expenditure and withdrawal',
 ];
 const dashaLords = ['Ketu','Venus','Sun','Moon','Mars','Rahu','Jupiter','Saturn','Mercury'];
 const dashaYears = [7,20,6,10,7,18,16,19,17];
@@ -91,25 +87,37 @@ export function buildChartEvidence(profile: Profile, moduleId: 'vedic'|'western'
   const system=moduleId==='western'?'western':'vedic';
   const planets = system==='western' ? chart.western.planets.map(p=>({name:p.name,sign:p.tropicalSign,degree:p.tropicalLongitude%30})) : chart.vedic.planets.map(p=>({name:p.name,sign:p.sign,degree:p.degree}));
   const rising = system==='western'?chart.western.ascendantSign:chart.vedic.ascendantSign;
+  if(moduleId==='lal-kitab'){
+    if(!exact)throw new Error('A known birth time is needed for Lal Kitab house rules.');
+    const zodiac=Object.keys(signStyles);
+    const nodePoints=[
+      {name:'Rahu',sign:zodiac[Math.floor(chart.vedic.meanLunarNode.rahuLongitude/30)]},
+      {name:'Ketu',sign:zodiac[Math.floor(chart.vedic.meanLunarNode.ketuLongitude/30)]},
+    ];
+    for(const point of [...planets.filter(planet=>['Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn'].includes(planet.name)),...nodePoints]){
+      const house=houseFor(point.sign,rising);const rule=lalKitabHouseRule(point.name,house);
+      factors.push({id:rule.id,label:rule.label,value:`Sidereal ${point.sign}; whole-sign house ${house}`,rule:`${rule.interpretation} ${rule.optionalPractice}`});
+    }
+    return {version:`${CALCULATOR_VERSION}+${LAL_KITAB_RULES_VERSION}`,method:moduleId,asOf:asOf.toISOString(),exactBirthTime:true,factors,warnings};
+  }
   for(const planet of planets) {
     if(!exact&&planet.name==='Moon')continue;
     const theme=planetThemes[planet.name]??'a planetary theme';
     const style=signStyles[planet.sign]??'its sign style';
     const house=exact?houseFor(planet.sign,rising):null;
-    const lalRule=moduleId==='lal-kitab'&&house ? `Lal Kitab house ${house}: review ${planet.name} through ${lalHouseThemes[house-1]}; any remedy is optional and must be harmless.` : null;
     factors.push({id:`${moduleId}:natal:${planet.name.toLowerCase()}`,label:`Natal ${planet.name}`,
       value:`${planet.sign} ${planet.degree.toFixed(1)}°${house?`, whole-sign house ${house}`:''}`,
-      rule:lalRule??`${planet.name} relates symbolically to ${theme}; ${planet.sign} expresses this in a ${style} way${house?` in ${houseThemes[house-1]}`:''}.`});
+      rule:`${planet.name} relates symbolically to ${theme}; ${planet.sign} expresses this in a ${style} way${house?` in ${houseThemes[house-1]}`:''}.`});
   }
   if(exact){
     factors.push({id:`${moduleId}:ascendant`,label:'Ascendant',value:rising,rule:`Whole-sign houses begin with ${rising}.`});
-    if(moduleId!=='lal-kitab')factors.push(...majorAspects(chart,system));
+    factors.push(...majorAspects(chart,system));
     if(moduleId==='vedic'){
       factors.push({id:'vedic:nakshatra:moon',label:'Moon nakshatra',value:`${chart.vedic.moonNakshatra.name}, pada ${chart.vedic.moonNakshatra.pada}`,rule:'Lunar mansion from the sidereal Moon.'});
       factors.push(...currentDasha(chart,instant,asOf));
     }
   }
-  if(moduleId!=='lal-kitab'){
+  {
     const transit=calculateChart({birthInstant:asOf.toISOString(),latitude:profile.latitude,longitude:profile.longitude,timeKnown:true,timeZone:profile.time_zone});
     const moving=system==='western'?transit.western.planets.map(p=>({name:p.name,sign:p.tropicalSign})):transit.vedic.planets.map(p=>({name:p.name,sign:p.sign}));
     for(const p of moving.filter(p=>['Sun','Mars','Jupiter','Saturn'].includes(p.name)))
