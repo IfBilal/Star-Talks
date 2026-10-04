@@ -87,7 +87,7 @@ The coding agent handles application code, SQL, visual asset preparation, fixtur
 
 | Needed from owner | Why | Latest safe point | Default used while planning |
 | --- | --- | --- | --- |
-| AI inference account with API access, billing/spend cap, and a secret API key placed in Supabase Edge Function secrets. | Nine real text/vision modules cannot run on mock text. Never place this key in `EXPO_PUBLIC_*` or app source. | Before the first live backend call in Phase 2D. | OpenAI Responses API through a provider adapter; the exact model is chosen after current price/quality evaluation. |
+| OpenAI API account with API access, billing/spend cap, and `OPENAI_API_KEY` placed in Supabase Edge Function secrets. | Nine real text/vision modules cannot run on mock text. Never place this key in `EXPO_PUBLIC_*` or app source. | Before the first live backend call in Phase 2D. | Product owner selected `gpt-4o-mini` for text and vision; keep the model ID server-configured and record the version used. |
 | Permission to transmit selected birth data, questions, and uploaded palm/face images to that AI provider; approved privacy wording and retention expectations. | These are sensitive personal inputs. | Before live user use, especially image analysis. | Explicit first-use consent per data type; no image upload until consent. |
 | Expected launch language(s) for AI answers. | Six languages appear in current UI/localization; quality must be measured per language. | Before prompt/evaluation freeze. | Answer in the user's selected app language where supported, fall back visibly to English. |
 | Whether client owns licensed Tarot card artwork or wants the agent to source verified reusable art/create original art. | The mockup shows illustrated cards; a full 78-card deck needs lawful artwork. | Before final Tarot visual pass. | Agent creates or sources permissible artwork and documents provenance; no card art copied from unlicensed mockups. |
@@ -104,11 +104,21 @@ If an AI provider credential is unavailable, complete the deterministic calculat
 - Mobile: retain React Native, Expo Router, TypeScript, current theme, fonts and shared UI components.
 - Data/auth: retain Supabase Auth and PostgreSQL. Read/write user records through authenticated requests with RLS.
 - Server: Supabase Edge Functions in `supabase/functions/`, with shared typed services under `_shared/` and versioned SQL in `supabase/migrations/`.
-- AI: server-side adapter for OpenAI Responses API by default, using structured outputs for machine-readable answers; a separate text-only or vision model can be selected through server secrets/config.
+- AI: use the OpenAI Responses API with `gpt-4o-mini` for text and image inputs, and Structured Outputs for machine-readable answers. Keep the model ID server-configured; pin a dated model snapshot after quality testing if stable outputs require it.
 - Provider secrecy: only Edge Functions read the provider key; no AI provider request originates from the app.
 - Storage: two private buckets, or one private bucket with separate palm and face prefixes, protected by owner-scoped Storage policies.
 - Deterministic engines: pure TypeScript calculation packages callable from server workflows and fixture tests; reuse the Phase 1 chart model when validated.
 - Networking: app calls typed backend functions; no direct client writes to server-controlled AI answer/status fields.
+
+### Knowledge retrieval and RAG decision
+
+The product owner's model choice is `gpt-4o-mini`. **A vector database is not a prerequisite for Milestone 2.** The initial answer pipeline supplies the model with four kinds of bounded, versioned context: (1) the selected user's calculated evidence, (2) the module's reviewed interpretation rules, (3) relevant messages from that module's current conversation, and (4) the requested output/safety contract. This is retrieval of exact application data, without embedding it in a vector store.
+
+Use exact lookup by module, factor IDs, card IDs or rule IDs for Tarot meanings, chart rules, Numerology mappings, BaZi/Saju tables and Lal Kitab rules. This is cheaper to audit and makes it clear which facts support a response. Store the authored rulebook in versioned source/DB records; do not rely on the model's general memory for a specific traditional rule. Document copyright or license provenance for any imported interpretation text.
+
+Add semantic RAG only if evaluation shows that exact rule lookup misses needed material or a module has a large approved corpus. In that case, implement it as a server-side, **module-filtered** retrieval step: chunk and version approved reference documents, attach module/methodology/source metadata, search within the active module only, pass a small set of relevant excerpts with source IDs, and validate that the answer cites those IDs. Use OpenAI File Search/vector stores or a private database index only after comparing quality, latency, storage cost and deletion needs. Never put user birth data, chats or palm/face photos into a shared knowledge index.
+
+RAG cannot calculate planetary positions, draw Tarot cards, derive Numerology numbers, resolve historical time zones or find a face/palm feature. Those come from the deterministic calculators and image observation stage. A retrieved paragraph also cannot override the module, safety, ownership or consent rules. Conversation memory comes from the user's protected database records, not from a public knowledge base.
 
 ### Request path
 
@@ -441,7 +451,7 @@ The ordering below is a dependency sequence, not a promise that all work can fit
 3. Inventory the current UI, fake data, inert actions and hard-coded credit labels; identify every path that can show ungrounded claims.
 4. Inspect Star Talks Supabase schema and migrations. Confirm project ID before touching remote data.
 5. Review Phase 1 chart calculation assumptions, cache invalidation and unknown-time behavior against the nine-module requirements.
-6. Choose AI provider account, acceptable budget, image retention wording, launch languages and Tarot art path; capture any unresolved item as a blocker with owner and deadline.
+6. Confirm the selected OpenAI account/key for `gpt-4o-mini`, acceptable budget, image retention wording, launch languages and Tarot art path; capture any unresolved item as a blocker with owner and deadline.
 7. Take baseline screenshots at the mockup phone size and a smaller Android size for all AI, profiles and compatibility screens.
 
 **Gate:** scoped screen inventory, provider/input decisions, known gaps, baseline screenshots and explicit budgets are recorded. No real user data appears in development fixtures.
@@ -477,7 +487,7 @@ The ordering below is a dependency sequence, not a promise that all work can fit
 **Work**
 
 1. Create versioned Edge Function endpoints and shared validation/types from section 4.
-2. Put the provider secret and model names in server secrets; confirm they are absent from app bundle, `.env.example` values, logs and Git history.
+2. Put `OPENAI_API_KEY` in server secrets and configure `gpt-4o-mini` server-side; confirm the secret is absent from app bundle, `.env.example` values, logs and Git history.
 3. Verify JWT and row ownership on every request; use server-managed quota and unique request IDs.
 4. Implement provider adapter, timeouts, structured output parsing, token/cost recording and retry behavior.
 5. Add text/image moderation and module-independent safety policy before model calls.
@@ -727,10 +737,12 @@ These sources support architecture decisions; verify their current syntax and li
 - [Supabase Edge Function limits](https://supabase.com/docs/guides/functions/limits): request timeout, CPU and memory constraints.
 - [Supabase Storage access control](https://supabase.com/docs/guides/storage/security/access-control): private object policies.
 - [Expo ImagePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/): camera/gallery selection and permissions.
-- [OpenAI Responses API text generation](https://developers.openai.com/api/docs/guides/text): default provider adapter path.
+- [OpenAI `gpt-4o-mini` model](https://developers.openai.com/api/docs/models/gpt-4o-mini): selected text/image model and supported output features.
+- [OpenAI Responses API text generation](https://developers.openai.com/api/docs/guides/text): provider adapter path.
 - [OpenAI structured output](https://developers.openai.com/api/docs/guides/structured-outputs): typed server response schema.
 - [OpenAI images and vision](https://developers.openai.com/api/docs/guides/images-vision): image input for visible-feature extraction.
 - [OpenAI moderation](https://developers.openai.com/api/docs/guides/moderation): text/image safety screening.
+- [OpenAI retrieval](https://developers.openai.com/api/docs/guides/retrieval): optional semantic search when a module has a large approved reference corpus.
 - [Astronomy Engine documentation](https://github.com/cosinekitty/astronomy/wiki) and [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/manual.html): calculator behavior and independent ephemeris comparison.
 
 **Definition of done:** The client can install the current Android APK and use all nine genuinely data-backed modules, their separated saved conversations and feedback, multiple saved profiles, and a real compatibility result; backend ownership and safety checks pass; visual differences from the supplied mockups are explained; no live screen presents fixture text as a personal reading.
