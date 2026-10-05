@@ -1,8 +1,8 @@
+import { useTheme } from '@/lib/theme-context';
 import { useEffect, useState } from 'react';
 import { router, useLocalSearchParams, type Href } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Colors } from '@/constants/theme';
 import { preferences } from '@/lib/preferences';
 import { requireSupabase } from '@/lib/supabase';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -17,7 +17,9 @@ async function goToPostAuthScreen(db: SupabaseClient, signInIncompleteMessage: s
   router.replace(data ? '/home' : '/profile-setup');
 }
 
-export default function AuthCallback(){const {t}=useTranslation();const params=useLocalSearchParams<{code?:string;token_hash?:string;type?:string;flow?:string}>();const [error,setError]=useState('');useEffect(()=>{let alive=true;void(async()=>{const db=requireSupabase();try{
+export default function AuthCallback(){
+  const { Colors: palette } = useTheme();
+const {t}=useTranslation();const params=useLocalSearchParams<{code?:string;token_hash?:string;type?:string;flow?:string}>();const [error,setError]=useState('');useEffect(()=>{let alive=true;void(async()=>{const db=requireSupabase();try{
   const {data:{session:existingSession}}=await db.auth.getSession();
   if(!existingSession){
     if(typeof params.code==='string'){const {error}=await db.auth.exchangeCodeForSession(params.code);if(error)throw error}
@@ -33,4 +35,4 @@ export default function AuthCallback(){const {t}=useTranslation();const params=u
   const {data:{session}}=await db.auth.getSession();
   if(session){if(alive)await goToPostAuthScreen(db,t('authCallback.signInIncomplete')).catch(()=>{});return}
   if(alive)setError(e instanceof Error?e.message:t('authCallback.signInFailed'))
-}})();return()=>{alive=false}},[params.code,params.flow,params.token_hash,params.type,t]);return <View style={{flex:1,backgroundColor:Colors.ivory,alignItems:'center',justifyContent:'center',padding:28}}>{error?<Text style={{fontFamily:'Poppins_400Regular',fontSize:13,color:Colors.danger,textAlign:'center'}}>{error}</Text>:<><ActivityIndicator color={Colors.indigo}/><Text style={{fontFamily:'Poppins_500Medium',fontSize:13,color:Colors.indigo,marginTop:12}}>{params.flow==='recovery'||params.type==='recovery'?t('authCallback.preparingReset'):t('authCallback.signingIn')}</Text></>}</View>}
+}})();return()=>{alive=false}},[params.code,params.flow,params.token_hash,params.type,t]);return <View style={{flex:1,backgroundColor:palette.ivory,alignItems:'center',justifyContent:'center',padding:28}}>{error?<Text style={{fontFamily:'Poppins_400Regular',fontSize:13,color:palette.danger,textAlign:'center'}}>{error}</Text>:<><ActivityIndicator color={palette.indigo}/><Text style={{fontFamily:'Poppins_500Medium',fontSize:13,color:palette.indigo,marginTop:12}}>{params.flow==='recovery'||params.type==='recovery'?t('authCallback.preparingReset'):t('authCallback.signingIn')}</Text></>}</View>}

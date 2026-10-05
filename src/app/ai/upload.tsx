@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as ExpoCrypto from 'expo-crypto';
@@ -13,6 +14,8 @@ import { requireSupabase } from '@/lib/supabase';
 import { aiCall } from '@/features/ai/api';
 
 export default function AiUpload() {
+  const { Colors: palette, themed } = useTheme();
+
   const { module } = useLocalSearchParams<{ module?: string }>();
   const kind = module === 'face-reading' ? 'face' : 'palm';
   const [uri, setUri] = useState('');
@@ -60,19 +63,19 @@ export default function AiUpload() {
   };
 
   return <AppScreen header={<AppBar title={kind === 'palm' ? 'Upload Palm Photo' : 'Upload Face Photo'} />} contentStyle={{ paddingTop: 10 }}>
-    <Text style={{ fontFamily: F.s, fontSize: 20, color: Colors.navy, textAlign: 'center' }}>{kind === 'palm' ? 'Your palm, clearly seen' : 'A clear front-facing photo'}</Text>
-    <Text style={{ fontFamily: F.r, fontSize: 11, lineHeight: 18, color: Colors.slate, textAlign: 'center', marginTop: 5, marginBottom: 17 }}>{kind === 'palm' ? 'Show the whole palm and fingers, with sharp lines, even light and no face in the background.' : 'Face the camera in even light, with your full face visible and no heavy filter.'}</Text>
-    <Card style={{ minHeight: 228, borderRadius: 16, borderStyle: 'dashed', borderWidth: 1, borderColor: '#D3CFDB', padding: 10, alignItems: 'center', justifyContent: 'center' }}>
-      {uri ? <Image source={{ uri }} contentFit="contain" style={{ width: '100%', height: 210, borderRadius: 10 }} /> : <><ImagePlus size={32} color={Colors.indigo} /><Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.navy, marginTop: 8 }}>Choose a photo to preview</Text></>}
+    <Text style={{ fontFamily: F.s, fontSize: 20, color: palette.navy, textAlign: 'center' }}>{kind === 'palm' ? 'Your palm, clearly seen' : 'A clear front-facing photo'}</Text>
+    <Text style={{ fontFamily: F.r, fontSize: 11, lineHeight: 18, color: palette.slate, textAlign: 'center', marginTop: 5, marginBottom: 17 }}>{kind === 'palm' ? 'Show the whole palm and fingers, with sharp lines, even light and no face in the background.' : 'Face the camera in even light, with your full face visible and no heavy filter.'}</Text>
+    <Card style={{ minHeight: 228, borderRadius: 16, borderStyle: 'dashed', borderWidth: 1, borderColor: themed('#D3CFDB', 'border'), padding: 10, alignItems: 'center', justifyContent: 'center' }}>
+      {uri ? <Image source={{ uri }} contentFit="contain" style={{ width: '100%', height: 210, borderRadius: 10 }} /> : <><ImagePlus size={32} color={palette.indigo} /><Text style={{ fontFamily: F.m, fontSize: 12, color: palette.navy, marginTop: 8 }}>Choose a photo to preview</Text></>}
     </Card>
-    <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}><Button title="Camera" icon={<Camera size={16} color="#fff" />} style={{ flex: 1 }} onPress={() => void choose(true)} /><Button title="Gallery" variant="light" icon={<ImagePlus size={16} color={Colors.navy} />} style={{ flex: 1 }} onPress={() => void choose(false)} /></View>
-    {uri ? <Pressable onPress={() => setUri('')} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 6, padding: 12 }}><Trash2 size={15} color={Colors.danger} /><Text style={{ fontFamily: F.m, fontSize: 11, color: Colors.danger }}>Remove and choose another</Text></Pressable> : null}
-    {kind === 'palm' ? <View style={{ marginTop: 12 }}><Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.navy, marginBottom: 8 }}>Which hand is shown?</Text><View style={{ flexDirection: 'row', gap: 10 }}>{(['left','right'] as const).map(value => <Pressable key={value} onPress={() => setHand(value)} style={{ flex: 1, padding: 11, borderRadius: 10, backgroundColor: hand === value ? '#5B54B5' : '#fff', alignItems: 'center' }}><Text style={{ fontFamily: F.m, fontSize: 12, color: hand === value ? '#fff' : Colors.navy }}>{value === 'left' ? 'Left hand' : 'Right hand'}</Text></Pressable>)}</View></View> : null}
+    <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}><Button title="Camera" icon={<Camera size={16} color={themed("#fff", 'foreground')} />} style={{ flex: 1 }} onPress={() => void choose(true)} /><Button title="Gallery" variant="light" icon={<ImagePlus size={16} color={palette.navy} />} style={{ flex: 1 }} onPress={() => void choose(false)} /></View>
+    {uri ? <Pressable onPress={() => setUri('')} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 6, padding: 12 }}><Trash2 size={15} color={palette.danger} /><Text style={{ fontFamily: F.m, fontSize: 11, color: palette.danger }}>Remove and choose another</Text></Pressable> : null}
+    {kind === 'palm' ? <View style={{ marginTop: 12 }}><Text style={{ fontFamily: F.m, fontSize: 12, color: palette.navy, marginBottom: 8 }}>Which hand is shown?</Text><View style={{ flexDirection: 'row', gap: 10 }}>{(['left','right'] as const).map(value => <Pressable key={value} onPress={() => setHand(value)} style={{ flex: 1, padding: 11, borderRadius: 10, backgroundColor: themed(hand === value ? '#5B54B5' : '#fff', 'surface'), alignItems: 'center' }}><Text style={{ fontFamily: F.m, fontSize: 12, color: themed(hand === value ? '#fff' : Colors.navy, 'foreground') }}>{value === 'left' ? 'Left hand' : 'Right hand'}</Text></Pressable>)}</View></View> : null}
     <Pressable onPress={() => setConsent(value => !value)} accessibilityRole="checkbox" accessibilityState={{ checked: consent }} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginTop: 20, padding: 8 }}>
-      <View style={{ width: 20, height: 20, borderRadius: 5, borderWidth: 1, borderColor: Colors.indigo, backgroundColor: consent ? Colors.indigo : '#fff', alignItems: 'center', justifyContent: 'center' }}>{consent ? <ShieldCheck size={14} color="#fff" /> : null}</View>
-      <Text style={{ flex: 1, fontFamily: F.r, fontSize: 10.5, lineHeight: 17, color: Colors.navy }}>I agree to upload this {kind} photo to private storage and send it to the AI provider for the reading I requested. I can delete the photo later.</Text>
+      <View style={{ width: 20, height: 20, borderRadius: 5, borderWidth: 1, borderColor: palette.indigo, backgroundColor: themed(consent ? Colors.indigo : '#fff', 'surface'), alignItems: 'center', justifyContent: 'center' }}>{consent ? <ShieldCheck size={14} color={themed("#fff", 'foreground')} /> : null}</View>
+      <Text style={{ flex: 1, fontFamily: F.r, fontSize: 10.5, lineHeight: 17, color: palette.navy }}>I agree to upload this {kind} photo to private storage and send it to the AI provider for the reading I requested. I can delete the photo later.</Text>
     </Pressable>
-    {message ? <Text accessibilityRole="alert" style={{ fontFamily: F.r, color: Colors.danger, fontSize: 11, marginTop: 10 }}>{message}</Text> : null}
+    {message ? <Text accessibilityRole="alert" style={{ fontFamily: F.r, color: palette.danger, fontSize: 11, marginTop: 10 }}>{message}</Text> : null}
     <Button title={busy ? 'Uploading…' : 'Continue to Reading'} disabled={!uri || !consent || busy} height={50} style={{ borderRadius: 14, marginTop: 16 }} onPress={() => void upload()} />
   </AppScreen>;
 }

@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { Lock } from 'lucide-react-native';
@@ -5,10 +6,11 @@ import { ActivityIndicator, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { PrimaryButton, Screen, TextField, Title } from '@/components/brand';
-import { Colors } from '@/constants/theme';
 import { requireSupabase } from '@/lib/supabase';
 
 export default function ResetPasswordScreen() {
+  const { Colors: palette } = useTheme();
+
   const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -66,8 +68,8 @@ export default function ResetPasswordScreen() {
         <Image source={require('../../../assets/images/star-talks-mark.png')} contentFit="contain" accessibilityLabel="Star Talks" style={{ width: 86, height: 43, alignSelf: 'center', marginBottom: 3 }} />
         {!ready ? (
           <View style={{ alignItems: 'center', marginTop: 36 }}>
-            <ActivityIndicator color={Colors.indigo} />
-            <Text style={{ color: Colors.muted, marginTop: 12, fontFamily: 'Poppins_400Regular', fontSize: 12 }}>{t('resetPassword.checkingLink')}</Text>
+            <ActivityIndicator color={palette.indigo} />
+            <Text style={{ color: palette.muted, marginTop: 12, fontFamily: 'Poppins_400Regular', fontSize: 12 }}>{t('resetPassword.checkingLink')}</Text>
           </View>
         ) : !hasSession ? (
           <>
@@ -77,9 +79,9 @@ export default function ResetPasswordScreen() {
         ) : (
           <>
             <Title subtitle={t('resetPassword.newPasswordSubtitle')}>{t('resetPassword.newPasswordTitle')}</Title>
-            <TextField label={t('resetPassword.newPasswordLabel')} icon={<Lock size={16} color={Colors.muted} />} secure value={password} onChangeText={setPassword} placeholder={t('resetPassword.newPasswordPlaceholder')} />
-            <TextField label={t('resetPassword.confirmPasswordLabel')} icon={<Lock size={16} color={Colors.muted} />} secure value={confirmPassword} onChangeText={setConfirmPassword} placeholder={t('resetPassword.confirmPasswordPlaceholder')} />
-            {message ? <Text accessibilityRole="alert" style={{ color: Colors.danger, fontFamily: 'Poppins_400Regular', fontSize: 11, marginBottom: 8 }}>{message}</Text> : null}
+            <TextField label={t('resetPassword.newPasswordLabel')} icon={<Lock size={16} color={palette.muted} />} secure value={password} onChangeText={setPassword} placeholder={t('resetPassword.newPasswordPlaceholder')} />
+            <TextField label={t('resetPassword.confirmPasswordLabel')} icon={<Lock size={16} color={palette.muted} />} secure value={confirmPassword} onChangeText={setConfirmPassword} placeholder={t('resetPassword.confirmPasswordPlaceholder')} />
+            {message ? <Text accessibilityRole="alert" style={{ color: palette.danger, fontFamily: 'Poppins_400Regular', fontSize: 11, marginBottom: 8 }}>{message}</Text> : null}
             <PrimaryButton title={t('resetPassword.updatePasswordBtn')} loading={busy} onPress={savePassword} />
           </>
         )}

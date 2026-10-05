@@ -1,25 +1,33 @@
+import type { Palette, ThemeColor } from '@/constants/appearance';
+import { useTheme, useThemedStyles } from '@/lib/theme-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { ArrowRight, ChevronDown, CircleCheck, Eye, EyeOff, MapPin, Sparkle, Sparkles } from 'lucide-react-native';
-import { useEffect, useRef, useState, type PropsWithChildren, type ReactNode } from 'react';
-import { ActivityIndicator, Animated, Easing, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps, type ViewStyle } from 'react-native';
+import { useEffect, useState, type PropsWithChildren, type ReactNode } from 'react';
+import { ActivityIndicator, Animated, Easing, Pressable, ScrollView, StatusBar, StyleSheet, Text, TextInput, View, type TextInputProps, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgGradient, Path, Stop } from 'react-native-svg';
 import { Colors, Radius } from '@/constants/theme';
 
 export function Screen({ children, dark = false, scroll = false, style }: PropsWithChildren<{dark?: boolean; scroll?: boolean; style?: ViewStyle}>) {
-  const entrance = useRef(new Animated.Value(0)).current;
+  const { isDark } = useTheme();
+  const styles = useThemedStyles(makestyles);
+
+  const [entrance] = useState(() => new Animated.Value(0));
   useEffect(() => {
     Animated.timing(entrance, { toValue: 1, duration: 280, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
   }, [entrance]);
   const animatedStyle = { opacity: entrance, transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] };
   const inner = <Animated.View style={[styles.screenInner, style, animatedStyle]}>{children}</Animated.View>;
   return <SafeAreaView style={[styles.safe, dark && styles.dark]} edges={['top','bottom']}>
+    <StatusBar barStyle={dark || isDark ? 'light-content' : 'dark-content'} />
     {scroll ? <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.scroll}>{inner}</ScrollView> : inner}
   </SafeAreaView>;
 }
 
 export function BrandLogo({ size = 112, wordmark = false }: {size?: number; wordmark?: boolean}) {
+  const styles = useThemedStyles(makestyles);
+
   return <View style={{alignItems:'center'}}>
     <Image source={require('../../assets/images/star-talks-logo.png')} contentFit="contain" style={{width:size,height:size,borderRadius:size * .2}} />
     {wordmark && <Text style={styles.wordmark}>STAR TALKS</Text>}
@@ -46,18 +54,32 @@ export function MapArtwork() {
   </Svg></View>;
 }
 
-export function Title({children, subtitle, star}: {children: ReactNode; subtitle?: string; star?: boolean}) { return <View style={styles.titleBlock}>{star ? <Sparkle size={17} color={Colors.gold} fill={Colors.gold} strokeWidth={1.2} style={{marginBottom: 28}} /> : null}<Text style={styles.title}>{children}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>; }
+export function Title({children, subtitle, star}: {children: ReactNode; subtitle?: string; star?: boolean}) {
+  const { Colors: palette } = useTheme();
+  const styles = useThemedStyles(makestyles);
+ return <View style={styles.titleBlock}>{star ? <Sparkle size={17} color={palette.gold} fill={palette.gold} strokeWidth={1.2} style={{marginBottom: 28}} /> : null}<Text style={styles.title}>{children}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>; }
 export function PrimaryButton({title,onPress,loading,disabled}: {title:string; onPress:()=>void; loading?:boolean; disabled?:boolean}) {
-  const scale = useRef(new Animated.Value(1)).current;
+  const { Colors: palette, themed } = useTheme();
+  const styles = useThemedStyles(makestyles);
+
+  const [scale] = useState(() => new Animated.Value(1));
   const pressIn = () => Animated.spring(scale, { toValue: 0.985, speed: 28, bounciness: 3, useNativeDriver: true }).start();
   const pressOut = () => Animated.spring(scale, { toValue: 1, speed: 22, bounciness: 5, useNativeDriver: true }).start();
-  return <Animated.View style={{ transform: [{ scale }] }}><Pressable accessibilityRole="button" disabled={disabled||loading} onPressIn={pressIn} onPressOut={pressOut} onPress={onPress} style={({pressed})=>[styles.primary, (pressed||disabled)&&{opacity:.86}]}><LinearGradient colors={[Colors.primaryFrom,Colors.primaryTo]} start={{x:0,y:0.5}} end={{x:1,y:0.5}} style={styles.primaryGradient}>{loading?<ActivityIndicator color="white"/>:<><Text style={styles.primaryText}>{title}</Text><ArrowRight color="white" size={17}/></>}</LinearGradient></Pressable></Animated.View>;
+  return <Animated.View style={{ transform: [{ scale }] }}><Pressable accessibilityRole="button" disabled={disabled||loading} onPressIn={pressIn} onPressOut={pressOut} onPress={onPress} style={({pressed})=>[styles.primary, (pressed||disabled)&&{opacity:.86}]}><LinearGradient colors={[palette.primaryFrom,palette.primaryTo]} start={{x:0,y:0.5}} end={{x:1,y:0.5}} style={styles.primaryGradient}>{loading?<ActivityIndicator color={themed("white", 'foreground')}/>:<><Text style={styles.primaryText}>{title}</Text><ArrowRight color={themed("white", 'foreground')} size={17}/></>}</LinearGradient></Pressable></Animated.View>;
 }
 export function TextField({label,icon,secure,...props}: TextInputProps & {label?:string;icon?:ReactNode;secure?:boolean}) {
+  const { Colors: palette, themed } = useTheme();
+  const styles = useThemedStyles(makestyles);
+
   const [hidden,setHidden]=useState(secure??false);
-  return <View style={styles.fieldWrap}>{label?<Text style={styles.fieldLabel}>{label}</Text>:null}<View style={styles.field}>{icon?<View style={styles.fieldIcon}>{icon}</View>:null}<TextInput placeholderTextColor="#9698A8" style={styles.input} secureTextEntry={secure?hidden:false} autoCapitalize={props.keyboardType==='email-address'?'none':props.autoCapitalize} {...props}/>{secure?<Pressable onPress={()=>setHidden(!hidden)}>{hidden?<Eye color={Colors.muted} size={18}/>:<EyeOff color={Colors.muted} size={18}/>}</Pressable>:null}</View></View>
+  return <View style={styles.fieldWrap}>{label?<Text style={styles.fieldLabel}>{label}</Text>:null}<View style={styles.field}>{icon?<View style={styles.fieldIcon}>{icon}</View>:null}<TextInput placeholderTextColor={themed("#9698A8", 'foreground')} style={styles.input} secureTextEntry={secure?hidden:false} autoCapitalize={props.keyboardType==='email-address'?'none':props.autoCapitalize} {...props}/>{secure?<Pressable onPress={()=>setHidden(!hidden)}>{hidden?<Eye color={palette.muted} size={18}/>:<EyeOff color={palette.muted} size={18}/>}</Pressable>:null}</View></View>
 }
-export function SelectRow({children,selected,onPress,flag}: {children:string;selected:boolean;onPress:()=>void;flag?:string}){return <Pressable onPress={onPress} style={[styles.selectRow,selected&&styles.selectSelected]}><Text style={styles.flag}>{flag}</Text><Text style={styles.selectText}>{children}</Text><View style={[styles.radio,selected&&styles.radioOn]}>{selected?<CircleCheck size={17} color="white" fill={Colors.indigo}/>:null}</View></Pressable>}
-export function ScreenDecoration(){return <View style={styles.decoration}><Svg width="100%" height="100%" viewBox="0 0 400 150"><Path d="M0 58q95 30 168-2t232 2v92H0z" fill="#EBE8FA"/><Path d="M0 86q100-35 185 8t215-12v68H0z" fill="#DBD6F4"/></Svg></View>}
+export function SelectRow({children,selected,onPress,flag}: {children:string;selected:boolean;onPress:()=>void;flag?:string}){
+  const { Colors: palette, themed } = useTheme();
+  const styles = useThemedStyles(makestyles);
+return <Pressable onPress={onPress} style={[styles.selectRow,selected&&styles.selectSelected]}><Text style={styles.flag}>{flag}</Text><Text style={styles.selectText}>{children}</Text><View style={[styles.radio,selected&&styles.radioOn]}>{selected?<CircleCheck size={17} color={themed("white", 'foreground')} fill={palette.primaryFrom}/>:null}</View></Pressable>}
+export function ScreenDecoration(){
+  const styles = useThemedStyles(makestyles);
+return <View style={styles.decoration}><Svg width="100%" height="100%" viewBox="0 0 400 150"><Path d="M0 58q95 30 168-2t232 2v92H0z" fill="#EBE8FA"/><Path d="M0 86q100-35 185 8t215-12v68H0z" fill="#DBD6F4"/></Svg></View>}
 export const Icon = { MapPin, ChevronDown, Sparkles };
-const styles=StyleSheet.create({safe:{flex:1,backgroundColor:Colors.ivory},dark:{backgroundColor:Colors.midnight},screenInner:{flex:1,paddingHorizontal:25,paddingTop:18,paddingBottom:14},scroll:{flexGrow:1},wordmark:{color:'white',fontFamily:'Poppins_600SemiBold',letterSpacing:4,fontSize:14,marginTop:8},titleBlock:{alignItems:'center',marginTop:15,marginBottom:18,width:'100%'},title:{fontFamily:'Poppins_600SemiBold',fontSize:23,color:Colors.indigo,textAlign:'center'},subtitle:{fontFamily:'Poppins_400Regular',fontSize:12,color:Colors.muted,textAlign:'center',marginTop:5},primary:{height:48,borderRadius:Radius.pill,overflow:'hidden',marginTop:17},primaryGradient:{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row',gap:8},primaryText:{fontFamily:'Poppins_600SemiBold',fontSize:14,color:'white'},fieldWrap:{marginBottom:12},fieldLabel:{fontFamily:'Poppins_500Medium',fontSize:12,color:Colors.text,marginBottom:5},field:{height:46,borderWidth:1,borderColor:'#E5E3DF',borderRadius:8,backgroundColor:'white',paddingHorizontal:12,flexDirection:'row',alignItems:'center',gap:9},input:{flex:1,color:Colors.text,fontFamily:'Poppins_400Regular',fontSize:12,paddingVertical:0},fieldIcon:{width:18,alignItems:'center'},selectRow:{height:51,backgroundColor:'white',borderWidth:1,borderColor:'#E9E7E3',borderRadius:9,paddingHorizontal:13,marginBottom:8,flexDirection:'row',alignItems:'center'},selectSelected:{borderColor:Colors.indigo},flag:{fontSize:18,width:30},selectText:{fontFamily:'Poppins_500Medium',fontSize:13,color:Colors.text,flex:1},radio:{width:19,height:19,borderWidth:1.5,borderColor:'#CACBD2',borderRadius:99,alignItems:'center',justifyContent:'center'},radioOn:{borderColor:Colors.indigo,backgroundColor:Colors.indigo},decoration:{height:92,position:'absolute',bottom:0,left:0,right:0,zIndex:0,pointerEvents:'none'}});
+const makestyles = (Colors: Palette, themed: ThemeColor) => StyleSheet.create({safe:{flex:1,backgroundColor:Colors.ivory},dark:{backgroundColor:Colors.midnight},screenInner:{flex:1,paddingHorizontal:25,paddingTop:18,paddingBottom:14},scroll:{flexGrow:1},wordmark:{color:themed('white', 'foreground'),fontFamily:'Poppins_600SemiBold',letterSpacing:4,fontSize:14,marginTop:8},titleBlock:{alignItems:'center',marginTop:15,marginBottom:18,width:'100%'},title:{fontFamily:'Poppins_600SemiBold',fontSize:23,color:Colors.indigo,textAlign:'center'},subtitle:{fontFamily:'Poppins_400Regular',fontSize:12,color:Colors.muted,textAlign:'center',marginTop:5},primary:{height:48,borderRadius:Radius.pill,overflow:'hidden',marginTop:17},primaryGradient:{flex:1,alignItems:'center',justifyContent:'center',flexDirection:'row',gap:8},primaryText:{fontFamily:'Poppins_600SemiBold',fontSize:14,color:themed('white', 'foreground')},fieldWrap:{marginBottom:12},fieldLabel:{fontFamily:'Poppins_500Medium',fontSize:12,color:Colors.text,marginBottom:5},field:{height:46,borderWidth:1,borderColor:themed('#E5E3DF', 'border'),borderRadius:8,backgroundColor:themed('white', 'surface'),paddingHorizontal:12,flexDirection:'row',alignItems:'center',gap:9},input:{flex:1,color:Colors.text,fontFamily:'Poppins_400Regular',fontSize:12,paddingVertical:0},fieldIcon:{width:18,alignItems:'center'},selectRow:{height:51,backgroundColor:themed('white', 'surface'),borderWidth:1,borderColor:themed('#E9E7E3', 'border'),borderRadius:9,paddingHorizontal:13,marginBottom:8,flexDirection:'row',alignItems:'center'},selectSelected:{borderColor:Colors.indigo},flag:{fontSize:18,width:30},selectText:{fontFamily:'Poppins_500Medium',fontSize:13,color:Colors.text,flex:1},radio:{width:19,height:19,borderWidth:1.5,borderColor:themed('#CACBD2', 'border'),borderRadius:99,alignItems:'center',justifyContent:'center'},radioOn:{borderColor:Colors.indigo,backgroundColor:Colors.primaryFrom},decoration:{height:92,position:'absolute',bottom:0,left:0,right:0,zIndex:0,pointerEvents:'none'}});

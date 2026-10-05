@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import {
   Bell,
   BookOpen,
@@ -17,7 +18,7 @@ import {
   WalletCards,
 } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Animated, ImageBackground, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { go, TabBar } from '@/components/ui';
@@ -38,10 +39,12 @@ const services = [
 ] as const;
 
 export default function HomeScreen() {
+  const { themed } = useTheme();
+
   const { t } = useTranslation();
   const [name, setName] = useState('');
-  const tileEntrance = useRef(services.map(() => new Animated.Value(0))).current;
-  const offerEntrance = useRef(new Animated.Value(0)).current;
+  const [tileEntrance] = useState(() => services.map(() => new Animated.Value(0)));
+  const [offerEntrance] = useState(() => new Animated.Value(0));
 
   useEffect(() => {
     Animated.stagger(45, tileEntrance.map(value => Animated.timing(value, {
@@ -81,39 +84,39 @@ export default function HomeScreen() {
   const initials = name ? name.slice(0, 1).toUpperCase() : 'S';
 
   return (
-    <View style={{ flex: 1, width: '100%', overflow: 'hidden', backgroundColor: '#FBF9F5' }}>
-      <StatusBar barStyle="light-content" backgroundColor="#171C5C" />
+    <View style={{ flex: 1, width: '100%', overflow: 'hidden', backgroundColor: themed('#FBF9F5', 'surface') }}>
+      <StatusBar barStyle="light-content" backgroundColor={themed("#171C5C", 'surface')} />
 
-      <SafeAreaView edges={['top']} style={{ width: '100%', backgroundColor: '#171C5C' }}>
-        <View style={{ width: '100%', backgroundColor: '#171C5C', paddingHorizontal: 20, paddingTop: 12, paddingBottom: 23 }}>
+      <SafeAreaView edges={['top']} style={{ width: '100%', backgroundColor: themed('#171C5C', 'surface') }}>
+        <View style={{ width: '100%', backgroundColor: themed('#171C5C', 'surface'), paddingHorizontal: 20, paddingTop: 12, paddingBottom: 23 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 30 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-              <Pressable accessibilityRole="button" accessibilityLabel="Profile" onPress={() => go('/profile')} style={{ width: 39, height: 39, borderRadius: 22, backgroundColor: '#F6F3F0', borderWidth: 2, borderColor: '#D8D0F7', alignItems: 'center', justifyContent: 'center' }}>
-                {name ? <Text style={{ color: '#353477', fontFamily: 'Poppins_600SemiBold', fontSize: 15 }}>{initials}</Text> : <CircleUserRound color="#353477" size={23} />}
+              <Pressable accessibilityRole="button" accessibilityLabel="Profile" onPress={() => go('/profile')} style={{ width: 39, height: 39, borderRadius: 22, backgroundColor: themed('#F6F3F0', 'surface'), borderWidth: 2, borderColor: themed('#D8D0F7', 'border'), alignItems: 'center', justifyContent: 'center' }}>
+                {name ? <Text style={{ color: themed('#353477', 'foreground'), fontFamily: 'Poppins_600SemiBold', fontSize: 15 }}>{initials}</Text> : <CircleUserRound color={themed("#353477", 'foreground')} size={23} />}
               </Pressable>
               <View>
-                <Text style={{ color: '#FFFDFB', fontFamily: 'Poppins_600SemiBold', fontSize: 14 }}>{t('home.greeting', { name: name || t('home.starSeeker') })}</Text>
-                <Text style={{ color: '#D9D9EF', fontFamily: 'Poppins_400Regular', fontSize: 10, marginTop: 1 }}>{t('home.goodMorning')}</Text>
+                <Text style={{ color: themed('#FFFDFB', 'foreground'), fontFamily: 'Poppins_600SemiBold', fontSize: 14 }}>{t('home.greeting', { name: name || t('home.starSeeker') })}</Text>
+                <Text style={{ color: themed('#D9D9EF', 'foreground'), fontFamily: 'Poppins_400Regular', fontSize: 10, marginTop: 1 }}>{t('home.goodMorning')}</Text>
               </View>
             </View>
             <Pressable accessibilityRole="button" accessibilityLabel={t('home.notificationsA11y')} onPress={() => go('/notifications')} style={{ width: 38, height: 38, alignItems: 'center', justifyContent: 'center' }}>
-              <Bell color="#FFFDFB" size={21} strokeWidth={1.8} />
-              <View style={{ position: 'absolute', right: 7, top: 6, width: 6, height: 6, borderRadius: 4, backgroundColor: '#F5CC79' }} />
+              <Bell color={themed("#FFFDFB", 'foreground')} size={21} strokeWidth={1.8} />
+              <View style={{ position: 'absolute', right: 7, top: 6, width: 6, height: 6, borderRadius: 4, backgroundColor: themed('#F5CC79', 'surface') }} />
             </Pressable>
           </View>
 
-          <View style={{ height: 190, borderRadius: 17, overflow: 'hidden', backgroundColor: '#E9D5F5' }}>
+          <View style={{ height: 190, borderRadius: 17, overflow: 'hidden', backgroundColor: themed('#E9D5F5', 'surface') }}>
             <ImageBackground source={require('../../assets/images/star-talks-splash-background.png')} resizeMode="cover" accessibilityLabel="Starry sunrise card background" imageStyle={{ opacity: 0.86 }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }} />
             <LinearGradient colors={['rgba(228, 219, 248, 0.17)', 'rgba(255, 241, 218, 0.08)']} style={{ position: 'absolute', inset: 0 }} />
-            <Sparkles color="#F7E8BB" size={15} style={{ position: 'absolute', right: 24, top: 13 }} />
+            <Sparkles color={themed("#F7E8BB", 'foreground')} size={15} style={{ position: 'absolute', right: 24, top: 13 }} />
             <Text style={{ position: 'absolute', left: 17, right: 13, top: 21, color: '#34345F', fontFamily: 'Poppins_600SemiBold', fontSize: 17, lineHeight: 23, textAlign: 'center' }}>
               {t('home.heroTitle')}
             </Text>
-            <Pressable accessibilityRole="button" accessibilityLabel={t('home.askA11y')} onPress={() => go('/ai')} style={({ pressed }) => [{ position: 'absolute', left: 10, right: 10, bottom: 9, height: 45, borderRadius: 25, backgroundColor: '#FFFEFC', flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 8, gap: 10 }, pressed && { opacity: 0.9, transform: [{ scale: 0.985 }] }]}>
-              <Search color="#555987" size={17} />
-              <Text style={{ flex: 1, color: '#89899B', fontFamily: 'Poppins_400Regular', fontSize: 10 }}>{t('home.askPlaceholder')}</Text>
-              <View style={{ width: 30, height: 30, borderRadius: 16, backgroundColor: '#312D91', alignItems: 'center', justifyContent: 'center' }}>
-                <ChevronRight color="white" size={18} />
+            <Pressable accessibilityRole="button" accessibilityLabel={t('home.askA11y')} onPress={() => go('/ai')} style={({ pressed }) => [{ position: 'absolute', left: 10, right: 10, bottom: 9, height: 45, borderRadius: 25, backgroundColor: themed('#FFFEFC', 'surface'), flexDirection: 'row', alignItems: 'center', paddingLeft: 14, paddingRight: 8, gap: 10 }, pressed && { opacity: 0.9, transform: [{ scale: 0.985 }] }]}>
+              <Search color={themed("#555987", 'foreground')} size={17} />
+              <Text style={{ flex: 1, color: themed('#89899B', 'foreground'), fontFamily: 'Poppins_400Regular', fontSize: 10 }}>{t('home.askPlaceholder')}</Text>
+              <View style={{ width: 30, height: 30, borderRadius: 16, backgroundColor: themed('#312D91', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+                <ChevronRight color={themed("white", 'foreground')} size={18} />
               </View>
             </Pressable>
           </View>
@@ -126,9 +129,9 @@ export default function HomeScreen() {
             const label = t(`home.services.${id}`);
             const entrance = tileEntrance[index];
             return <Animated.View key={id} style={{ width: '31.5%', opacity: entrance, transform: [{ translateY: entrance.interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) }, { scale: entrance.interpolate({ inputRange: [0, 1], outputRange: [0.97, 1] }) }] }}>
-              <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={() => (route ? go(route) : Alert.alert(label, t('home.comingSoon', { name: label })))} style={({ pressed }) => [{ width: '100%', height: 104, borderRadius: 13, backgroundColor: tint, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, pressed && { opacity: 0.88 }]}>
-                <Icon color={ink} size={25} strokeWidth={1.8} />
-                <Text numberOfLines={2} style={{ minHeight: 27, marginTop: 8, color: '#30334F', fontFamily: 'Poppins_500Medium', fontSize: 9.5, lineHeight: 13, textAlign: 'center' }}>{label}</Text>
+              <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={() => (route ? go(route) : Alert.alert(label, t('home.comingSoon', { name: label })))} style={({ pressed }) => [{ width: '100%', height: 104, borderRadius: 13, backgroundColor: themed(tint, 'surface'), alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, pressed && { opacity: 0.88 }]}>
+                <Icon color={themed(ink, 'foreground')} size={25} strokeWidth={1.8} />
+                <Text numberOfLines={2} style={{ minHeight: 27, marginTop: 8, color: themed('#30334F', 'foreground'), fontFamily: 'Poppins_500Medium', fontSize: 9.5, lineHeight: 13, textAlign: 'center' }}>{label}</Text>
               </Pressable>
             </Animated.View>;
           })}
@@ -138,57 +141,57 @@ export default function HomeScreen() {
           <Pressable accessibilityRole="button" accessibilityLabel={t('home.dailyCreditsA11y')} onPress={() => go('/earn-credits')} style={({ pressed }) => [{ minHeight: 68, borderRadius: 14, overflow: 'hidden', marginTop: 15, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 }, pressed && { opacity: 0.92, transform: [{ scale: 0.985 }] }]}>
             <LinearGradient colors={['#252A80', '#27266F', '#302D84']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ position: 'absolute', inset: 0 }} />
             <View style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center', marginRight: 9 }}>
-              <Sparkles color="#FFE28F" size={28} strokeWidth={1.7} />
+              <Sparkles color={themed("#FFE28F", 'foreground')} size={28} strokeWidth={1.7} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: '#FFFDFB', fontFamily: 'Poppins_600SemiBold', fontSize: 10.5 }}>{t('home.watchAdsTitle')}</Text>
-              <Text style={{ color: '#D8D9F2', fontFamily: 'Poppins_400Regular', fontSize: 8.5, marginTop: 3 }}>{t('home.earnCredit')}</Text>
+              <Text style={{ color: themed('#FFFDFB', 'foreground'), fontFamily: 'Poppins_600SemiBold', fontSize: 10.5 }}>{t('home.watchAdsTitle')}</Text>
+              <Text style={{ color: themed('#D8D9F2', 'foreground'), fontFamily: 'Poppins_400Regular', fontSize: 8.5, marginTop: 3 }}>{t('home.earnCredit')}</Text>
             </View>
-            <ChevronRight color="#D9D5F3" size={17} />
+            <ChevronRight color={themed("#D9D5F3", 'foreground')} size={17} />
           </Pressable>
         </Animated.View>
 
-        <View style={{ marginTop: 14, borderRadius: 16, borderWidth: 1, borderColor: '#E3DCF1', backgroundColor: '#F1ECFA', padding: 12 }}>
+        <View style={{ marginTop: 14, borderRadius: 16, borderWidth: 1, borderColor: themed('#E3DCF1', 'border'), backgroundColor: themed('#F1ECFA', 'surface'), padding: 12 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-            <View style={{ width: 46, height: 46, borderRadius: 23, backgroundColor: '#E6E0F5', alignItems: 'center', justifyContent: 'center' }}>
-              <Play size={19} color="#2A3785" strokeWidth={1.8} />
+            <View style={{ width: 46, height: 46, borderRadius: 23, backgroundColor: themed('#E6E0F5', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+              <Play size={19} color={themed("#2A3785", 'foreground')} strokeWidth={1.8} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: '#2A3785' }}>Watch Ads & Earn</Text>
-              <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 10.5, color: '#3B4373', marginTop: 1 }}>Watch 5 ads to earn 5 AI credits</Text>
+              <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: themed('#2A3785', 'foreground') }}>Watch Ads & Earn</Text>
+              <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 10.5, color: themed('#3B4373', 'foreground'), marginTop: 1 }}>Watch 5 ads to earn 5 AI credits</Text>
             </View>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 10 }} contentContainerStyle={{ gap: 9 }}>
             {[0, 1, 2, 3, 4].map(i => (
               <View key={i} style={{ width: 78 }}>
-                <Pressable accessibilityRole="button" onPress={() => go('/earn-credits')} style={{ height: 50, borderRadius: 7, overflow: 'hidden', backgroundColor: ['#2C3358', '#5E6A8A', '#8D8680', '#3B3340', '#46506F'][i], alignItems: 'center', justifyContent: 'center' }}>
-                  <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: 'rgba(255,255,255,0.45)', alignItems: 'center', justifyContent: 'center' }}>
-                    <Play size={10} color="#fff" fill="#fff" />
+                <Pressable accessibilityRole="button" onPress={() => go('/earn-credits')} style={{ height: 50, borderRadius: 7, overflow: 'hidden', backgroundColor: themed(['#2C3358', '#5E6A8A', '#8D8680', '#3B3340', '#46506F'][i], 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: themed('rgba(255,255,255,0.45)', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+                    <Play size={10} color={themed("#fff", 'foreground')} fill="#fff" />
                   </View>
-                  {i < 3 ? <View style={{ position: 'absolute', right: 3, bottom: 3, width: 14, height: 14, borderRadius: 7, backgroundColor: 'rgba(120,112,170,0.95)', alignItems: 'center', justifyContent: 'center' }}><Check size={9} color="#fff" strokeWidth={3} /></View> : null}
+                  {i < 3 ? <View style={{ position: 'absolute', right: 3, bottom: 3, width: 14, height: 14, borderRadius: 7, backgroundColor: themed('rgba(120,112,170,0.95)', 'surface'), alignItems: 'center', justifyContent: 'center' }}><Check size={9} color={themed("#fff", 'foreground')} strokeWidth={3} /></View> : null}
                 </Pressable>
-                <Text style={{ textAlign: 'center', fontFamily: 'Poppins_400Regular', fontSize: 9, color: '#2A3785', marginTop: 3 }}>{`Ad ${i + 1} (1 Credit)`}</Text>
-                <Pressable accessibilityRole="button" onPress={() => go('/earn-credits')} style={{ height: 25, borderRadius: 6, backgroundColor: '#675E9D', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                  <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: '#fff' }}>Watch</Text>
+                <Text style={{ textAlign: 'center', fontFamily: 'Poppins_400Regular', fontSize: 9, color: themed('#2A3785', 'foreground'), marginTop: 3 }}>{`Ad ${i + 1} (1 Credit)`}</Text>
+                <Pressable accessibilityRole="button" onPress={() => go('/earn-credits')} style={{ height: 25, borderRadius: 6, backgroundColor: themed('#675E9D', 'surface'), alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                  <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: themed('#fff', 'foreground') }}>Watch</Text>
                 </Pressable>
               </View>
             ))}
           </ScrollView>
         </View>
 
-        <View style={{ marginTop: 10, marginBottom: 6, borderRadius: 16, borderWidth: 1, borderColor: '#E3DCF1', backgroundColor: '#F1ECFA', padding: 12, flexDirection: 'row', alignItems: 'center', gap: 11 }}>
-          <View style={{ width: 54, height: 54, borderRadius: 27, backgroundColor: '#E6E0F5', alignItems: 'center', justifyContent: 'center' }}>
-            <UsersRound size={25} color="#2A3785" strokeWidth={1.6} />
+        <View style={{ marginTop: 10, marginBottom: 6, borderRadius: 16, borderWidth: 1, borderColor: themed('#E3DCF1', 'border'), backgroundColor: themed('#F1ECFA', 'surface'), padding: 12, flexDirection: 'row', alignItems: 'center', gap: 11 }}>
+          <View style={{ width: 54, height: 54, borderRadius: 27, backgroundColor: themed('#E6E0F5', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+            <UsersRound size={25} color={themed("#2A3785", 'foreground')} strokeWidth={1.6} />
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: '#2A3785' }}>Refer & Earn</Text>
-            <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 10, color: '#3B4373', marginTop: 1 }}>Refer a friend to Star Talks and earn 100 credits!</Text>
+            <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 15, color: themed('#2A3785', 'foreground') }}>Refer & Earn</Text>
+            <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 10, color: themed('#3B4373', 'foreground'), marginTop: 1 }}>Refer a friend to Star Talks and earn 100 credits!</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 7 }}>
-              <Pressable accessibilityRole="button" onPress={() => go('/refer')} style={{ height: 28, paddingHorizontal: 12, borderRadius: 7, backgroundColor: '#675E9D', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: '#fff' }}>Share Your Referral Code</Text>
+              <Pressable accessibilityRole="button" onPress={() => go('/refer')} style={{ height: 28, paddingHorizontal: 12, borderRadius: 7, backgroundColor: themed('#675E9D', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: themed('#fff', 'foreground') }}>Share Your Referral Code</Text>
               </Pressable>
-              <View style={{ height: 28, paddingHorizontal: 9, borderRadius: 7, borderWidth: 1, borderStyle: 'dashed', borderColor: '#C9C2DF', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: '#2A3785' }}>STARTALKS10</Text>
+              <View style={{ height: 28, paddingHorizontal: 9, borderRadius: 7, borderWidth: 1, borderStyle: 'dashed', borderColor: themed('#C9C2DF', 'border'), alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 10, color: themed('#2A3785', 'foreground') }}>STARTALKS10</Text>
               </View>
             </View>
           </View>

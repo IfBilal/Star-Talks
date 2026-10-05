@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import DateTimePicker, { type DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { CalendarDays, ChevronDown, Clock3, MapPin } from 'lucide-react-native';
 import { Image } from 'expo-image';
@@ -18,6 +19,8 @@ const dateValue = (d: Date) => `${d.getFullYear()}-${String(d.getMonth()+1).padS
 const timeValue = (d: Date) => `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:00`;
 
 export default function NewProfile() {
+  const { Colors: palette, themed, mode } = useTheme();
+
   const { id } = useLocalSearchParams<{ id?: string }>();
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
@@ -121,27 +124,27 @@ export default function NewProfile() {
     {step === 0 ? <>
       <Field label="Full Name *" placeholder="Enter full name" value={name} onChangeText={setName} />
       <Field label="Full birth name for Numerology (optional)" placeholder="Confirm full birth name in Latin letters" value={numerologyName} onChangeText={setNumerologyName} />
-      <Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.ink, marginBottom: 6 }}>Relationship *</Text>
-      <Pressable onPress={() => setRelOpen(true)} style={{ height: 44, borderRadius: 10, borderWidth: 1, borderColor: '#E6E1EF', backgroundColor: '#fff', paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}><Text style={{ fontFamily: F.r, fontSize: 12, color: rel ? Colors.ink : '#9AA0B8' }}>{rel || 'Select relationship'}</Text><ChevronDown size={17} color={Colors.navy} /></Pressable>
-      <Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.ink, marginBottom: 8 }}>Gender</Text>
-      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 14 }}>{['Male', 'Female', 'Other'].map(g => <Pressable key={g} onPress={() => setGender(g)} style={{ flex: 1, height: 42, borderRadius: 10, backgroundColor: gender === g ? '#4B4FAE' : '#fff', borderWidth: 1, borderColor: gender === g ? '#4B4FAE' : '#ECE7F4', alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontFamily: F.m, fontSize: 12, color: gender === g ? '#fff' : Colors.navy }}>{g}</Text></Pressable>)}</View>
-      <Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate }}>Name-based numbers are calculated only when you confirm a full birth name. For another script, enter your own Latin transliteration.</Text>
+      <Text style={{ fontFamily: F.m, fontSize: 12, color: palette.ink, marginBottom: 6 }}>Relationship *</Text>
+      <Pressable onPress={() => setRelOpen(true)} style={{ height: 44, borderRadius: 10, borderWidth: 1, borderColor: themed('#E6E1EF', 'border'), backgroundColor: themed('#fff', 'surface'), paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}><Text style={{ fontFamily: F.r, fontSize: 12, color: themed(rel ? Colors.ink : '#9AA0B8', 'foreground') }}>{rel || 'Select relationship'}</Text><ChevronDown size={17} color={palette.navy} /></Pressable>
+      <Text style={{ fontFamily: F.m, fontSize: 12, color: palette.ink, marginBottom: 8 }}>Gender</Text>
+      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 14 }}>{['Male', 'Female', 'Other'].map(g => <Pressable key={g} onPress={() => setGender(g)} style={{ flex: 1, height: 42, borderRadius: 10, backgroundColor: themed(gender === g ? '#4B4FAE' : '#fff', 'surface'), borderWidth: 1, borderColor: themed(gender === g ? '#4B4FAE' : '#ECE7F4', 'border'), alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontFamily: F.m, fontSize: 12, color: themed(gender === g ? '#fff' : Colors.navy, 'foreground') }}>{g}</Text></Pressable>)}</View>
+      <Text style={{ fontFamily: F.r, fontSize: 10.5, color: palette.slate }}>Name-based numbers are calculated only when you confirm a full birth name. For another script, enter your own Latin transliteration.</Text>
     </> : step === 1 ? <>
-      <OutlineField label="Date of Birth" value={formatDate(dob)} onPress={() => setPicker('date')} right={<CalendarDays size={18} color={Colors.navy} />} />
-      <OutlineField label="Time of Birth" value={timeKnown ? birthTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Unknown'} onPress={() => timeKnown && setPicker('time')} right={<Clock3 size={18} color={Colors.navy} />} />
-      <Pressable onPress={() => setTimeKnown(value => !value)} style={{ padding: 11, alignSelf: 'flex-start' }}><Text style={{ fontFamily: F.m, fontSize: 11, color: Colors.navy }}>{timeKnown ? 'I do not know the birth time' : 'I know the birth time'}</Text></Pressable>
-      <OutlineField label="Place of Birth" value={placeQuery} onChangeText={value => { setPlace(null); setPlaceQuery(value); setResults([]); }} placeholder="Search city or town" right={<MapPin size={18} color={Colors.navy} />} />
-      {searching ? <ActivityIndicator color={Colors.indigo} /> : null}
-      {results.map(item => <Pressable key={item.id} onPress={() => { setPlace(item); setPlaceQuery(item.label); setResults([]); }} style={{ padding: 11, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#eee' }}><Text style={{ fontFamily: F.r, fontSize: 11, color: Colors.navy }}>{item.label}</Text></Pressable>)}
-      <Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate, marginTop: 14 }}>Unknown time limits house, rising-sign and hour-pillar readings.</Text>
-      {picker ? <DateTimePicker value={picker === 'date' ? dob : birthTime} mode={picker} display={Platform.OS === 'ios' ? 'spinner' : 'default'} maximumDate={picker === 'date' ? new Date() : undefined} onChange={onPicker} /> : null}
+      <OutlineField label="Date of Birth" value={formatDate(dob)} onPress={() => setPicker('date')} right={<CalendarDays size={18} color={palette.navy} />} />
+      <OutlineField label="Time of Birth" value={timeKnown ? birthTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Unknown'} onPress={() => timeKnown && setPicker('time')} right={<Clock3 size={18} color={palette.navy} />} />
+      <Pressable onPress={() => setTimeKnown(value => !value)} style={{ padding: 11, alignSelf: 'flex-start' }}><Text style={{ fontFamily: F.m, fontSize: 11, color: palette.navy }}>{timeKnown ? 'I do not know the birth time' : 'I know the birth time'}</Text></Pressable>
+      <OutlineField label="Place of Birth" value={placeQuery} onChangeText={value => { setPlace(null); setPlaceQuery(value); setResults([]); }} placeholder="Search city or town" right={<MapPin size={18} color={palette.navy} />} />
+      {searching ? <ActivityIndicator color={palette.indigo} /> : null}
+      {results.map(item => <Pressable key={item.id} onPress={() => { setPlace(item); setPlaceQuery(item.label); setResults([]); }} style={{ padding: 11, backgroundColor: themed('#fff', 'surface'), borderBottomWidth: 1, borderBottomColor: themed('#eee', 'border') }}><Text style={{ fontFamily: F.r, fontSize: 11, color: palette.navy }}>{item.label}</Text></Pressable>)}
+      <Text style={{ fontFamily: F.r, fontSize: 10.5, color: palette.slate, marginTop: 14 }}>Unknown time limits house, rising-sign and hour-pillar readings.</Text>
+      {picker ? <DateTimePicker themeVariant={mode} value={picker === 'date' ? dob : birthTime} mode={picker} display={Platform.OS === 'ios' ? 'spinner' : 'default'} maximumDate={picker === 'date' ? new Date() : undefined} onChange={onPicker} /> : null}
     </> : <>
-      <Text style={{ fontFamily: F.s, fontSize: 18, color: Colors.navy, marginBottom: 15 }}>Review birth profile</Text>
-      {[["Name",name],["Numerology birth name",numerologyName||'Not confirmed'],["Relationship",rel],["Date",formatDate(dob)],["Time",timeKnown ? birthTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Unknown'],["Place",place?.label ?? '']].map(([label,value]) => <View key={label} style={{ paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#E9E5F0' }}><Text style={{ fontFamily: F.r, fontSize: 10, color: Colors.slate }}>{label}</Text><Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.navy }}>{value}</Text></View>)}
+      <Text style={{ fontFamily: F.s, fontSize: 18, color: palette.navy, marginBottom: 15 }}>Review birth profile</Text>
+      {[["Name",name],["Numerology birth name",numerologyName||'Not confirmed'],["Relationship",rel],["Date",formatDate(dob)],["Time",timeKnown ? birthTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Unknown'],["Place",place?.label ?? '']].map(([label,value]) => <View key={label} style={{ paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: themed('#E9E5F0', 'border') }}><Text style={{ fontFamily: F.r, fontSize: 10, color: palette.slate }}>{label}</Text><Text style={{ fontFamily: F.m, fontSize: 12, color: palette.navy }}>{value}</Text></View>)}
     </>}
-    {message ? <Text accessibilityRole="alert" style={{ fontFamily: F.r, fontSize: 11, color: Colors.danger, marginTop: 12 }}>{message}</Text> : null}
+    {message ? <Text accessibilityRole="alert" style={{ fontFamily: F.r, fontSize: 11, color: palette.danger, marginTop: 12 }}>{message}</Text> : null}
     <Button title={step < 2 ? 'Next' : 'Save Profile'} height={50} disabled={busy} style={{ borderRadius: 14, marginTop: 22 }} onPress={() => void next()} />
-    {step > 0 ? <Pressable onPress={() => { setMessage(''); setStep(step - 1); }} style={{ alignItems: 'center', padding: 14 }}><Text style={{ fontFamily: F.m, fontSize: 12, color: Colors.navy }}>Back</Text></Pressable> : null}
+    {step > 0 ? <Pressable onPress={() => { setMessage(''); setStep(step - 1); }} style={{ alignItems: 'center', padding: 14 }}><Text style={{ fontFamily: F.m, fontSize: 12, color: palette.navy }}>Back</Text></Pressable> : null}
     <Sheet visible={relOpen} onClose={() => setRelOpen(false)} title="Relationship" items={['Family', 'Partner', 'Friend', 'Child', 'Other'].map(r => ({ label: r, onPress: () => setRel(r) }))} />
   </AppScreen>;
 }

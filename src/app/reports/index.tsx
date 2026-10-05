@@ -1,7 +1,7 @@
+import { useTheme } from '@/lib/theme-context';
 import { Orbit, BriefcaseBusiness, CircleUserRound, FilePlus2, GraduationCap, Heart, Plus, Sparkle, Wallet } from 'lucide-react-native';
 import { Text, View } from 'react-native';
-import { AppBar, AppScreen, Card, go, ListRow, Type } from '@/components/ui';
-import { Colors } from '@/constants/theme';
+import { AppBar, AppScreen, Card, go, ListRow, useTypography } from '@/components/ui';
 
 const types = [
   { icon: (c: string) => <Orbit size={20} color={c} strokeWidth={1.6} />, title: 'Birth Chart Report', sub: 'Your cosmic blueprint' },
@@ -14,14 +14,17 @@ const types = [
 ] as { icon: (c: string) => React.ReactNode; title: string; sub?: string; bg?: string }[];
 
 export default function ReportsHome() {
+  const { Colors: palette, themed } = useTheme();
+  const Type = useTypography();
+
   return (
-    <AppScreen tab="reports" header={<AppBar brand centerLogo right={<View style={{ flexDirection: 'row', gap: 12 }}><Sparkle size={14} color={Colors.slate} /><Plus size={15} color={Colors.slate} /></View>} />} contentStyle={{ paddingTop: 10 }}>
+    <AppScreen tab="reports" header={<AppBar brand centerLogo right={<View style={{ flexDirection: 'row', gap: 12 }}><Sparkle size={14} color={palette.slate} /><Plus size={15} color={palette.slate} /></View>} />} contentStyle={{ paddingTop: 10 }}>
       <Text style={[Type.h1, { fontSize: 22 }]}>Astrology Reports</Text>
-      <Text style={[Type.body, { color: Colors.slate, marginTop: 3, marginBottom: 16, fontSize: 12.5 }]}>Discover what the stars reveal about you</Text>
+      <Text style={[Type.body, { color: palette.slate, marginTop: 3, marginBottom: 16, fontSize: 12.5 }]}>Discover what the stars reveal about you</Text>
       <View style={{ gap: 7 }}>
         {types.map(r => (
           <Card key={r.title} style={{ borderRadius: 13 }}>
-            <ListRow icon={r.icon} tileBg={r.bg} title={r.title} subtitle={r.sub} onPress={() => go('/reports/birth-details')} style={{ minHeight: 60 }} />
+            <ListRow icon={r.icon} tileBg={themed(r.bg, 'surface')} title={r.title} subtitle={r.sub} onPress={() => go('/reports/birth-details')} style={{ minHeight: 60 }} />
           </Card>
         ))}
       </View>

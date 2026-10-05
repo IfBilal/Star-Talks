@@ -1,7 +1,8 @@
+import { useTheme } from '@/lib/theme-context';
 import { BriefcaseBusiness, CircleUserRound, Ellipsis, FileText, Heart, Orbit, Sparkle } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { AppBar, AppScreen, Button, Card, go, IconTile, Type } from '@/components/ui';
+import { AppBar, AppScreen, Button, Card, go, IconTile, useTypography } from '@/components/ui';
 import { Colors } from '@/constants/theme';
 
 const items = [
@@ -13,25 +14,28 @@ const items = [
 ];
 
 export default function SelectReport() {
+  const { Colors: palette, themed } = useTheme();
+  const Type = useTypography();
+
   const [sel, setSel] = useState('birth');
   return (
     <AppScreen
-      header={<AppBar title="Select Report" right={<View style={{ flexDirection: 'row', gap: 12 }}><Sparkle size={14} color={Colors.slate} /><Ellipsis size={16} color={Colors.slate} /></View>} />}
-      footer={<View style={{ paddingHorizontal: 16, paddingBottom: 6 }}><Button title="Generate Report" height={50} style={{ borderRadius: 26 }} onPress={() => go('/reports/generating')} /><Text style={[Type.caption, { textAlign: 'center', marginTop: 10, fontSize: 11, color: Colors.slate }]}>Free preview available for some reports</Text></View>}
+      header={<AppBar title="Select Report" right={<View style={{ flexDirection: 'row', gap: 12 }}><Sparkle size={14} color={palette.slate} /><Ellipsis size={16} color={palette.slate} /></View>} />}
+      footer={<View style={{ paddingHorizontal: 16, paddingBottom: 6 }}><Button title="Generate Report" height={50} style={{ borderRadius: 26 }} onPress={() => go('/reports/generating')} /><Text style={[Type.caption, { textAlign: 'center', marginTop: 10, fontSize: 11, color: palette.slate }]}>Free preview available for some reports</Text></View>}
       contentStyle={{ paddingTop: 4 }}
     >
       <View style={{ gap: 10 }}>
         {items.map(i => (
-          <Card key={i.id} onPress={() => setSel(i.id)} style={{ borderRadius: 14, borderColor: sel === i.id ? Colors.primaryFrom : Colors.cardBorder }}>
+          <Card key={i.id} onPress={() => setSel(i.id)} style={{ borderRadius: 14, borderColor: themed(sel === i.id ? Colors.primaryFrom : Colors.cardBorder, 'border') }}>
             <View style={{ minHeight: 76, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14 }}>
-              <IconTile icon={i.icon} bg={i.bg ?? '#EFEAF9'} radius={11} />
+              <IconTile icon={i.icon} bg={themed(i.bg ?? '#EFEAF9', 'surface')} radius={11} />
               <View style={{ flex: 1 }}>
                 <Text style={Type.rowTitle}>{i.title}</Text>
                 <Text style={[Type.rowSub, { marginTop: 2 }]}>{i.sub}</Text>
               </View>
-              <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 13, color: Colors.navy }}>{i.price}</Text>
-              <View style={{ width: 22, height: 22, borderRadius: 11, borderWidth: 1.5, borderColor: sel === i.id ? Colors.primaryFrom : '#CFCBE2', alignItems: 'center', justifyContent: 'center' }}>
-                {sel === i.id ? <View style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: Colors.primaryFrom }} /> : null}
+              <Text style={{ fontFamily: 'Poppins_600SemiBold', fontSize: 13, color: palette.navy }}>{i.price}</Text>
+              <View style={{ width: 22, height: 22, borderRadius: 11, borderWidth: 1.5, borderColor: themed(sel === i.id ? Colors.primaryFrom : '#CFCBE2', 'border'), alignItems: 'center', justifyContent: 'center' }}>
+                {sel === i.id ? <View style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: palette.primaryFrom }} /> : null}
               </View>
             </View>
           </Card>

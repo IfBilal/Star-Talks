@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import { Text, View } from 'react-native';
 import { AppBar, AppScreen, Card, F, go, Pill } from '@/components/ui';
 import { Colors } from '@/constants/theme';
@@ -10,17 +11,19 @@ export const TICKETS = [
 ];
 
 export default function Tickets() {
+  const { Colors: palette, themed } = useTheme();
+
   return (
     <AppScreen tab="profile" header={<AppBar title="My Tickets" />} contentStyle={{ paddingTop: 6 }}>
       <View style={{ gap: 9 }}>
         {TICKETS.map(t => (
           <Card key={t.id} onPress={() => go(`/support/tickets/${t.id}`)} style={{ borderRadius: 14, padding: 14 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Text style={{ fontFamily: F.s, fontSize: 13, color: Colors.navy }}>{`#${t.id}  ·  ${t.title}`}</Text>
-              <Pill bg={t.bg} color={t.ink}>{t.status}</Pill>
+              <Text style={{ fontFamily: F.s, fontSize: 13, color: palette.navy }}>{`#${t.id}  ·  ${t.title}`}</Text>
+              <Pill bg={themed(t.bg, 'surface')} color={themed(t.ink, 'foreground')}>{t.status}</Pill>
             </View>
-            <Text style={{ fontFamily: F.r, fontSize: 11.5, color: Colors.ink, marginTop: 6 }}>{t.sub}</Text>
-            <Text style={{ fontFamily: F.r, fontSize: 10, color: Colors.slate, marginTop: 4 }}>{t.date}</Text>
+            <Text style={{ fontFamily: F.r, fontSize: 11.5, color: palette.ink, marginTop: 6 }}>{t.sub}</Text>
+            <Text style={{ fontFamily: F.r, fontSize: 10, color: palette.slate, marginTop: 4 }}>{t.date}</Text>
           </Card>
         ))}
       </View>

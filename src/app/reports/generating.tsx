@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import { useLocalSearchParams } from 'expo-router';
 import { Check, Circle, Crosshair } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
@@ -9,6 +10,8 @@ import { Colors } from '@/constants/theme';
 const steps = ['Calculating chart positions', 'Analysing planetary influences', 'Generating personalized insights'];
 
 export default function GeneratingReport() {
+  const { Colors: palette, themed } = useTheme();
+
   const { p } = useLocalSearchParams<{ p?: string }>();
   const fixed = p ? Number(p) : null;
   const [value, setValue] = useState(fixed ?? 8);
@@ -35,18 +38,18 @@ export default function GeneratingReport() {
       </View>
       <View style={{ alignItems: 'center', marginTop: 40 }}>
         <Emblem size={150} />
-        <Text style={{ marginTop: 22, fontFamily: 'Poppins_600SemiBold', fontSize: 18, color: Colors.navy }}>Generating Your Report</Text>
-        <Text style={{ marginTop: 10, textAlign: 'center', fontFamily: 'Poppins_400Regular', fontSize: 12.5, lineHeight: 20, color: Colors.ink }}>{'Please wait while we calculate your\npersonalized astrology report.'}</Text>
+        <Text style={{ marginTop: 22, fontFamily: 'Poppins_600SemiBold', fontSize: 18, color: palette.navy }}>Generating Your Report</Text>
+        <Text style={{ marginTop: 10, textAlign: 'center', fontFamily: 'Poppins_400Regular', fontSize: 12.5, lineHeight: 20, color: palette.ink }}>{'Please wait while we calculate your\npersonalized astrology report.'}</Text>
       </View>
       <View style={{ marginTop: 40 }}>
         <Progress value={value} height={8} from="#2A2E8A" to="#4C4FB0" track="#DCD9EF" />
-        <Text style={{ textAlign: 'center', marginTop: 10, fontFamily: 'Poppins_400Regular', fontSize: 11, color: Colors.slate }}>{`${value}%`}</Text>
+        <Text style={{ textAlign: 'center', marginTop: 10, fontFamily: 'Poppins_400Regular', fontSize: 11, color: palette.slate }}>{`${value}%`}</Text>
       </View>
       <View style={{ marginTop: 26, gap: 18, paddingHorizontal: 6 }}>
         {steps.map((s, i) => (
           <View key={s} style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-            {i === active ? <Crosshair size={18} color={Colors.navy} strokeWidth={1.8} /> : i < active ? <Check size={18} color={Colors.navy} strokeWidth={2} /> : <Circle size={18} color="#9C9EC0" strokeWidth={1.6} />}
-            <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 12.5, color: i <= active ? Colors.ink : Colors.slate }}>{s}</Text>
+            {i === active ? <Crosshair size={18} color={palette.navy} strokeWidth={1.8} /> : i < active ? <Check size={18} color={palette.navy} strokeWidth={2} /> : <Circle size={18} color={themed("#9C9EC0", 'foreground')} strokeWidth={1.6} />}
+            <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 12.5, color: themed(i <= active ? Colors.ink : Colors.slate, 'foreground') }}>{s}</Text>
           </View>
         ))}
       </View>

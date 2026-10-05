@@ -1,3 +1,4 @@
+import { ThemeProvider, useTheme } from '@/lib/theme-context';
 import { Stack, router, useSegments, type Href } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold } from '@expo-google-fonts/poppins';
@@ -8,14 +9,14 @@ import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { I18nextProvider } from 'react-i18next';
 
-import { AuthProvider } from '@/lib/auth-context';
-import { Colors } from '@/constants/theme';
+import { AuthProvider , useAuth } from '@/lib/auth-context';
 import i18n, { initI18n } from '@/lib/i18n';
-import { useAuth } from '@/lib/auth-context';
 import { supabase } from '@/lib/supabase';
 import { hasVerifiedPhone } from '@/features/auth/phone-verification';
 
 function GuardedStack() {
+  const { Colors: palette } = useTheme();
+
   const { session, loading } = useAuth();
   const segments = useSegments();
   const path = segments.join('/');
@@ -33,7 +34,7 @@ function GuardedStack() {
     });
     return () => { active = false; };
   }, [loading, path, session]);
-  return <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: Colors.ivory } }}>
+  return <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: palette.ivory } }}>
     <Stack.Screen name="index" />
     <Stack.Screen name="region" />
     <Stack.Screen name="language" />
@@ -50,6 +51,8 @@ function GuardedStack() {
 }
 
 export default function RootLayout() {
+  const { Colors: palette } = useTheme();
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -68,15 +71,17 @@ export default function RootLayout() {
   }, []);
 
   if (!fontsLoaded || !i18nReady) {
-    return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.midnight }}><ActivityIndicator color={Colors.gold} /></View>;
+    return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: palette.midnight }}><ActivityIndicator color={palette.gold} /></View>;
   }
 
   return (
     <I18nextProvider i18n={i18n}>
       <SafeAreaProvider>
+        <ThemeProvider>
         <AuthProvider>
           <GuardedStack />
         </AuthProvider>
+        </ThemeProvider>
       </SafeAreaProvider>
     </I18nextProvider>
   );

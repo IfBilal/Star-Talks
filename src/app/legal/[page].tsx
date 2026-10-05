@@ -1,8 +1,8 @@
+import { useTheme } from '@/lib/theme-context';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { AppBar, AppScreen, Card, F, Toggle } from '@/components/ui';
-import { Colors } from '@/constants/theme';
 import { aiCall } from '@/features/ai/api';
 
 const pages: Record<string, { title: string; sections: [string, string][] }> = {
@@ -12,6 +12,8 @@ const pages: Record<string, { title: string; sections: [string, string][] }> = {
 };
 
 export default function Legal() {
+  const { Colors: palette, themed } = useTheme();
+
   const { page } = useLocalSearchParams<{ page: string }>();
   const [c, setC] = useState({ birth_and_questions: false, palm_image: false, face_image: false });
   const [message,setMessage]=useState('');
@@ -22,17 +24,17 @@ export default function Legal() {
     const rows: [keyof typeof c, string, string][] = [['birth_and_questions', 'AI birth details & questions', 'Send selected birth details, questions and conversation context to the AI provider.'], ['palm_image', 'Palm photos', 'Send a selected palm photo for a Palmistry reading.'], ['face_image', 'Face photos', 'Send a selected face photo for a Face Reading.']];
     return (
       <AppScreen header={<AppBar title="Consent Management" />} contentStyle={{ paddingTop: 6 }}>
-        <Text style={{ fontFamily: F.r, fontSize: 11.5, lineHeight: 18, color: Colors.slate, marginBottom: 12 }}>Choose how your information is used. You can change this at any time.</Text>
+        <Text style={{ fontFamily: F.r, fontSize: 11.5, lineHeight: 18, color: palette.slate, marginBottom: 12 }}>Choose how your information is used. You can change this at any time.</Text>
         <Card style={{ borderRadius: 14 }}>
           {rows.map(([k, t, s], i) => (
-            <View key={k} style={{ minHeight: 66, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, borderBottomWidth: i < rows.length - 1 ? 1 : 0, borderBottomColor: '#EFEBF6' }}>
-              <View style={{ flex: 1 }}><Text style={{ fontFamily: F.s, fontSize: 12.5, color: Colors.navy }}>{t}</Text><Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate, marginTop: 2 }}>{s}</Text></View>
+            <View key={k} style={{ minHeight: 66, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, borderBottomWidth: i < rows.length - 1 ? 1 : 0, borderBottomColor: themed('#EFEBF6', 'border') }}>
+              <View style={{ flex: 1 }}><Text style={{ fontFamily: F.s, fontSize: 12.5, color: palette.navy }}>{t}</Text><Text style={{ fontFamily: F.r, fontSize: 10.5, color: palette.slate, marginTop: 2 }}>{s}</Text></View>
               <Toggle value={c[k]} onChange={v => void setConsent(k,v)} />
             </View>
           ))}
         </Card>
-        {message?<Text accessibilityRole="alert" style={{fontFamily:F.r,fontSize:11,color:Colors.danger,marginTop:10}}>{message}</Text>:null}
-        <Text style={{fontFamily:F.r,fontSize:10.5,lineHeight:17,color:Colors.slate,marginTop:12}}>Turning off consent stops future AI requests using that data. To remove saved readings and uploaded photos, delete your AI history in Account Settings.</Text>
+        {message?<Text accessibilityRole="alert" style={{fontFamily:F.r,fontSize:11,color:palette.danger,marginTop:10}}>{message}</Text>:null}
+        <Text style={{fontFamily:F.r,fontSize:10.5,lineHeight:17,color:palette.slate,marginTop:12}}>Turning off consent stops future AI requests using that data. To remove saved readings and uploaded photos, delete your AI history in Account Settings.</Text>
       </AppScreen>
     );
   }
@@ -42,8 +44,8 @@ export default function Legal() {
       <View style={{ gap: 14 }}>
         {p.sections.map(([h, b]) => (
           <Card key={h} style={{ borderRadius: 14, padding: 16 }}>
-            <Text style={{ fontFamily: F.s, fontSize: 13, color: Colors.navy }}>{h}</Text>
-            <Text style={{ fontFamily: F.r, fontSize: 12, lineHeight: 19, color: Colors.ink, marginTop: 6 }}>{b}</Text>
+            <Text style={{ fontFamily: F.s, fontSize: 13, color: palette.navy }}>{h}</Text>
+            <Text style={{ fontFamily: F.r, fontSize: 12, lineHeight: 19, color: palette.ink, marginTop: 6 }}>{b}</Text>
           </Card>
         ))}
       </View>

@@ -1,7 +1,8 @@
+import { useTheme } from '@/lib/theme-context';
 import { BriefcaseBusiness, CircleUserRound, Ellipsis, FileText, Heart, Orbit, Sparkle } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { AppBar, AppScreen, Card, go, IconTile, Segmented, Type } from '@/components/ui';
+import { AppBar, AppScreen, Card, go, IconTile, Segmented, useTypography } from '@/components/ui';
 import { Colors } from '@/constants/theme';
 
 const all = [
@@ -13,14 +14,17 @@ const all = [
 ];
 
 export default function ReportHistory() {
+  const { Colors: palette, themed } = useTheme();
+  const Type = useTypography();
+
   const [tab, setTab] = useState('All Reports');
   const list = tab === 'Saved' ? all.filter(r => r.saved) : all;
   return (
-    <AppScreen tab="reports" header={<AppBar title="Report History" right={<View style={{ flexDirection: 'row', gap: 12 }}><Sparkle size={14} color={Colors.slate} /><Ellipsis size={16} color={Colors.slate} /></View>} />} contentStyle={{ paddingTop: 6 }}>
-      <View style={{ flexDirection: 'row', backgroundColor: '#F2EEF8', borderRadius: 14, padding: 3, marginBottom: 14 }}>
+    <AppScreen tab="reports" header={<AppBar title="Report History" right={<View style={{ flexDirection: 'row', gap: 12 }}><Sparkle size={14} color={palette.slate} /><Ellipsis size={16} color={palette.slate} /></View>} />} contentStyle={{ paddingTop: 6 }}>
+      <View style={{ flexDirection: 'row', backgroundColor: themed('#F2EEF8', 'surface'), borderRadius: 14, padding: 3, marginBottom: 14 }}>
         {['All Reports', 'Saved'].map(i => (
-          <Pressable key={i} onPress={() => setTab(i)} style={{ flex: 1, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: tab === i ? Colors.primaryFrom : 'transparent' }}>
-            <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 12.5, color: tab === i ? '#fff' : Colors.navy }}>{i}</Text>
+          <Pressable key={i} onPress={() => setTab(i)} style={{ flex: 1, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: themed(tab === i ? Colors.primaryFrom : 'transparent', 'surface') }}>
+            <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 12.5, color: themed(tab === i ? '#fff' : Colors.navy, 'foreground') }}>{i}</Text>
           </Pressable>
         ))}
       </View>
@@ -28,13 +32,13 @@ export default function ReportHistory() {
         {list.map(r => (
           <Card key={r.title} style={{ borderRadius: 14 }}>
             <View style={{ minHeight: 66, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14 }}>
-              <IconTile icon={r.icon} bg={r.bg ?? '#F1ECFA'} radius={11} />
+              <IconTile icon={r.icon} bg={themed(r.bg ?? '#F1ECFA', 'surface')} radius={11} />
               <View style={{ flex: 1 }}>
                 <Text style={Type.rowTitle}>{r.title}</Text>
                 <Text style={[Type.rowSub, { marginTop: 3, fontSize: 10.5 }]}>{`${r.date}  •  PDF`}</Text>
               </View>
-              <Pressable accessibilityRole="button" onPress={() => go('/reports/ready')} style={{ height: 34, paddingHorizontal: 20, borderRadius: 17, backgroundColor: '#F6EFEA', justifyContent: 'center' }}>
-                <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 12, color: Colors.navy }}>View</Text>
+              <Pressable accessibilityRole="button" onPress={() => go('/reports/ready')} style={{ height: 34, paddingHorizontal: 20, borderRadius: 17, backgroundColor: themed('#F6EFEA', 'surface'), justifyContent: 'center' }}>
+                <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 12, color: palette.navy }}>View</Text>
               </Pressable>
             </View>
           </Card>

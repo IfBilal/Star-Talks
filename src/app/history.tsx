@@ -1,10 +1,10 @@
+import { useTheme } from '@/lib/theme-context';
 import { Award, BadgeCheck, BookOpen, ClipboardList, CreditCard, GraduationCap, HeartHandshake, LifeBuoy, MessagesSquare, Wallet } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import { AppBar, AppScreen, Card, Chip, F, go, ListRow, Type } from '@/components/ui';
+import { AppBar, AppScreen, Card, Chip, F, go, ListRow, useTypography } from '@/components/ui';
 import { MODULES } from '@/features/uiData/ai';
-import { Colors } from '@/constants/theme';
 import { aiCall, type AiConversation } from '@/features/ai/api';
 
 const rows = [
@@ -21,6 +21,9 @@ const rows = [
 ];
 
 export default function UserHistory() {
+  const { Colors: palette, themed } = useTheme();
+  const Type = useTypography();
+
   const [f, setF] = useState('All');
   const [aiCount,setAiCount]=useState<number|null>(null);
   const [compatibilityCount,setCompatibilityCount]=useState<number|null>(null);
@@ -33,7 +36,7 @@ export default function UserHistory() {
     <AppScreen tab="profile" header={<AppBar brand />} contentStyle={{ paddingTop: 4 }} pad={0}>
       <View style={{ paddingHorizontal: 16 }}>
         <Text style={[Type.h1, { fontSize: 22 }]}>User History</Text>
-        <Text style={[Type.body, { color: Colors.navy, marginTop: 3, marginBottom: 14, fontSize: 12 }]}>View your past activity, reports and more.</Text>
+        <Text style={[Type.body, { color: palette.navy, marginTop: 3, marginBottom: 14, fontSize: 12 }]}>View your past activity, reports and more.</Text>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }} style={{ flexGrow: 0 }}>
         {['All', 'AI', 'Reports', 'Courses', 'Support'].map(c => <Chip key={c} label={c} on={f === c} onPress={() => setF(c)} style={{ height: 34, paddingHorizontal: 20, borderRadius: 17 }} />)}
@@ -50,9 +53,9 @@ export default function UserHistory() {
           <Text style={[Type.section, { marginTop: 22, marginBottom: 10, fontSize: 14 }]}>AI History (Separate by Module)</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {MODULES.map(m => (
-              <Pressable key={m.id} accessibilityRole="button" onPress={() => go('/ai/history')} style={{ width: '31.5%', height: 58, borderRadius: 13, backgroundColor: '#FFFDFB', borderWidth: 1, borderColor: '#F0EAF3', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, gap: 6 }}>
-                <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: m.tint, alignItems: 'center', justifyContent: 'center' }}>{m.icon(m.ink, 15)}</View>
-                <Text numberOfLines={1} style={{ flex: 1, fontFamily: F.s, fontSize: 10, color: Colors.navy }}>{m.name.split(' ')[0]}</Text>
+              <Pressable key={m.id} accessibilityRole="button" onPress={() => go('/ai/history')} style={{ width: '31.5%', height: 58, borderRadius: 13, backgroundColor: themed('#FFFDFB', 'surface'), borderWidth: 1, borderColor: themed('#F0EAF3', 'border'), flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, gap: 6 }}>
+                <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: themed(m.tint, 'surface'), alignItems: 'center', justifyContent: 'center' }}>{m.icon(m.ink, 15)}</View>
+                <Text numberOfLines={1} style={{ flex: 1, fontFamily: F.s, fontSize: 10, color: palette.navy }}>{m.name.split(' ')[0]}</Text>
               </Pressable>
             ))}
           </View>

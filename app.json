@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/star-talks-logo.png",
     "scheme": "startalks",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "android": {
       "package": "com.startalks.mobile",
       "versionCode": 1,

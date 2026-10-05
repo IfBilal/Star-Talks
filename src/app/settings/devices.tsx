@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import { Laptop, Smartphone } from 'lucide-react-native';
 import { Text, View } from 'react-native';
 import { AppBar, AppScreen, Button, Card, F, IconTile, Pill } from '@/components/ui';
@@ -10,14 +11,16 @@ const devices = [
 ];
 
 export default function Devices() {
+  const { Colors: palette, themed } = useTheme();
+
   return (
     <AppScreen header={<AppBar title="Login & Devices" />} contentStyle={{ paddingTop: 6 }}>
       <View style={{ gap: 9 }}>
         {devices.map(d => (
           <Card key={d.name} style={{ borderRadius: 14, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
             <IconTile icon={d.icon} />
-            <View style={{ flex: 1 }}><Text style={{ fontFamily: F.s, fontSize: 12.5, color: Colors.navy }}>{d.name}</Text><Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate, marginTop: 2 }}>{d.sub}</Text></View>
-            {d.current ? <Pill bg="#DCEFE5" color="#2B7A52">Current</Pill> : <Text style={{ fontFamily: F.m, fontSize: 11, color: Colors.danger }}>Sign out</Text>}
+            <View style={{ flex: 1 }}><Text style={{ fontFamily: F.s, fontSize: 12.5, color: palette.navy }}>{d.name}</Text><Text style={{ fontFamily: F.r, fontSize: 10.5, color: palette.slate, marginTop: 2 }}>{d.sub}</Text></View>
+            {d.current ? <Pill bg={themed("#DCEFE5", 'surface')} color={themed("#2B7A52", 'foreground')}>Current</Pill> : <Text style={{ fontFamily: F.m, fontSize: 11, color: palette.danger }}>Sign out</Text>}
           </Card>
         ))}
       </View>

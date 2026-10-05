@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import { Check } from 'lucide-react-native';
 import { Text, View } from 'react-native';
 import { AppBar, AppScreen, Button, Card, F, replace } from '@/components/ui';
@@ -5,6 +6,8 @@ import { GoldStar } from '@/components/ui/icons';
 import { Colors } from '@/constants/theme';
 
 export default function PaymentSuccess() {
+  const { Colors: palette, themed } = useTheme();
+
   return (
     <AppScreen header={<AppBar title="" onBack={() => replace('/home')} />} pad={22}>
       <View style={{ position: 'absolute', top: 30, left: 0, right: 0 }} pointerEvents="none">
@@ -13,17 +16,17 @@ export default function PaymentSuccess() {
         <View style={{ position: 'absolute', right: 60, top: 120 }}><GoldStar size={8} opacity={0.6} /></View>
       </View>
       <View style={{ alignItems: 'center', marginTop: 34 }}>
-        <View style={{ width: 120, height: 120, borderRadius: 60, backgroundColor: '#ECE6F8', alignItems: 'center', justifyContent: 'center' }}>
-          <View style={{ width: 70, height: 70, borderRadius: 35, backgroundColor: '#3A3C9C', alignItems: 'center', justifyContent: 'center' }}><Check size={36} color="#fff" strokeWidth={3} /></View>
+        <View style={{ width: 120, height: 120, borderRadius: 60, backgroundColor: themed('#ECE6F8', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ width: 70, height: 70, borderRadius: 35, backgroundColor: themed('#3A3C9C', 'surface'), alignItems: 'center', justifyContent: 'center' }}><Check size={36} color={themed("#fff", 'foreground')} strokeWidth={3} /></View>
         </View>
-        <Text style={{ marginTop: 22, fontFamily: F.s, fontSize: 19, color: Colors.navy }}>Payment Successful</Text>
-        <Text style={{ marginTop: 8, textAlign: 'center', fontFamily: F.r, fontSize: 12, lineHeight: 19, color: Colors.slate }}>{'Thank you! Your payment has been received\nand your purchase is now unlocked.'}</Text>
+        <Text style={{ marginTop: 22, fontFamily: F.s, fontSize: 19, color: palette.navy }}>Payment Successful</Text>
+        <Text style={{ marginTop: 8, textAlign: 'center', fontFamily: F.r, fontSize: 12, lineHeight: 19, color: palette.slate }}>{'Thank you! Your payment has been received\nand your purchase is now unlocked.'}</Text>
       </View>
       <Card style={{ marginTop: 26, padding: 16, borderRadius: 14, gap: 11 }}>
         {[['Item', 'Vedic Astrology Foundation'], ['Amount paid', '₹4,999'], ['Payment method', 'UPI'], ['Transaction ID', '#STK48213907'], ['Status', 'Completed']].map(([a, b]) => (
           <View key={a} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontFamily: F.r, fontSize: 11.5, color: Colors.slate }}>{a}</Text>
-            <Text style={{ fontFamily: F.m, fontSize: 11.5, color: a === 'Status' ? Colors.success : Colors.ink }}>{b}</Text>
+            <Text style={{ fontFamily: F.r, fontSize: 11.5, color: palette.slate }}>{a}</Text>
+            <Text style={{ fontFamily: F.m, fontSize: 11.5, color: themed(a === 'Status' ? Colors.success : Colors.ink, 'foreground') }}>{b}</Text>
           </View>
         ))}
       </Card>

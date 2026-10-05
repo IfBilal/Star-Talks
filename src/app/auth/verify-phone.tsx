@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { Image } from 'expo-image';
@@ -12,6 +13,8 @@ import { requireSupabase } from '@/lib/supabase';
 const COOLDOWN_SECONDS = 60;
 
 export default function VerifyPhoneScreen() {
+  const { Colors: palette, themed } = useTheme();
+
   const [phone, setPhone] = useState('');
   const [sentTo, setSentTo] = useState('');
   const [code, setCode] = useState('');
@@ -84,19 +87,19 @@ export default function VerifyPhoneScreen() {
   return <Screen scroll style={{ paddingTop: 26 }}>
     <Image source={require('../../../assets/images/star-talks-mark.png')} contentFit="contain" accessibilityLabel="Star Talks" style={{ width: 86, height: 43, alignSelf: 'center', marginBottom: 3 }} />
     <Title subtitle="Secure your Star Talks account with a WhatsApp code">Verify your phone</Title>
-    <View style={{ alignItems: 'center', marginVertical: 22 }}><ShieldCheck size={40} color={Colors.indigo} /></View>
+    <View style={{ alignItems: 'center', marginVertical: 22 }}><ShieldCheck size={40} color={palette.indigo} /></View>
     {!sentTo ? <>
-      <TextField label="WhatsApp phone number" icon={<Phone size={16} color={Colors.muted} />} value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="+923001234567" autoCapitalize="none" />
-      <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 11, color: Colors.muted, lineHeight: 18, marginBottom: 15 }}>Include your country code. This number must be able to receive consumer WhatsApp messages.</Text>
+      <TextField label="WhatsApp phone number" icon={<Phone size={16} color={palette.muted} />} value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="+923001234567" autoCapitalize="none" />
+      <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 11, color: palette.muted, lineHeight: 18, marginBottom: 15 }}>Include your country code. This number must be able to receive consumer WhatsApp messages.</Text>
       <PrimaryButton title="Send WhatsApp code" loading={busy} onPress={send} />
     </> : <>
-      <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 12, color: Colors.muted, textAlign: 'center', marginBottom: 12 }}>Code sent to WhatsApp at {sentTo.replace(/(\d{2})\d{4}(\d{2})$/, '$1••••$2')}</Text>
-      <TextField label="Six-digit code" icon={<ShieldCheck size={16} color={Colors.muted} />} value={code} onChangeText={setCode} keyboardType="number-pad" placeholder="Enter code" />
+      <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: 12, color: palette.muted, textAlign: 'center', marginBottom: 12 }}>Code sent to WhatsApp at {sentTo.replace(/(\d{2})\d{4}(\d{2})$/, '$1••••$2')}</Text>
+      <TextField label="Six-digit code" icon={<ShieldCheck size={16} color={palette.muted} />} value={code} onChangeText={setCode} keyboardType="number-pad" placeholder="Enter code" />
       <PrimaryButton title="Verify and continue" loading={busy} onPress={verify} />
-      <Pressable disabled={busy || remaining > 0} onPress={() => void resend()} style={{ padding: 13, alignItems: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', color: remaining ? Colors.muted : Colors.indigo, fontSize: 12 }}>{remaining ? `Resend in ${remaining}s` : 'Resend code'}</Text></Pressable>
-      <Pressable disabled={busy} onPress={() => { setSentTo(''); setCode(''); setMessage(''); }} style={{ padding: 9, alignItems: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', color: Colors.indigo, fontSize: 12 }}>Edit number</Text></Pressable>
+      <Pressable disabled={busy || remaining > 0} onPress={() => void resend()} style={{ padding: 13, alignItems: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', color: themed(remaining ? Colors.muted : Colors.indigo, 'foreground'), fontSize: 12 }}>{remaining ? `Resend in ${remaining}s` : 'Resend code'}</Text></Pressable>
+      <Pressable disabled={busy} onPress={() => { setSentTo(''); setCode(''); setMessage(''); }} style={{ padding: 9, alignItems: 'center' }}><Text style={{ fontFamily: 'Poppins_500Medium', color: palette.indigo, fontSize: 12 }}>Edit number</Text></Pressable>
     </>}
-    {message ? <Text accessibilityRole="alert" style={{ fontFamily: 'Poppins_400Regular', color: Colors.danger, fontSize: 11, marginTop: 12, textAlign: 'center' }}>{message}</Text> : null}
-    <Pressable disabled={busy} onPress={signOut} style={{ padding: 16, alignItems: 'center', marginTop: 16 }}><Text style={{ fontFamily: 'Poppins_500Medium', color: Colors.muted, fontSize: 12 }}>Use another account</Text></Pressable>
+    {message ? <Text accessibilityRole="alert" style={{ fontFamily: 'Poppins_400Regular', color: palette.danger, fontSize: 11, marginTop: 12, textAlign: 'center' }}>{message}</Text> : null}
+    <Pressable disabled={busy} onPress={signOut} style={{ padding: 16, alignItems: 'center', marginTop: 16 }}><Text style={{ fontFamily: 'Poppins_500Medium', color: palette.muted, fontSize: 12 }}>Use another account</Text></Pressable>
   </Screen>;
 }

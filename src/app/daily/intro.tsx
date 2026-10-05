@@ -1,14 +1,17 @@
+import { useTheme } from '@/lib/theme-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, StatusBar, Text, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { F, go } from '@/components/ui';
 
 export default function DailyIntro() {
+  const { themed } = useTheme();
+
   return (
     <LinearGradient colors={['#23245E', '#3B3585', '#6B5BAE', '#B58A8C', '#6A5A98', '#2D2F78']} locations={[0, 0.25, 0.5, 0.66, 0.78, 1]} style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" />
       {[[12, 10], [30, 6], [55, 14], [78, 8], [90, 22], [20, 26], [66, 30], [44, 20], [8, 38]].map(([x, y], i) => (
-        <View key={i} style={{ position: 'absolute', left: `${x}%`, top: `${y}%`, width: 2, height: 2, borderRadius: 1, backgroundColor: '#fff', opacity: 0.6 }} />
+        <View key={i} style={{ position: 'absolute', left: `${x}%`, top: `${y}%`, width: 2, height: 2, borderRadius: 1, backgroundColor: themed('#fff', 'surface'), opacity: 0.6 }} />
       ))}
       <View style={{ position: 'absolute', right: 40, top: 110 }}>
         <Svg width={110} height={110} viewBox="0 0 110 110">
@@ -23,11 +26,11 @@ export default function DailyIntro() {
         </Svg>
       </View>
       <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 28 }}>
-        <Text style={{ textAlign: 'center', fontFamily: F.serifM, fontSize: 24, lineHeight: 36, color: '#F3ECF7' }}>{'A little guidance\nevery day, for a brighter you.'}</Text>
+        <Text style={{ textAlign: 'center', fontFamily: F.serifM, fontSize: 24, lineHeight: 36, color: themed('#F3ECF7', 'foreground') }}>{'A little guidance\nevery day, for a brighter you.'}</Text>
       </View>
       <View style={{ position: 'absolute', left: 28, right: 28, bottom: 92 }}>
-        <Pressable accessibilityRole="button" onPress={() => go('/daily')} style={{ height: 56, borderRadius: 28, backgroundColor: '#F6E8D2', alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontFamily: F.m, fontSize: 13.5, color: '#2A3070' }}>View Today's Horoscope</Text>
+        <Pressable accessibilityRole="button" onPress={() => go('/daily')} style={{ height: 56, borderRadius: 28, backgroundColor: themed('#F6E8D2', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{ fontFamily: F.m, fontSize: 13.5, color: themed('#2A3070', 'foreground') }}>View Today's Horoscope</Text>
         </Pressable>
       </View>
     </LinearGradient>

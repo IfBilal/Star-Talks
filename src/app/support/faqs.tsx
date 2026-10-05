@@ -1,8 +1,8 @@
+import { useTheme } from '@/lib/theme-context';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { AppBar, AppScreen, Card, F, SearchBar } from '@/components/ui';
-import { Colors } from '@/constants/theme';
 
 const faqs = [
   ['How do AI credits work?', 'Each question you submit uses 1 AI credit. Clarifying questions and suggested follow-ups do not use a credit until you send them. If an answer fails, your credit is restored automatically.'],
@@ -13,6 +13,8 @@ const faqs = [
 ];
 
 export default function Faqs() {
+  const { Colors: palette, themed } = useTheme();
+
   const [open, setOpen] = useState(0);
   const [q, setQ] = useState('');
   return (
@@ -22,10 +24,10 @@ export default function Faqs() {
         {faqs.filter(([a]) => a.toLowerCase().includes(q.toLowerCase())).map(([a, b], i) => (
           <Card key={a} style={{ borderRadius: 14 }}>
             <Pressable onPress={() => setOpen(open === i ? -1 : i)} style={{ minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14 }}>
-              <Text style={{ flex: 1, fontFamily: F.s, fontSize: 12.5, color: Colors.navy }}>{a}</Text>
-              {open === i ? <ChevronUp size={17} color={Colors.navy} /> : <ChevronDown size={17} color={Colors.navy} />}
+              <Text style={{ flex: 1, fontFamily: F.s, fontSize: 12.5, color: palette.navy }}>{a}</Text>
+              {open === i ? <ChevronUp size={17} color={palette.navy} /> : <ChevronDown size={17} color={palette.navy} />}
             </Pressable>
-            {open === i ? <Text style={{ paddingHorizontal: 14, paddingBottom: 14, fontFamily: F.r, fontSize: 11.5, lineHeight: 18, color: '#3B4373' }}>{b}</Text> : null}
+            {open === i ? <Text style={{ paddingHorizontal: 14, paddingBottom: 14, fontFamily: F.r, fontSize: 11.5, lineHeight: 18, color: themed('#3B4373', 'foreground') }}>{b}</Text> : null}
           </Card>
         ))}
       </View>

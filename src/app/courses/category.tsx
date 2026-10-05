@@ -1,3 +1,4 @@
+import { useTheme } from '@/lib/theme-context';
 import { Star } from 'lucide-react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
@@ -5,9 +6,10 @@ import { ScrollView, Text, View } from 'react-native';
 import { AppBar, AppScreen, Card, Chip, F, go, SearchBar } from '@/components/ui';
 import { CourseThumb } from '@/components/ui/art';
 import { CATEGORIES, COURSES } from '@/features/uiData/courses';
-import { Colors } from '@/constants/theme';
 
 export default function CourseList() {
+  const { Colors: palette, themed } = useTheme();
+
   const { c } = useLocalSearchParams<{ c?: string }>();
   const [cat, setCat] = useState(c ?? 'All');
   const [q, setQ] = useState('');
@@ -23,17 +25,17 @@ export default function CourseList() {
           <Card key={x.id} onPress={() => go(`/courses/${x.id}`)} style={{ borderRadius: 15, padding: 8, flexDirection: 'row', gap: 12 }}>
             <CourseThumb size={92} radius={12} />
             <View style={{ flex: 1, paddingVertical: 2 }}>
-              <Text numberOfLines={1} style={{ fontFamily: F.s, fontSize: 13.5, color: Colors.navy }}>{x.title}</Text>
-              <Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate, marginTop: 3 }}>{`${x.level}  •  ${x.modules} Modules  •  ${x.hours} hrs`}</Text>
-              <Text style={{ fontFamily: F.r, fontSize: 10.5, color: Colors.slate, marginTop: 6 }}>{x.instructor}</Text>
+              <Text numberOfLines={1} style={{ fontFamily: F.s, fontSize: 13.5, color: palette.navy }}>{x.title}</Text>
+              <Text style={{ fontFamily: F.r, fontSize: 10.5, color: palette.slate, marginTop: 3 }}>{`${x.level}  •  ${x.modules} Modules  •  ${x.hours} hrs`}</Text>
+              <Text style={{ fontFamily: F.r, fontSize: 10.5, color: palette.slate, marginTop: 6 }}>{x.instructor}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
-                <Text style={{ fontFamily: F.b, fontSize: 14, color: Colors.navy }}>{x.price}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Star size={11} color="#F0A93B" fill="#F0A93B" /><Text style={{ fontFamily: F.r, fontSize: 10, color: Colors.slate }}>{x.rating}</Text></View>
+                <Text style={{ fontFamily: F.b, fontSize: 14, color: palette.navy }}>{x.price}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Star size={11} color={themed("#F0A93B", 'foreground')} fill="#F0A93B" /><Text style={{ fontFamily: F.r, fontSize: 10, color: palette.slate }}>{x.rating}</Text></View>
               </View>
             </View>
           </Card>
         ))}
-        {list.length === 0 ? <Text style={{ textAlign: 'center', marginTop: 40, fontFamily: F.r, fontSize: 12.5, color: Colors.slate }}>Courses in this category are coming soon.</Text> : null}
+        {list.length === 0 ? <Text style={{ textAlign: 'center', marginTop: 40, fontFamily: F.r, fontSize: 12.5, color: palette.slate }}>Courses in this category are coming soon.</Text> : null}
       </View>
     </AppScreen>
   );
