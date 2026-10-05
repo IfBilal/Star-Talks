@@ -204,8 +204,8 @@ Use explicit result unions (`answer`, `clarification`, `redirect`, `blocked`, `e
 4. Remove the relationship-wide unique constraint and create a unique partial index on `(user_id)` for `relationship = 'self'`.
 5. Enable RLS, add owner policies, explicit grants and indexes in the same migration as each new table.
 6. Configure private bucket limits, MIME allowlist and Storage RLS. Test upload, read and delete for two separate users.
-7. Deploy functions after the migration; check old-app compatibility before a client APK update.
-8. Record migration IDs and deployment status in handoff notes; provide a data-safe rollback plan.
+7. Deploy functions after the additive migration; check old-app compatibility before a client APK update. Keep the existing Phase 1 profile/chart policies until live WhatsApp delivery and same-account confirmation pass.
+8. Apply the separate `verified_phone_gate` migration only after phone verification works for existing accounts. Record both migration IDs and deployment status in handoff notes; provide a data-safe rollback plan.
 
 ### Profile and derived-data changes
 
@@ -504,7 +504,7 @@ The ordering below is a dependency sequence, not a promise that all work can fit
 4. Create private palm/face Storage policy, path convention (`user-id/profile-id/kind/object-id`) and bucket MIME/size limits.
 5. Add read/write grants narrowly; reserve job/answer/usage writes for authenticated functions or trusted server RPCs.
 6. Add transactional or idempotent stored procedures only where multi-table consistency is required (start request, commit answer, delete related data).
-7. Apply migration to a local/staging project first, then the verified Star Talks project; compare schema and RLS after deployment.
+7. Apply the additive migration to a local/staging project first, then the verified Star Talks project; compare schema and RLS after deployment. Hold the separate phone gate until Phase 2-0 live delivery passes.
 
 **Gate:** two test users cannot read or alter one another's profiles, media, conversations, messages or results; anonymous callers have no private access; existing self-profile and chart data survive.
 
@@ -728,7 +728,7 @@ The largest schedule risks are verified AI provider access/budget, accuracy of f
 1. Freeze source revisions for the database migration, server functions, model configuration and Android app.
 2. Apply additive migration and verify RLS/storage before enabling the new mobile routes remotely.
 3. Deploy functions with AI globally disabled; confirm health/auth and test-account calls.
-4. Set the owner-provided provider secret and spending ceiling in Supabase/AI provider settings.
+4. Set the owner-provided provider secrets and spending ceilings in Supabase/AI/MSG91 settings. Verify WhatsApp delivery and confirmed-phone ownership, then apply the separate phone gate.
 5. Enable one module for test users, inspect outputs/costs, then enable the remaining modules in controlled batches.
 6. Build and install the Android preview APK; complete the acceptance matrix using the same backend environment the client will test.
 7. Keep the previous working APK available until the new one passes sign-in, Home, profile, logout and reset-password regression checks.

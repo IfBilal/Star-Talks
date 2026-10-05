@@ -90,31 +90,6 @@ update public.ai_modules set methodology='Saju Palja interpretation of computed 
 update public.ai_modules set methodology='Pythagorean date numbers and name numbers only from a user-confirmed full birth name',
   required_inputs=array['birth-date']::text[],updated_at=now() where module_id='numerology';
 
--- Remove Phase 1 policies before granting verified accounts access.
-drop policy if exists "Users can view their profile" on public.profiles;
-drop policy if exists "Users can create their profile" on public.profiles;
-drop policy if exists "Users can update their profile" on public.profiles;
-drop policy if exists "Users can view their birth profiles" on public.birth_profiles;
-drop policy if exists "Users can create their birth profiles" on public.birth_profiles;
-drop policy if exists "Users can update their birth profiles" on public.birth_profiles;
-drop policy if exists "Users can delete their birth profiles" on public.birth_profiles;
-drop policy if exists "Users can view their calculated charts" on public.calculated_charts;
-drop policy if exists "Users can create their calculated charts" on public.calculated_charts;
-drop policy if exists "Users can update their calculated charts" on public.calculated_charts;
-drop policy if exists "Users can delete their calculated charts" on public.calculated_charts;
-
-create policy profiles_verified_owner_select on public.profiles for select to authenticated using (id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy profiles_verified_owner_insert on public.profiles for insert to authenticated with check (id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy profiles_verified_owner_update on public.profiles for update to authenticated using (id = (select auth.uid()) and (select public.has_verified_phone())) with check (id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy birth_verified_owner_select on public.birth_profiles for select to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy birth_verified_owner_insert on public.birth_profiles for insert to authenticated with check (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy birth_verified_owner_update on public.birth_profiles for update to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone())) with check (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy birth_verified_owner_delete on public.birth_profiles for delete to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy chart_verified_owner_select on public.calculated_charts for select to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy chart_verified_owner_insert on public.calculated_charts for insert to authenticated with check (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy chart_verified_owner_update on public.calculated_charts for update to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone())) with check (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-create policy chart_verified_owner_delete on public.calculated_charts for delete to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone()));
-
 create table public.ai_conversations (
   id uuid primary key default extensions.gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
