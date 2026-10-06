@@ -8,7 +8,7 @@ const codeValue=()=>{
   do{crypto.getRandomValues(random);}while(random[0]>=limit);
   return String(random[0]%1000000).padStart(6,'0');
 };
-async function codeHash(userId:string,phone:string,code:string) {
+export async function codeHash(userId:string,phone:string,code:string) {
   const pepper=Deno.env.get('PHONE_OTP_PEPPER');
   if(!pepper||pepper.length<32)throw new Error('Phone verification is not configured.');
   const encoder=new TextEncoder();
@@ -16,7 +16,7 @@ async function codeHash(userId:string,phone:string,code:string) {
   const result=new Uint8Array(await crypto.subtle.sign('HMAC',key,encoder.encode(`${userId}:${phone}:${code}`)));
   return Array.from(result,byte=>byte.toString(16).padStart(2,'0')).join('');
 }
-async function sendViaMsg91(phone:string,code:string) {
+export async function sendViaMsg91(phone:string,code:string) {
   const authKey=Deno.env.get('MSG91_AUTH_KEY');
   const sender=Deno.env.get('MSG91_WHATSAPP_SENDER');
   const template=Deno.env.get('MSG91_WHATSAPP_TEMPLATE');
@@ -34,7 +34,7 @@ async function sendViaMsg91(phone:string,code:string) {
   if(rejected)throw new Error('WhatsApp delivery could not be started.');
 }
 
-Deno.serve(async(request)=>{
+export const handler = async(request: Request)=>{
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers:cors});
   if(request.method!=='POST')return json({error:'Method not allowed.'},405);
   const url=Deno.env.get('SUPABASE_URL');const key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
@@ -71,7 +71,7 @@ Deno.serve(async(request)=>{
       if(result?.status==='blocked')return json({error:'Too many incorrect attempts. Request a new code.'},429);
       if(result?.status!=='verified'||!validPhone(result.phone))return json({error:'Code could not be verified.'},503);
       const {data:updated,error:updateError}=await db.auth.admin.updateUserById(user.id,{phone:result.phone,phone_confirm:true});
-      if(updateError||!updated.user||updated.user.id!==user.id||updated.user.phone!==result.phone||!updated.user.phone_confirmed_at)
+      if(updateError||!updated.user||updated.user.id!==user.id||updated.user.phone?.replace(/^\+/,'')!==result.phone.replace(/^\+/,'')||!updated.user.phone_confirmed_at)
         return json({error:'This number could not be linked to your account. It may already be in use. Request a new code or use another number.'},409);
       return json({verified:true,userId:user.id});
     }
@@ -79,4 +79,5 @@ Deno.serve(async(request)=>{
   }catch{
     return json({error:'Phone verification is temporarily unavailable.'},503);
   }
-});
+};
+if(import.meta.main)Deno.serve(handler);

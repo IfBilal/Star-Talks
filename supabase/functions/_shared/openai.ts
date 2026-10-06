@@ -52,9 +52,15 @@ async function providerPost(path: string, body: unknown): Promise<unknown> {
   return response.json();
 }
 
+const nonempty = (value: unknown): value is string => typeof value==='string' && value.trim().length>0;
+const strings = (value: unknown): value is string[] => Array.isArray(value) && value.every(item=>typeof item==='string');
+const factorsValid = (value: unknown): boolean => Array.isArray(value) && value.every(item=>item && nonempty(item.sourceRef) && nonempty(item.explanation));
+
 export async function moderate(input: string | Array<{ type: 'text'; text: string } | { type: 'image_url'; image_url: { url: string } }>) {
   const result = await providerPost('/moderations', { model: 'omni-moderation-latest', input }) as { results?: Array<{ flagged?: boolean; categories?: Record<string,boolean> }> };
-  return result.results?.[0] ?? { flagged: false, categories: {} };
+  const verdict=result?.results?.[0];
+  if(!verdict || typeof verdict.flagged!=='boolean')throw new Error('AI safety checks are temporarily unavailable. Please retry.');
+  return verdict;
 }
 
 function outputText(response: ProviderResponse): string {
@@ -81,13 +87,15 @@ export async function generateAnswer(args: {
   let parsed: GeneratedAnswer;
   try { parsed = JSON.parse(raw) as GeneratedAnswer; } catch { throw new Error('AI returned an invalid answer.'); }
   const allowed = new Set(args.allowedSourceRefs);
-  if (!parsed.directAnswer?.trim() || !parsed.uncertainty?.trim() || !Array.isArray(parsed.insights) || !Array.isArray(parsed.supportingFactors) || !Array.isArray(parsed.sourceRefs))
+  if (!parsed || !nonempty(parsed.directAnswer) || !nonempty(parsed.uncertainty) || !nonempty(parsed.plainLanguageExplanation) || !(parsed.timing===null || typeof parsed.timing==='string') || !Array.isArray(parsed.insights) || parsed.insights.some(item=>!item || !nonempty(item.title) || !nonempty(item.body) || !strings(item.sourceRefs)) || !factorsValid(parsed.supportingFactors) || !factorsValid(parsed.conflictingFactors) || !strings(parsed.followUps) || !strings(parsed.sourceRefs))
     throw new Error('AI answer was incomplete.');
   const cited = [...parsed.sourceRefs, ...parsed.supportingFactors.map(f=>f.sourceRef), ...parsed.conflictingFactors.map(f=>f.sourceRef),...parsed.insights.flatMap(item=>item.sourceRefs)];
   if (cited.some(id=>!allowed.has(id))) throw new Error('AI cited evidence that was not supplied.');
   if(args.first && (parsed.insights.length<Math.min(3,args.allowedSourceRefs.length) || parsed.insights.length>6 || parsed.insights.some(item=>!item.title?.trim()||!item.body?.trim()||!item.sourceRefs.length)))throw new Error('AI reading did not include grounded insights.');
-  if (args.allowedSourceRefs.length && parsed.supportingFactors.length < 1) throw new Error('AI did not explain its evidence.');
-  parsed.followUps = parsed.followUps.filter(value=>typeof value==='string'&&value.length<180).slice(0,3);
+  if (args.allowedSourceRefs.length && (parsed.supportingFactors.length < Math.min(2,args.allowedSourceRefs.length) || !parsed.sourceRefs.length)) throw new Error('AI did not explain its evidence.');
+  parsed.followUps = [...new Set(parsed.followUps.map(value=>value.trim()).filter(value=>value.length>0&&value.length<180))].slice(0,3);
+  if(!parsed.followUps.length)throw new Error('AI did not return follow-up suggestions.');
+  if(!args.first)parsed.insights=[];
   if (parsed.directAnswer.length > 2200) throw new Error('AI answer exceeded the configured limit.');
   return { answer: parsed, usage: response.usage ?? {}, model: AI_MODEL };
 }
@@ -111,7 +119,7 @@ export async function observeImage(kind: 'palm'|'face', signedUrl: string) {
   const raw=outputText(response);
   if(!raw)throw new Error('Image could not be analyzed.');
   const data=JSON.parse(raw) as {quality:string;retakeReason:string|null;observations:Array<{id:string;feature:string;description:string;location:string;confidence:string}>};
-  if(!Array.isArray(data.observations)||data.observations.length>20)throw new Error('Image observations were invalid.');
+  if(!data || !nonempty(data.quality) || !(data.retakeReason===null || nonempty(data.retakeReason)) || !Array.isArray(data.observations)||data.observations.length>20 || data.observations.some(item=>!item || ![item.id,item.feature,item.description,item.location,item.confidence].every(nonempty)))throw new Error('Image observations were invalid.');
   return data;
 }
 
@@ -131,7 +139,7 @@ export async function generateCompatibility(args: { method: ModuleId; relationsh
   const raw=outputText(response);if(!raw)throw new Error('Compatibility analysis was empty.');
   const result=JSON.parse(raw) as {overview:string;strengths:string[];challenges:string[];dynamics:string;longTermOutlook:string;timing:string|null;sourceRefs:string[]};
   const allowed=new Set(args.factors.map(f=>f.id));
-  if(!result.overview?.trim()||!Array.isArray(result.strengths)||!Array.isArray(result.challenges)||result.sourceRefs?.some(id=>!allowed.has(id)))throw new Error('Compatibility analysis did not match the supplied factors.');
+  if(!result || !nonempty(result.overview)||!nonempty(result.dynamics)||!nonempty(result.longTermOutlook)||!strings(result.strengths)||!strings(result.challenges)||!strings(result.sourceRefs)||!result.sourceRefs.length||result.sourceRefs.some(id=>!allowed.has(id)))throw new Error('Compatibility analysis did not match the supplied factors.');
   result.timing=null;
   return {result,model:AI_MODEL};
 }
@@ -146,6 +154,6 @@ export async function summarizeConversation(previousSummary:string, olderTurns:{
   }) as ProviderResponse;
   const raw=outputText(response);if(!raw)throw new Error('Conversation summary was empty.');
   const parsed=JSON.parse(raw) as {summary:string;userFacts:string[];openQuestions:string[]};
-  if(!parsed.summary||!Array.isArray(parsed.userFacts)||!Array.isArray(parsed.openQuestions))throw new Error('Conversation summary was invalid.');
+  if(!parsed || !nonempty(parsed.summary)||!strings(parsed.userFacts)||!strings(parsed.openQuestions))throw new Error('Conversation summary was invalid.');
   return JSON.stringify({summary:parsed.summary.slice(0,900),userFacts:parsed.userFacts.slice(0,10).map(item=>item.slice(0,150)),openQuestions:parsed.openQuestions.slice(0,5).map(item=>item.slice(0,150))});
 }

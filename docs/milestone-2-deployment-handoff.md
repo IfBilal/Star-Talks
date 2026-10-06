@@ -2,7 +2,9 @@
 
 This records the source state for Weeks 3–4. Source implementation is not a production acceptance result. The Star Talks project is `thoknhjxmgsyisxuyamb`. Supabase MCP OAuth was connected and verified against this project on 2026-10-05. The separate CLI login still lists unrelated projects; do not use it for Star Talks deployments.
 
-**Deployed now:** the additive Milestone 2 foundation migration is recorded remotely as `20261005033657 milestone_two_foundation`. Edge Functions `ai`, `verify-whatsapp-phone`, and `delete-account` are deployed at version 1 with JWT verification enabled. A request without a JWT returned HTTP 401 for each function. The original Phase 1 profile, birth-profile, and chart policies remain in place. **Not deployed:** `20261004100000_verified_phone_gate.sql`; the nine existing accounts currently have no confirmed phone and would lose protected access if that gate were enabled before WhatsApp verification works. The owner will obtain OpenAI and MSG91 credentials later.
+**Latest verification:** see [key-independent verification](milestone-2-key-independent-verification.md) for the executed tests, appearance changes, calculation conventions and remaining acceptance limits.
+
+**Deployed now:** the additive Milestone 2 foundation migration is recorded remotely as `20261005033657 milestone_two_foundation`. Edge Functions `ai`, `verify-whatsapp-phone`, and `delete-account` are deployed with JWT verification enabled: `ai` version 3, `verify-whatsapp-phone` version 2, `delete-account` version 2. The privilege/request hardening migration is deployed as `20261005103522 milestone_two_hardening`, and the AI message-order migration as `20261005155818 ai_message_order`. A request without a JWT returned HTTP 401 for each function. The current AI source still needs deployment as version 4 after Supabase MCP OAuth reconnects; version 3 does not yet contain the final ordered memory pagination and response handling. The original Phase 1 profile, birth-profile, and chart policies remain in place. **Not deployed:** `20261004100000_verified_phone_gate.sql`; the nine existing accounts currently have no confirmed phone and would lose protected access if that gate were enabled before WhatsApp verification works. The owner will obtain OpenAI and MSG91 credentials later.
 
 ## Deploy in this order
 
@@ -18,7 +20,7 @@ The server-owned OTP replaces the earlier Send SMS Hook design. A Supabase Send 
 
 - Email and Google account signup, login, password reset and logout continue to work. An unverified account cannot read profiles, charts, AI data or images through direct Supabase requests.
 - OTP delivery succeeds on approved WhatsApp numbers; wrong, expired and exhausted codes fail; cooldown and daily limits hold; a duplicate phone cannot be linked to another account; `auth.getUser()` returns the **same user ID** and a confirmed phone after success. Test an abandoned attempt and a retry. Include at least one intended international market if supported by MSG91.
-- The additive migration applied to the live Phase 1 shaped database. Staging and two-user RLS/Storage probes are still required before the phone gate is enabled.
+- The additive migration applied to the live Phase 1 shaped database. Three synthetic-user RLS/Storage/OTP/quota probes passed on the target database inside a rolled-back transaction. Repeat profile/chart access probes after enabling the separate phone gate.
 - All nine modules produce a real first reading and a relevant follow-up for representative synthetic inputs. Review evidence IDs, no invented chart/card values, unknown birth-time limits, image retake behavior, safety responses, and output usefulness. An expert should review the Lal Kitab rulebook and the Vedic ephemeris/ayanamsa assumptions before accepting method-specific claims.
 - Saved conversations reopen with message pagination; searches/filters, feedback, photo and history deletion, account deletion, preview quota and duplicate request handling work on an installed APK. Pairwise compatibility saves, detects changed profiles and opens linked follow-up chat. Tarot compatibility displays no made-up percentage.
 - Visually compare the relevant AI screens against `docs/ui.jpeg` and the dev-plan PDF on actual Android device sizes. Check accessibility text, loading/error/empty states and camera/gallery permissions.
@@ -26,7 +28,7 @@ The server-owned OTP replaces the earlier Send SMS Hook design. A Supabase Send 
 
 ## Current local checks
 
-- TypeScript, Edge Function Deno check, five Deno evidence tests, 28 Jest app tests, targeted ESLint, and Android export pass after the latest source changes.
+- TypeScript, Edge Function Deno check, 14 Deno backend tests, 38 Jest app tests, Android export, and targeted app/component ESLint pass. Browser appearance checks pass at three widths in both themes.
 - No Android emulator/device is attached in this workspace. The local Supabase CLI identity currently sees only unrelated projects; Supabase MCP does access Star Talks. OpenAI and MSG91 live calls have not been verified because their credentials are not yet available.
 - Supabase security advisor lists the private OTP and request-claim tables as having RLS without policies; this is intentional because only service-role server code uses them. It also warns that `has_verified_phone()` is callable by signed-in users; it returns only their own verification status. Leaked-password protection is disabled in Supabase Auth and can be enabled separately by the project owner.
 

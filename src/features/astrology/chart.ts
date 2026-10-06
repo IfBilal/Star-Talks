@@ -1,6 +1,6 @@
 import { Body, Ecliptic, GeoVector, SiderealTime, SunPosition } from 'astronomy-engine';
 
-export const CALCULATOR_VERSION = 'star-talks-chart/0.3.0-astronomy-engine-2.1.19-geocentric';
+export const CALCULATOR_VERSION = 'star-talks-chart/0.4.0-astronomy-engine-2.1.19-geocentric';
 const signs = ['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
 const nakshatras=['Ashwini','Bharani','Krittika','Rohini','Mrigashira','Ardra','Punarvasu','Pushya','Ashlesha','Magha','Purva Phalguni','Uttara Phalguni','Hasta','Chitra','Swati','Vishakha','Anuradha','Jyeshtha','Mula','Purva Ashadha','Uttara Ashadha','Shravana','Dhanishta','Shatabhisha','Purva Bhadrapada','Uttara Bhadrapada','Revati'];
 const dashaLords=['Ketu','Venus','Sun','Moon','Mars','Rahu','Jupiter','Saturn','Mercury'];
@@ -41,8 +41,15 @@ function meanNode(date:Date){
 
 function cusps(asc:number){const rising=Math.floor(norm(asc)/30);return Array.from({length:12},(_,i)=>signs[(rising+i)%12]);}
 
+/** Lightweight geocentric positions for sampled transit windows (no house/retrograde work). */
+export function transitLongitudes(at: Date): Array<{name:string;longitude:number}> {
+  if(!Number.isFinite(at.getTime()))throw new Error('Transit instant is invalid.');
+  return bodies.filter(([name])=>['Mars','Jupiter','Saturn'].includes(name)).map(([name,body])=>({name,longitude:norm(eclipticLongitude(body,at))}));
+}
+
 export function calculateChart(input:ChartInput):ChartResult {
   const instant=new Date(input.birthInstant);if(!Number.isFinite(instant.getTime()))throw new Error('Birth instant is invalid.');
+  if(!Number.isFinite(input.latitude)||Math.abs(input.latitude)>90||!Number.isFinite(input.longitude)||Math.abs(input.longitude)>180)throw new Error('Birth coordinates are invalid.');
   const ayanamsa=lahiriAyanamsa(instant);const tropicalAsc=ascendant(instant,input.latitude,input.longitude);const siderealAsc=norm(tropicalAsc-ayanamsa);
   const planets=bodies.map(([name,body])=>{
     const tropicalLongitude=norm(eclipticLongitude(body,instant));const next=new Date(instant.getTime()+86400000);const previous=new Date(instant.getTime()-86400000);
@@ -53,6 +60,6 @@ export function calculateChart(input:ChartInput):ChartResult {
   return{
     calculatorVersion:CALCULATOR_VERSION,ephemeris:'Astronomy Engine',input,
     western:{zodiac:'tropical',houseSystem:'whole-sign',ascendantLongitude:Number(tropicalAsc.toFixed(5)),ascendantSign:signAt(tropicalAsc),houseCusps:cusps(tropicalAsc),planets},
-    vedic:{zodiac:'sidereal',ayanamsa:{name:'Lahiri',longitude:Number(ayanamsa.toFixed(6)),methodology:'Lahiri mean ayanamsa using J2000 base and linear precession approximation; see calculator version.'},houseSystem:'whole-sign',ascendantLongitude:Number(siderealAsc.toFixed(5)),ascendantSign:signAt(siderealAsc),houseCusps:cusps(siderealAsc),planets:planets.map(({name,siderealLongitude})=>({name,longitude:siderealLongitude,sign:signAt(siderealLongitude),degree:Number((siderealLongitude%30).toFixed(3))})),moonNakshatra:{name:nakshatras[nakshatraIndex],number:nakshatraIndex+1,pada:Math.min(4,Math.floor(progress*4)+1)},vimshottariAtBirth:{mahadashaLord:dashaLords[dashaIndex],remainingYears:Number(((1-progress)*dashaYears[dashaIndex]).toFixed(3))},meanLunarNode:{rahuLongitude:lunarNode,ketuLongitude:norm(lunarNode+180)}}
+    vedic:{zodiac:'sidereal',ayanamsa:{name:'Lahiri',longitude:Number(ayanamsa.toFixed(6)),methodology:'Lahiri mean ayanamsa using J2000 base and linear precession approximation; see calculator version.'},houseSystem:'whole-sign',ascendantLongitude:Number(siderealAsc.toFixed(5)),ascendantSign:signAt(siderealAsc),houseCusps:cusps(siderealAsc),planets:planets.map(({name,siderealLongitude})=>({name,longitude:siderealLongitude,sign:signAt(siderealLongitude),degree:Number((siderealLongitude%30).toFixed(3))})),moonNakshatra:{name:nakshatras[nakshatraIndex],number:nakshatraIndex+1,pada:Math.min(4,Math.floor(progress*4)+1)},vimshottariAtBirth:{mahadashaLord:dashaLords[dashaIndex],remainingYears:(1-progress)*dashaYears[dashaIndex]},meanLunarNode:{rahuLongitude:lunarNode,ketuLongitude:norm(lunarNode+180)}}
   };
 }

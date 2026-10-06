@@ -2,7 +2,7 @@ import { useTheme } from '@/lib/theme-context';
 import { useLocalSearchParams } from 'expo-router';
 import { Clapperboard, Coins, Wallet } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { AppBar, AppScreen, Button, Card, F, go, Segmented } from '@/components/ui';
 import { CREDIT_ACTIVITY, TRANSACTIONS } from '@/features/uiData/wallet';
 import { Colors } from '@/constants/theme';

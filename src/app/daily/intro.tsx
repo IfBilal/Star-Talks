@@ -30,7 +30,7 @@ export default function DailyIntro() {
       </View>
       <View style={{ position: 'absolute', left: 28, right: 28, bottom: 92 }}>
         <Pressable accessibilityRole="button" onPress={() => go('/daily')} style={{ height: 56, borderRadius: 28, backgroundColor: themed('#F6E8D2', 'surface'), alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontFamily: F.m, fontSize: 13.5, color: themed('#2A3070', 'foreground') }}>View Today's Horoscope</Text>
+          <Text style={{ fontFamily: F.m, fontSize: 13.5, color: themed('#2A3070', 'foreground') }}>View Today&apos;s Horoscope</Text>
         </Pressable>
       </View>
     </LinearGradient>

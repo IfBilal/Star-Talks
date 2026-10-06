@@ -1,5 +1,5 @@
 import { useTheme } from '@/lib/theme-context';
-import { CircleArrowDown, EllipsisVertical, Expand, Fullscreen, Captions, Play, ShieldCheck, ScanLine, Volume2, Download } from 'lucide-react-native';
+import { CircleArrowDown, EllipsisVertical, Expand, Captions, Play, ShieldCheck, ScanLine, Volume2, Download } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { AppBar, AppScreen, Button, Card, F, go, IconTile, Segmented } from '@/components/ui';

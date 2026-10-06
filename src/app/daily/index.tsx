@@ -26,7 +26,7 @@ export default function DailyHoroscope() {
         <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: themed('#E4DEF5', 'surface'), alignItems: 'center', justifyContent: 'center' }}><Sparkles size={19} color={palette.navy} /></View>
         <View style={{ flex: 1 }}>
           <Text style={{ fontFamily: F.s, fontSize: 12.5, color: palette.navy }}>Your Daily Energy</Text>
-          <Text style={{ fontFamily: F.r, fontSize: 11, lineHeight: 17, color: themed('#4A5590', 'foreground'), marginTop: 4 }}>A day of steady progress and positive communication. The Moon's influence brings clarity in relationships and decisions.</Text>
+          <Text style={{ fontFamily: F.r, fontSize: 11, lineHeight: 17, color: themed('#4A5590', 'foreground'), marginTop: 4 }}>A day of steady progress and positive communication. The Moon&apos;s influence brings clarity in relationships and decisions.</Text>
         </View>
       </Card>
       <View style={{ gap: 8, marginTop: 14 }}>

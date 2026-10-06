@@ -1,5 +1,5 @@
 import { useTheme } from '@/lib/theme-context';
-import { CloudDownload, FileText, Share2, X, ArrowDown, BookmarkPlus, Sparkles } from 'lucide-react-native';
+import { Share2, X, ArrowDown, BookmarkPlus, Sparkles } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { AppBar, AppScreen, Button, Card, go } from '@/components/ui';

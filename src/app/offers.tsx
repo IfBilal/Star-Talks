@@ -2,7 +2,7 @@ import { useTheme } from '@/lib/theme-context';
 import { Gift, GraduationCap, Sparkles, Tag, Percent } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
-import { AppBar, AppScreen, BellButton, Card, Chip, F, go, IconTile } from '@/components/ui';
+import { AppBar, AppScreen, BellButton, Card, Chip, F, go} from '@/components/ui';
 import { CosmicBg } from '@/components/ui/art';
 
 const offers = [

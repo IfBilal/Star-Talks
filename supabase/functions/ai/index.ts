@@ -1,3 +1,4 @@
+import { removeOwnedAiMedia } from '../_shared/media-cleanup.ts';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.117.2';
 import { buildChartEvidence } from '../_shared/chart-evidence.ts';
 import { buildCompatibility, type CompatibilityMethod } from '../_shared/compatibility.ts';
@@ -60,9 +61,10 @@ async function selectedProfile(db: SupabaseClient, userId: string, profileId: un
   return must(data as Profile|null,'Add a birth profile before starting this module.');
 }
 
-async function claim(db: SupabaseClient, userId: string, requestId: string) {
+async function claim(db: SupabaseClient, userId: string, requestId: string, fingerprint?: string) {
   const limit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||30);
-  const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit});
+  const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit,p_fingerprint:fingerprint??null});
+  if(error?.code==='22023')throw new HttpError(409,'This request ID belongs to different input. Start a new request.');
   if(error)throw new HttpError(503,'Unable to check the AI preview limit.');
   if(!data)throw new HttpError(429,'Today’s AI preview limit has been reached. Please try again later.');
 }
@@ -119,7 +121,7 @@ async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleI
   if(moduleId==='vedic'||moduleId==='western'||moduleId==='lal-kitab') {
     if(moduleId==='lal-kitab'&&!profile.birth_time_known)throw new HttpError(422,'A known birth time is needed for Lal Kitab house rules. Edit this birth profile to add it.');
     const result=buildChartEvidence(profile,moduleId);
-    return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors:result.factors,warnings:result.warnings,data:{asOf:result.asOf,exactBirthTime:result.exactBirthTime}}};
+    return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors:result.factors,warnings:result.warnings,data:{asOf:result.asOf,exactBirthTime:result.exactBirthTime,dashaTimeline:result.dashaTimeline}}};
   }
   throw new HttpError(400,'Unknown AI module.');
 }
@@ -130,17 +132,22 @@ async function languageFor(db:SupabaseClient,userId:string) {
   return names[data?.language_code]??'English';
 }
 
-async function storedMessages(db:SupabaseClient,conversationId:string) {
-  const {data,error}=await db.from('ai_messages').select('id,role,kind,body,structured_payload,source_refs,created_at,request_id').eq('conversation_id',conversationId).order('created_at',{ascending:true}).order('id',{ascending:true});
+async function storedMessages(db:SupabaseClient,conversationId:string,requestId?:string) {
+  let query=db.from('ai_messages').select('id,sequence,role,kind,body,structured_payload,source_refs,created_at,request_id').eq('conversation_id',conversationId);
+  if(requestId)query=query.eq('request_id',requestId);
+  const {data,error}=await query.order('sequence',{ascending:false}).limit(50);
   if(error)throw new HttpError(503,'Conversation could not be loaded.');
-  return data??[];
+  return (data??[]).reverse();
 }
 async function pagedMessages(db:SupabaseClient,conversationId:string,cursor:unknown) {
   const pageSize=50;
-  let query=db.from('ai_messages').select('id,role,kind,body,structured_payload,source_refs,created_at,request_id').eq('conversation_id',conversationId).order('created_at',{ascending:false}).order('id',{ascending:false}).limit(pageSize+1);
+  let query=db.from('ai_messages').select('id,sequence,role,kind,body,structured_payload,source_refs,created_at,request_id').eq('conversation_id',conversationId).order('sequence',{ascending:false}).limit(pageSize+1);
   const before=cursor as {createdAt?:unknown;id?:unknown}|null;
-  if(before&&typeof before.createdAt==='string'&&/^\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|\+\d{2}:\d{2})$/.test(before.createdAt)&&uuid(before.id))
-    query=query.or(`created_at.lt.${before.createdAt},and(created_at.eq.${before.createdAt},id.lt.${before.id})`);
+  if(before&&uuid(before.id)){
+    const {data:anchor,error}=await db.from('ai_messages').select('sequence').eq('conversation_id',conversationId).eq('id',before.id).maybeSingle();
+    if(error||!anchor)throw new HttpError(422,'This message page is no longer available. Reopen the conversation.');
+    query=query.lt('sequence',anchor.sequence);
+  }
   const {data,error}=await query;
   if(error)throw new HttpError(503,'Conversation messages could not be loaded.');
   const rows=data??[];const page=rows.slice(0,pageSize);const last=page[page.length-1];
@@ -154,7 +161,8 @@ async function removeMedia(db:SupabaseClient,userId:string,mediaId:string) {
   if(other?.length)return;
   const {error:storageError}=await db.storage.from('ai-private').remove([media.storage_path]);
   if(storageError)throw new HttpError(503,'Conversation was removed, but its photo could not be cleaned up.');
-  await db.from('ai_media').delete().eq('id',mediaId).eq('user_id',userId);
+  const {error:removeError}=await db.from('ai_media').delete().eq('id',mediaId).eq('user_id',userId);
+  if(removeError)throw new HttpError(503,'Photo metadata could not be removed. Please retry.');
 }
 
 async function requireConversationMediaAccess(db:SupabaseClient,userId:string,conversation:{module_id:string;input_snapshot:Snapshot}) {
@@ -168,7 +176,7 @@ async function requireConversationMediaAccess(db:SupabaseClient,userId:string,co
 }
 
 async function commitMessages(db:SupabaseClient,rows:Array<Record<string,unknown>>) {
-  const {data,error}=await db.from('ai_messages').insert(rows).select('id,role,kind,body,structured_payload,source_refs,created_at,request_id');
+  const {data,error}=await db.from('ai_messages').insert(rows).select('id,sequence,role,kind,body,structured_payload,source_refs,created_at,request_id');
   if(error)throw new HttpError(503,'Answer could not be saved. Please retry.');
   return data;
 }
@@ -176,10 +184,12 @@ async function commitMessages(db:SupabaseClient,rows:Array<Record<string,unknown
 async function generated(db:SupabaseClient,conversation:{id:string;user_id:string;module_id:ModuleId;input_snapshot:Snapshot;summary:string;summary_message_count?:number},question:string,requestId:string,first:boolean) {
   const snapshot=conversation.input_snapshot;
   const refs=snapshot.factors.map(factor=>factor.id);
-  const messages=first?[]:await storedMessages(db,conversation.id);
+  const recent=first?{data:[],count:0,error:null}:await db.from('ai_messages').select('role,body',{count:'exact'}).eq('conversation_id',conversation.id).order('sequence',{ascending:false}).limit(10);
+  if(recent.error)throw new HttpError(503,'Conversation context could not be loaded.');
+  const messages=(recent.data??[]).reverse();
   const {answer,model}=await generateAnswer({moduleId:conversation.module_id,evidence:snapshot,allowedSourceRefs:refs,question,
     history:messages.slice(-10).map(item=>({role:item.role,body:item.body})),summary:conversation.summary||'',language:await languageFor(db,conversation.user_id),first});
-  const postModeration=await moderate([answer.directAnswer,...answer.insights.flatMap(item=>[item.title,item.body]),...answer.supportingFactors.map(item=>item.explanation),...answer.conflictingFactors.map(item=>item.explanation),...answer.followUps].join('\n'));
+  const postModeration=await moderate(JSON.stringify(answer));
   if(postModeration.flagged)throw new HttpError(422,'The generated answer could not be shown safely. Please ask in another way.');
   const body=answer.directAnswer;
   const rows=first?[{conversation_id:conversation.id,user_id:conversation.user_id,role:'assistant',kind:'first',body,structured_payload:answer,source_refs:answer.sourceRefs,request_id:requestId,provider_model:model}]
@@ -187,18 +197,30 @@ async function generated(db:SupabaseClient,conversation:{id:string;user_id:strin
       {conversation_id:conversation.id,user_id:conversation.user_id,role:'assistant',kind:'answer',body,structured_payload:answer,source_refs:answer.sourceRefs,request_id:requestId,provider_model:model}];
   const saved=await commitMessages(db,rows);
   await db.from('ai_conversations').update({first_reading_status:'ready',updated_at:new Date().toISOString()}).eq('id',conversation.id);
-  const allMessages=[...messages,...(saved??[])];
-  const summarizeThrough=Math.max(0,allMessages.length-10);
-  if(summarizeThrough>=8 && summarizeThrough-(conversation.summary_message_count??0)>=6) {
+  const total=(recent.count??messages.length)+(saved?.length??0);
+  const summarized=conversation.summary_message_count??0;
+  const summarizeThrough=Math.min(Math.max(0,total-10),summarized+30);
+  if(summarizeThrough>=8 && summarizeThrough-summarized>=6) {
     try {
-      const summary=await summarizeConversation(conversation.summary||'',allMessages.slice(conversation.summary_message_count??0,summarizeThrough).map(item=>({role:item.role,body:item.body})));
-      await db.from('ai_conversations').update({summary,summary_message_count:summarizeThrough}).eq('id',conversation.id);
+      const {data:older,error}=await db.from('ai_messages').select('role,body').eq('conversation_id',conversation.id).order('sequence',{ascending:true}).range(summarized,summarizeThrough-1);
+      if(error||!older)throw new Error('Summary history unavailable.');
+      const summary=await summarizeConversation(conversation.summary||'',older);
+      const {error:saveError}=await db.from('ai_conversations').update({summary,summary_message_count:summarizeThrough}).eq('id',conversation.id);
+      if(saveError)throw new Error('Summary could not be saved.');
     } catch { console.error(JSON.stringify({category:'summary_failed',conversationId:conversation.id})); }
   }
   return saved;
 }
 
-async function handleAction(db:SupabaseClient,userId:string,body:Body) {
+export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
+  if (['start-reading','ask-module','analyze-compatibility'].includes(body.action??'')) {
+    const requestId=must(uuid(body.requestId)?body.requestId:null,'A valid request ID is required.');
+    const keys=['action','moduleId','profileId','mediaId','spread','conversationId','question','firstProfileId','secondProfileId','relationshipType','method'] as const;
+    const input=JSON.stringify(keys.map(key=>[key,body[key]??null]));
+    const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(input));
+    const fingerprint=Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('');
+    await claim(db,userId,requestId,fingerprint);
+  }
   if(body.action==='list-modules') {
     const allDisabled=['true','1'].includes(Deno.env.get('AI_DISABLED')??'');
     const disabled=(Deno.env.get('AI_DISABLED_MODULES')??'').split(',').map(item=>item.trim());
@@ -225,12 +247,11 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   }
   if(body.action==='delete-all-ai-history') {
     if(body.confirmation!=='DELETE')throw new HttpError(422,'Confirm deletion of all AI history.');
-    const {data:media}=await db.from('ai_media').select('id,storage_path').eq('user_id',userId);
     const {error}=await db.from('ai_conversations').delete().eq('user_id',userId);
     if(error)throw new HttpError(503,'AI history could not be deleted.');
-    const paths=(media??[]).map(item=>item.storage_path);
-    for(let offset=0;offset<paths.length;offset+=100){const {error:storageError}=await db.storage.from('ai-private').remove(paths.slice(offset,offset+100));if(storageError)throw new HttpError(503,'AI history was deleted, but some photos could not be removed.');}
-    await db.from('ai_media').delete().eq('user_id',userId);
+    await removeOwnedAiMedia(db,userId);
+    const {error:mediaError}=await db.from('ai_media').delete().eq('user_id',userId);
+    if(mediaError)throw new HttpError(503,'Photo metadata could not be removed. Please retry.');
     return {deleted:true};
   }
   if(body.action==='list-compatibility') {
@@ -318,7 +339,7 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const requestId=must(uuid(body.requestId)?body.requestId:null,'A valid request ID is required.');
     const {data:existing}=await db.from('ai_conversations').select('*').eq('user_id',userId).eq('start_request_id',requestId).maybeSingle();
     if(existing) {
-      const messages=await storedMessages(db,existing.id);
+      const messages=await storedMessages(db,existing.id,requestId);
       if(messages.length)return {conversation:existing,messages};
       if(existing.first_reading_status==='pending'&&Date.now()-new Date(existing.created_at).getTime()<120000)throw new HttpError(409,'This reading is still being prepared. Please wait and retry.');
       await requireConversationMediaAccess(db,userId,existing);
@@ -327,21 +348,29 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
       try{const regenerated=await generated(db,existing,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);await finish(db,userId,requestId,true);return {conversation:{...existing,first_reading_status:'ready'},messages:regenerated};}
       catch(error){await finish(db,userId,requestId,false);throw error;}
     }
-    const {snapshot,profileId}=await evidenceFor(db,userId,moduleId,body);
-    if(!snapshot.factors.length)throw new HttpError(422,'More input is needed for this reading.');
-    await claim(db,userId,requestId);
     await lease(db,userId,requestId);
-    const {data:conversation,error}=await db.from('ai_conversations').insert({user_id:userId,module_id:moduleId,birth_profile_id:profileId,title:`${MODULES[moduleId].name} reading`,methodology_version:snapshot.version,prompt_version:MODULE_POLICY_VERSION,calculator_version:snapshot.version,input_fingerprint:JSON.stringify(snapshot.factors.map(f=>[f.id,f.value])),input_snapshot:snapshot,start_request_id:requestId}).select('*').single();
-    if(error||!conversation){await finish(db,userId,requestId,false);throw new HttpError(503,'Reading could not be started.');}
-    try { const messages=await generated(db,conversation,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);await finish(db,userId,requestId,true);return {conversation:{...conversation,first_reading_status:'ready'},messages}; }
-    catch(error){await db.from('ai_conversations').update({first_reading_status:'failed'}).eq('id',conversation.id);await finish(db,userId,requestId,false);throw error;}
+    let createdId: string | null = null;
+    try {
+      const {snapshot,profileId}=await evidenceFor(db,userId,moduleId,body);
+      if(!snapshot.factors.length)throw new HttpError(422,'More input is needed for this reading.');
+      const {data:conversation,error}=await db.from('ai_conversations').insert({user_id:userId,module_id:moduleId,birth_profile_id:profileId,title:`${MODULES[moduleId].name} reading`,methodology_version:snapshot.version,prompt_version:MODULE_POLICY_VERSION,calculator_version:snapshot.version,input_fingerprint:JSON.stringify(snapshot.factors.map(f=>[f.id,f.value])),input_snapshot:snapshot,start_request_id:requestId}).select('*').single();
+      if(error||!conversation)throw new HttpError(503,'Reading could not be started.');
+      createdId=conversation.id;
+      const messages=await generated(db,conversation,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);
+      await finish(db,userId,requestId,true);
+      return {conversation:{...conversation,first_reading_status:'ready'},messages};
+    } catch(error) {
+      if(createdId)await db.from('ai_conversations').update({first_reading_status:'failed'}).eq('id',createdId);
+      await finish(db,userId,requestId,false);throw error;
+    }
   }
   const conversationId=must(uuid(body.conversationId)?body.conversationId:null,'A valid conversation ID is required.');
   const {data:conversation,error:conversationError}=await db.from('ai_conversations').select('*').eq('id',conversationId).eq('user_id',userId).maybeSingle();
   if(conversationError||!conversation)throw new HttpError(404,'Conversation was not found.');
   if(body.action==='get-conversation') {
     const {messages,nextMessageCursor}=await pagedMessages(db,conversationId,body.messageCursor);
-    if(!messages.length && conversation.first_reading_status==='failed' && conversation.start_request_id) {
+    if(!body.messageCursor && !messages.length && conversation.first_reading_status==='failed' && conversation.start_request_id) {
+      await requireEnabled(db,conversation.module_id);
       await requireConsent(db,userId,'birth_and_questions');
       await requireConversationMediaAccess(db,userId,conversation);
       await claim(db,userId,conversation.start_request_id);await lease(db,userId,conversation.start_request_id);
@@ -386,7 +415,7 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const question=typeof body.question==='string'?body.question.trim():'';
     if(question.length<2||question.length>800)throw new HttpError(422,'Ask a question of 2–800 characters.');
     const {data:repeated}=await db.from('ai_messages').select('id').eq('user_id',userId).eq('request_id',requestId).eq('role','assistant').maybeSingle();
-    if(repeated){const messages=(await storedMessages(db,conversationId)).filter(item=>item.request_id===requestId);return {conversation,messages};}
+    if(repeated){const messages=await storedMessages(db,conversationId,requestId);return {conversation,messages};}
     const active=conversation.module_id as ModuleId;
     const other=explicitlyRequestedOtherModule(question,active);
     if(other) {
@@ -396,12 +425,13 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
       ]);
       return {conversation,messages:rows};
     }
-    const moderation=await moderate(question);
-    if(moderation.flagged)throw new HttpError(422,'I cannot answer that question as a reading. If someone is in immediate danger, please contact local emergency help.');
-    await claim(db,userId,requestId);
     await lease(db,userId,requestId);
-    try{const rows=await generated(db,conversation,question,requestId,false);await finish(db,userId,requestId,true);return {conversation,messages:rows};}
-    catch(error){await finish(db,userId,requestId,false);throw error;}
+    try {
+      const moderation=await moderate(question);
+      if(moderation.flagged)throw new HttpError(422,'I cannot answer that question as a reading. If someone is in immediate danger, please contact local emergency help.');
+      const rows=await generated(db,conversation,question,requestId,false);
+      await finish(db,userId,requestId,true);return {conversation,messages:rows};
+    } catch(error){await finish(db,userId,requestId,false);throw error;}
   }
   if(body.action==='submit-ai-feedback') {
     const messageId=must(uuid(body.messageId)?body.messageId:null,'Select a response.');
@@ -416,14 +446,15 @@ async function handleAction(db:SupabaseClient,userId:string,body:Body) {
   throw new HttpError(400,'Unknown AI action.');
 }
 
-Deno.serve(async(request)=>{
+export const handler = async(request: Request)=>{
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers:cors});
   if(request.method!=='POST')return respond({error:'Method not allowed'},405);
   const requestId=crypto.randomUUID();
   try {
     const db=adminClient();
     const user=await authenticatedUser(request,db);
-    const body=await request.json() as Body;
+    const body=await request.json().catch(()=>null) as Body|null;
+    if(!body||typeof body!=='object'||Array.isArray(body)||typeof body.action!=='string')throw new HttpError(400,'A valid AI action is required.');
     return respond(await handleAction(db,user.id,body));
   } catch(error) {
     const status=error instanceof HttpError?error.status:503;
@@ -431,4 +462,5 @@ Deno.serve(async(request)=>{
     console.error(JSON.stringify({requestId,status,category:error instanceof HttpError?'request':'server'}));
     return respond({error:error instanceof Error?error.message:'AI service unavailable.',requestId},status);
   }
-});
+};
+if (import.meta.main) Deno.serve(handler);

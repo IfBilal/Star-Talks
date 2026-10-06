@@ -1,4 +1,4 @@
-export const NUMEROLOGY_VERSION = 'pythagorean/1.0.0';
+export const NUMEROLOGY_VERSION = 'pythagorean/1.1.0';
 
 // Pythagorean mapping: A/J/S=1, B/K/T=2, ... I/R=9. Y is treated as a
 // consonant consistently; callers must obtain a user-confirmed Latin spelling.
@@ -33,6 +33,10 @@ function digits(value: string): number { return value.replace(/\D/g, '').split('
 export function calculateNumerology(birthDate: string, confirmedLatinName: string | null, at: Date, timeZone: string) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) throw new Error('A valid birth date is required.');
   const [year, month, day] = birthDate.split('-').map(Number);
+  const parsed=new Date(birthDate+'T12:00:00Z');
+  if(!Number.isFinite(parsed.getTime())||parsed.toISOString().slice(0,10)!==birthDate||year<1)throw new Error('A valid calendar birth date is required.');
+  if(!Number.isFinite(at.getTime()))throw new Error('A valid reading date is required.');
+  const warnings: string[]=[];
   const calendar = new Intl.DateTimeFormat('en-US', { timeZone, year: 'numeric', month: 'numeric' }).formatToParts(at);
   const currentYear = Number(calendar.find(part => part.type === 'year')?.value);
   const currentMonth = Number(calendar.find(part => part.type === 'month')?.value);
@@ -44,7 +48,10 @@ export function calculateNumerology(birthDate: string, confirmedLatinName: strin
   ];
   let normalizedName: string | null = null;
   if (confirmedLatinName) {
-    normalizedName = confirmedLatinName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/[^A-Z]/g, '');
+    const transliterated=confirmedLatinName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+    // Never silently discard parts of a name written in another alphabet.
+    if(/[^A-Z\s.'’\-]/.test(transliterated))throw new Error('Please confirm a full Latin spelling of your birth name for numerology.');
+    normalizedName = transliterated.replace(/[^A-Z]/g, '');
     if (!normalizedName) normalizedName = null;
   }
   if (normalizedName) {
@@ -56,7 +63,9 @@ export function calculateNumerology(birthDate: string, confirmedLatinName: strin
       { id: 'numerology:personality', label: 'Personality', value: sum(letter => !vowels.has(letter)), meaning: 'A symbolic pattern derived from consonants in the confirmed name.' },
     );
   }
+  if(!normalizedName)warnings.push('A confirmed Latin spelling of the full birth name is needed for name-based numbers.');
+  for(let index=evidence.length-1;index>=0;index--){if(evidence[index].value===0){warnings.push(`${evidence[index].label} is omitted because the name has no letters for that factor.`);evidence.splice(index,1);}}
   return { version: NUMEROLOGY_VERSION, normalizedName, birthDate, evidence,
-    warnings: normalizedName ? [] : ['A confirmed Latin spelling of the full birth name is needed for name-based numbers.'],
+    warnings,
   };
 }

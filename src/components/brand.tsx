@@ -7,7 +7,7 @@ import { useEffect, useState, type PropsWithChildren, type ReactNode } from 'rea
 import { ActivityIndicator, Animated, Easing, Pressable, ScrollView, StatusBar, StyleSheet, Text, TextInput, View, type TextInputProps, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Ellipse, LinearGradient as SvgGradient, Path, Stop } from 'react-native-svg';
-import { Colors, Radius } from '@/constants/theme';
+import { Radius } from '@/constants/theme';
 
 export function Screen({ children, dark = false, scroll = false, style }: PropsWithChildren<{dark?: boolean; scroll?: boolean; style?: ViewStyle}>) {
   const { isDark } = useTheme();

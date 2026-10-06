@@ -1,6 +1,7 @@
+import { resolveLocalBirthTime } from '../../../src/features/birth/timezone.ts';
 import { Solar } from 'npm:lunar-typescript@1.8.6';
 
-export const FOUR_PILLARS_VERSION = 'lunar-typescript/1.8.6-star-talks/1.0.0';
+export const FOUR_PILLARS_VERSION = 'lunar-typescript/1.8.6-star-talks/1.1.0';
 
 const stems: Record<string, { roman: string; korean: string; element: string; yinYang: string }> = {
   '甲': { roman: 'Jia', korean: 'Gap', element: 'Wood', yinYang: 'Yang' },
@@ -30,9 +31,9 @@ const branches: Record<string, { roman: string; korean: string; animal: string; 
 };
 
 function partsAt(instant: Date, timeZone: string) {
-  const fields = new Intl.DateTimeFormat('en-US', { timeZone, year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(instant);
+  const fields = new Intl.DateTimeFormat('en-US', { timeZone, year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' }).formatToParts(instant);
   const number = (type: string) => Number(fields.find(field => field.type === type)?.value);
-  return { year: number('year'), month: number('month'), day: number('day'), hour: number('hour'), minute: number('minute') };
+  return { year: number('year'), month: number('month'), day: number('day'), hour: number('hour'), minute: number('minute'), second: number('second') };
 }
 
 function describePillar(id: string, glyphs: string) {
@@ -47,17 +48,28 @@ function describePillar(id: string, glyphs: string) {
 
 export function calculateFourPillars(input: { birthDate: string; birthTime: string | null; birthInstant: string | null; timeZone: string }) {
   const [year, month, day] = input.birthDate.split('-').map(Number);
-  if (!year || !month || !day) throw new Error('A birth date is required for Four Pillars.');
+  const date=new Date(input.birthDate+'T12:00:00Z');
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(input.birthDate)||!Number.isFinite(date.getTime())||date.toISOString().slice(0,10)!==input.birthDate)throw new Error('A valid calendar birth date is required for Four Pillars.');
+  if(input.birthTime&&!/^([01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(input.birthTime))throw new Error('A valid local birth time is required.');
+  if(input.birthTime&&!input.birthInstant)throw new Error('Resolve the local birth time before calculating Four Pillars.');
   const localHour = input.birthTime ? Number(input.birthTime.slice(0, 2)) : 12;
   const localMinute = input.birthTime ? Number(input.birthTime.slice(3, 5)) : 0;
-  const local = Solar.fromYmdHms(year, month, day, localHour, localMinute, 0).getLunar().getEightChar();
+  const localSecond=input.birthTime?Number(input.birthTime.slice(6,8)||0):0;
+  const local = Solar.fromYmdHms(year, month, day, localHour, localMinute, localSecond).getLunar().getEightChar();
+  local.setSect(2); // Civil midnight day boundary; preserve the explicit late-Zi convention.
 
   // The library's jieqi table is in China Standard Time. Compare the actual
   // birth instant in that zone for year/month boundaries; use local civil
   // date and time for the day/hour pillar. Noon is used only as an explicitly
   // limited date-only calculation when the birth hour is unknown.
-  const china = input.birthInstant ? partsAt(new Date(input.birthInstant), 'Asia/Shanghai') : null;
-  const solarTerms = china ? Solar.fromYmdHms(china.year, china.month, china.day, china.hour, china.minute, 0).getLunar().getEightChar() : local;
+  const noon=resolveLocalBirthTime({year,month,day,hour:12,minute:0},input.timeZone);
+  if(noon.status!=='resolved')throw new Error('The local birth date could not be resolved in its time zone.');
+  const instant=input.birthTime?new Date(input.birthInstant!):noon.instant;
+  if(!Number.isFinite(instant.getTime()))throw new Error('A valid birth instant is required.');
+  if(input.birthTime){const actual=partsAt(instant,input.timeZone);if(actual.year!==year||actual.month!==month||actual.day!==day||actual.hour!==localHour||actual.minute!==localMinute||actual.second!==localSecond)throw new Error('Birth instant does not match the saved local date and time.');}
+  const china=partsAt(instant,'Etc/GMT-8');
+  const solarTerms=Solar.fromYmdHms(china.year,china.month,china.day,china.hour,china.minute,china.second).getLunar().getEightChar();
+  solarTerms.setSect(2);
   const pillars = [
     describePillar('year', solarTerms.getYear()),
     describePillar('month', solarTerms.getMonth()),
@@ -69,7 +81,7 @@ export function calculateFourPillars(input: { birthDate: string; birthTime: stri
   return {
     version: FOUR_PILLARS_VERSION,
     birthTimeKnown: Boolean(input.birthTime),
-    boundary: 'Solar terms at actual instant in China Standard Time; day and hour from historical local civil time',
+    boundary: 'Solar terms at actual instant in China Standard Time; day and hour from historical local civil time, midnight day boundary (sect 2); date-only uses local noon',
     pillars,
     dayMaster: pillars[2].stem,
     ilgan: pillars[2].stemKorean,

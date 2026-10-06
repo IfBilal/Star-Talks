@@ -1,7 +1,7 @@
 import { useTheme } from '@/lib/theme-context';
-import { CircleHelp, Headset, MessageCircle, SquarePen, CircleDot , ChevronRight } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
-import { AppBar, AppScreen, BellButton, Card, F, go, IconTile, ListRow, useTypography } from '@/components/ui';
+import { CircleHelp, MessageCircle, SquarePen, CircleDot , ChevronRight } from 'lucide-react-native';
+import { Pressable, Text} from 'react-native';
+import { AppBar, AppScreen, BellButton, Card, F, go, ListRow, useTypography } from '@/components/ui';
 
 const cats = ['Payment issue', 'Refund issue', 'AI issue', 'Account issue', 'Technical issue', 'Course issue', 'Report issue', 'Other'];
 
@@ -12,7 +12,7 @@ export default function Support() {
   return (
     <AppScreen tab="profile" header={<AppBar brand dark menu right={<BellButton dark />} />} contentStyle={{ paddingTop: 12 }}>
       <Text style={[Type.h1, { fontSize: 18 }]}>Help & Support</Text>
-      <Text style={{ fontFamily: F.r, fontSize: 11.5, color: palette.slate, marginTop: 2, marginBottom: 12 }}>We're here to help you</Text>
+      <Text style={{ fontFamily: F.r, fontSize: 11.5, color: palette.slate, marginTop: 2, marginBottom: 12 }}>We&apos;re here to help you</Text>
       <Card style={{ borderRadius: 14 }}>
         <ListRow icon={c => <CircleHelp size={19} color={themed(c, 'foreground')} strokeWidth={1.7} />} tileBg={themed("#F6E6D4", 'surface')} title="FAQs" subtitle="Find answers to common questions" onPress={() => go('/support/faqs')} divider style={{ minHeight: 62 }} />
         <ListRow icon={c => <MessageCircle size={19} color={themed(c, 'foreground')} strokeWidth={1.7} />} tileBg={themed("#F6E6D4", 'surface')} title="Live Chat" subtitle="Chat with our support team" onPress={() => go('/support/chat')} divider style={{ minHeight: 62 }} />

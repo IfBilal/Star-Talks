@@ -1,7 +1,8 @@
-import { calculateChart, CALCULATOR_VERSION, type ChartResult } from '../../../src/features/astrology/chart.ts';
+import { resolveLocalBirthTime } from '../../../src/features/birth/timezone.ts';
+import { calculateChart, transitLongitudes, CALCULATOR_VERSION, type ChartResult } from '../../../src/features/astrology/chart.ts';
 import { lalKitabHouseRule, LAL_KITAB_RULES_VERSION } from './lal-kitab.ts';
 
-export const CHART_RULES_VERSION = 'chart-rules/1.0.0';
+export const CHART_RULES_VERSION = 'chart-rules/1.1.0';
 type Profile = { birth_date: string; birth_instant: string | null; birth_time_known: boolean; latitude: number; longitude: number; time_zone: string };
 type Factor = { id: string; label: string; value: string; rule: string };
 
@@ -53,39 +54,79 @@ function majorAspects(chart: ChartResult, zodiac: 'western'|'vedic'): Factor[] {
   return factors.slice(0,20);
 }
 
-function currentDasha(chart: ChartResult, birthInstant: string, asOf: Date): Factor[] {
-  const lord=chart.vedic.vimshottariAtBirth.mahadashaLord;
-  const index=dashaLords.indexOf(lord);
-  if(index<0)return [];
-  let start=new Date(birthInstant).getTime()-(dashaYears[index]-chart.vedic.vimshottariAtBirth.remainingYears)*msPerYear;
-  const now=asOf.getTime();
-  for(let cycle=0;cycle<18;cycle++) {
-    const i=(index+cycle)%9;
-    const end=start+dashaYears[i]*msPerYear;
-    if(now>=start&&now<end) {
-      const result: Factor[]=[{id:'vedic:dasha:mahadasha',label:'Current Vimshottari mahadasha',value:`${dashaLords[i]} (${new Date(start).toISOString().slice(0,10)} to ${new Date(end).toISOString().slice(0,10)})`,rule:'A symbolic planetary period calculated from the Moon nakshatra at birth.'}];
-      let subStart=start;
-      for(let part=0;part<9;part++) {
-        const sub=(i+part)%9;const subEnd=subStart+(dashaYears[i]*dashaYears[sub]/120)*msPerYear;
-        if(now>=subStart&&now<subEnd){result.push({id:'vedic:dasha:antardasha',label:'Current antardasha',value:`${dashaLords[sub]} (${new Date(subStart).toISOString().slice(0,10)} to ${new Date(subEnd).toISOString().slice(0,10)})`,rule:'A subperiod of the current mahadasha.'});break;}
-        subStart=subEnd;
-      }
-      return result;
-    }
-    start=end;
+/** Traditional whole-sign graha drishti. Node aspects vary by school and are omitted. */
+function vedicAspects(chart: ChartResult): Factor[] {
+  const planets=chart.vedic.planets.filter(p=>!['Uranus','Neptune','Pluto'].includes(p.name));
+  const factors: Factor[]=[];
+  for(const from of planets)for(const to of planets){
+    if(from.name===to.name)continue;
+    const house=mod(Math.floor(to.longitude/30)-Math.floor(from.longitude/30),12)+1;
+    const aspects=from.name==='Mars'?[4,7,8]:from.name==='Jupiter'?[5,7,9]:from.name==='Saturn'?[3,7,10]:[7];
+    if(aspects.includes(house))factors.push({id:`vedic:drishti:${from.name.toLowerCase()}-${to.name.toLowerCase()}`,label:`${from.name} aspects ${to.name}`,value:`${house}th sign from ${from.name}`,rule:'Whole-sign graha drishti: seven classical planets; special Mars, Jupiter and Saturn aspects. No Western degree-orb interpretation or disputed node aspects.'});
   }
-  return [];
+  return factors;
+}
+
+/** Daily samples, not exact event times. Windows clipped to a 30-day horizon. */
+export function westernTransitWindows(chart: ChartResult, asOf: Date): Factor[] {
+  const natal=chart.western.planets.filter(p=>['Sun','Moon','Mercury','Venus','Mars'].includes(p.name));
+  const aspects: Array<[string,number]>=[['conjunction',0],['square',90],['trine',120],['opposition',180]];
+  const windows=new Map<string,{label:string;start:string;end:string;orb:number;lastDay:number}>();
+  const active=new Map<string,string>();
+  for(let day=0;day<=30;day++){
+    const date=new Date(asOf.getTime()+day*86400000),stamp=date.toISOString().slice(0,10);
+    for(const moving of transitLongitudes(date))for(const target of natal)for(const [name,angle] of aspects){
+      const orb=Math.abs(angularDistance(moving.longitude,target.tropicalLongitude)-angle);
+      if(orb>3)continue;
+      const key=`western:window:${moving.name.toLowerCase()}-${target.name.toLowerCase()}-${name}`;
+      const activeKey=active.get(key);
+      const window=activeKey?windows.get(activeKey):undefined;
+      if(window&&window.lastDay===day-1){window.end=stamp;window.orb=Math.min(window.orb,orb);window.lastDay=day;}
+      else {const newKey=key+':'+stamp;active.set(key,newKey);windows.set(newKey,{label:`Transiting ${moving.name} ${name} natal ${target.name}`,start:stamp,end:stamp,orb,lastDay:day});}
+    }
+  }
+  return [...windows].sort((a,b)=>a[1].start.localeCompare(b[1].start)||a[1].orb-b[1].orb).slice(0,8).map(([id,w])=>({id,label:w.label,value:`${w.start} through ${w.end}; closest sampled orb ${w.orb.toFixed(2)}°`,rule:'Tropical geocentric transit within a 3° orb, sampled every 24 hours over the next 30 days. Endpoints are approximate sampled days, clipped to this horizon, not exact ingress/egress or guaranteed life events.'}));
+}
+
+export function vimshottariTimeline(chart: ChartResult, birthInstant: string) {
+  const index=dashaLords.indexOf(chart.vedic.vimshottariAtBirth.mahadashaLord);
+  if(index<0)throw new Error('Unknown Vimshottari lord.');
+  let start=new Date(birthInstant).getTime()-(dashaYears[index]-chart.vedic.vimshottariAtBirth.remainingYears)*msPerYear;
+  return Array.from({length:10},(_,cycle)=>{
+    const i=(index+cycle)%9,end=start+dashaYears[i]*msPerYear;
+    let subStart=start;
+    const subperiods=Array.from({length:9},(_,part)=>{
+      const sub=(i+part)%9,subEnd=subStart+dashaYears[i]*dashaYears[sub]/120*msPerYear;
+      const period={lord:dashaLords[sub],start:new Date(subStart).toISOString(),end:new Date(subEnd).toISOString()};subStart=subEnd;return period;
+    });
+    const period={lord:dashaLords[i],start:new Date(start).toISOString(),end:new Date(end).toISOString(),subperiods};start=end;return period;
+  });
+}
+
+function currentDasha(chart: ChartResult, birthInstant: string, asOf: Date): Factor[] {
+  const now=asOf.getTime();
+  const timeline=vimshottariTimeline(chart,birthInstant);
+  const result:Factor[]=timeline.map((period,index)=>({id:`vedic:dasha:timeline:${index}`,label:`${period.lord} mahadasha period`,value:`${period.start.slice(0,10)} to ${period.end.slice(0,10)}`,rule:'Vimshottari timeline from natal sidereal Moon; uses a 365.2425-day year and the versioned approximate Lahiri ayanamsa. Dates are symbolic calculation estimates, not guaranteed events.'}));
+  const major=timeline.find(p=>now>=Date.parse(p.start)&&now<Date.parse(p.end));
+  if(!major)return result;
+  result.push({id:'vedic:dasha:mahadasha',label:'Current Vimshottari mahadasha',value:`${major.lord} (${major.start.slice(0,10)} to ${major.end.slice(0,10)})`,rule:'Current major period within the calculated timeline.'});
+  const sub=major.subperiods.find(p=>now>=Date.parse(p.start)&&now<Date.parse(p.end));
+  if(sub)result.push({id:'vedic:dasha:antardasha',label:'Current antardasha',value:`${sub.lord} (${sub.start.slice(0,10)} to ${sub.end.slice(0,10)})`,rule:'Subperiod within the calculated current major period.'});
+  return result;
 }
 
 export function buildChartEvidence(profile: Profile, moduleId: 'vedic'|'western'|'lal-kitab', asOf = new Date()) {
   const warnings: string[] = [];
   const exact = Boolean(profile.birth_time_known && profile.birth_instant);
-  const instant = exact ? profile.birth_instant! : `${profile.birth_date}T12:00:00.000Z`;
-  if (!exact) warnings.push('Birth time is unknown. Planet signs are date-only approximations; ascendant, houses, dasha and precise timing are withheld. Moon sign near a boundary may be uncertain.');
+  const [year,month,day]=profile.birth_date.split('-').map(Number);
+  const noon=resolveLocalBirthTime({year,month,day,hour:12,minute:0},profile.time_zone);
+  if(!exact&&noon.status!=='resolved')throw new Error('The birth date could not be resolved in its time zone.');
+  const instant=exact?profile.birth_instant!:(noon.status==='resolved'?noon.instant.toISOString():'');
+  if (!exact) warnings.push('Birth time is unknown. Planet signs use local noon as date-only approximations; ascendant, houses, dasha and precise timing are withheld. Moon sign near a boundary may be uncertain.');
   const chart = calculateChart({ birthInstant: instant, latitude: profile.latitude, longitude: profile.longitude, timeKnown: exact, timeZone: profile.time_zone });
   const factors: Factor[] = [];
   const system=moduleId==='western'?'western':'vedic';
-  const planets = system==='western' ? chart.western.planets.map(p=>({name:p.name,sign:p.tropicalSign,degree:p.tropicalLongitude%30})) : chart.vedic.planets.map(p=>({name:p.name,sign:p.sign,degree:p.degree}));
+  const planets = system==='western' ? chart.western.planets.map(p=>({name:p.name,sign:p.tropicalSign,degree:p.tropicalLongitude%30})) : chart.vedic.planets.filter(p=>!['Uranus','Neptune','Pluto'].includes(p.name)).map(p=>({name:p.name,sign:p.sign,degree:p.degree}));
   const rising = system==='western'?chart.western.ascendantSign:chart.vedic.ascendantSign;
   if(moduleId==='lal-kitab'){
     if(!exact)throw new Error('A known birth time is needed for Lal Kitab house rules.');
@@ -106,12 +147,13 @@ export function buildChartEvidence(profile: Profile, moduleId: 'vedic'|'western'
     const style=signStyles[planet.sign]??'its sign style';
     const house=exact?houseFor(planet.sign,rising):null;
     factors.push({id:`${moduleId}:natal:${planet.name.toLowerCase()}`,label:`Natal ${planet.name}`,
-      value:`${planet.sign} ${planet.degree.toFixed(1)}°${house?`, whole-sign house ${house}`:''}`,
+      value:`${planet.sign}${exact?` ${planet.degree.toFixed(1)}°`:' (date-only estimate)'}${house?`, whole-sign house ${house}`:''}`,
       rule:`${planet.name} relates symbolically to ${theme}; ${planet.sign} expresses this in a ${style} way${house?` in ${houseThemes[house-1]}`:''}.`});
   }
   if(exact){
     factors.push({id:`${moduleId}:ascendant`,label:'Ascendant',value:rising,rule:`Whole-sign houses begin with ${rising}.`});
-    factors.push(...majorAspects(chart,system));
+    factors.push(...(system==='western'?majorAspects(chart,system):vedicAspects(chart)));
+    if(system==='western')factors.push(...westernTransitWindows(chart,asOf));
     if(moduleId==='vedic'){
       factors.push({id:'vedic:nakshatra:moon',label:'Moon nakshatra',value:`${chart.vedic.moonNakshatra.name}, pada ${chart.vedic.moonNakshatra.pada}`,rule:'Lunar mansion from the sidereal Moon.'});
       factors.push(...currentDasha(chart,instant,asOf));
@@ -123,5 +165,5 @@ export function buildChartEvidence(profile: Profile, moduleId: 'vedic'|'western'
     for(const p of moving.filter(p=>['Sun','Mars','Jupiter','Saturn'].includes(p.name)))
       factors.push({id:`${moduleId}:transit:${p.name.toLowerCase()}`,label:`Current ${p.name} transit`,value:`${p.sign} as of ${asOf.toISOString().slice(0,10)}`,rule:'Current transit position; no personal timing window is established by sign alone.'});
   }
-  return {version:`${CALCULATOR_VERSION}+${CHART_RULES_VERSION}`,method:moduleId,asOf:asOf.toISOString(),exactBirthTime:exact,factors,warnings};
+  return {version:`${CALCULATOR_VERSION}+${CHART_RULES_VERSION}`,method:moduleId,asOf:asOf.toISOString(),exactBirthTime:exact,factors,warnings,dashaTimeline:moduleId==='vedic'&&exact?vimshottariTimeline(chart,instant):undefined};
 }

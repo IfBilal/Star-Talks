@@ -1,3 +1,4 @@
+import { removeOwnedAiMedia } from '../_shared/media-cleanup.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2.117.2';
 
 const cors={
@@ -20,13 +21,7 @@ Deno.serve(async(request)=>{
   if(authError||!user)return json({error:'Please sign in again.'},401);
   const body=await request.json().catch(()=>null) as {confirmation?:unknown}|null;
   if(body?.confirmation!=='DELETE ACCOUNT')return json({error:'Confirm permanent account deletion.'},422);
-  const {data:media,error:mediaError}=await db.from('ai_media').select('storage_path').eq('user_id',user.id);
-  if(mediaError)return json({error:'Account media could not be checked.'},503);
-  const paths=(media??[]).map(item=>item.storage_path);
-  for(let offset=0;offset<paths.length;offset+=100){
-    const {error:storageError}=await db.storage.from('ai-private').remove(paths.slice(offset,offset+100));
-    if(storageError)return json({error:'Account photos could not be removed.'},503);
-  }
+  try { await removeOwnedAiMedia(db,user.id); } catch { return json({error:'Account photos could not be removed. Please retry.'},503); }
   const {error:deleteError}=await db.auth.admin.deleteUser(user.id);
   if(deleteError)return json({error:'Account could not be deleted. Please try again.'},503);
   return json({deleted:true});

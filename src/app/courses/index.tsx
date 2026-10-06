@@ -1,5 +1,5 @@
 import { useTheme } from '@/lib/theme-context';
-import { Bell, Eye, Hand, LayoutGrid, Menu, Search, Star, Sun, Layers, Compass as CompassIcon, Shapes } from 'lucide-react-native';
+import { Bell, Eye, Menu, Search, Star, Sun, Layers, Compass as CompassIcon, Shapes } from 'lucide-react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, StatusBar, Text, View } from 'react-native';

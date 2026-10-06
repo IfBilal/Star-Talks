@@ -144,9 +144,13 @@ export function Card({ children, style, onPress, tint }: PropsWithChildren<{ sty
 export function IconTile({ icon, size = 38, color = Colors.navy, bg = Colors.tile, radius }: { icon: ReactNode | ((c: string) => ReactNode); size?: number; color?: string; bg?: string; radius?: number }) {
   const { themed } = useTheme();
 
+  const renderedIcon = typeof icon === 'function' ? icon(themed(color)!) : icon;
+  const visibleIcon = isValidElement<{ color?: string }>(renderedIcon)
+    ? cloneElement(renderedIcon, { color: themed(renderedIcon.props.color ?? color) })
+    : renderedIcon;
   return (
     <View style={{ width: size, height: size, borderRadius: radius ?? size / 2, backgroundColor: themed(bg, 'surface'), alignItems: 'center', justifyContent: 'center' }}>
-      {typeof icon === 'function' ? icon(themed(color)!) : isValidElement<{ color?: string }>(icon) ? cloneElement(icon, { color: themed(icon.props.color ?? color) }) : icon}
+      {visibleIcon}
     </View>
   );
 }

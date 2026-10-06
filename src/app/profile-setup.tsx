@@ -47,7 +47,7 @@ export default function ProfileScreen() {
       }
     })();
     return () => { active = false; };
-  }, []);
+  }, [t]);
 
   const save = async (skipBirth = false) => {
     if (!name.trim()) {

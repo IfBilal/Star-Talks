@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { Check, Circle, Crosshair } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { AppBar, AppScreen, go, Progress, replace } from '@/components/ui';
+import { AppBar, AppScreen, Progress, replace } from '@/components/ui';
 import { Emblem, GoldStar } from '@/components/ui/icons';
 import { Colors } from '@/constants/theme';
 

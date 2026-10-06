@@ -1,7 +1,7 @@
 import { useTheme } from '@/lib/theme-context';
 import { BriefcaseBusiness, CircleUserRound, Ellipsis, FileText, Heart, Orbit, Sparkle } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { AppBar, AppScreen, Button, Card, go, IconTile, useTypography } from '@/components/ui';
 import { Colors } from '@/constants/theme';
 

@@ -3,7 +3,7 @@ import { calculateFourPillars } from './four-pillars.ts';
 import { calculateNumerology } from './numerology.ts';
 import { drawTarot } from './tarot.ts';
 
-export const COMPATIBILITY_VERSION = 'symbolic-compatibility/1.0.0';
+export const COMPATIBILITY_VERSION = 'symbolic-compatibility/1.1.0';
 export type CompatibilityMethod = 'western'|'vedic'|'numerology'|'chinese-zodiac'|'korean-astrology'|'tarot';
 type Person = { birth_date:string;birth_time:string|null;birth_instant:string|null;birth_time_known:boolean;latitude:number;longitude:number;time_zone:string;numerology_name:string|null;display_name:string };
 type Factor = {id:string;label:string;value:string;explanation:string};
@@ -31,6 +31,18 @@ export function buildCompatibility(a:Person,b:Person,method:CompatibilityMethod)
       throw new Error('Both profiles need known birth times for this chart compatibility method.');
     const first=calculateChart({birthInstant:a.birth_instant,latitude:a.latitude,longitude:a.longitude,timeZone:a.time_zone,timeKnown:true});
     const second=calculateChart({birthInstant:b.birth_instant,latitude:b.latitude,longitude:b.longitude,timeZone:b.time_zone,timeKnown:true});
+    if(method==='vedic'){
+      const moons=[first.vedic.planets.find(p=>p.name==='Moon')!,second.vedic.planets.find(p=>p.name==='Moon')!];
+      const relative=((Math.floor(moons[1].longitude/30)-Math.floor(moons[0].longitude/30)+12)%12)+1;
+      factors.push({id:'compat:vedic:moon-rashis',label:'Sidereal Moon signs',value:`${moons[0].sign} / ${moons[1].sign}`,explanation:`The second Moon is ${relative} signs from the first, counted inclusively. Interpret as lunar relationship context, not a complete traditional marriage assessment.`});
+      factors.push({id:'compat:vedic:moon-nakshatras',label:'Moon nakshatras',value:`${first.vedic.moonNakshatra.name} / ${second.vedic.moonNakshatra.name}`,explanation:'Computed lunar mansions for each profile. No traditional guna total has been calculated.'});
+      for(const name of ['Venus','Mars','Jupiter','Saturn']){
+        const left=first.vedic.planets.find(p=>p.name===name)!,right=second.vedic.planets.find(p=>p.name===name)!;
+        factors.push({id:`compat:vedic:pair:${name.toLowerCase()}`,label:`Sidereal ${name} pair`,value:`${left.sign} / ${right.sign}`,explanation:`Compare the symbolic ${name} themes in the two sidereal signs; no Western trine, square or sextile rule is applied.`});
+      }
+      warnings.push('This is a sidereal chart comparison, not a complete Ashtakoota/guna or marriage suitability assessment.');
+      return {version:COMPATIBILITY_VERSION,method,factors,warnings,score:null,scoreExplanation:'A qualitative sidereal comparison. No traditional guna score or numerical relationship probability is claimed.'};
+    }
     for(const [left,right] of [['Sun','Moon'],['Moon','Moon'],['Venus','Mars'],['Mercury','Mercury'],['Saturn','Sun']] as const) {
       const angle=distance(findPlanet(first,left,method),findPlanet(second,right,method));
       const harmonious=Math.abs(angle-120)<=7||Math.abs(angle-60)<=5||angle<=7;
@@ -43,11 +55,7 @@ export function buildCompatibility(a:Person,b:Person,method:CompatibilityMethod)
     const suns=[first,second].map(chart=>method==='western'?chart.western.planets.find(p=>p.name==='Sun')!.tropicalSign:chart.vedic.planets.find(p=>p.name==='Sun')!.sign);
     factors.push({id:`compat:${method}:sun-elements`,label:'Sun sign elements',value:suns.map(sign=>`${sign} (${signElement[sign]})`).join(' / '),explanation:supportive(signElement[suns[0]],signElement[suns[1]])?'The element pairing is traditionally considered supportive.':'The element pairing may need more deliberate balance.'});
     score += supportive(signElement[suns[0]],signElement[suns[1]]) ? 8 : -3;
-    if(method==='vedic'){
-      const moons=[first.vedic.moonNakshatra.name,second.vedic.moonNakshatra.name];
-      factors.push({id:'compat:vedic:moon-nakshatras',label:'Moon nakshatras',value:moons.join(' / '),explanation:'The pair’s sidereal lunar mansions add a Vedic emotional-context factor; this alone does not establish a traditional guna score.'});
-      if(moons[0]===moons[1])score+=4;
-    }
+
   } else if(method==='numerology') {
     const first=calculateNumerology(a.birth_date,a.numerology_name,new Date(),a.time_zone);
     const second=calculateNumerology(b.birth_date,b.numerology_name,new Date(),b.time_zone);

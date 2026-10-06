@@ -29,7 +29,7 @@ export default function LanguageRegion() {
   return (
     <AppScreen header={<AppBar brand menu />} contentStyle={{ paddingTop: 10 }}>
       <Text style={[Type.h1, { fontSize: 20 }]}>Language & Region</Text>
-      <Text style={{ fontFamily: F.r, fontSize: 11.5, color: palette.navy, marginTop: 3, marginBottom: 16 }}>We've detected your location. You can change it anytime.</Text>
+      <Text style={{ fontFamily: F.r, fontSize: 11.5, color: palette.navy, marginTop: 3, marginBottom: 16 }}>We&apos;ve detected your location. You can change it anytime.</Text>
       <Card style={{ padding: 14, borderRadius: 14, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <View style={{ width: 46, height: 46, borderRadius: 23, backgroundColor: themed('#F1ECFA', 'surface'), alignItems: 'center', justifyContent: 'center' }}><Text style={{ fontSize: 26 }}>🇮🇳</Text></View>
         <View style={{ flex: 1 }}><Text style={{ fontFamily: F.s, fontSize: 14, color: palette.navy }}>India</Text><Text style={{ fontFamily: F.r, fontSize: 11, color: palette.slate }}>+91</Text></View>

@@ -1,9 +1,9 @@
 import { useTheme } from '@/lib/theme-context';
-import { ChevronRight, Copy, Gift, History, Link2, MessageCircle, Send, Ellipsis, Tag, WalletCards } from 'lucide-react-native';
+import { ChevronRight, Copy, History, Link2, MessageCircle, Send, Ellipsis, Tag, WalletCards } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
-import { AppBar, AppScreen, BellButton, Button, Card, F, go, useTypography } from '@/components/ui';
+import { AppBar, AppScreen, BellButton, Button, Card, F, useTypography } from '@/components/ui';
 import { GoldStar } from '@/components/ui/icons';
 
 function Person({ flip }: { flip?: boolean }) {

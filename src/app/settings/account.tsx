@@ -1,5 +1,5 @@
 import { useTheme } from '@/lib/theme-context';
-import { Moon, ChevronRight, FileText, FileLock2, Gavel, LockKeyhole, LogOut, MonitorSmartphone, ShieldCheck, Trash2, UserRound, UserRoundX, Database, ScrollText } from 'lucide-react-native';
+import { Moon, ChevronRight, FileText, FileLock2, Gavel, LockKeyhole, LogOut, MonitorSmartphone, ShieldCheck, Trash2, UserRoundX, Database, ScrollText } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, Switch, Text, View } from 'react-native';

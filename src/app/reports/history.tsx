@@ -2,7 +2,7 @@ import { useTheme } from '@/lib/theme-context';
 import { BriefcaseBusiness, CircleUserRound, Ellipsis, FileText, Heart, Orbit, Sparkle } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { AppBar, AppScreen, Card, go, IconTile, Segmented, useTypography } from '@/components/ui';
+import { AppBar, AppScreen, Card, go, IconTile, useTypography } from '@/components/ui';
 import { Colors } from '@/constants/theme';
 
 const all = [

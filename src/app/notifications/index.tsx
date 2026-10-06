@@ -1,5 +1,5 @@
 import { useTheme } from '@/lib/theme-context';
-import { BadgeDollarSign, CalendarClock, ChevronRight, Gift, LifeBuoy, Settings, Sparkles, Undo2, Video } from 'lucide-react-native';
+import { CalendarClock, ChevronRight, Gift, LifeBuoy, Settings, Sparkles, Undo2, Video } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { AppBar, AppScreen, Card, Chip, F, go } from '@/components/ui';
