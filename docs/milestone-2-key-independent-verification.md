@@ -30,7 +30,7 @@ Supabase default table grants were broader than the intended migration grants. T
 
 Migration `20261005120000_milestone_two_hardening.sql` is deployed remotely as `20261005103522 milestone_two_hardening`. The access-changing Phase 1 verified-phone gate remains unapplied until real WhatsApp delivery works.
 
-Migration `20261005130000_ai_message_order.sql` is deployed remotely as `20261005155818 ai_message_order`. It gives messages a monotonic sequence for stable history and bounded memory pagination. The current AI function source still needs deployment after the Supabase MCP OAuth session is renewed; the deployed function remains version 3 until then.
+Migration `20261005130000_ai_message_order.sql` is deployed remotely as `20261005155818 ai_message_order`. It gives messages a monotonic sequence for stable history and bounded memory pagination. The final AI function source is deployed as version 4 with JWT verification enabled.
 
 ### Request integrity, cost and safety
 
