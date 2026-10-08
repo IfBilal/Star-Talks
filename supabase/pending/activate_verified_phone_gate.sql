@@ -1,4 +1,6 @@
--- Enable only after WhatsApp delivery, phone confirmation, and recovery are live.
+-- Pending activation script, intentionally outside migrations/ so a normal
+-- schema push cannot lock out users before WhatsApp delivery is live.
+-- Apply only after WhatsApp delivery, phone confirmation, and recovery are live.
 -- Remove Phase 1 policies before granting verified accounts access.
 drop policy if exists "Users can view their profile" on public.profiles;
 drop policy if exists "Users can create their profile" on public.profiles;
@@ -23,3 +25,7 @@ create policy chart_verified_owner_select on public.calculated_charts for select
 create policy chart_verified_owner_insert on public.calculated_charts for insert to authenticated with check (user_id = (select auth.uid()) and (select public.has_verified_phone()));
 create policy chart_verified_owner_update on public.calculated_charts for update to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone())) with check (user_id = (select auth.uid()) and (select public.has_verified_phone()));
 create policy chart_verified_owner_delete on public.calculated_charts for delete to authenticated using (user_id = (select auth.uid()) and (select public.has_verified_phone()));
+
+-- Apply only after WhatsApp OTP is live; activate the shared phone predicate
+-- for both Phase 1 tables and the Milestone 2 AI/Storage owner policies.
+update public.phone_gate_settings set enabled = true where id = true;

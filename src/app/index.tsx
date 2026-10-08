@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Screen } from '@/components/brand';
 import { preferences } from '@/lib/preferences';
 import { supabase } from '@/lib/supabase';
-import { hasVerifiedPhone } from '@/features/auth/phone-verification';
+import { needsPhoneVerification } from '@/features/auth/phone-verification';
 
 export default function SplashScreen(){
   const { Colors: palette, themed } = useTheme();
@@ -17,7 +17,7 @@ export default function SplashScreen(){
     const session=(await supabase?.auth.getSession())?.data.session;
     if(session&&supabase){
       const { data: { user } } = await supabase.auth.getUser();
-      if (!hasVerifiedPhone(user)) { router.replace('/auth/verify-phone' as Href); return; }
+      if (needsPhoneVerification(user)) { router.replace('/auth/verify-phone' as Href); return; }
       // A signed-in account already knows its own onboarding state, so skip region/language.
       const {data}=await supabase.from('birth_profiles').select('id').eq('user_id',session.user.id).eq('relationship','self').maybeSingle();
       if(data){await preferences.setOnboardingComplete(true);router.replace('/home');return}

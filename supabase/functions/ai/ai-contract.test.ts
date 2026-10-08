@@ -14,7 +14,7 @@ function fixture(){
   ai_consent:['birth_and_questions','palm_image','face_image'].map(scope=>({user_id:user,scope,text_version:'2026-10-04-v1',revoked_at:null})),
   ai_modules:['vedic','western','numerology','tarot','lal-kitab','chinese-zodiac','korean-astrology','palmistry','face-reading'].map(module_id=>({module_id,is_active:true})),
   ai_media:[{id:mediaId,user_id:user,kind:'palm',storage_path:`${user}/fixture.jpg`,consent_at:new Date().toISOString(),metadata:{}}],
-  ai_conversations:[],ai_messages:[],ai_feedback:[],
+  ai_conversations:[],ai_messages:[],ai_feedback:[],compatibility_analyses:[],
  };
  const claims=new Map<string,{fingerprint?:string;leased?:boolean;completed?:boolean}>();
  const events:string[]=[];
@@ -60,7 +60,7 @@ Deno.test('All nine real module handlers persist grounded first readings, follow
     else if(body.text.format.name==='visible_features')result={quality:'clear',retakeReason:null,observations:[{id:'a',feature:'Shape',description:'Broad visible shape',location:'centre',confidence:'high'},{id:'b',feature:'Line',description:'Visible curved line',location:'upper',confidence:'high'}]};
     else{
      const input=JSON.parse(body.input);const factors=input.evidence.factors;const first=body.instructions.includes('This is the First Instinct Reading');
-     result={directAnswer:'Synthetic provider response for '+moduleId,insights:first?factors.slice(0,3).map((v:Row)=>({title:v.label,body:'Symbolic fixture interpretation',sourceRefs:[v.id]})):[],supportingFactors:factors.slice(0,2).map((f:Row)=>({sourceRef:f.id,explanation:'Based on the supplied factor'})),conflictingFactors:[],timing:null,uncertainty:'Symbolic, not certain.',plainLanguageExplanation:'A reflection.',followUps:['Explore this theme?'],sourceRefs:[factors[0].id]};
+     result={scopeDecision:'in_scope',directAnswer:'Synthetic provider response for '+moduleId,insights:first?factors.slice(0,3).map((v:Row)=>({title:v.label,body:'Symbolic fixture interpretation',sourceRefs:[v.id]})):[],supportingFactors:factors.slice(0,2).map((f:Row)=>({sourceRef:f.id,explanation:'Based on the supplied factor'})),conflictingFactors:[],timing:null,uncertainty:'Symbolic, not certain.',plainLanguageExplanation:'A reflection.',followUps:['Explore this theme?'],sourceRefs:[factors[0].id]};
     }
     return Response.json({output:[{content:[{type:'output_text',text:JSON.stringify(result)}]}]});
    };
@@ -73,6 +73,12 @@ Deno.test('All nine real module handlers persist grounded first readings, follow
    const second:any=await handleAction(f.db,user,follow);assert(second.messages.length===2,moduleId+' followup');
    const later=providerCalls;await handleAction(f.db,user,follow);assert(later===providerCalls,moduleId+' followup retry');
    assert(f.rows.ai_messages.length===3,moduleId+' duplicate messages persisted');
+   const offTopic={action:'ask-module',conversationId:first.conversation.id,question:'How do I make tea?',requestId:crypto.randomUUID()};
+   const offTopicCalls=providerCalls;
+   const blocked:any=await handleAction(f.db,user,offTopic);
+   assert(providerCalls===offTopicCalls&&blocked.messages[1].kind==='blocked',moduleId+' off-topic request used the provider');
+   const blockedRetry:any=await handleAction(f.db,user,offTopic);
+   assert(providerCalls===offTopicCalls&&blockedRetry.messages[1].kind==='blocked',moduleId+' off-topic retry used the provider');
    if(moduleId==='tarot'){
     for(let i=0;i<26;i++)await handleAction(f.db,user,{...follow,question:'Clarify work theme '+i,requestId:crypto.randomUUID()});
     assert(f.rows.ai_conversations[0].summary_message_count>=8,'Memory was not summarized');
@@ -80,12 +86,35 @@ Deno.test('All nine real module handlers persist grounded first readings, follow
     const newest:any=await handleAction(f.db,user,{action:'get-conversation',conversationId:first.conversation.id});
     assert(newest.messages.length===50&&newest.nextMessageCursor,'Latest message page missing');
     const older:any=await handleAction(f.db,user,{action:'get-conversation',conversationId:first.conversation.id,messageCursor:newest.nextMessageCursor});
-    assert(older.messages.length===5&&!older.nextMessageCursor,'Older message page missing');
+    assert(older.messages.length===7&&!older.nextMessageCursor,'Older message page missing');
     const all=[...older.messages,...newest.messages];
-    assert(new Set(all.map(message=>message.id)).size===55,'Pagination duplicated messages');
+    assert(new Set(all.map(message=>message.id)).size===57,'Pagination duplicated messages');
     assert(all.every((message,index)=>index===0||message.sequence>all[index-1].sequence),'Question and answer order changed');
    }
    assert(f.events.indexOf('lease_ai_preview_request')<f.events.indexOf('provider'),moduleId+' provider before lease');
   }
+ }finally{globalThis.fetch=originalFetch;if(originalKey)Deno.env.set('OPENAI_API_KEY',originalKey);else Deno.env.delete('OPENAI_API_KEY');}
+});
+
+Deno.test('Compatibility uses one quota claim and replays a completed request without another provider call',async()=>{
+ const originalFetch=globalThis.fetch;const originalKey=Deno.env.get('OPENAI_API_KEY');Deno.env.set('OPENAI_API_KEY','offline-fixture');
+ const f=fixture();const secondId='44444444-4444-4444-8444-444444444444';
+ f.rows.birth_profiles.push({...f.rows.birth_profiles[0],id:secondId,display_name:'Second fixture',relationship:'partner'});
+ let providerCalls=0;
+ globalThis.fetch=async(url,init)=>{
+  providerCalls++;
+  if(String(url).endsWith('/moderations'))return Response.json({results:[{flagged:false}]});
+  const body=JSON.parse(String(init?.body));const args=JSON.parse(body.input);
+  assert(body.text.format.name==='compatibility_result','Unexpected provider request');
+  return Response.json({output:[{content:[{type:'output_text',text:JSON.stringify({overview:'A symbolic comparison.',strengths:['Shared themes'],challenges:['Different emphasis'],dynamics:'A balanced reading.',longTermOutlook:'Possibilities vary.',timing:null,sourceRefs:[args.factors[0].id]})}]}]});
+ };
+ try{
+  const request={action:'analyze-compatibility',firstProfileId:profileId,secondProfileId:secondId,method:'tarot',relationshipType:'friendship',requestId:crypto.randomUUID()};
+  const first:any=await handleAction(f.db,user,request);
+  assert(first.analysis.module_id==='tarot','Compatibility was not saved');
+  assert(f.events.filter(event=>event==='claim_ai_preview_request').length===1,'Compatibility claimed quota twice');
+  const calls=providerCalls;
+  const again:any=await handleAction(f.db,user,request);
+  assert(again.analysis.id===first.analysis.id&&providerCalls===calls,'Compatibility retry invoked provider');
  }finally{globalThis.fetch=originalFetch;if(originalKey)Deno.env.set('OPENAI_API_KEY',originalKey);else Deno.env.delete('OPENAI_API_KEY');}
 });

@@ -7,6 +7,7 @@ import { MODULES, MODULE_POLICY_VERSION, explicitlyRequestedOtherModule, isModul
 import { calculateNumerology, NUMBER_MEANINGS } from '../_shared/numerology.ts';
 import { AI_MODEL, generateAnswer, generateCompatibility, moderate, observeImage, summarizeConversation } from '../_shared/openai.ts';
 import { drawTarot, TAROT_LIBRARY_VERSION, type SpreadId } from '../_shared/tarot.ts';
+import { clearlyOutsideReadingScope, OUT_OF_SCOPE_REPLY } from '../_shared/scope.ts';
 
 const cors = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'authorization,apikey,content-type', 'access-control-allow-methods': 'POST,OPTIONS' };
 const respond = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...cors, 'content-type': 'application/json' } });
@@ -48,7 +49,9 @@ async function authenticatedUser(request: Request, db: SupabaseClient) {
   if(!bearer)throw new HttpError(401,'Please sign in again.');
   const {data:{user},error}=await db.auth.getUser(bearer);
   if(error||!user)throw new HttpError(401,'Your session expired. Please sign in again.');
-  if(!user.phone||!user.phone_confirmed_at)throw new HttpError(403,'Verify your WhatsApp phone number to continue.');
+  const {data:gate,error:gateError}=await db.from('phone_gate_settings').select('enabled').eq('id',true).single();
+  if(gateError||!gate)throw new HttpError(503,'Phone access policy could not be checked.');
+  if(gate.enabled&&(!user.phone||!user.phone_confirmed_at))throw new HttpError(403,'Verify your WhatsApp phone number to continue.');
   return user;
 }
 
@@ -62,11 +65,14 @@ async function selectedProfile(db: SupabaseClient, userId: string, profileId: un
 }
 
 async function claim(db: SupabaseClient, userId: string, requestId: string, fingerprint?: string) {
-  const limit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||30);
-  const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit,p_fingerprint:fingerprint??null});
+  const limit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||10);
+  const globalLimit=Number(Deno.env.get('AI_GLOBAL_DAILY_LIMIT')||100);
+  const userMinuteLimit=Number(Deno.env.get('AI_USER_MINUTE_LIMIT')||2);
+  const globalMinuteLimit=Number(Deno.env.get('AI_GLOBAL_MINUTE_LIMIT')||10);
+  const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit,p_fingerprint:fingerprint??null,p_global_daily_limit:globalLimit,p_user_minute_limit:userMinuteLimit,p_global_minute_limit:globalMinuteLimit});
   if(error?.code==='22023')throw new HttpError(409,'This request ID belongs to different input. Start a new request.');
   if(error)throw new HttpError(503,'Unable to check the AI preview limit.');
-  if(!data)throw new HttpError(429,'Today’s AI preview limit has been reached. Please try again later.');
+  if(!data)throw new HttpError(429,'AI preview is temporarily at its usage limit. Please try again later.');
 }
 async function lease(db:SupabaseClient,userId:string,requestId:string) {
   const {data,error}=await db.rpc('lease_ai_preview_request',{p_user_id:userId,p_request_id:requestId});
@@ -189,12 +195,14 @@ async function generated(db:SupabaseClient,conversation:{id:string;user_id:strin
   const messages=(recent.data??[]).reverse();
   const {answer,model}=await generateAnswer({moduleId:conversation.module_id,evidence:snapshot,allowedSourceRefs:refs,question,
     history:messages.slice(-10).map(item=>({role:item.role,body:item.body})),summary:conversation.summary||'',language:await languageFor(db,conversation.user_id),first});
-  const postModeration=await moderate(JSON.stringify(answer));
-  if(postModeration.flagged)throw new HttpError(422,'The generated answer could not be shown safely. Please ask in another way.');
+  if(answer.scopeDecision==='in_scope'){
+    const postModeration=await moderate(JSON.stringify(answer));
+    if(postModeration.flagged)throw new HttpError(422,'The generated answer could not be shown safely. Please ask in another way.');
+  }
   const body=answer.directAnswer;
   const rows=first?[{conversation_id:conversation.id,user_id:conversation.user_id,role:'assistant',kind:'first',body,structured_payload:answer,source_refs:answer.sourceRefs,request_id:requestId,provider_model:model}]
     :[{conversation_id:conversation.id,user_id:conversation.user_id,role:'user',kind:'question',body:question,request_id:requestId},
-      {conversation_id:conversation.id,user_id:conversation.user_id,role:'assistant',kind:'answer',body,structured_payload:answer,source_refs:answer.sourceRefs,request_id:requestId,provider_model:model}];
+      {conversation_id:conversation.id,user_id:conversation.user_id,role:'assistant',kind:answer.scopeDecision==='out_of_scope'?'blocked':'answer',body,structured_payload:answer,source_refs:answer.sourceRefs,request_id:requestId,provider_model:model}];
   const saved=await commitMessages(db,rows);
   await db.from('ai_conversations').update({first_reading_status:'ready',updated_at:new Date().toISOString()}).eq('id',conversation.id);
   const total=(recent.count??messages.length)+(saved?.length??0);
@@ -307,7 +315,6 @@ export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     const first=people.find(person=>person.id===firstId)!;const second=people.find(person=>person.id===secondId)!;
     let evidence:ReturnType<typeof buildCompatibility>;
     try{evidence=buildCompatibility(first,second,selectedMethod);}catch(cause){throw new HttpError(422,cause instanceof Error?cause.message:'Compatibility inputs are incomplete.');}
-    await claim(db,userId,requestId);
     await lease(db,userId,requestId);
     try {
       const {result,model}=await generateCompatibility({method:selectedMethod,relationshipType:String(type),firstName:first.display_name,secondName:second.display_name,factors:evidence.factors,warnings:evidence.warnings,language:await languageFor(db,userId)});
@@ -343,7 +350,6 @@ export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
       if(messages.length)return {conversation:existing,messages};
       if(existing.first_reading_status==='pending'&&Date.now()-new Date(existing.created_at).getTime()<120000)throw new HttpError(409,'This reading is still being prepared. Please wait and retry.');
       await requireConversationMediaAccess(db,userId,existing);
-      await claim(db,userId,requestId);
       await lease(db,userId,requestId);
       try{const regenerated=await generated(db,existing,`Give my ${moduleId==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,requestId,true);await finish(db,userId,requestId,true);return {conversation:{...existing,first_reading_status:'ready'},messages:regenerated};}
       catch(error){await finish(db,userId,requestId,false);throw error;}
@@ -424,6 +430,17 @@ export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
         {conversation_id:conversationId,user_id:userId,role:'assistant',kind:'redirect',body:`That question belongs in ${MODULES[other].name}. Switch modules to ask it there.`,structured_payload:{recommendedModuleId:other},request_id:requestId},
       ]);
       return {conversation,messages:rows};
+    }
+    if(clearlyOutsideReadingScope(question)) {
+      await lease(db,userId,requestId);
+      try {
+        const rows=await commitMessages(db,[
+          {conversation_id:conversationId,user_id:userId,role:'user',kind:'question',body:question,request_id:requestId},
+          {conversation_id:conversationId,user_id:userId,role:'assistant',kind:'blocked',body:OUT_OF_SCOPE_REPLY,structured_payload:{scopeDecision:'out_of_scope'},request_id:requestId},
+        ]);
+        await finish(db,userId,requestId,true);
+        return {conversation,messages:rows};
+      } catch(error) { await finish(db,userId,requestId,false); throw error; }
     }
     await lease(db,userId,requestId);
     try {

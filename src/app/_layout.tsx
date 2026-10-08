@@ -12,7 +12,7 @@ import { I18nextProvider } from 'react-i18next';
 import { AuthProvider , useAuth } from '@/lib/auth-context';
 import i18n, { initI18n } from '@/lib/i18n';
 import { supabase } from '@/lib/supabase';
-import { hasVerifiedPhone } from '@/features/auth/phone-verification';
+import { needsPhoneVerification } from '@/features/auth/phone-verification';
 
 function GuardedStack() {
   const { Colors: palette } = useTheme();
@@ -30,7 +30,7 @@ function GuardedStack() {
     if (isPublic || path === 'auth/verify-phone') return;
     let active = true;
     void supabase?.auth.getUser().then(({ data, error }) => {
-      if (active && (error || !hasVerifiedPhone(data.user))) router.replace('/auth/verify-phone' as Href);
+      if (active && (error || needsPhoneVerification(data.user))) router.replace('/auth/verify-phone' as Href);
     });
     return () => { active = false; };
   }, [loading, path, session]);
