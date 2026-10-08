@@ -66,7 +66,7 @@ async function selectedProfile(db: SupabaseClient, userId: string, profileId: un
 
 async function claim(db: SupabaseClient, userId: string, requestId: string, fingerprint?: string) {
   const limit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||10);
-  const globalLimit=Number(Deno.env.get('AI_GLOBAL_DAILY_LIMIT')||100);
+  const globalLimit=Number(Deno.env.get('AI_GLOBAL_DAILY_LIMIT')||20);
   const userMinuteLimit=Number(Deno.env.get('AI_USER_MINUTE_LIMIT')||2);
   const globalMinuteLimit=Number(Deno.env.get('AI_GLOBAL_MINUTE_LIMIT')||10);
   const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit,p_fingerprint:fingerprint??null,p_global_daily_limit:globalLimit,p_user_minute_limit:userMinuteLimit,p_global_minute_limit:globalMinuteLimit});

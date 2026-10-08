@@ -22,7 +22,7 @@ The original proposal's weeks 3–4 are the nine AI modules, grounded readings, 
 | Limit | Default | Server environment override |
 | --- | ---: | --- |
 | Per account, rolling 24 hours | 10 requests | `AI_PREVIEW_DAILY_LIMIT` |
-| All accounts, rolling 24 hours | 100 requests | `AI_GLOBAL_DAILY_LIMIT` |
+| All accounts, rolling 24 hours | 20 requests | `AI_GLOBAL_DAILY_LIMIT` |
 | Per account, rolling minute | 2 requests | `AI_USER_MINUTE_LIMIT` |
 | All accounts, rolling minute | 10 requests | `AI_GLOBAL_MINUTE_LIMIT` |
 
