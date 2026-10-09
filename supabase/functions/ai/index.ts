@@ -182,7 +182,15 @@ async function requireConversationMediaAccess(db:SupabaseClient,userId:string,co
 }
 
 async function commitMessages(db:SupabaseClient,rows:Array<Record<string,unknown>>) {
-  const {data,error}=await db.from('ai_messages').insert(rows).select('id,sequence,role,kind,body,structured_payload,source_refs,created_at,request_id');
+  // PostgREST bulk inserts use one column set for every row. Supply values
+  // explicitly so a question row cannot receive NULL for assistant-only fields.
+  const complete=rows.map(row=>({
+    ...row,
+    structured_payload:row.structured_payload??{},
+    source_refs:row.source_refs??[],
+    provider_model:row.provider_model??null,
+  }));
+  const {data,error}=await db.from('ai_messages').insert(complete).select('id,sequence,role,kind,body,structured_payload,source_refs,created_at,request_id');
   if(error)throw new HttpError(503,'Answer could not be saved. Please retry.');
   return data;
 }
