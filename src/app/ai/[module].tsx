@@ -8,6 +8,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StatusBar
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { back, Button, Card, Chip, go, Sheet } from '@/components/ui';
 import { aiCall, type AiConversation, type AiFeedback, type AiMessage, type AiMessageCursor } from '@/features/ai/api';
+import { latestFollowUps } from '@/features/ai/followUps';
 import { moduleById } from '@/features/uiData/ai';
 import { Colors } from '@/constants/theme';
 
@@ -32,6 +33,7 @@ export default function AiChat() {
   const [messageCursor,setMessageCursor]=useState<AiMessageCursor|null>(null);
   const [olderBusy,setOlderBusy]=useState(false);
   const [text, setText] = useState('');
+  const [pendingQuestion, setPendingQuestion] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -70,15 +72,18 @@ export default function AiChat() {
   const send = async (value: string) => {
     const question = value.trim();
     if (!conversation || question.length < 2 || busy) return;
-    setBusy(true); setError('');
+    setBusy(true); setError(''); setPendingQuestion(question);
     const requestId = ExpoCrypto.randomUUID();
     try {
       const result = await aiCall('ask-module', { conversationId: conversation.id, question, requestId });
       setMessages(previous => [...previous, ...(result.messages ?? [])]);
       setText('');
       setTimeout(() => scroll.current?.scrollToEnd({ animated: true }), 100);
-    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Could not send your question.'); }
-    finally { setBusy(false); }
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not send your question.');
+      setTimeout(() => scroll.current?.scrollToEnd({ animated: true }), 100);
+    }
+    finally { setPendingQuestion(''); setBusy(false); }
   };
 
   const acceptConsent = async () => {
@@ -140,12 +145,11 @@ export default function AiChat() {
       </View>
     </>;
   };
-  const latestAssistantId = [...messages].reverse().find(message => message.role === 'assistant')?.id;
+  const suggested = latestFollowUps(messages);
   const followUpChips = (message: AiMessage) => {
-    const followUps = message.structured_payload?.followUps;
-    if (busy || message.id !== latestAssistantId || !followUps?.length) return null;
+    if (busy || message.id !== suggested?.messageId) return null;
     return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginLeft: 42, marginTop: 10 }}>
-      {followUps.map(chip => <Chip key={chip} label={chip} onPress={() => void send(chip)} style={{ height: 34, paddingHorizontal: 15, borderRadius: 17, backgroundColor: themed('#fff', 'surface'), borderColor: themed('#D9D4EC', 'border') }} />)}
+      {suggested.choices.map(chip => <Chip key={chip} label={chip} onPress={() => void send(chip)} style={{ height: 34, paddingHorizontal: 15, borderRadius: 17, backgroundColor: themed('#fff', 'surface'), borderColor: themed('#D9D4EC', 'border') }} />)}
     </View>;
   };
 
@@ -163,7 +167,7 @@ export default function AiChat() {
       <ScrollView ref={scroll} contentContainerStyle={{ paddingHorizontal: 14, paddingTop: 4, paddingBottom: 14 }} showsVerticalScrollIndicator={false}>
         {messageCursor?<Pressable accessibilityRole="button" disabled={olderBusy} onPress={()=>void loadOlder()} style={{alignSelf:'center',padding:10}}><Text style={{fontFamily:'Poppins_500Medium',fontSize:11,color:palette.indigo}}>{olderBusy?'Loading…':'Load earlier messages'}</Text></Pressable>:null}
         {loading ? <Text style={{ ...body, textAlign: 'center', padding: 22 }}>Preparing your {m.name} reading…</Text> : null}
-        {error ? <Card style={{ borderRadius: 14, padding: 16, marginTop: 10 }}><Text accessibilityRole="alert" style={{ ...body, color: palette.danger }}>{error}</Text>{!conversation ? <Button title={m.id === 'palmistry' || m.id === 'face-reading' ? 'Choose a photo' : error.includes('birth profile')?'Add birth profile':error.includes('birth time')?'Edit birth profile':'Try again'} height={40} style={{ marginTop: 12 }} onPress={() => { if (m.id === 'palmistry' || m.id === 'face-reading') router.push(`/ai/upload?module=${m.id}` as Href); else if(error.includes('birth profile'))router.push('/profiles/new');else if(error.includes('birth time'))router.push('/profiles'); else { setLoading(true); setError(''); setRestart(n => n + 1); } }} /> : null}</Card> : null}
+        {error && !conversation ? <Card style={{ borderRadius: 14, padding: 16, marginTop: 10 }}><Text accessibilityRole="alert" style={{ ...body, color: palette.danger }}>{error}</Text><Button title={m.id === 'palmistry' || m.id === 'face-reading' ? 'Choose a photo' : error.includes('birth profile')?'Add birth profile':error.includes('birth time')?'Edit birth profile':'Try again'} height={40} style={{ marginTop: 12 }} onPress={() => { if (m.id === 'palmistry' || m.id === 'face-reading') router.push(`/ai/upload?module=${m.id}` as Href); else if(error.includes('birth profile'))router.push('/profiles/new');else if(error.includes('birth time'))router.push('/profiles'); else { setLoading(true); setError(''); setRestart(n => n + 1); } }} /></Card> : null}
         {messages.map(message => {
           if (message.role === 'user') return <Bubble key={message.id} mine style={{ marginTop: 10 }}><Text style={{ ...body, color: palette.navy }}>{message.body}</Text></Bubble>;
           if (message.kind === 'first') return <View key={message.id}>
@@ -182,6 +186,8 @@ export default function AiChat() {
             {followUpChips(message)}
           </View>;
         })}
+        {pendingQuestion ? <><Bubble mine style={{ marginTop: 10 }}><Text style={{ ...body, color: palette.navy }}>{pendingQuestion}</Text></Bubble><Text style={{ ...body, marginTop: 10, marginLeft: 42, color: palette.slate }}>Star Talks is preparing an answer…</Text></> : null}
+        {error && conversation ? <Card style={{ borderRadius: 14, padding: 12, marginTop: 12 }}><Text accessibilityRole="alert" style={{ ...body, color: palette.danger }}>{error}</Text></Card> : null}
       </ScrollView>
       <SafeAreaView edges={['bottom']} style={{ backgroundColor: themed('#FCF7F3', 'surface') }}><View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingBottom: 10, paddingTop: 4 }}>
         <View style={{ flex: 1, height: 48, borderRadius: 24, backgroundColor: themed('#fff', 'surface'), borderWidth: 1, borderColor: themed('#EFEAF5', 'border'), paddingHorizontal: 18, justifyContent: 'center' }}><TextInput selectionColor={palette.lavender} value={text} onChangeText={setText} onSubmitEditing={() => void send(text)} placeholder="Ask a question..." placeholderTextColor={themed("#9AA0B8", 'foreground')} returnKeyType="send" editable={Boolean(conversation) && !busy} style={{ fontFamily: 'Poppins_400Regular', fontSize: 12.5, color: palette.ink, paddingVertical: 0 }} /></View>
