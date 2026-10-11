@@ -1,4 +1,5 @@
 import { removeOwnedAiMedia } from '../_shared/media-cleanup.ts';
+import { cors } from '../_shared/cors.ts';
 import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.117.2';
 import { buildChartEvidence } from '../_shared/chart-evidence.ts';
 import { buildCompatibility, type CompatibilityMethod } from '../_shared/compatibility.ts';
@@ -9,7 +10,6 @@ import { AI_MODEL, generateAnswer, generateCompatibility, moderate, observeImage
 import { drawTarot, TAROT_LIBRARY_VERSION, type SpreadId } from '../_shared/tarot.ts';
 import { clearlyOutsideReadingScope, OUT_OF_SCOPE_REPLY } from '../_shared/scope.ts';
 
-const cors = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'authorization,apikey,content-type', 'access-control-allow-methods': 'POST,OPTIONS' };
 const respond = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...cors, 'content-type': 'application/json' } });
 const uuid = (value: unknown): value is string => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 class HttpError extends Error { constructor(public status: number, message: string) { super(message); } }

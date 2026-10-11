@@ -1,6 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.117.2';
+import { cors } from '../_shared/cors.ts';
 
-const cors={'access-control-allow-origin':'*','access-control-allow-headers':'authorization,apikey,content-type','access-control-allow-methods':'POST,OPTIONS'};
 const json=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{...cors,'content-type':'application/json'}});
 const validPhone=(value:unknown):value is string=>typeof value==='string'&&/^\+[1-9]\d{7,14}$/.test(value);
 const codeValue=()=>{
