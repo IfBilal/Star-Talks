@@ -1,6 +1,6 @@
 import React from 'react';
 import TestRenderer, { act } from 'react-test-renderer';
-import AiChat from './[module]';
+import AiChat from '../../../app/ai/[module]';
 import { aiCall } from '@/features/ai/api';
 
 jest.mock('@/lib/theme-context', () => ({
