@@ -140,6 +140,14 @@ export default function AiChat() {
       </View>
     </>;
   };
+  const latestAssistantId = [...messages].reverse().find(message => message.role === 'assistant')?.id;
+  const followUpChips = (message: AiMessage) => {
+    const followUps = message.structured_payload?.followUps;
+    if (busy || message.id !== latestAssistantId || !followUps?.length) return null;
+    return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginLeft: 42, marginTop: 10 }}>
+      {followUps.map(chip => <Chip key={chip} label={chip} onPress={() => void send(chip)} style={{ height: 34, paddingHorizontal: 15, borderRadius: 17, backgroundColor: themed('#fff', 'surface'), borderColor: themed('#D9D4EC', 'border') }} />)}
+    </View>;
+  };
 
   return <View style={{ flex: 1, backgroundColor: themed('#FCF7F3', 'surface') }}>
     <LinearGradient colors={[themed('#E6DDF6', 'surface')!, themed('#F3EDF8', 'surface')!, themed('#FCF7F3', 'surface')!]} style={{ paddingBottom: 6 }}><SafeAreaView edges={['top']}><StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
@@ -167,9 +175,12 @@ export default function AiChat() {
             {message.structured_payload?.insights?.map((insight,index)=><Card key={`${message.id}:${index}`} style={{borderRadius:14,padding:12,marginTop:7,flexDirection:'row',gap:11,alignItems:'flex-start'}}><View style={{width:32,height:32,borderRadius:16,backgroundColor:themed(m.tint, 'surface'),alignItems:'center',justifyContent:'center'}}>{m.icon(themed(m.ink)!,16)}</View><View style={{flex:1}}><Text style={{fontFamily:'Poppins_600SemiBold',fontSize:12,color:palette.navy}}>{insight.title}</Text><Text style={{...body,fontSize:10.5,lineHeight:16,marginTop:2}}>{insight.body}</Text></View></Card>)}
             {conversation?.input_snapshot?.warnings?.map((warning,index)=><View key={`${message.id}:warning:${index}`} style={{marginTop:8}}><Text style={{...body,fontSize:10.5,color:palette.slate}}>{warning}</Text>{m.id==='numerology'&&warning.includes('full birth name')&&conversation.birth_profile_id?<Pressable onPress={()=>router.push({pathname:'/profiles/new',params:{id:conversation.birth_profile_id!}})} style={{paddingVertical:5}}><Text style={{fontFamily:'Poppins_500Medium',fontSize:11,color:palette.indigo}}>Confirm birth name in profile</Text></Pressable>:null}</View>)}
             <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}><Avatar /><Bubble style={{ flex: 1 }}>{answerBody(message)}</Bubble></View>
-            {message.structured_payload?.followUps?.length ? <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginLeft: 42, marginTop: 10 }}>{message.structured_payload.followUps.map(chip => <Chip key={chip} label={chip} onPress={() => void send(chip)} style={{ height: 34, paddingHorizontal: 15, borderRadius: 17, backgroundColor: themed('#fff', 'surface'), borderColor: themed('#D9D4EC', 'border') }} />)}</View> : null}
+            {followUpChips(message)}
           </View>;
-          return <View key={message.id} style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}><Avatar /><Bubble style={{ flex: 1 }}>{message.kind === 'redirect' ? <><Text style={body}>{message.body}</Text><Button title="Switch module" height={38} style={{ marginTop: 10 }} onPress={() => go(`/ai/${message.structured_payload?.recommendedModuleId ?? 'modules'}`)} /></> : answerBody(message)}</Bubble></View>;
+          return <View key={message.id}>
+            <View style={{ flexDirection: 'row', gap: 10, marginTop: 12 }}><Avatar /><Bubble style={{ flex: 1 }}>{message.kind === 'redirect' ? <><Text style={body}>{message.body}</Text><Button title="Switch module" height={38} style={{ marginTop: 10 }} onPress={() => go(`/ai/${message.structured_payload?.recommendedModuleId ?? 'modules'}`)} /></> : answerBody(message)}</Bubble></View>
+            {followUpChips(message)}
+          </View>;
         })}
       </ScrollView>
       <SafeAreaView edges={['bottom']} style={{ backgroundColor: themed('#FCF7F3', 'surface') }}><View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingBottom: 10, paddingTop: 4 }}>
