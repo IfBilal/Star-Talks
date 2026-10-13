@@ -70,6 +70,29 @@ it('sends a selected choice, shows the answer, and does not repeat the same choi
   await act(async () => { screen.unmount(); });
 });
 
+it('does not ask for another choice after answering a selected suggestion', async () => {
+  aiCall.mockImplementation(async action => {
+    if (action === 'get-consent') return { accepted: { birth_and_questions: true } };
+    if (action === 'start-reading') return { conversation: { id: 'chat', title: 'Reading' }, messages: [first] };
+    if (action === 'ask-module') return { messages: [
+      { id: 'question', role: 'user', kind: 'question', body: 'Love?' },
+      { ...reply, structured_payload: { followUps: ['What about timing?', 'What can I do?', 'Any other themes?'] } },
+    ] };
+    throw new Error(`Unexpected action: ${action}`);
+  });
+  let screen;
+  await act(async () => { screen = TestRenderer.create(<AiChat />); });
+  await act(async () => {
+    screen.root.findAllByType(require('react-native').Text).find(node => node.props.children === 'Love?').props.onPress();
+  });
+  const visibleText = screen.root.findAllByType(require('react-native').Text).map(node => node.props.children);
+  expect(visibleText).toContain('Here is your answer');
+  expect(visibleText).not.toContain('What about timing?');
+  expect(visibleText).not.toContain('What can I do?');
+  expect(visibleText).not.toContain('Any other themes?');
+  await act(async () => { screen.unmount(); });
+});
+
 it('shows a follow-up failure beside the latest chat content', async () => {
   aiCall.mockImplementation(async action => {
     if (action === 'get-consent') return { accepted: { birth_and_questions: true } };

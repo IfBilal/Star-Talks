@@ -19,10 +19,8 @@ describe('AI follow-up choices', () => {
     expect(latestFollowUps(messages)).toBeNull();
   });
 
-  it('shows genuinely new choices from the latest answer', () => {
+  it('does not turn a follow-up answer into another choice prompt', () => {
     const messages = [assistant('first', ['Love?', 'Work?', 'Family?']), question('Love?'), assistant('answer', ['Love?', 'How does timing affect this?', 'What should I consider next?'])];
-    expect(latestFollowUps(messages)).toEqual({
-      messageId: 'answer', choices: ['How does timing affect this?', 'What should I consider next?'],
-    });
+    expect(latestFollowUps(messages)).toBeNull();
   });
 });
