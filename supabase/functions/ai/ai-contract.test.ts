@@ -16,7 +16,7 @@ function fixture(){
   ai_media:[{id:mediaId,user_id:user,kind:'palm',storage_path:`${user}/fixture.jpg`,consent_at:new Date().toISOString(),metadata:{}}],
   ai_conversations:[],ai_messages:[],ai_feedback:[],compatibility_analyses:[],
  };
- const claims=new Map<string,{fingerprint?:string;leased?:boolean;completed?:boolean}>();
+ const claims=new Map<string,{fingerprint?:string;leased?:boolean;completed?:boolean;inputTokens?:number;outputTokens?:number}>();
  const events:string[]=[];
  let nextSequence=0;
  const db={from(table:string){
@@ -37,8 +37,9 @@ function fixture(){
   events.push(name);const id=args.p_request_id;const item=claims.get(id);
   if(name==='claim_ai_preview_request'){
    if(item?.fingerprint&&args.p_fingerprint&&item.fingerprint!==args.p_fingerprint)return {data:null,error:{code:'22023'}};
-   if(!item)claims.set(id,{fingerprint:args.p_fingerprint});return {data:true,error:null};
+   if(!item)claims.set(id,{fingerprint:args.p_fingerprint});return {data:item?'existing':'claimed',error:null};
   }
+  if(name==='record_ai_provider_usage'){if(!item)throw Error('Unclaimed');item.inputTokens=(item.inputTokens??0)+args.p_input_tokens;item.outputTokens=(item.outputTokens??0)+args.p_output_tokens;return {data:null,error:null};}
   if(name==='lease_ai_preview_request'){if(!item)throw Error('Unclaimed');if(item.leased)return {data:'busy',error:null};if(item.completed)return {data:'complete',error:null};item.leased=true;return {data:'acquired',error:null};}
   if(name==='finish_ai_preview_request'){if(!item)throw Error('Unclaimed');item.leased=false;item.completed=args.p_success;return {data:null,error:null};}
   throw Error(name);
@@ -62,7 +63,7 @@ Deno.test('All nine real module handlers persist grounded first readings, follow
      const input=JSON.parse(body.input);const factors=input.evidence.factors;const first=body.instructions.includes('This is the First Instinct Reading');
      result={scopeDecision:'in_scope',directAnswer:'Synthetic provider response for '+moduleId,insights:first?factors.slice(0,3).map((v:Row)=>({title:v.label,body:'Symbolic fixture interpretation',sourceRefs:[v.id]})):[],supportingFactors:factors.slice(0,2).map((f:Row)=>({sourceRef:f.id,explanation:'Based on the supplied factor'})),conflictingFactors:[],timing:null,uncertainty:'Symbolic, not certain.',plainLanguageExplanation:'A reflection.',followUps:['Explore this theme?'],sourceRefs:[factors[0].id]};
     }
-    return Response.json({output:[{content:[{type:'output_text',text:JSON.stringify(result)}]}]});
+    return Response.json({output:[{content:[{type:'output_text',text:JSON.stringify(result)}]}],usage:{input_tokens:120,output_tokens:30}});
    };
    const request={action:'start-reading',moduleId,profileId,mediaId,requestId:crypto.randomUUID()};
    const first:any=await handleAction(f.db,user,request);
@@ -92,8 +93,17 @@ Deno.test('All nine real module handlers persist grounded first readings, follow
     assert(all.every((message,index)=>index===0||message.sequence>all[index-1].sequence),'Question and answer order changed');
    }
    assert(f.events.indexOf('lease_ai_preview_request')<f.events.indexOf('provider'),moduleId+' provider before lease');
+   assert([...f.claims.values()].some(claim=>(claim.inputTokens??0)>=120&&(claim.outputTokens??0)>=30),moduleId+' provider usage was not recorded');
   }
  }finally{globalThis.fetch=originalFetch;if(originalKey)Deno.env.set('OPENAI_API_KEY',originalKey);else Deno.env.delete('OPENAI_API_KEY');}
+});
+
+Deno.test('A rejected AI request releases its reserved usage allowance',async()=>{
+ const f=fixture();let rejected=false;
+ try{await handleAction(f.db,user,{action:'ask-module',conversationId:crypto.randomUUID(),question:'What about work?',requestId:crypto.randomUUID()});}
+ catch{rejected=true;}
+ assert(rejected,'Missing conversation was accepted');
+ assert(f.events.includes('finish_ai_preview_request'),'Rejected claim was not released');
 });
 
 Deno.test('Compatibility uses one quota claim and replays a completed request without another provider call',async()=>{

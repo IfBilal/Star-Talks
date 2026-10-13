@@ -1,6 +1,6 @@
 # Star Talks AI scope and cost controls
 
-Checkpoint: 2026-10-09. This describes the new source changes. Deployment and live acceptance must be recorded separately in the [Milestone 2 handoff](milestone-2-deployment-handoff.md).
+Checkpoint: 2026-10-13. This describes the current source changes. Deployment and live acceptance must be recorded separately in the [Milestone 2 handoff](milestone-2-deployment-handoff.md).
 
 ## Scope of the original milestone
 
@@ -21,12 +21,16 @@ The original proposal's weeks 3–4 are the nine AI modules, grounded readings, 
 
 | Limit | Default | Server environment override |
 | --- | ---: | --- |
-| Per account, rolling 24 hours | 10 requests | `AI_PREVIEW_DAILY_LIMIT` |
-| All accounts, rolling 24 hours | 20 requests | `AI_GLOBAL_DAILY_LIMIT` |
-| Per account, rolling minute | 2 requests | `AI_USER_MINUTE_LIMIT` |
-| All accounts, rolling minute | 10 requests | `AI_GLOBAL_MINUTE_LIMIT` |
+| Per account, rolling 24 hours | 30 requests | `AI_PREVIEW_DAILY_LIMIT` |
+| All accounts, rolling 24 hours | 300 requests | `AI_GLOBAL_DAILY_LIMIT` |
+| Per account, rolling minute | 5 requests | `AI_USER_MINUTE_LIMIT` |
+| All accounts, rolling minute | 30 requests | `AI_GLOBAL_MINUTE_LIMIT` |
+| Per account, rolling 24 hours | 300,000 weighted token units | `AI_USER_DAILY_TOKEN_UNITS` |
+| All accounts, rolling 24 hours | 3,000,000 weighted token units | `AI_GLOBAL_DAILY_TOKEN_UNITS` |
 
-Every paid action—first reading, follow-up or compatibility—uses this quota. Rejected attempts and off-topic questions can consume a user's request allowance, but clear off-topic questions do not call OpenAI. A request may involve more than one provider call (especially image analysis), so these limits cap request volume rather than exact currency. The global cap limits account-creation abuse. The `AI_DISABLED` and `AI_DISABLED_MODULES` switches can stop new generation immediately while preserving saved history.
+Every paid action—first reading, follow-up or compatibility—uses a request slot. Rejected attempts and off-topic questions can consume a request slot, but clear off-topic questions do not call OpenAI or use token units. One input token is one unit and one output token is four units, matching the selected `gpt-4o-mini` text price ratio. Image observation and memory summaries are included. The server reserves room for a call before invoking the provider, then replaces it with the actual reported usage; if provider usage is absent it charges a conservative estimate. Changing `OPENAI_MODEL` requires reviewing this weighting and the budgets. These limits are cost controls, not a purchased-credit wallet or an exact currency cap. The global cap limits account-creation abuse. The `AI_DISABLED` and `AI_DISABLED_MODULES` switches can stop new generation immediately while preserving saved history.
+
+The database migration `20261013100000_ai_weighted_usage_limits.sql` must be applied before deploying the updated `ai` function. The function returns a distinct message for a minute, daily request, or daily usage limit. Existing Supabase Edge Function secret overrides take precedence over the defaults above; review or update all six settings at rollout.
 
 For a stronger billing ceiling, the client should set a small **project hard spend limit** and an earlier alert in the OpenAI dashboard. OpenAI notes that enforcement is not instantaneous, so a small overrun is possible: [spend limits](https://developers.openai.com/api/docs/guides/spend-limits). The app's moderation API is free according to [OpenAI safety guidance](https://developers.openai.com/api/docs/guides/safety-best-practices); generated readings and image analysis are billable.
 

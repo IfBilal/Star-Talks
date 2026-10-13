@@ -64,20 +64,39 @@ async function selectedProfile(db: SupabaseClient, userId: string, profileId: un
   return must(data as Profile|null,'Add a birth profile before starting this module.');
 }
 
-async function claim(db: SupabaseClient, userId: string, requestId: string, fingerprint?: string) {
-  const limit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||10);
-  const globalLimit=Number(Deno.env.get('AI_GLOBAL_DAILY_LIMIT')||20);
-  const userMinuteLimit=Number(Deno.env.get('AI_USER_MINUTE_LIMIT')||2);
-  const globalMinuteLimit=Number(Deno.env.get('AI_GLOBAL_MINUTE_LIMIT')||10);
-  const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit,p_fingerprint:fingerprint??null,p_global_daily_limit:globalLimit,p_user_minute_limit:userMinuteLimit,p_global_minute_limit:globalMinuteLimit});
+async function claim(db: SupabaseClient, userId: string, requestId: string, fingerprint: string, body?: Body) {
+  const limit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||30);
+  const globalLimit=Number(Deno.env.get('AI_GLOBAL_DAILY_LIMIT')||300);
+  const userMinuteLimit=Number(Deno.env.get('AI_USER_MINUTE_LIMIT')||5);
+  const globalMinuteLimit=Number(Deno.env.get('AI_GLOBAL_MINUTE_LIMIT')||30);
+  const userUnits=Number(Deno.env.get('AI_USER_DAILY_TOKEN_UNITS')||300000);
+  const globalUnits=Number(Deno.env.get('AI_GLOBAL_DAILY_TOKEN_UNITS')||3000000);
+  // Reserve output and evidence room before any provider call. Actual input,
+  // output, image-observation and summary tokens replace this reservation.
+  const requestBytes=new TextEncoder().encode(JSON.stringify(body??{})).length;
+  const reservedUnits=60000+requestBytes+(body?.mediaId?12000:0);
+  const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit,p_fingerprint:fingerprint,p_global_daily_limit:globalLimit,p_user_minute_limit:userMinuteLimit,p_global_minute_limit:globalMinuteLimit,p_user_daily_unit_limit:userUnits,p_global_daily_unit_limit:globalUnits,p_reserved_units:reservedUnits});
   if(error?.code==='22023')throw new HttpError(409,'This request ID belongs to different input. Start a new request.');
   if(error)throw new HttpError(503,'Unable to check the AI preview limit.');
-  if(!data)throw new HttpError(429,'AI preview is temporarily at its usage limit. Please try again later.');
+  const messages:Record<string,string>={
+    user_minute:'You have reached the 1-minute AI request limit. Please wait a minute and try again.',
+    global_minute:'AI is busy across the app. Please wait a minute and try again.',
+    user_daily:'You have reached your 24-hour AI request limit. It resets gradually as older requests expire.',
+    global_daily:'The app-wide 24-hour AI request limit has been reached. Please try later.',
+    user_tokens:'You have reached your 24-hour AI usage budget. It resets gradually as older usage expires.',
+    global_tokens:'The app-wide 24-hour AI usage budget has been reached. Please try later.',
+  };
+  if(data!=='claimed'&&data!=='existing')throw new HttpError(429,messages[String(data)]??'AI preview is temporarily at its usage limit. Please try again later.');
+  return data;
+}
+async function recordUsage(db:SupabaseClient,userId:string,requestId:string,usage:{input_tokens?:number;output_tokens?:number}) {
+  const {error}=await db.rpc('record_ai_provider_usage',{p_user_id:userId,p_request_id:requestId,p_input_tokens:usage.input_tokens??0,p_output_tokens:usage.output_tokens??0,p_model:AI_MODEL});
+  if(error)throw new HttpError(503,'AI usage could not be recorded. Please retry.');
 }
 async function lease(db:SupabaseClient,userId:string,requestId:string) {
   const {data,error}=await db.rpc('lease_ai_preview_request',{p_user_id:userId,p_request_id:requestId});
   if(error)throw new HttpError(503,'Unable to reserve this AI request.');
-  if(data!=='acquired')throw new HttpError(409,data==='busy'?'This request is still processing. Please wait and retry.':'This request has already completed. Reopen its saved result.');
+  if(data!=='acquired')throw new HttpError(409,data==='busy'?'This request is still processing. Please wait and retry.':data==='exhausted'?'This AI request could not be completed. Start a new reading or question.':'This request has already completed. Reopen its saved result.');
 }
 async function finish(db:SupabaseClient,userId:string,requestId:string,success:boolean) {
   const {error}=await db.rpc('finish_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_success:success});
@@ -91,7 +110,7 @@ async function requireEnabled(db:SupabaseClient,moduleId:string) {
   if(error||!data||!data.is_active)throw new HttpError(503,'This AI module is temporarily unavailable. Your saved history is still available.');
 }
 
-async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleId, body: Body): Promise<{snapshot:Snapshot;profileId:string|null}> {
+async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleId, body: Body, requestId:string): Promise<{snapshot:Snapshot;profileId:string|null}> {
   if(moduleId==='tarot') {
     const spread:SpreadId=body.spread==='celtic'?'celtic':'three';
     const tarotCards=drawTarot(spread);
@@ -107,7 +126,7 @@ async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleI
     if(signError||!signed?.signedUrl)throw new HttpError(503,'The image could not be opened securely.');
     const moderation=await moderate([{type:'image_url',image_url:{url:signed.signedUrl}}]);
     if(moderation.flagged)throw new HttpError(422,'This image cannot be used for a reading.');
-    const observation=await observeImage(expectedKind,signed.signedUrl);
+    const observation=await observeImage(expectedKind,signed.signedUrl,usage=>recordUsage(db,userId,requestId,usage));
     if(observation.retakeReason||observation.observations.length<2)throw new HttpError(422,observation.retakeReason||'Please provide a clearer image with the requested features visible.');
     const factors=observation.observations.map((item,index)=>({id:`${expectedKind}:visible:${index+1}`,label:item.feature,value:item.description,rule:`Visible at ${item.location}; confidence: ${item.confidence}. Symbolic interpretation only.`}));
     return {profileId:null,snapshot:{moduleId,version:'visible-features/1.0.0',factors,warnings:[],mediaId,data:{quality:observation.quality,hand:media.metadata?.hand??null}}};
@@ -202,7 +221,8 @@ async function generated(db:SupabaseClient,conversation:{id:string;user_id:strin
   if(recent.error)throw new HttpError(503,'Conversation context could not be loaded.');
   const messages=(recent.data??[]).reverse();
   const {answer,model}=await generateAnswer({moduleId:conversation.module_id,evidence:snapshot,allowedSourceRefs:refs,question,
-    history:messages.slice(-10).map(item=>({role:item.role,body:item.body})),summary:conversation.summary||'',language:await languageFor(db,conversation.user_id),first});
+    history:messages.slice(-10).map(item=>({role:item.role,body:item.body})),summary:conversation.summary||'',language:await languageFor(db,conversation.user_id),first,
+    onUsage:usage=>recordUsage(db,conversation.user_id,requestId,usage)});
   if(answer.scopeDecision==='in_scope'){
     const postModeration=await moderate(JSON.stringify(answer));
     if(postModeration.flagged)throw new HttpError(422,'The generated answer could not be shown safely. Please ask in another way.');
@@ -220,7 +240,7 @@ async function generated(db:SupabaseClient,conversation:{id:string;user_id:strin
     try {
       const {data:older,error}=await db.from('ai_messages').select('role,body').eq('conversation_id',conversation.id).order('sequence',{ascending:true}).range(summarized,summarizeThrough-1);
       if(error||!older)throw new Error('Summary history unavailable.');
-      const summary=await summarizeConversation(conversation.summary||'',older);
+      const summary=await summarizeConversation(conversation.summary||'',older,usage=>recordUsage(db,conversation.user_id,requestId,usage));
       const {error:saveError}=await db.from('ai_conversations').update({summary,summary_message_count:summarizeThrough}).eq('id',conversation.id);
       if(saveError)throw new Error('Summary could not be saved.');
     } catch { console.error(JSON.stringify({category:'summary_failed',conversationId:conversation.id})); }
@@ -229,14 +249,16 @@ async function generated(db:SupabaseClient,conversation:{id:string;user_id:strin
 }
 
 export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
+  let newClaim:string|null=null;
   if (['start-reading','ask-module','analyze-compatibility'].includes(body.action??'')) {
     const requestId=must(uuid(body.requestId)?body.requestId:null,'A valid request ID is required.');
     const keys=['action','moduleId','profileId','mediaId','spread','conversationId','question','firstProfileId','secondProfileId','relationshipType','method'] as const;
     const input=JSON.stringify(keys.map(key=>[key,body[key]??null]));
     const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(input));
     const fingerprint=Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('');
-    await claim(db,userId,requestId,fingerprint);
+    if(await claim(db,userId,requestId,fingerprint,body)==='claimed')newClaim=requestId;
   }
+  try {
   if(body.action==='list-modules') {
     const allDisabled=['true','1'].includes(Deno.env.get('AI_DISABLED')??'');
     const disabled=(Deno.env.get('AI_DISABLED_MODULES')??'').split(',').map(item=>item.trim());
@@ -325,7 +347,7 @@ export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     try{evidence=buildCompatibility(first,second,selectedMethod);}catch(cause){throw new HttpError(422,cause instanceof Error?cause.message:'Compatibility inputs are incomplete.');}
     await lease(db,userId,requestId);
     try {
-      const {result,model}=await generateCompatibility({method:selectedMethod,relationshipType:String(type),firstName:first.display_name,secondName:second.display_name,factors:evidence.factors,warnings:evidence.warnings,language:await languageFor(db,userId)});
+      const {result,model}=await generateCompatibility({method:selectedMethod,relationshipType:String(type),firstName:first.display_name,secondName:second.display_name,factors:evidence.factors,warnings:evidence.warnings,language:await languageFor(db,userId),onUsage:usage=>recordUsage(db,userId,requestId,usage)});
       const outputModeration=await moderate([result.overview,...result.strengths,...result.challenges,result.dynamics,result.longTermOutlook].join('\n'));
       if(outputModeration.flagged)throw new HttpError(422,'The compatibility result could not be shown safely. Please try again later.');
       const stored={...result,firstName:first.display_name,secondName:second.display_name,score:evidence.score,scoreExplanation:evidence.scoreExplanation,warnings:evidence.warnings,providerModel:model};
@@ -365,7 +387,7 @@ export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     await lease(db,userId,requestId);
     let createdId: string | null = null;
     try {
-      const {snapshot,profileId}=await evidenceFor(db,userId,moduleId,body);
+      const {snapshot,profileId}=await evidenceFor(db,userId,moduleId,body,requestId);
       if(!snapshot.factors.length)throw new HttpError(422,'More input is needed for this reading.');
       const {data:conversation,error}=await db.from('ai_conversations').insert({user_id:userId,module_id:moduleId,birth_profile_id:profileId,title:`${MODULES[moduleId].name} reading`,methodology_version:snapshot.version,prompt_version:MODULE_POLICY_VERSION,calculator_version:snapshot.version,input_fingerprint:JSON.stringify(snapshot.factors.map(f=>[f.id,f.value])),input_snapshot:snapshot,start_request_id:requestId}).select('*').single();
       if(error||!conversation)throw new HttpError(503,'Reading could not be started.');
@@ -387,7 +409,7 @@ export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
       await requireEnabled(db,conversation.module_id);
       await requireConsent(db,userId,'birth_and_questions');
       await requireConversationMediaAccess(db,userId,conversation);
-      await claim(db,userId,conversation.start_request_id);await lease(db,userId,conversation.start_request_id);
+      await lease(db,userId,conversation.start_request_id);
       try{const regenerated=await generated(db,conversation,`Give my ${conversation.module_id==='tarot'?'Current Energy':'First Instinct'} reading using the supplied evidence.`,conversation.start_request_id,true);await finish(db,userId,conversation.start_request_id,true);return {conversation:{...conversation,first_reading_status:'ready'},messages:regenerated,nextMessageCursor:null};}
       catch(error){await finish(db,userId,conversation.start_request_id,false);throw error;}
     }
@@ -469,6 +491,11 @@ export async function handleAction(db:SupabaseClient,userId:string,body:Body) {
     if(error)throw new HttpError(503,'Feedback could not be saved.');return {saved:true};
   }
   throw new HttpError(400,'Unknown AI action.');
+  } finally {
+    // Claims made before input/consent checks must not hold a token reservation
+    // when those checks reject the request. A successful finish remains complete.
+    if(newClaim)await finish(db,userId,newClaim,false);
+  }
 }
 
 export const handler = async(request: Request)=>{
