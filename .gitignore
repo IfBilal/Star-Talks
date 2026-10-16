@@ -43,3 +43,9 @@ example
 # generated native folders
 /ios
 /android
+
+# Copyrighted source books supplied for private research. Never commit or push.
+docs/*Lal-Kitab*.pdf
+docs/*Lal-Kitab*.PDF
+docs/लाल*.pdf
+docs/*[Ll]al*[Kk]itab*.pdf

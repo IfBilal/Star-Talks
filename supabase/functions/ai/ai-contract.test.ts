@@ -18,11 +18,12 @@ function fixture(){
  };
  const claims=new Map<string,{fingerprint?:string;leased?:boolean;completed?:boolean;inputTokens?:number;outputTokens?:number}>();
  const events:string[]=[];
+ const claimArgs:Row[]=[];
  let nextSequence=0;
  const db={from(table:string){
   let filters:Array<(r:Row)=>boolean>=[],operation='read',payload:Row|Row[]={},single=false,cap=Infinity,start=0,descending=false,selected='*';
   const q:any={
-   select(fields='*'){selected=fields;return q},eq(k:string,v:unknown){filters.push(r=>r[k]===v);return q},lt(k:string,v:number){filters.push(r=>r[k]<v);return q},is(k:string,v:unknown){filters.push(r=>(r[k]??null)===v);return q},in(k:string,v:unknown[]){filters.push(r=>v.includes(r[k]));return q},order(_k:string,o:{ascending:boolean}){descending=!o.ascending;return q},range(a:number,b:number){start=a;cap=b-a+1;return q},limit(n:number){cap=n;return q},or(){return q},
+   select(fields='*'){selected=fields;return q},eq(k:string,v:unknown){filters.push(r=>r[k]===v);return q},lt(k:string,v:number){filters.push(r=>r[k]<v);return q},gte(k:string,v:string){filters.push(r=>String(r[k]??'')>=v);return q},is(k:string,v:unknown){filters.push(r=>(r[k]??null)===v);return q},in(k:string,v:unknown[]){filters.push(r=>v.includes(r[k]));return q},order(_k:string,o:{ascending:boolean}){descending=!o.ascending;return q},range(a:number,b:number){start=a;cap=b-a+1;return q},limit(n:number){cap=n;return q},or(){return q},
    insert(value:Row|Row[]){operation='insert';payload=value;return q},update(value:Row){operation='update';payload=value;return q},
    maybeSingle(){single=true;return q},single(){single=true;return q},
    then(resolve:(v:unknown)=>unknown){
@@ -36,6 +37,7 @@ function fixture(){
  },async rpc(name:string,args:Row){
   events.push(name);const id=args.p_request_id;const item=claims.get(id);
   if(name==='claim_ai_preview_request'){
+   claimArgs.push(args);
    if(item?.fingerprint&&args.p_fingerprint&&item.fingerprint!==args.p_fingerprint)return {data:null,error:{code:'22023'}};
    if(!item)claims.set(id,{fingerprint:args.p_fingerprint});return {data:item?'existing':'claimed',error:null};
   }
@@ -44,7 +46,7 @@ function fixture(){
   if(name==='finish_ai_preview_request'){if(!item)throw Error('Unclaimed');item.leased=false;item.completed=args.p_success;return {data:null,error:null};}
   throw Error(name);
  },storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:'https://example.invalid/private'},error:null})})}};
- return {db:db as unknown as SupabaseClient,rows,claims,events};
+ return {db:db as unknown as SupabaseClient,rows,claims,events,claimArgs};
 }
 const assert=(value:unknown,message:string)=>{if(!value)throw Error(message);};
 Deno.test('All nine real module handlers persist grounded first readings, followups and idempotent retries with mocked provider',async()=>{
@@ -127,4 +129,27 @@ Deno.test('Compatibility uses one quota claim and replays a completed request wi
   const again:any=await handleAction(f.db,user,request);
   assert(again.analysis.id===first.analysis.id&&providerCalls===calls,'Compatibility retry invoked provider');
  }finally{globalThis.fetch=originalFetch;if(originalKey)Deno.env.set('OPENAI_API_KEY',originalKey);else Deno.env.delete('OPENAI_API_KEY');}
+});
+
+Deno.test('First readings are not questions: own daily cap, widened claim ceiling, 10/100 question limits',async()=>{
+ const originalFetch=globalThis.fetch;const originalKey=Deno.env.get('OPENAI_API_KEY');Deno.env.set('OPENAI_API_KEY','offline-fixture');
+ const prev=Deno.env.get('AI_FIRST_READING_DAILY_LIMIT');Deno.env.set('AI_FIRST_READING_DAILY_LIMIT','2');
+ try{
+  const f=fixture();
+  globalThis.fetch=async(url,init)=>{
+   const body=JSON.parse(String(init?.body));
+   if(String(url).endsWith('/moderations'))return Response.json({results:[{flagged:false}]});
+   const input=JSON.parse(body.input);const factors=input.evidence.factors;const first=body.instructions.includes('This is the First Instinct Reading');
+   const result={scopeDecision:'in_scope',directAnswer:'Synthetic answer',insights:first?factors.slice(0,3).map((v:Row)=>({title:v.label,body:'x',sourceRefs:[v.id]})):[],supportingFactors:factors.slice(0,2).map((v:Row)=>({sourceRef:v.id,explanation:'x'})),conflictingFactors:[],timing:null,uncertainty:'Symbolic',plainLanguageExplanation:'x',followUps:['Next?'],sourceRefs:factors.slice(0,2).map((v:Row)=>v.id)};
+   return Response.json({output:[{content:[{type:'output_text',text:JSON.stringify(result)}]}],usage:{input_tokens:100,output_tokens:20}});
+  };
+  const one:any=await handleAction(f.db,user,{action:'start-reading',moduleId:'tarot',requestId:crypto.randomUUID()});
+  assert(f.claimArgs[0].p_daily_limit===11&&f.claimArgs[0].p_global_daily_limit===101,'First reading claim should be 10+1 and 100+1');
+  await handleAction(f.db,user,{action:'ask-module',conversationId:one.conversation.id,question:'What does that mean for my work?',requestId:crypto.randomUUID()});
+  assert(f.claimArgs[1].p_daily_limit===11&&f.claimArgs[1].p_global_daily_limit===101,'Question after one reading keeps a 10-question allowance');
+  assert(f.claimArgs[1].p_user_daily_unit_limit===120000&&f.claimArgs[1].p_global_daily_unit_limit===700000,'Token budgets');
+  await handleAction(f.db,user,{action:'start-reading',moduleId:'tarot',requestId:crypto.randomUUID()});
+  let capped=0;try{await handleAction(f.db,user,{action:'start-reading',moduleId:'tarot',requestId:crypto.randomUUID()});}catch(e){capped=(e as {status?:number}).status??0;}
+  assert(capped===429,'Third new reading in a day must be refused when the first-reading cap is 2');
+ }finally{globalThis.fetch=originalFetch;if(prev===undefined)Deno.env.delete('AI_FIRST_READING_DAILY_LIMIT');else Deno.env.set('AI_FIRST_READING_DAILY_LIMIT',prev);if(originalKey)Deno.env.set('OPENAI_API_KEY',originalKey);else Deno.env.delete('OPENAI_API_KEY');}
 });

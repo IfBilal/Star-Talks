@@ -65,16 +65,34 @@ async function selectedProfile(db: SupabaseClient, userId: string, profileId: un
 }
 
 async function claim(db: SupabaseClient, userId: string, requestId: string, fingerprint: string, body?: Body) {
-  const limit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||30);
-  const globalLimit=Number(Deno.env.get('AI_GLOBAL_DAILY_LIMIT')||300);
+  // Client-approved beta limits (2026-10-17): 10 questions per user per day and 100 across all users.
+  // The first reading of a new conversation is not a "question": it has its own daily caps below and
+  // still draws from the token budgets, so profiles or readings cannot be created repeatedly for free.
+  const questionLimit=Number(Deno.env.get('AI_PREVIEW_DAILY_LIMIT')||10);
+  const globalQuestionLimit=Number(Deno.env.get('AI_GLOBAL_DAILY_LIMIT')||100);
+  const firstLimit=Number(Deno.env.get('AI_FIRST_READING_DAILY_LIMIT')||10);
+  const globalFirstLimit=Number(Deno.env.get('AI_GLOBAL_FIRST_READING_DAILY_LIMIT')||100);
   const userMinuteLimit=Number(Deno.env.get('AI_USER_MINUTE_LIMIT')||5);
   const globalMinuteLimit=Number(Deno.env.get('AI_GLOBAL_MINUTE_LIMIT')||30);
-  const userUnits=Number(Deno.env.get('AI_USER_DAILY_TOKEN_UNITS')||300000);
-  const globalUnits=Number(Deno.env.get('AI_GLOBAL_DAILY_TOKEN_UNITS')||3000000);
+  const userUnits=Number(Deno.env.get('AI_USER_DAILY_TOKEN_UNITS')||120000);
+  const globalUnits=Number(Deno.env.get('AI_GLOBAL_DAILY_TOKEN_UNITS')||700000);
+  const isFirst=body?.action==='start-reading';
+  const since=new Date(Date.now()-86400000).toISOString();
+  const [userFirst,globalFirst]=await Promise.all([
+    db.from('ai_conversations').select('id',{count:'exact',head:true}).eq('user_id',userId).gte('created_at',since),
+    db.from('ai_conversations').select('id',{count:'exact',head:true}).gte('created_at',since),
+  ]);
+  if(userFirst.error||globalFirst.error)throw new HttpError(503,'Unable to check the AI preview limit.');
+  const usedFirst=userFirst.count??0,usedGlobalFirst=globalFirst.count??0;
+  if(isFirst&&usedFirst>=firstLimit)throw new HttpError(429,'You have started the maximum number of new readings for today. Please try again tomorrow.');
+  if(isFirst&&usedGlobalFirst>=globalFirstLimit)throw new HttpError(429,'The app-wide limit for new readings today has been reached. Please try later.');
+  // Readings already started are not questions, so they widen the claim ceiling by their number (plus this one).
+  const limit=questionLimit+usedFirst+(isFirst?1:0);
+  const globalLimit=globalQuestionLimit+usedGlobalFirst+(isFirst?1:0);
   // Reserve output and evidence room before any provider call. Actual input,
   // output, image-observation and summary tokens replace this reservation.
   const requestBytes=new TextEncoder().encode(JSON.stringify(body??{})).length;
-  const reservedUnits=60000+requestBytes+(body?.mediaId?12000:0);
+  const reservedUnits=25000+requestBytes+(body?.mediaId?12000:0);
   const {data,error}=await db.rpc('claim_ai_preview_request',{p_user_id:userId,p_request_id:requestId,p_daily_limit:limit,p_fingerprint:fingerprint,p_global_daily_limit:globalLimit,p_user_minute_limit:userMinuteLimit,p_global_minute_limit:globalMinuteLimit,p_user_daily_unit_limit:userUnits,p_global_daily_unit_limit:globalUnits,p_reserved_units:reservedUnits});
   if(error?.code==='22023')throw new HttpError(409,'This request ID belongs to different input. Start a new request.');
   if(error)throw new HttpError(503,'Unable to check the AI preview limit.');
@@ -89,8 +107,8 @@ async function claim(db: SupabaseClient, userId: string, requestId: string, fing
   if(data!=='claimed'&&data!=='existing')throw new HttpError(429,messages[String(data)]??'AI preview is temporarily at its usage limit. Please try again later.');
   return data;
 }
-async function recordUsage(db:SupabaseClient,userId:string,requestId:string,usage:{input_tokens?:number;output_tokens?:number}) {
-  const {error}=await db.rpc('record_ai_provider_usage',{p_user_id:userId,p_request_id:requestId,p_input_tokens:usage.input_tokens??0,p_output_tokens:usage.output_tokens??0,p_model:AI_MODEL});
+async function recordUsage(db:SupabaseClient,userId:string,requestId:string,usage:{input_tokens?:number;output_tokens?:number;model?:string}) {
+  const {error}=await db.rpc('record_ai_provider_usage',{p_user_id:userId,p_request_id:requestId,p_input_tokens:usage.input_tokens??0,p_output_tokens:usage.output_tokens??0,p_model:usage.model??AI_MODEL});
   if(error)throw new HttpError(503,'AI usage could not be recorded. Please retry.');
 }
 async function lease(db:SupabaseClient,userId:string,requestId:string) {

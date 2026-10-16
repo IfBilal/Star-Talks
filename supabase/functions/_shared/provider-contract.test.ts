@@ -15,7 +15,7 @@ Deno.test('Provider contracts fail closed without live credentials or network',a
     output={results:[{flagged:true}]};assert((await moderate('test')).flagged===true,'Flagged verdict');
     status=429;await rejects(()=>moderate('test'),'429');status=200;
     output=response(answer);const valid=await generateAnswer(args);assert(valid.answer.directAnswer===answer.directAnswer,'Valid answer');
-    const sent=requests.at(-1)!;assert(sent.store===false&&sent.model==='gpt-4o-mini','Privacy/model contract');
+    const sent=requests.at(-1)!;assert(sent.store===false&&sent.model==='gpt-6-sol','Privacy/model contract');
     output=response({...answer,sourceRefs:['invented:chart']});await rejects(()=>generateAnswer(args),'not supplied');
     output=response({...answer,scopeDecision:'out_of_scope',directAnswer:'Here is a laptop recommendation.'});
     const rejectedScope=await generateAnswer(args);
