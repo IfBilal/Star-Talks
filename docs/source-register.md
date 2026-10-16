@@ -145,7 +145,7 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
 
 ## Ziping Zhenquan (子平真詮)
 
-- **ID:** `ziping-zhenquan`  |  **Systems:** bazi, korean-saju  |  **Status:** pending
+- **ID:** `ziping-zhenquan`  |  **Systems:** bazi, korean-saju  |  **Status:** blocked
 - **Author:** Shen Xiaozhan (沈孝瞻)
 - **Original year:** Qing dynasty (18th century, traditional)
 - **Edition used:** Chinese original; online transcriptions not yet checked
@@ -155,36 +155,42 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
 - **Permitted use:** Reading to write independent rules.
 - **Locator style:** Chapter heading (original Chinese)
 - **Unresolved concerns:**
-  - Not yet read; site reachable (HTTP 200).
+  - ctext.org, the only transcription found, forbids automated scraping; we did not scrape it. No other lawful text located yet.
+  - Needs a lawful route (e.g. a subscription or another public-domain scan) before use.
   - Modern translations are copyrighted and not used.
 
-## Yuanhai Ziping (淵海子平)
+## Yuanhai Ziping (淵海子平), Ming edition text
 
-- **ID:** `yuanhai-ziping`  |  **Systems:** bazi, korean-saju  |  **Status:** pending
-- **Author:** Attributed to Xu Ziping / Xu Dasheng (徐大升)
-- **Original year:** Song dynasty origin; surviving editions later
-- **Edition used:** Not yet selected
-- **Kind:** original (to verify)
-- **URL:** https://zh.wikisource.org/  |  **Accessed:** 2026-10-16
-- **Copyright:** Underlying text public domain. Old Chinese classic. Edition and transcription terms not yet checked.
-- **Permitted use:** Reading to write independent rules.
-- **Locator style:** Chapter heading (original Chinese)
+- **ID:** `yuanhai-ziping`  |  **Systems:** bazi, korean-saju  |  **Status:** conditional
+- **Author:** Attributed to Xu Ziping (徐子平); Wikisource edition credited to Yang Cong (楊淙), Ming
+- **Original year:** Song origin; Ming edition
+- **Edition used:** Chinese Wikisource, marked incomplete and of unverified origin, in simplified characters
+- **Kind:** original (incomplete transcription)
+- **URL:** https://zh.wikisource.org/wiki/%E6%B7%B5%E6%B5%B7%E5%AD%90%E5%B9%B3  |  **Accessed:** 2026-10-16
+- **Copyright:** Underlying text public domain; Wikisource transcription under CC BY-SA. Old Chinese classic.
+- **Permitted use:** Reading for the classification of the Ten Gods and the table of hidden stems; independent rules only.
+- **Locator style:** Section heading (e.g. 基礎, 論天干地支暗藏總訣)
 - **Unresolved concerns:**
-  - Edition not selected; textual variants exist.
+  - Wikisource marks the page incomplete and its source unverified; wording is in simplified characters, contrary to the original.
+  - Only the Ten Gods table and hidden-stem table were used; the rest has not been read.
+  - Interpretive meaning of each Ten God is not given by this text beyond labels and family relations; those meanings are our general-tradition wording and need practitioner review.
 
-## Di Tian Sui (滴天髓)
+## Di Tian Sui (滴天髓), 'Jiyao' compilation
 
-- **ID:** `di-tian-sui`  |  **Systems:** bazi, korean-saju  |  **Status:** pending
-- **Author:** Attributed to Jing Tu, with later commentary
-- **Original year:** Ming/Qing tradition
-- **Edition used:** Not yet selected
-- **Kind:** original (to verify)
-- **URL:** https://zh.wikisource.org/  |  **Accessed:** 2026-10-16
-- **Copyright:** Underlying text public domain. Old Chinese classic; commentaries (e.g. Qing-era) separate works.
-- **Permitted use:** Reading to write independent rules.
-- **Locator style:** Chapter heading (original Chinese)
+- **ID:** `di-tian-sui`  |  **Systems:** bazi, korean-saju  |  **Status:** ready
+- **Author:** Attributed to Liu Ji (劉基); compiled by Chen Zhilin (陳之遴) per the Wikisource header (authorship traditionally also given to Jing Tu)
+- **Original year:** Ming/Qing (compilation; exact date not verified)
+- **Edition used:** Chinese Wikisource transcription, verse with traditional commentary mixed in
+- **Kind:** original (transcription with commentary)
+- **URL:** https://zh.wikisource.org/wiki/%E6%BB%B4%E5%A4%A9%E9%AB%93  |  **Accessed:** 2026-10-16
+- **Copyright:** Underlying text public domain; Wikisource transcription under CC BY-SA. Qing-era or earlier work. The transcription and formatting are volunteer work under a Creative Commons licence; we read it to write independent rules and reproduce none of it.
+- **Permitted use:** Reading to write independent rules in English. No reuse of the Chinese text in output.
+- **Locator style:** Section heading in Chinese (e.g. 天干論, 地支論)
 - **Unresolved concerns:**
-  - Edition and commentary layers must be kept distinct.
+  - Authorship and date are uncertain and differ between sources.
+  - Verse and later commentary are interleaved; we do not separate the layers, so rules reflect the commentary tradition as well.
+  - The Ren Tieqiao commentary (滴天髓闡微) is a separate work and is not used.
+  - Overlap check does not catch cross-language copying; rules are original English summaries.
 
 ## Korean-specific Saju source
 

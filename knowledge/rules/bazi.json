@@ -1,0 +1,522 @@
+{
+ "system": "bazi",
+ "rules": [
+  {
+   "id": "bazi.stem.jia",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "甲 Yang Wood as the Day Master",
+   "explanation": "Read as a tall, upright tree: sturdy, growth-minded and pioneering. It does well with fire to express itself and a moist, supportive ground, and can be stifled by too much metal in autumn.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 甲"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.yi",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "乙 Yin Wood as the Day Master",
+   "explanation": "Read as flowers, vines and supple branches: gentle, adaptable and clinging to support. It bends rather than breaks, copes with metal through flexibility, and is chilled by too much water in winter.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 乙"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.bing",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "丙 Yang Fire as the Day Master",
+   "explanation": "Read as the blazing sun: bright, open-handed, warm and conspicuous. It brings light to everything it touches, can overwhelm weaker elements, and is not easily dimmed by cold.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 丙"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.ding",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "丁 Yin Fire as the Day Master",
+   "explanation": "Read as lamplight or a hearth: gentle, warm on the surface and perceptive within. It stays steady in any season when it has some fuel, and works through quiet persistence.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 丁"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.wu",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "戊 Yang Earth as the Day Master",
+   "explanation": "Read as a mountain or high ground: solid, stable and dependable, a reliable centre for others. It is calm when still and unsettled when pushed.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 戊"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.ji",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "己 Yin Earth as the Day Master",
+   "explanation": "Read as farmland or garden soil: receptive, nurturing and humble. It quietly stores and feeds what grows, and does its best work when supported.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 己"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.geng",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "庚 Yang Metal as the Day Master",
+   "explanation": "Read as raw iron or a blade: direct, forceful and righteous. It is sharpened by fire and cleansed by water, and can turn brittle if left too dry.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 庚"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.xin",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "辛 Yin Metal as the Day Master",
+   "explanation": "Read as refined jewellery: delicate, discerning and polished. It prizes being clean and well set, shines with water, and is buried by too much earth.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 辛"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.ren",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "壬 Yang Water as the Day Master",
+   "explanation": "Read as a great river or ocean: expansive, flowing and resourceful, always finding a way through. It runs best when it has banks to guide it.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 壬"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.stem.gui",
+   "system": "bazi",
+   "topic": "heavenly-stem",
+   "concept": "癸 Yin Water as the Day Master",
+   "explanation": "Read as rain, mist or dew: gentle, quiet and subtle. It works softly in the background, nourishes what grows, and is strongest when it has a source behind it.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "天干論 (Heavenly Stems), entry on 癸"
+   },
+   "conditions": "Needs the Four Pillars calculation (Day Master stem). Traditional symbolism, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source commentary also gives fate verdicts for particular stems and genders; not used."
+  },
+  {
+   "id": "bazi.tengod.peer",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "比肩 / Friend (same element, same polarity)",
+   "explanation": "Read as peers, independence and self-reliance: the self meeting its mirror. In balance it supports confidence; in excess it competes for the same resources. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.rob",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "劫財 / Rob Wealth (same element, opposite polarity)",
+   "explanation": "Read as rivalry, sharing and competitive drive. It can mean generous teamwork or contest over limited resources. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.eating",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "食神 / Eating God (element the Day Master produces, same polarity)",
+   "explanation": "Read as ease, creativity and natural expression: talent offered freely and enjoyment of life's comforts. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.hurting",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "傷官 / Hurting Officer (element the Day Master produces, opposite polarity)",
+   "explanation": "Read as sharp expression, originality and a challenge to convention: outspoken talent that can rub against authority. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.indirect-wealth",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "偏財 / Indirect Wealth (element the Day Master controls, same polarity)",
+   "explanation": "Read as flexible, opportunistic money and varied sources of income, along with a wide social reach. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.direct-wealth",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "正財 / Direct Wealth (element the Day Master controls, opposite polarity)",
+   "explanation": "Read as steady earnings, careful saving and orderly management of resources. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.seven-killings",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "偏官 / Seven Killings (element that controls the Day Master, same polarity)",
+   "explanation": "Read as pressure, challenge and discipline imposed from outside; it can build toughness or feel like strain depending on balance. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.direct-officer",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "正官 / Direct Officer (element that controls the Day Master, opposite polarity)",
+   "explanation": "Read as structure, duty, reputation and respect for rules and roles. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.indirect-resource",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "偏印 / Indirect Resource (element that produces the Day Master, same polarity)",
+   "explanation": "Read as unconventional learning, intuition and unusual sources of support. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.tengod.direct-resource",
+   "system": "bazi",
+   "topic": "ten-gods",
+   "concept": "正印 / Direct Resource (element that produces the Day Master, opposite polarity)",
+   "explanation": "Read as nurture, education, protection and sound guidance from mentors and family. Meaning wording is general tradition; the source fixes the classification and name.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "基礎 (basic table of the five yang stems and five yin stems)"
+   },
+   "conditions": "Needs the relationship between each other stem and the Day Master (element and polarity), computed from the Four Pillars. Interpretive wording needs practitioner review.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also attaches family relations (father, wife, mother) to each god in a patriarchal way; not used."
+  },
+  {
+   "id": "bazi.branch.yang-yin",
+   "system": "bazi",
+   "topic": "branches",
+   "concept": "Yang branches (子寅辰午申戌) versus yin branches (丑卯巳未酉亥)",
+   "explanation": "Yang branches are read as active, forceful and fast to show their effects; yin branches as still, concentrated and slow to show theirs, often only after years.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "地支論 (Earthly Branches), first two verses"
+   },
+   "conditions": "Needs the four branches of the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "bazi.branch.four-types",
+   "system": "bazi",
+   "topic": "branches",
+   "concept": "Birth branches (寅申巳亥), storehouse branches (辰戌丑未) and peak branches (子午卯酉)",
+   "explanation": "Birth branches are the beginnings of seasons and are read as best left undisturbed; storehouse branches hold stored potential and are read as opened by a clash; peak branches sit at full strength and may welcome either a clash or a combination depending on the chart.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "地支論, third verse"
+   },
+   "conditions": "Needs the four branches of the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "bazi.branch.clash",
+   "system": "bazi",
+   "topic": "branches",
+   "concept": "Clash (沖) between opposing branches",
+   "explanation": "A clash is the strongest branch interaction and is read as movement and disturbance. Penalties and harms are weaker and sometimes do not trigger anything, because other combinations may soothe them. A strong branch clashing a weak one pulls it up by the roots, while a weak one clashing a strong one can instead stir it into action.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "地支論, verses on clashes"
+   },
+   "conditions": "Needs the four branches of the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "bazi.branch.hidden-clash",
+   "system": "bazi",
+   "topic": "branches",
+   "concept": "Hidden clash and hidden combination",
+   "explanation": "A branch missing from the chart can still be activated through a clash or combination of branches that are present. This 'hidden' interaction is read as more favourable than the same event done openly.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "地支論, 暗沖暗會 verse"
+   },
+   "conditions": "Needs the four branches of the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "bazi.branch.harmony",
+   "system": "bazi",
+   "topic": "branches",
+   "concept": "Harmony between the stem above and the branch below",
+   "explanation": "The tradition values a chart whose stems and branches support one another, and in which the left and right pillars share a purpose; discord between layers is read as friction between inner and outer life.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "地支論, final verses"
+   },
+   "conditions": "Needs the four branches of the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "bazi.principle.strength",
+   "system": "bazi",
+   "topic": "reading-principle",
+   "concept": "Strong versus weak Day Master",
+   "explanation": "A strong Day Master is read as needing to be drained or channelled, and a weak one as needing support. The tradition cautions against over-correcting an extreme chart: an overwhelming element should be flowed with, not fought, and drained or reinforced only where that actually restores balance.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "衰旺論 (Strength)"
+   },
+   "conditions": "Needs element counts and season of birth; the engine does not yet score Day Master strength.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "bazi.principle.balance",
+   "system": "bazi",
+   "topic": "reading-principle",
+   "concept": "Balance (中和) as the goal",
+   "explanation": "A balanced chart, with no element badly over- or under-represented, is the ideal. Imbalanced charts are read as having particular strengths and tasks, and it is considered possible for one-sided charts to still be effective.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "中和論 (Balance)"
+   },
+   "conditions": "Needs element counts.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "bazi.principle.season",
+   "system": "bazi",
+   "topic": "reading-principle",
+   "concept": "Temperature and moisture of the chart",
+   "explanation": "Charts are read as warm or cold (yang branches, wood and fire are warm; yin branches, metal and water are cold) and dry or damp. A very cold chart benefits from warmth and a very hot chart from cooling; excess in either direction is read as lopsided.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "寒暖論 (Cold and Warm)"
+   },
+   "conditions": "Needs the birth month branch and element counts.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "bazi.principle.month-command",
+   "system": "bazi",
+   "topic": "reading-principle",
+   "concept": "The birth month as the chart's command centre",
+   "explanation": "The month branch (月令) is treated as the most important factor: it sets the season that strengthens or weakens the Day Master. Each branch also hides one to three stems, and the day within the solar month decides which hidden stem is in charge.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "月令論 (Month Command)"
+   },
+   "conditions": "Needs solar terms and day count within the month, plus a table of hidden stems.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "bazi.principle.hidden-stems",
+   "system": "bazi",
+   "topic": "reading-principle",
+   "concept": "Hidden stems inside each branch, by solar term",
+   "explanation": "The source gives a table of which hidden stem governs in which part of each solar month, so two people born in the same month but in different weeks can have different leading hidden stems.",
+   "source": {
+    "id": "yuanhai-ziping",
+    "locator": "論天干地支暗藏總訣 (Hidden stems by solar term)"
+   },
+   "conditions": "Needs solar-term boundaries accurate to the day, and the hidden-stem table implemented in the engine.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "bazi.principle.flow",
+   "system": "bazi",
+   "topic": "reading-principle",
+   "concept": "Flow between elements and the bridging element",
+   "explanation": "The chart is read as a flow of one element into the next. Where two elements that should support each other are blocked by a third, a bridging element (通關) that connects them is read as the remedy; a clear flow is read as ease.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "通隔論 (Passage and Obstruction)"
+   },
+   "conditions": "Needs element counts.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "bazi.principle.clear-muddy",
+   "system": "bazi",
+   "topic": "reading-principle",
+   "concept": "Clear (清) versus muddy (濁) charts",
+   "explanation": "A clear chart has a clean structure where each element has its place, while a muddy one has mixed or conflicting influences. A muddy chart can be improved by cultivating one supportive element or a favourable period.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "清濁論 (Clear and Muddy)"
+   },
+   "conditions": "Needs element counts and a chart structure.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine",
+   "omitted": "Source links clarity to wealth and rank outcomes and to poverty; not used."
+  },
+  {
+   "id": "bazi.principle.luck-cycles",
+   "system": "bazi",
+   "topic": "luck",
+   "concept": "Ten-year luck cycles and the individual year",
+   "explanation": "The ten-year cycle and the single year are read against the chart: the cycle mostly through its branch, the year mostly through its stem, with the year working like a person met on a road already travelled. Where a cycle and a year clash, the stronger one prevails; where they combine, the Day Master's needs decide whether it is helpful.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "歲運論 (Years and Luck Cycles)"
+   },
+   "conditions": "Needs luck-cycle calculation (start age, direction) and the current year pillar; not yet implemented.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine",
+   "omitted": "Source states good and bad fortune outcomes for particular cycles; not used."
+  }
+ ]
+}

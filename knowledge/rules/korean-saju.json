@@ -1,0 +1,36 @@
+{
+ "system": "korean-saju",
+ "rules": [
+  {
+   "id": "korean-saju.ilgan",
+   "system": "korean-saju",
+   "topic": "day-master",
+   "concept": "Ilgan (일간): the day stem as the self",
+   "explanation": "Saju treats the day stem, called the Ilgan in Korean, as the self at the centre of the chart, with the other seven characters read in relation to it. This is the same concept as the Day Master in Chinese BaZi.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "通天論 (opening): the day stem is the heavenly origin (日干為天元)"
+   },
+   "conditions": "Needs the Four Pillars; Korean terminology for the stems, branches and elements.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "notes": "Shared with Chinese BaZi. No Korean-specific source has been identified, so Korean-specific interpretation is not yet written."
+  },
+  {
+   "id": "korean-saju.korean-tradition",
+   "system": "korean-saju",
+   "topic": "korean-specific",
+   "concept": "Korean-specific Saju interpretation",
+   "explanation": "No Korean-language source or lawful modern Korean source has been identified. Until one is, Korean Saju answers use the shared Four Pillars concepts above with Korean terminology and must say so.",
+   "source": {
+    "id": "di-tian-sui",
+    "locator": "n/a"
+   },
+   "conditions": "n/a",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-research"
+  }
+ ]
+}
