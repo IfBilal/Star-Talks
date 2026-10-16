@@ -1,0 +1,321 @@
+{
+ "version": "1",
+ "updated": "2026-10-16",
+ "sources": [
+  {
+   "id": "waite-pkt-1911",
+   "system": [
+    "tarot"
+   ],
+   "title": "The Pictorial Key to the Tarot",
+   "author": "Arthur Edward Waite (illustrated by Pamela Colman Smith)",
+   "originalYear": "1910 (title page dated 1911)",
+   "edition": "W. Rider & Son, London; text as transcribed on English Wikisource (1910/1922 printing)",
+   "kind": "original (transcription)",
+   "url": "https://en.wikisource.org/wiki/The_Pictorial_Key_to_the_Tarot",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Public domain",
+    "basis": "Published before 1923 (US); Waite died 1942, Smith died 1951 (life+70 and life+60 terms elapsed). Own calculation, not legal advice."
+   },
+   "permittedUse": "Research and short cited quotation. Our own interpretations are written independently.",
+   "locatorStyle": "Part and section, card heading",
+   "concerns": [
+    "Wikisource is a volunteer transcription; wording not proofread against the printed book.",
+    "Waite gives no reversed meaning for the Two of Cups.",
+    "Illustrations: verify each scan separately before use; none bundled."
+   ],
+   "status": "ready"
+  },
+  {
+   "id": "cheiro-hand-1897",
+   "system": [
+    "palmistry"
+   ],
+   "title": "Cheiro's Language of the Hand",
+   "author": "Cheiro (Count Louis Hamon)",
+   "originalYear": "First edition year not stated in this scan (prefaces dated up to Nov 1895)",
+   "edition": "Revised and enlarged (ninth) edition, copyright 1897, F. Tennyson Neely, New York/London; Internet Archive item b28096563",
+   "kind": "original",
+   "url": "https://archive.org/details/b28096563",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Public domain",
+    "basis": "Published 1897; Cheiro died 1936. Internet Archive (Wellcome Library scan) carries a Public Domain Mark. Own reading, not legal advice."
+   },
+   "permittedUse": "Research and short cited quotation. Own wording only in user-facing output.",
+   "locatorStyle": "Part, chapter and the chapter's printed start page from the book's contents",
+   "concerns": [
+    "Client referenced the Library of Congress item (1898); that page returned HTTP 403 from our environment, so edition equality is unverified.",
+    "Contains national/racial generalisations and character judgements (e.g. 'Hands of Nations', 'elementary hand'); deliberately not used.",
+    "Contains health, insanity and violence claims; deliberately not used."
+   ],
+   "status": "ready"
+  },
+  {
+   "id": "cheiro-numbers-herbert-jenkins",
+   "system": [
+    "numerology"
+   ],
+   "title": "Cheiro's Book of Numbers",
+   "author": "Cheiro (Count Louis Hamon)",
+   "originalYear": "Unverified (Herbert Jenkins, London; scan says 'seventh impression' with no date)",
+   "edition": "Digital Library of India scan, Internet Archive item in.ernet.dli.2015.70770",
+   "kind": "original (undated impression)",
+   "url": "https://archive.org/details/in.ernet.dli.2015.70770",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Likely public domain outside the US; US status unverified",
+    "basis": "Cheiro died 1936 (life+70 elapsed). US status depends on first publication date, not confirmed. Own reading, not legal advice."
+   },
+   "permittedUse": "Research only until publication date is confirmed.",
+   "locatorStyle": "Chapter heading",
+   "concerns": [
+    "The Open Library edition the client linked (OL24360211M) is a 1978 Barrie & Jenkins reissue and is not public domain; do not use it.",
+    "Cheiro's system is Chaldean. Our engine implements Pythagorean. Traditions must stay separate; Chaldean calculation is not yet implemented.",
+    "Publication year of this impression not printed in scan."
+   ],
+   "status": "conditional"
+  },
+  {
+   "id": "coates-faces-1880",
+   "system": [
+    "face-reading"
+   ],
+   "title": "How to Read Faces, or, Practical Physiognomy Made Easy",
+   "author": "James Coates",
+   "originalYear": "1880 per Internet Archive metadata (unverified)",
+   "edition": "W. Foulsham, London; Hay Nisbet, Glasgow; Wellcome Library scan, Internet Archive item b28101649",
+   "kind": "original",
+   "url": "https://archive.org/details/b28101649",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Public domain (text)",
+    "basis": "Coates died 1933 (life+70 elapsed). Internet Archive item carries a Public Domain Mark. Own reading, not legal advice."
+   },
+   "permittedUse": "Research and short cited quotation. No reuse of scan images.",
+   "locatorStyle": "Chapter heading",
+   "concerns": [
+    "Client noted that Wellcome Collection's own catalogue edition is CC BY-NC. The Internet Archive item says Public Domain Mark; conflict unresolved. We use only the text for research and write original rules, and reuse no scan images.",
+    "Victorian physiognomy contains character, morality and racial judgements; not used. Only descriptive feature symbolism, framed as tradition."
+   ],
+   "status": "conditional"
+  },
+  {
+   "id": "bphs-sanskritdocuments",
+   "system": [
+    "vedic",
+    "lal-kitab"
+   ],
+   "title": "Brihat Parashara Hora Shastra (Sanskrit text, ch. 1-97)",
+   "author": "Traditionally attributed to Parashara; compiler and date uncertain",
+   "originalYear": "Uncertain (classical)",
+   "edition": "Volunteer-typed Sanskrit text on sanskritdocuments.org (Devanagari/ITX/HTML)",
+   "kind": "original (transcription)",
+   "url": "https://sanskritdocuments.org/iast/jyotisha/",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Underlying text ancient; site transcription carries a usage notice",
+    "basis": "Site asks that texts be used for personal study and research and not copied or reposted commercially without permission."
+   },
+   "permittedUse": "Reading the original to write independent rules only. Do not copy or repost the text.",
+   "locatorStyle": "Chapter and verse as numbered in the source",
+   "concerns": [
+    "Text is volunteer-typed and may contain errors; not proofread against a printed edition.",
+    "Authenticity and recensions of BPHS are debated; treat as one tradition, not a single authority.",
+    "English translations on the site and in print are separate works and are not used."
+   ],
+   "status": "conditional"
+  },
+  {
+   "id": "brihat-jataka-sd",
+   "system": [
+    "vedic"
+   ],
+   "title": "Brihat Jataka",
+   "author": "Varahamihira",
+   "originalYear": "Classical (c. 6th century, traditional)",
+   "edition": "sanskritdocuments.org transcription, marked 'for proofing'",
+   "kind": "original (transcription)",
+   "url": "https://sanskritdocuments.org/doc_z_misc_sociology_astrology/brihajjAtakam.html",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Underlying text ancient; site usage notice applies",
+    "basis": "As bphs-sanskritdocuments."
+   },
+   "permittedUse": "Reading to write independent rules.",
+   "locatorStyle": "Chapter and verse",
+   "concerns": [
+    "Marked 'for proofing' by the site."
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "phaladeepika-sd",
+   "system": [
+    "vedic"
+   ],
+   "title": "Phaladeepika",
+   "author": "Mantreswara",
+   "originalYear": "Classical (traditional)",
+   "edition": "sanskritdocuments.org transcription",
+   "kind": "original (transcription)",
+   "url": "https://sanskritdocuments.org/doc_z_misc_sociology_astrology/phaladIpika.html",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Underlying text ancient; site usage notice applies",
+    "basis": "As bphs-sanskritdocuments."
+   },
+   "permittedUse": "Reading to write independent rules.",
+   "locatorStyle": "Chapter and verse",
+   "concerns": [
+    "Not yet read."
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "jataka-parijata-sd",
+   "system": [
+    "vedic"
+   ],
+   "title": "Jataka Parijata",
+   "author": "Vaidyanatha Dikshita",
+   "originalYear": "Classical (traditional)",
+   "edition": "sanskritdocuments.org transcription, proofreading pending",
+   "kind": "original (transcription)",
+   "url": "https://sanskritdocuments.org/doc_z_misc_sociology_astrology/jAtakapArijAtaH.html",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Underlying text ancient; site usage notice applies",
+    "basis": "As bphs-sanskritdocuments."
+   },
+   "permittedUse": "Reading to write independent rules.",
+   "locatorStyle": "Chapter and verse",
+   "concerns": [
+    "Proofreading pending on the site; not yet read."
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "lalkitab-joshi-1939-1952",
+   "system": [
+    "lal-kitab"
+   ],
+   "title": "Lal Kitab (five volumes, 1939, 1940, 1941, 1942, 1952)",
+   "author": "Attributed to Pt. Roop Chand Joshi (authorship disputed)",
+   "originalYear": "1939-1952",
+   "edition": "Original Urdu; Hindi editions exist. No lawful copy obtained.",
+   "kind": "original/translated (to be determined)",
+   "url": "https://archive.org/details/LalKitab1941",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Treat as in copyright",
+    "basis": "Joshi reportedly died 1982 (weak sources); India's term of life+60 would run to 2043. Disputed authorship may change the rule. Own inference, not legal advice."
+   },
+   "permittedUse": "NOT USABLE YET. Client instruction: no unofficial scan as a production source. The Internet Archive copy is an unofficial, watermarked redistribution.",
+   "locatorStyle": "Volume, page and rule number",
+   "concerns": [
+    "No lawful copy obtained. Needs a purchased edition (client asked us to establish lawful access).",
+    "Original is cryptic Urdu verse; interpretation needs a qualified reader.",
+    "Existing Star Talks Lal Kitab rules (_shared/lal-kitab.ts) are generic placeholders, not from this source."
+   ],
+   "status": "blocked"
+  },
+  {
+   "id": "ziping-zhenquan",
+   "system": [
+    "bazi",
+    "korean-saju"
+   ],
+   "title": "Ziping Zhenquan (子平真詮)",
+   "author": "Shen Xiaozhan (沈孝瞻)",
+   "originalYear": "Qing dynasty (18th century, traditional)",
+   "edition": "Chinese original; online transcriptions not yet checked",
+   "kind": "original (to verify)",
+   "url": "https://ctext.org/ziping-zhenquan",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Underlying text public domain (author long dead)",
+    "basis": "Qing-era work. Transcription site terms not yet checked."
+   },
+   "permittedUse": "Reading to write independent rules.",
+   "locatorStyle": "Chapter heading (original Chinese)",
+   "concerns": [
+    "Not yet read; site reachable (HTTP 200).",
+    "Modern translations are copyrighted and not used."
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "yuanhai-ziping",
+   "system": [
+    "bazi",
+    "korean-saju"
+   ],
+   "title": "Yuanhai Ziping (淵海子平)",
+   "author": "Attributed to Xu Ziping / Xu Dasheng (徐大升)",
+   "originalYear": "Song dynasty origin; surviving editions later",
+   "edition": "Not yet selected",
+   "kind": "original (to verify)",
+   "url": "https://zh.wikisource.org/",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Underlying text public domain",
+    "basis": "Old Chinese classic. Edition and transcription terms not yet checked."
+   },
+   "permittedUse": "Reading to write independent rules.",
+   "locatorStyle": "Chapter heading (original Chinese)",
+   "concerns": [
+    "Edition not selected; textual variants exist."
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "di-tian-sui",
+   "system": [
+    "bazi",
+    "korean-saju"
+   ],
+   "title": "Di Tian Sui (滴天髓)",
+   "author": "Attributed to Jing Tu, with later commentary",
+   "originalYear": "Ming/Qing tradition",
+   "edition": "Not yet selected",
+   "kind": "original (to verify)",
+   "url": "https://zh.wikisource.org/",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Underlying text public domain",
+    "basis": "Old Chinese classic; commentaries (e.g. Qing-era) separate works."
+   },
+   "permittedUse": "Reading to write independent rules.",
+   "locatorStyle": "Chapter heading (original Chinese)",
+   "concerns": [
+    "Edition and commentary layers must be kept distinct."
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "korean-saju-source-none",
+   "system": [
+    "korean-saju"
+   ],
+   "title": "Korean-specific Saju source",
+   "author": "None identified",
+   "originalYear": "n/a",
+   "edition": "n/a",
+   "kind": "n/a",
+   "url": "",
+   "accessed": "2026-10-16",
+   "copyright": {
+    "status": "Unknown",
+    "basis": "No source found yet."
+   },
+   "permittedUse": "n/a",
+   "locatorStyle": "n/a",
+   "concerns": [
+    "No Korean-language classical or lawful modern source identified. Until one is, Korean Saju rules are BaZi concepts rendered with Korean terminology and must be labelled so."
+   ],
+   "status": "blocked"
+  }
+ ]
+}

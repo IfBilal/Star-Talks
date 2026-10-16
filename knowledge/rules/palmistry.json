@@ -1,0 +1,323 @@
+{
+ "system": "palmistry",
+ "rules": [
+  {
+   "id": "palmistry.hand.square",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square palm with squared-off fingertips ('useful hand')",
+   "explanation": "In traditional palmistry a square palm with squared fingertips points to a practical, orderly temperament: someone who values routine, clear rules and dependable results, works steadily, and prefers methods that have already proved themselves. The same tradition says the downside can be reluctance to try unfamiliar ideas.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.square-short-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square hand with short square fingers",
+   "explanation": "Read as a down-to-earth, results-minded nature that likes tangible proof and builds security gradually. The tradition adds that it can come with stubbornness and a narrow field of interest.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.square-long-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square hand with long square fingers",
+   "explanation": "Read as a more analytical version of the square hand: careful, methodical reasoning that tests things before accepting them. Traditionally linked with work that rewards logic and systematic study.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.square-knotty-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square hand with knotty (prominent-jointed) fingers",
+   "explanation": "Read as a strong eye for detail and planning: someone who enjoys structure, calculation and refining one speciality to a high standard.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.square-spatulate-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square hand with spatulate (flared-tip) fingers",
+   "explanation": "Read as inventiveness kept practical: a taste for building, repairing and improving useful things.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.square-conic-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square hand with conic (rounded-tapering) fingers",
+   "explanation": "Read as creativity backed by discipline: inspiration that is put through patient craft, so ideas actually reach an audience.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.square-psychic-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square palm with very long, pointed fingers",
+   "explanation": "Read as a person of good intentions whose plans can be pulled around by mood, so projects are started with enthusiasm but not always finished. A traditional pattern, not a fixed trait.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.square-mixed-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Square hand with fingers of different shapes",
+   "explanation": "Read as versatility: a mind that moves easily between practical and imaginative topics, with the usual caution that spreading attention widely can make sustained focus harder.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. III 'The Square Hand and its Subdivisions' (chapter starts p. 28)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.spatulate",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Spatulate hand: fingertips flared like a small spade",
+   "explanation": "Traditionally read as an energetic, restless and independent temperament that likes action, exploring and doing things its own way. People with it are associated with originality and a willingness to break from convention. A softer, flabbier version is read as the same restlessness with more irritability.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IV 'The Spatulate Hand' (chapter starts p. 32)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.spatulate-wide-at-fingers",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Spatulate hand that is broadest at the base of the fingers",
+   "explanation": "Read as the more practical form of the spatulate type: energy and invention directed at concrete, useful results.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IV 'The Spatulate Hand' (chapter starts p. 32)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.spatulate-wide-at-wrist",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Spatulate hand that is broadest at the wrist",
+   "explanation": "Read as the more idea-driven form of the spatulate type: energy aimed at new concepts, causes and untried approaches.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IV 'The Spatulate Hand' (chapter starts p. 32)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.philosophic",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Philosophic ('knotty') hand: long, bony, with prominent finger joints",
+   "explanation": "Traditionally read as a reflective, analytical and private temperament: someone who looks for understanding more than material reward, thinks things through, and tends to keep their own counsel. The tradition also notes a proud, self-contained streak.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. V 'The Philosophic Hand' (chapter starts p. 34)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Cheiro attaches this type to particular nations and religious groups; deliberately not used."
+  },
+  {
+   "id": "palmistry.hand.conic",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Conic hand: medium size, tapering palm, full-based fingers with rounded tips",
+   "explanation": "Read as a warm, impulsive and sociable temperament that responds quickly to beauty, music and other people's feelings. Quick to grasp ideas and good company, but traditionally described as less patient with long, repetitive effort.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. VI 'The Conic Hand' (chapter starts p. 37)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.excluded-elementary",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "'Elementary' hand: thick, coarse palm with short fingers",
+   "explanation": "Not used. The source describes this type through negative judgements about intelligence and character, which Star Talks does not present as readings.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. II 'The Elementary, or Lowest Type' (chapter starts p. 27)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy: no judgements of intelligence, morality or character."
+  },
+  {
+   "id": "palmistry.mount.venus",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Mount of Venus: fleshy pad at the base of the thumb",
+   "explanation": "Traditionally read as warmth, affection, enjoyment of beauty and music, and the pull toward closeness with others. A very prominent mount is read as an intense, possibly excessive, attachment drive.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Health and 'passion' claims in the source are not used."
+  },
+  {
+   "id": "palmistry.mount.jupiter",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Mount of Jupiter: base of the index finger",
+   "explanation": "Traditionally read as ambition, confidence, leadership and enthusiasm for a chosen aim.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.mount.saturn",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Mount of Saturn: base of the middle finger",
+   "explanation": "Traditionally read as seriousness, a liking for solitude and quiet, prudence, and a studious or contemplative bent.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.mount.sun",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Mount of the Sun (Apollo): base of the ring finger",
+   "explanation": "Traditionally read as appreciation of beauty, creativity, and grace in thought and expression.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.mount.mercury",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Mount of Mercury: base of the little finger",
+   "explanation": "Traditionally read as quick wit, communication skill, curiosity about travel and change, and a taste for variety.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.mount.mars-upper",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Upper Mount of Mars: between the Mount of Jupiter and the thumb-side, inside the life line",
+   "explanation": "Traditionally read as active courage and assertiveness. Very pronounced is read as a combative edge.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.mount.mars-lower",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Lower Mount of Mars: between the Mounts of Mercury and Luna, on the outer edge of the palm",
+   "explanation": "Traditionally read as steadiness under pressure: composure and the ability to hold one's ground without striking out.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  }
+ ]
+}
