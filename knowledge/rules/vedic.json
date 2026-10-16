@@ -1,0 +1,362 @@
+{
+ "system": "vedic",
+ "rules": [
+  {
+   "id": "vedic.graha.classification",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Natural benefics and malefics",
+   "explanation": "Tradition groups the Sun, Mars, Saturn, Rahu, Ketu and a waning Moon as natural malefics (harder, testing influences), and the rest as natural benefics (gentler, supportive ones). Mercury takes on the character of whoever it is with, becoming harsh in the company of malefics.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verse 11"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "vedic.graha.sun",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Sun: nature and significations",
+   "explanation": "The soul and core self, authority, vitality and the father figure; read as a royal, steady and self-defining light. Its element is fire.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.moon",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Moon: nature and significations",
+   "explanation": "The mind and emotional life, nourishment and the mother figure; a ruler of feeling. Gentle and changeable, it is read as strong at night and in the bright half of the month.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.mars",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Mars: nature and significations",
+   "explanation": "Courage, drive and physical energy; the commander. Fiery and decisive, it brings initiative and, under stress, conflict.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.mercury",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Mercury: nature and significations",
+   "explanation": "Speech, intellect and commerce; the prince, a quick, adaptable messenger. Its element is earth.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.jupiter",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Jupiter: nature and significations",
+   "explanation": "Knowledge, wisdom, guidance and good fortune; a minister and teacher. Expansive and benevolent, its element is ether (space).",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.venus",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Venus: nature and significations",
+   "explanation": "Love, refinement, pleasure and vitality; a minister of arts and relationships. Its element is water.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.saturn",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Saturn: nature and significations",
+   "explanation": "Discipline, duty, delay and hard-won experience; the servant. Slow and austere, it teaches through limits and its element is air.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.rahu",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Rahu: nature and significations",
+   "explanation": "A shadow planet read as appetite, ambition, foreign or unconventional influences and obsession. It acts like an army of unsteady force.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.graha.ketu",
+   "system": "vedic",
+   "topic": "planets",
+   "concept": "Ketu: nature and significations",
+   "explanation": "A shadow planet read as detachment, loss of attachment, spiritual searching and sudden separation; it acts like an army that cuts through.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 12-22"
+   },
+   "conditions": "Needs the sidereal planet positions from the chart. Traditional symbolism; not a prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also assigns planets to castes, body descriptions, deities, tastes, fabrics and tissues; only the core significations and element are used."
+  },
+  {
+   "id": "vedic.dignity.exaltation",
+   "system": "vedic",
+   "topic": "dignity",
+   "concept": "Exaltation and debilitation signs",
+   "explanation": "Each planet is at its strongest, exalted, in a particular sign: the Sun in Aries (peak at 10°), Moon in Taurus (3°), Mars in Capricorn (28°), Mercury in Virgo (15°), Jupiter in Cancer (5°), Venus in Pisces (27°), Saturn in Libra (20°). Seven signs opposite is its debilitation, at the same degree. An exalted planet is read as expressing its good qualities freely; a debilitated one as strained.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 49-50"
+   },
+   "conditions": "Needs sign and degree of each planet from the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "vedic.dignity.own-and-moolatrikona",
+   "system": "vedic",
+   "topic": "dignity",
+   "concept": "Own sign and moolatrikona (root-triangle) sign",
+   "explanation": "A planet in a sign it rules is at home. Each also has a moolatrikona portion of a sign where it is especially steady; for the Sun this is the first 20° of Leo, for the Moon 3°-30° of Taurus, for Mars the first 12° of Aries, for Mercury 15°-20° of Virgo, for Jupiter the first 10° of Sagittarius, for Venus the first 15° of Libra, for Saturn the first 20° of Aquarius.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 51-54"
+   },
+   "conditions": "Needs sign and degree of each planet from the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "vedic.dignity.temporary-friendship",
+   "system": "vedic",
+   "topic": "dignity",
+   "concept": "Temporary friendship by position",
+   "explanation": "Planets placed in the 2nd, 3rd, 4th, 10th, 11th or 12th sign from one another are temporary friends, and those in the other signs are temporary enemies. Combined with natural friendship, this gives five relationships: great friend, friend, neutral, enemy, great enemy.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 55-58"
+   },
+   "conditions": "Needs sign positions of all planets.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "vedic.dignity.result-strength",
+   "system": "vedic",
+   "topic": "dignity",
+   "concept": "How much of a planet's good result is realised by dignity",
+   "explanation": "The tradition scales a planet's results by its placement: in exaltation the full benefit, in its moolatrikona about three-quarters, in its own sign about half, in a friend's sign about a quarter, in a neutral sign about an eighth, and little or nothing in debilitation, combustion or an enemy's sign. For harmful results the same proportions run in reverse.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 59-60"
+   },
+   "conditions": "Needs dignity of each planet.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "vedic.strength.direction",
+   "system": "vedic",
+   "topic": "planet-strength",
+   "concept": "Directional strength",
+   "explanation": "Mercury and Jupiter are strongest in the east, the Sun and Mars in the south, Saturn in the west, and Venus and the Moon in the north. A planet in its strong direction is read as better able to deliver its significations.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verse 35"
+   },
+   "conditions": "Needs the planet's house position (mapped from direction by the tradition's standard house-direction table, not given in this chapter).",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-research"
+  },
+  {
+   "id": "vedic.strength.time",
+   "system": "vedic",
+   "topic": "planet-strength",
+   "concept": "Strength by time of day and lunar phase",
+   "explanation": "The Moon, Mars and Saturn are read as stronger at night, the Sun, Jupiter and Venus by day, and Mercury at all times. In the dark half of the month the malefics are stronger, and in the bright half the benefics.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verses 36-37"
+   },
+   "conditions": "Needs birth time (day or night) and the lunar phase.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "vedic.strength.ayana",
+   "system": "vedic",
+   "topic": "planet-strength",
+   "concept": "Strength by solstice",
+   "explanation": "Benefic planets gain strength when the Sun moves north (the northern solstice period) and malefics when it moves south.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 3 (ग्रहगुणस्वरूपाध्यायः), verse 37"
+   },
+   "conditions": "Needs the Sun's position relative to the solstices.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-engine"
+  },
+  {
+   "id": "vedic.sign.rulers",
+   "system": "vedic",
+   "topic": "signs",
+   "concept": "Rulers of the twelve signs",
+   "explanation": "Mars rules Aries and Scorpio, Venus Taurus and Libra, Mercury Gemini and Virgo, the Moon Cancer, the Sun Leo, Jupiter Sagittarius and Pisces, and Saturn Capricorn and Aquarius. A planet is read as comfortable and at home in the signs it rules.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 4 (राशिस्वरूपाध्यायः), verses 7-23"
+   },
+   "conditions": "Needs the sign of the planet or ascendant from the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "vedic.sign.modality",
+   "system": "vedic",
+   "topic": "signs",
+   "concept": "Movable, fixed and dual signs",
+   "explanation": "The signs repeat in a cycle of three kinds: movable (Aries, Cancer, Libra, Capricorn) read as initiating and active; fixed (Taurus, Leo, Scorpio, Aquarius) read as steady and enduring; dual (Gemini, Virgo, Sagittarius, Pisces) read as adaptable and mixed.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 4 (राशिस्वरूपाध्यायः), verse 5"
+   },
+   "conditions": "Needs the sign of the planet or ascendant from the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "vedic.sign.polarity",
+   "system": "vedic",
+   "topic": "signs",
+   "concept": "Masculine and feminine signs; harsh and gentle signs",
+   "explanation": "The signs alternate: odd signs (Aries, Gemini, Leo, Libra, Sagittarius, Aquarius) are classed as masculine and harder, even signs (Taurus, Cancer, Virgo, Scorpio, Capricorn, Pisces) as feminine and gentler. The classes describe tone, not gender of people.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 4 (राशिस्वरूपाध्यायः), verse 5"
+   },
+   "conditions": "Needs the sign of the planet or ascendant from the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "vedic.sign.humours",
+   "system": "vedic",
+   "topic": "signs",
+   "concept": "Temperament groups of the signs",
+   "explanation": "The text assigns the signs to the three humours in a repeating cycle of four: Aries, Leo and Sagittarius to fire-like heat (pitta); Taurus, Virgo and Capricorn to air-like restlessness (vata, as the cycle is read); Gemini, Libra and Aquarius to a mixture; Cancer, Scorpio and Pisces to water-like softness (kapha). Used only as a symbolic description of temperament.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 4 (राशिस्वरूपाध्यायः), verse 6"
+   },
+   "conditions": "Needs the sign of the planet or ascendant from the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-research",
+   "omitted": "Source links these to bodily constitution; health claims are not used. The mapping as written needs checking against a scholar's reading."
+  },
+  {
+   "id": "vedic.sign.time-strength",
+   "system": "vedic",
+   "topic": "signs",
+   "concept": "Signs strong by day or by night",
+   "explanation": "Signs that rise head-first (Gemini, Leo, Virgo, Libra, Scorpio, Aquarius) are read as strong by day, and signs that rise back-first (Aries, Taurus, Cancer, Sagittarius, Capricorn) as strong by night; Pisces rises either way.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 4 (राशिस्वरूपाध्यायः), verses 7-23"
+   },
+   "conditions": "Needs the sign of the planet or ascendant from the chart.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "needs-research",
+   "omitted": "Per-sign detail should be checked against a scholar's reading before use."
+  },
+  {
+   "id": "vedic.sign.excluded-caste-and-body",
+   "system": "vedic",
+   "topic": "signs",
+   "concept": "Caste, body parts and physical descriptions of the signs",
+   "explanation": "Not used. The chapter assigns each sign a caste, a body part and bodily features; Star Talks makes no caste, health or appearance claims.",
+   "source": {
+    "id": "bphs-sanskritdocuments",
+    "locator": "Ch. 4 (राशिस्वरूपाध्यायः), verses 2-24"
+   },
+   "conditions": "n/a",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy."
+  }
+ ]
+}

@@ -74,7 +74,7 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
 - **ID:** `bphs-sanskritdocuments`  |  **Systems:** vedic, lal-kitab  |  **Status:** conditional
 - **Author:** Traditionally attributed to Parashara; compiler and date uncertain
 - **Original year:** Uncertain (classical)
-- **Edition used:** Volunteer-typed Sanskrit text on sanskritdocuments.org (Devanagari/ITX/HTML)
+- **Edition used:** Volunteer-typed Sanskrit text on sanskritdocuments.org, chapters 1-97 (chapter 26 and several others are absent from the site's list)
 - **Kind:** original (transcription)
 - **URL:** https://sanskritdocuments.org/iast/jyotisha/  |  **Accessed:** 2026-10-16
 - **Copyright:** Underlying text ancient; site transcription carries a usage notice. Site asks that texts be used for personal study and research and not copied or reposted commercially without permission.
@@ -84,6 +84,9 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
   - Text is volunteer-typed and may contain errors; not proofread against a printed edition.
   - Authenticity and recensions of BPHS are debated; treat as one tradition, not a single authority.
   - English translations on the site and in print are separate works and are not used.
+  - Chapter 3 and 4 read so far; chapter numbering follows the site's text and may differ from printed editions (Santhanam etc.).
+  - Reading of the Sanskrit is by an AI model without a Sanskrit scholar's review: every Vedic rule is marked as needing practitioner review.
+  - Passages on caste (varna), appearance, birth omens and death/illness are not used.
 
 ## Brihat Jataka
 
