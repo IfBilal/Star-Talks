@@ -51,6 +51,7 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
   - The Open Library edition the client linked (OL24360211M) is a 1978 Barrie & Jenkins reissue and is not public domain; do not use it.
   - Cheiro's system is Chaldean. Our engine implements Pythagorean. Traditions must stay separate; Chaldean calculation is not yet implemented.
   - Publication year of this impression not printed in scan.
+  - Use only as a separate Chaldean-tradition reference. Not used for Star Talks' Pythagorean numbers; no rules written from it yet.
 
 ## How to Read Faces, or, Practical Physiognomy Made Easy
 
@@ -198,3 +199,20 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
 - **Locator style:** n/a
 - **Unresolved concerns:**
   - No Korean-language classical or lawful modern source identified. Until one is, Korean Saju rules are BaZi concepts rendered with Korean terminology and must be labelled so.
+
+## Numerology Made Plain: The Science of Names and Numbers and the Law of Vibration
+
+- **ID:** `taylor-numerology-1926`  |  **Systems:** numerology  |  **Status:** ready
+- **Author:** Ariel Yvon Taylor
+- **Original year:** 1926
+- **Edition used:** Laird & Lee, Chicago (copyright 1926); Internet Archive item numerologymadepl00tayl_0 (Library of Congress scan)
+- **Kind:** original
+- **URL:** https://archive.org/details/numerologymadepl00tayl_0  |  **Accessed:** 2026-10-16
+- **Copyright:** Public domain in the United States. Published 1926; US term (95 years) ended 31 Dec 2021. The Library of Congress says it is unaware of any copyright restrictions. Author's death date not found, so status in life+70 countries is unverified. Own reading, not legal advice.
+- **Permitted use:** Research and short cited quotation. Own wording only in user-facing output.
+- **Locator style:** Chapter and heading
+- **Unresolved concerns:**
+  - Uses the Pythagorean letter table (A-I =1-9, J-R =1-9, S-Z =1-8) and keeps 11 and 22 as master numbers: matches our engine.
+  - Frames numbers through reincarnation ('previous lifetimes') and religious language; not reproduced.
+  - Some negative aspects contain moral judgements ('destroyer of homes', 'black magic'); excluded or softened.
+  - Author death date unknown: rights outside the US unverified.
