@@ -58,6 +58,10 @@ def main():
             if not r['source'].get('locator'): errors.append(f"rule {r['id']}: no locator")
             if r['system'] not in s['system'] and not (r['system'] == 'bazi' and 'korean-saju' in s['system']): errors.append(f"rule {r['id']}: source {s['id']} is not for system {r['system']}")
             if r['readiness'] == 'ready' and s['status'] in ('pending', 'blocked'): errors.append(f"rule {r['id']}: marked ready but source {s['id']} is {s['status']}")
+            if r['system'] == 'tarot' and r['readiness'] != 'excluded' and r['id'].startswith('tarot.card.'):
+                dm = r.get('domains') or {}
+                for dom in ('love', 'career', 'money', 'growth', 'reflection'):
+                    if dom not in dm or len(dm[dom]) != 2 or not all(dm[dom]): errors.append(f"rule {r['id']}: domain {dom} needs [upright, reversed]")
             if len(r['explanation']) < 40 and r['readiness'] != 'excluded': warns.append(f"rule {r['id']}: very short explanation")
     # Verbatim-overlap check against local source texts
     if texts_dir:
@@ -72,7 +76,8 @@ def main():
                 w = norm_words(open(p, errors='ignore').read())
                 cache[p + ':%d' % NGRAM] = {' '.join(w[i:i + NGRAM]) for i in range(len(w) - NGRAM + 1)}
                 cache[p + ':%d' % NGRAM_LABEL] = {' '.join(w[i:i + NGRAM_LABEL]) for i in range(len(w) - NGRAM_LABEL + 1)}
-            hits = [h for h in runs(r['explanation'], NGRAM) if h in cache[p + ':%d' % NGRAM]] + [h for h in runs(r['concept'], NGRAM_LABEL) if h in cache[p + ':%d' % NGRAM_LABEL]]
+            extra = ' '.join(x for pair in (r.get('domains') or {}).values() for x in pair)
+            hits = [h for h in runs(r['explanation'] + ' ' + extra, NGRAM) if h in cache[p + ':%d' % NGRAM]] + [h for h in runs(r['concept'], NGRAM_LABEL) if h in cache[p + ':%d' % NGRAM_LABEL]]
             if hits: errors.append(f"rule {r['id']}: copies source wording: {hits[:2]}")
     for w in warns: print('warning:', w)
     if errors:

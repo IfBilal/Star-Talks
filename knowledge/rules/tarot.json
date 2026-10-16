@@ -1,0 +1,3105 @@
+{
+ "system": "tarot",
+ "rules": [
+  {
+   "id": "tarot.card.the-fool",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Fool (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A fresh start taken on trust and curiosity; Waite's list also warns of heedlessness. Reversed: Carelessness, drifting, or hesitating at the edge of a new step.",
+   "domains": {
+    "love": [
+     "A new connection or a leap of openness; keep your eyes open to the risk.",
+     "Impulsive choices, or holding back from a step that feels exposed."
+    ],
+    "career": [
+     "A change of field or an untried venture.",
+     "Rushing in unprepared, or stalling when a new role is offered."
+    ],
+    "money": [
+     "Willingness to try something new with money; check the details first.",
+     "Careless spending or ignoring the numbers."
+    ],
+    "growth": [
+     "Beginner's mind: curiosity matters more than certainty.",
+     "Avoiding a lesson by staying distracted."
+    ],
+    "reflection": [
+     "Where am I ready to begin without knowing every step?",
+     "Where am I acting without looking, or refusing to move at all?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Fool'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-magician",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Magician (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Skill, will and self-confidence used with tact; Waite also notes snares and the need for care. Reversed: Scattered or misused ability, uneasy self-doubt.",
+   "domains": {
+    "love": [
+     "Showing yourself deliberately and communicating what you want.",
+     "Charm used to manage the other person, or holding your real self back."
+    ],
+    "career": [
+     "Using the skills you have; taking the lead on a task.",
+     "Talent spread thin, or influence used carelessly."
+    ],
+    "money": [
+     "Resourcefulness: turning what is on hand into value.",
+     "Poor planning, or promises made without backing."
+    ],
+    "growth": [
+     "Focus your will on one clear aim.",
+     "Doubt blocking action you are capable of."
+    ],
+    "reflection": [
+     "What tools do I already have that I am not using?",
+     "Where am I pretending, or underestimating myself?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Magician'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-high-priestess",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The High Priestess (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Secrets, silence and wisdom not yet revealed; an invitation to listen inwardly. Reversed: Surface knowledge, or passion overriding quiet judgement.",
+   "domains": {
+    "love": [
+     "Things unsaid between people; patience until feelings are clear.",
+     "Acting on a passing feeling, or confusing mystery with depth."
+    ],
+    "career": [
+     "Learning quietly before acting; discretion pays.",
+     "Bluffing from partial knowledge."
+    ],
+    "money": [
+     "Hold back until you have the full picture.",
+     "Decisions made on half-understood information."
+    ],
+    "growth": [
+     "Trust the slow, inner kind of knowing.",
+     "Ignoring intuition in favour of noise."
+    ],
+    "reflection": [
+     "What do I know but have not admitted to myself?",
+     "Am I mistaking appearances for understanding?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The High Priestess'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-empress",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Empress (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Fruitfulness, initiative and growth; Waite also lists doubt and the unknown. Reversed: Clearing of confusion and truth coming to light; also wavering.",
+   "domains": {
+    "love": [
+     "Warmth, care and growth in a relationship.",
+     "Smothering, or neglecting your own needs in love."
+    ],
+    "career": [
+     "Creative projects that are ready to grow.",
+     "Effort that stalls for lack of nurturing."
+    ],
+    "money": [
+     "Steady, generative resources.",
+     "Overspending or money tied up unproductively."
+    ],
+    "growth": [
+     "Nurture what you want to grow, including yourself.",
+     "Doubt and indecision dulling progress."
+    ],
+    "reflection": [
+     "What in my life needs tending right now?",
+     "Where is a confusing matter about to become clear?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Empress'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-emperor",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Emperor (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Stability, authority and protection built on reason and will. Reversed: Immaturity or obstruction; the same strength turned to rigidity or relaxed into kindness.",
+   "domains": {
+    "love": [
+     "Dependable commitment and clear boundaries.",
+     "Control, or a partner who will not bend."
+    ],
+    "career": [
+     "Structure, leadership and clear responsibility.",
+     "Authority misused, or power resisted for the sake of it."
+    ],
+    "money": [
+     "Order, budgeting and secure foundations.",
+     "Rigid rules that block flexibility."
+    ],
+    "growth": [
+     "Discipline and clear structure serve your aims.",
+     "Pushing against necessary limits."
+    ],
+    "reflection": [
+     "Where do I need firmer boundaries or clearer rules?",
+     "Where is control getting in the way of trust?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Emperor'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-hierophant",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Hierophant (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Tradition, guidance and shared values; Waite also notes servitude to convention. Reversed: Fellowship and goodwill, but over-kindness or weakness.",
+   "domains": {
+    "love": [
+     "Commitment within shared values and recognised traditions.",
+     "Conforming to expectations that do not fit."
+    ],
+    "career": [
+     "Learning from a mentor or an established institution.",
+     "Rules followed without thought, or ignored altogether."
+    ],
+    "money": [
+     "Conventional, well-tested approaches.",
+     "Following advice that does not suit you."
+    ],
+    "growth": [
+     "Study and guidance from a trusted teacher.",
+     "Questioning inherited beliefs to find your own."
+    ],
+    "reflection": [
+     "Which tradition or teacher do I actually trust?",
+     "Am I following a rule out of habit or conviction?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Hierophant'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-lovers",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Lovers (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Attraction, harmony and a meaningful choice; trials overcome through honest alignment. Reversed: Foolish or misaligned choices and tension in a bond.",
+   "domains": {
+    "love": [
+     "A strong bond or a choice that reflects your values.",
+     "Mismatch, temptation or a strained bond."
+    ],
+    "career": [
+     "A partnership or decision where values and ambition must agree.",
+     "Choices made for the wrong reasons."
+    ],
+    "money": [
+     "Shared finances and agreements made with trust.",
+     "Disagreement over shared resources."
+    ],
+    "growth": [
+     "Choosing in line with what you truly value.",
+     "Avoiding a choice that matters."
+    ],
+    "reflection": [
+     "Do my choices match what I say I value?",
+     "What am I postponing deciding?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Lovers'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-chariot",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Chariot (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Triumph through focused will; also the strain that comes with presumption and conflict. Reversed: Quarrels, defeat or direction lost.",
+   "domains": {
+    "love": [
+     "Pushing a relationship forward with purpose.",
+     "Power struggles, or going different ways."
+    ],
+    "career": [
+     "Driven progress and victories earned through control.",
+     "Overreach, disputes or a loss of drive."
+    ],
+    "money": [
+     "Determined effort that pays off.",
+     "Spending or striving without direction."
+    ],
+    "growth": [
+     "Discipline pulling opposing urges in one direction.",
+     "Being pulled in two directions at once."
+    ],
+    "reflection": [
+     "What am I steering toward, and who holds the reins?",
+     "Where have I lost control of my direction?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Chariot'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.strength",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Strength (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Courage and energy tempered by gentleness; Waite's wording stresses power and magnanimity. Reversed: Weakness, discord or power abused.",
+   "domains": {
+    "love": [
+     "Patience and quiet confidence in love.",
+     "Pressure or force used where tenderness is needed."
+    ],
+    "career": [
+     "Steady courage in a hard situation.",
+     "Self-doubt, or throwing weight around."
+    ],
+    "money": [
+     "Calm persistence through a tight period.",
+     "Impatience or giving in to fear."
+    ],
+    "growth": [
+     "Master your own impulses with compassion.",
+     "Letting insecurity run the show."
+    ],
+    "reflection": [
+     "Where is gentle strength more effective than force?",
+     "Where do I doubt my own courage?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'Fortitude'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-hermit",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Hermit (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Prudence and deliberate withdrawal for insight; Waite's list also names concealment. Reversed: Fear-driven caution, disguise or hiding.",
+   "domains": {
+    "love": [
+     "Time apart to understand what you really want.",
+     "Isolation, or fear of letting anyone close."
+    ],
+    "career": [
+     "Careful, solo preparation; seeking expertise.",
+     "Hiding your work, or over-caution."
+    ],
+    "money": [
+     "Cautious, considered handling of money.",
+     "Hoarding, or distrust that freezes decisions."
+    ],
+    "growth": [
+     "A period of solitude and reflection.",
+     "Using withdrawal to avoid an answer."
+    ],
+    "reflection": [
+     "What do I need quiet time to figure out?",
+     "Am I withdrawing to think, or to hide?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Hermit'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.wheel-of-fortune",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Wheel of Fortune (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Turning fortune, luck and a change of position. Reversed: Increase and abundance, sometimes too much.",
+   "domains": {
+    "love": [
+     "Turns of fate that change a relationship's course.",
+     "Excess or moving too fast in love."
+    ],
+    "career": [
+     "A change of circumstances and new openings.",
+     "Over-extending in a good time."
+    ],
+    "money": [
+     "Good fortune and shifts in income.",
+     "Plenty that is not managed with care."
+    ],
+    "growth": [
+     "Accept that cycles turn and adapt.",
+     "Resisting a change that is already happening."
+    ],
+    "reflection": [
+     "What is changing that I cannot control?",
+     "Where am I clinging to a cycle that is ending?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'Wheel of Fortune'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.justice",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Justice (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Fairness, rightness and clear consequences; the deserving side prevails. Reversed: Legal tangles, bias or excessive severity.",
+   "domains": {
+    "love": [
+     "Honesty and balance between two people.",
+     "Unfairness, or judging too harshly."
+    ],
+    "career": [
+     "Fair dealing, contracts and accountability.",
+     "Bias, disputes or rigid application of rules."
+    ],
+    "money": [
+     "Fair settlements and honest accounting.",
+     "Legal complications over money."
+    ],
+    "growth": [
+     "Take responsibility for your actions and their effects.",
+     "Blaming others rather than weighing your part."
+    ],
+    "reflection": [
+     "Have I weighed this honestly and fairly?",
+     "Where am I being harsh, or avoiding accountability?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'Justice'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-hanged-man",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Hanged Man (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Wisdom through pause, sacrifice and a changed point of view. Reversed: Selfishness, or following the crowd rather than your own view.",
+   "domains": {
+    "love": [
+     "Letting go of control to see the situation differently.",
+     "Self-interest, or waiting without purpose."
+    ],
+    "career": [
+     "A deliberate pause or a new angle on a stuck problem.",
+     "Stalling, or sacrificing without result."
+    ],
+    "money": [
+     "Delay can serve you; reconsider before committing.",
+     "Money tied up by indecision."
+    ],
+    "growth": [
+     "Surrender to a new perspective.",
+     "Resisting a necessary pause."
+    ],
+    "reflection": [
+     "What would I see if I looked at this upside down?",
+     "Am I waiting wisely, or just stuck?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Hanged Man'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.death",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Death (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: An ending that makes room for change; not a literal prediction of death. Reversed: Inertia and a clinging to what has already ended.",
+   "domains": {
+    "love": [
+     "A relationship phase closing so a new one can open.",
+     "Staying in a stuck pattern from habit."
+    ],
+    "career": [
+     "A role or project reaching its natural end.",
+     "Holding on to a position that no longer fits."
+    ],
+    "money": [
+     "Closing an old financial chapter.",
+     "Resisting needed change to money habits."
+    ],
+    "growth": [
+     "Release what is finished and let it transform you.",
+     "Stagnation from refusing to let go."
+    ],
+    "reflection": [
+     "What is already over that I keep carrying?",
+     "Am I afraid of the ending, or of what comes next?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'Death'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.temperance",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Temperance (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Moderation, management and finding the workable blend. Reversed: Imbalance, disunion or poor fit between parts.",
+   "domains": {
+    "love": [
+     "Patient blending of two different people or needs.",
+     "Mismatch or going to extremes."
+    ],
+    "career": [
+     "Steady, well-managed effort and cooperation.",
+     "Poorly paced work or disagreements."
+    ],
+    "money": [
+     "Thrift and balanced budgeting.",
+     "Overspending or uneven management."
+    ],
+    "growth": [
+     "Healing and integration through moderation.",
+     "Excess in one direction."
+    ],
+    "reflection": [
+     "What combination of things does my life need right now?",
+     "Where am I out of balance?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'Temperance'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-devil",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Devil (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Strong forces, attachments and compulsions; Waite notes the fate here is bound but not evil in itself. Reversed: Weakness, pettiness or blindness to a binding habit; sometimes the start of loosening it.",
+   "domains": {
+    "love": [
+     "Strong attraction or a pattern that holds you in a bond.",
+     "Seeing a restrictive tie clearly and starting to loosen it."
+    ],
+    "career": [
+     "Intense drive, or a job that has you chained to it.",
+     "Narrow, petty dealings or being blind to a trap."
+    ],
+    "money": [
+     "Money used as a hook or a source of compulsion.",
+     "Recognising what binds you financially."
+    ],
+    "growth": [
+     "Name the habit or belief that controls you.",
+     "Ignoring the chain; settling for smallness."
+    ],
+    "reflection": [
+     "What do I feel I cannot give up, and why?",
+     "Am I ready to look honestly at what binds me?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Devil'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-tower",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Tower (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Sudden disruption that exposes weak foundations; Waite lists it as the card of unforeseen upheaval. Reversed: Lesser upheaval, or a confinement that drags on.",
+   "domains": {
+    "love": [
+     "A shock that breaks a false arrangement.",
+     "Suppressing a crisis that needs airing."
+    ],
+    "career": [
+     "A sudden change in role or plans.",
+     "Resisting a collapse that is overdue."
+    ],
+    "money": [
+     "An unexpected financial jolt that shows what was fragile.",
+     "A lingering money squeeze."
+    ],
+    "growth": [
+     "Old structures fall so that sturdier ones can be built.",
+     "Fighting the truth and prolonging the strain."
+    ],
+    "reflection": [
+     "What in my life was built on shaky ground?",
+     "What truth am I avoiding that may force itself on me?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Tower'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-star",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Star (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Hope and bright prospects; older lists also include loss, so read it with the surrounding cards. Reversed: Arrogance or a loss of faith in your own recovery.",
+   "domains": {
+    "love": [
+     "Renewed trust and openness after a hard stretch.",
+     "Discouragement or pride getting in the way of healing."
+    ],
+    "career": [
+     "Fresh hope for a project or direction.",
+     "Overconfidence, or losing faith in your plan."
+    ],
+    "money": [
+     "Cautious optimism about resources.",
+     "Unrealistic expectations or giving up too soon."
+    ],
+    "growth": [
+     "Restore your sense of possibility.",
+     "Cynicism that stops you from trying."
+    ],
+    "reflection": [
+     "What gives me honest hope right now?",
+     "Where have I stopped believing it can improve?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Star'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-moon",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Moon (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Uncertainty, darkness and illusion; things are not yet clearly seen. Reversed: Instability and a lesser degree of confusion, easing into clarity.",
+   "domains": {
+    "love": [
+     "Mixed signals and unspoken fears.",
+     "Confusion clearing, or lingering insecurity."
+    ],
+    "career": [
+     "Unclear information; wait before committing.",
+     "Misunderstandings easing."
+    ],
+    "money": [
+     "Be wary of what you cannot verify.",
+     "Small errors or unsteady income."
+    ],
+    "growth": [
+     "Face your fears and your dreams; not everything is as it seems.",
+     "Anxiety that distorts what you see."
+    ],
+    "reflection": [
+     "What am I afraid of that may not be real?",
+     "What do I need more facts about?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Moon'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-sun",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The Sun (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Contentment, clarity and visible progress. Reversed: A quieter, slower version of the card's happiness; joy that is delayed or muted.",
+   "domains": {
+    "love": [
+     "Warmth, joy and openness in a bond.",
+     "Joy that is muted or slow to arrive."
+    ],
+    "career": [
+     "Recognition and a clear, successful stretch.",
+     "Progress that is slower than hoped."
+    ],
+    "money": [
+     "Comfort and enough for your needs.",
+     "Smaller gains, or difficulty enjoying what you have."
+    ],
+    "growth": [
+     "Let yourself be seen and be glad.",
+     "Temporary doubt about your own worth."
+    ],
+    "reflection": [
+     "What is going well that I fail to enjoy?",
+     "What would let more light in?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Sun'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.judgement",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Judgement (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A call to renewal, change of position and an important decision. Reversed: Self-doubt, hesitation and the need to decide.",
+   "domains": {
+    "love": [
+     "A relationship reassessed with honest eyes.",
+     "Staying silent when a conversation is due."
+    ],
+    "career": [
+     "A turning point and a fresh start after review.",
+     "Avoiding a decision that has been waiting."
+    ],
+    "money": [
+     "A reckoning of accounts and a new plan.",
+     "Ignoring a financial warning."
+    ],
+    "growth": [
+     "Answer the call to change after honest reflection.",
+     "Harsh self-judgement stopping growth."
+    ],
+    "reflection": [
+     "What am I being called to decide?",
+     "Am I judging myself more harshly than I would judge a friend?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The Last Judgment'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.the-world",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "The World (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Completion, reward and moving on to a new stage. Reversed: Stagnation, a goal not quite finished.",
+   "domains": {
+    "love": [
+     "A relationship reaching a settled, whole stage.",
+     "Feeling stuck just short of commitment."
+    ],
+    "career": [
+     "Finishing a project and a well-earned result.",
+     "Loose ends keeping you from finishing."
+    ],
+    "money": [
+     "Reward for earlier effort; stability.",
+     "A delay in closing a financial matter."
+    ],
+    "growth": [
+     "Integrate what you have learned and step into the next chapter.",
+     "Fear of finishing or of what follows."
+    ],
+    "reflection": [
+     "What have I completed that I have not yet acknowledged?",
+     "What is left undone that keeps me from moving on?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Greater Arcana and their Divinatory Meanings, entry 'The World'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ace-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ace of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: The spark of a creative or enterprising beginning; the source of a new venture. Reversed: A false start, fading drive or a clouded joy.",
+   "domains": {
+    "love": [
+     "The spark of attraction or a bold new beginning in love.",
+     "Passion that fizzles before it grows."
+    ],
+    "career": [
+     "A new venture or the energy to start one.",
+     "A start that stalls or loses momentum."
+    ],
+    "money": [
+     "A promising new source of income or an investment idea.",
+     "Funds put into something that does not take off."
+    ],
+    "growth": [
+     "Act on a creative impulse while it is fresh.",
+     "Letting an idea die from waiting."
+    ],
+    "reflection": [
+     "What idea is asking to be started?",
+     "What has lost its spark, and do I want it back?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Ace of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.two-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Two of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Standing at a vantage point with a choice of paths; Waite's reading is divided between prosperity and discontent. Reversed: Surprise, unease or uncertainty about the next step.",
+   "domains": {
+    "love": [
+     "Weighing your options in a relationship before you commit.",
+     "Fear of the unknown holding you back."
+    ],
+    "career": [
+     "Planning the next stage with the whole field in view.",
+     "Uncertainty or an unexpected twist in plans."
+    ],
+    "money": [
+     "Resources that could be directed in more than one way.",
+     "Unease about a financial plan."
+    ],
+    "growth": [
+     "Decide which direction you really want.",
+     "Staying put because choosing feels hard."
+    ],
+    "reflection": [
+     "What do I command that I could use more boldly?",
+     "What am I afraid will change if I choose?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Two of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.three-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Three of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Established strength looking outward; enterprise, trade and well-supported ventures. Reversed: The end of difficulty; a time of toil easing.",
+   "domains": {
+    "love": [
+     "Waiting for a bond to travel or deepen, with patience.",
+     "Troubles easing in a long-distance or long-awaited bond."
+    ],
+    "career": [
+     "Expansion and collaboration; plans sent out into the world.",
+     "Setbacks easing after a hard run."
+    ],
+    "money": [
+     "Business or trade bringing returns; patience for profit.",
+     "Financial strain beginning to lift."
+    ],
+    "growth": [
+     "Prepare, then let your efforts go out.",
+     "Waiting too long to launch."
+    ],
+    "reflection": [
+     "What have I set in motion that I am waiting to see return?",
+     "What difficulty is starting to pass?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Three of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.four-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Four of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Harmony, celebration and a secure, peaceful base. Reversed: The same peace in lesser strength or a delayed celebration.",
+   "domains": {
+    "love": [
+     "A joyful, settled stage; marking a milestone together.",
+     "A celebration postponed or a home base needing care."
+    ],
+    "career": [
+     "Reaching a milestone in a friendly, settled workplace.",
+     "Tension that undercuts team spirit."
+    ],
+    "money": [
+     "Stability and comfort from steady effort.",
+     "Comfort that needs more attention."
+    ],
+    "growth": [
+     "Pause to appreciate what you have built.",
+     "Struggling to relax in what you have earned."
+    ],
+    "reflection": [
+     "What achievement should I stop and celebrate?",
+     "What would help my home life feel more secure?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Four of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.five-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Five of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Strenuous competition and the struggle for gain; friction that can become useful. Reversed: Disputes, trickery or contradiction.",
+   "domains": {
+    "love": [
+     "Disagreements and jostling for position in a bond.",
+     "Conflict that turns into a quarrel, or eases once aired."
+    ],
+    "career": [
+     "Healthy competition or a crowded field.",
+     "Office politics, disputes or mixed signals."
+    ],
+    "money": [
+     "Effort and rivalry over limited rewards.",
+     "Disputes over money or terms."
+    ],
+    "growth": [
+     "Test your ideas against other people's.",
+     "Needless conflict from not listening."
+    ],
+    "reflection": [
+     "Where is competition sharpening me, and where is it only noise?",
+     "What argument am I having that I could end?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Five of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.six-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Six of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A victory and public good news; expectation fulfilled. Reversed: Fear of rivals, disloyalty or an indefinite delay.",
+   "domains": {
+    "love": [
+     "A moment of public pride or acknowledgement in a bond.",
+     "Insecurity or distrust clouding a win."
+    ],
+    "career": [
+     "Recognition and a well-earned win.",
+     "Delayed recognition, or worry about a rival."
+    ],
+    "money": [
+     "Reward for earlier work and good news about money.",
+     "A hoped-for payment delayed."
+    ],
+    "growth": [
+     "Accept praise gracefully.",
+     "Self-doubt that spoils a success."
+    ],
+    "reflection": [
+     "What success have I earned that I should allow myself to enjoy?",
+     "Who or what am I afraid will undo my progress?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Six of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.seven-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Seven of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Valour from a position of advantage; debate, competition and standing your ground. Reversed: Perplexity, embarrassment and anxiety; a warning against indecision.",
+   "domains": {
+    "love": [
+     "Defending what matters to you in a relationship.",
+     "Feeling overwhelmed or unsure how to respond."
+    ],
+    "career": [
+     "Holding your position against pressure or competitors.",
+     "Anxiety and hesitation under challenge."
+    ],
+    "money": [
+     "Protecting your share in a tough market.",
+     "Indecision costing you opportunities."
+    ],
+    "growth": [
+     "Stay firm about your principles.",
+     "Wavering when you most need to decide."
+    ],
+    "reflection": [
+     "What am I defending, and is it worth it?",
+     "Where is indecision making things worse?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Seven of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.eight-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Eight of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Swift movement, news in motion and hopeful speed. Reversed: Disputes, jealousy and pangs of conscience; speed that brings friction.",
+   "domains": {
+    "love": [
+     "Fast-moving developments and messages in love.",
+     "Jealousy or arguments at close quarters."
+    ],
+    "career": [
+     "Quick progress and messages arriving fast.",
+     "Rushed work leading to friction."
+    ],
+    "money": [
+     "Fast-moving deals and quick results.",
+     "Hasty decisions with a price."
+    ],
+    "growth": [
+     "Ride the momentum while it lasts.",
+     "Moving so fast that you overlook what matters."
+    ],
+    "reflection": [
+     "What is moving quickly, and am I ready?",
+     "Where is haste creating tension?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Eight of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.nine-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Nine of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Strength in opposition; meeting challenge boldly, with possible delay. Reversed: Obstacles and adversity.",
+   "domains": {
+    "love": [
+     "Guarded stamina after past hurts; you can still stand.",
+     "Wearing out from being on the defensive."
+    ],
+    "career": [
+     "Resilience in the face of repeated pressure.",
+     "Burnout or obstacles that keep appearing."
+    ],
+    "money": [
+     "Holding on through a tight period.",
+     "Setbacks that drain reserves."
+    ],
+    "growth": [
+     "You are tougher than you feel; keep going with care.",
+     "Weariness that calls for rest and help."
+    ],
+    "reflection": [
+     "What have I survived that proves my stamina?",
+     "Am I defending against things that are over?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Nine of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ten-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ten of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A heavy burden; oppression, though the same card is read in places as success and gain. Reversed: Contrary pressures, difficulty and intrigue.",
+   "domains": {
+    "love": [
+     "Carrying too much for a relationship alone.",
+     "Complications, or finally setting something down."
+    ],
+    "career": [
+     "Overload from too many responsibilities.",
+     "Obstacles and politics around heavy duties."
+    ],
+    "money": [
+     "Success that comes with a lot of weight attached.",
+     "Difficulties that are complicated by others."
+    ],
+    "growth": [
+     "Notice what you have taken on and consider delegating.",
+     "Struggling under a load you could share."
+    ],
+    "reflection": [
+     "What am I carrying that I could put down or share?",
+     "What is the weight costing me?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Ten of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.page-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Page of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: An enthusiastic, faithful messenger with the energy of the suit; family news. Reversed: Indecision, unstable plans and unwelcome news.",
+   "domains": {
+    "love": [
+     "Eager, loyal affection and a message of interest.",
+     "Mixed messages or wavering interest."
+    ],
+    "career": [
+     "A keen newcomer or an exciting, early-stage proposal.",
+     "Poor communication and unstable plans."
+    ],
+    "money": [
+     "A small opening or promising tip.",
+     "Unreliable information about money."
+    ],
+    "growth": [
+     "Curiosity and willingness to learn.",
+     "Flitting from one interest to the next."
+    ],
+    "reflection": [
+     "What new thing am I curious enough to try?",
+     "Where does my enthusiasm need follow-through?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Page of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.knight-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Knight of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Departure, a move or travel; a friendly, active person on the go. Reversed: Rupture, interruption and discord.",
+   "domains": {
+    "love": [
+     "A passionate, fast-moving approach, or someone leaving.",
+     "Heated disagreement or an abrupt break."
+    ],
+    "career": [
+     "Change of location or role; quick, bold action.",
+     "Interruptions and impatience."
+    ],
+    "money": [
+     "Moves that follow a change of circumstances.",
+     "Impulsive money decisions."
+    ],
+    "growth": [
+     "Take the leap while energy is high.",
+     "Acting before you have thought it through."
+    ],
+    "reflection": [
+     "Where do I want to move toward, fast?",
+     "Where is impatience causing a break?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Knight of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.queen-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Queen of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A warm, capable and well-liked person; confident with practical business sense. Reversed: Helpful and economical, though at times opposing or jealous when crossed.",
+   "domains": {
+    "love": [
+     "Warm, magnetic affection and loyalty.",
+     "Jealousy or possessiveness."
+    ],
+    "career": [
+     "Confident leadership and good business sense.",
+     "Resentment or insecurity under pressure."
+    ],
+    "money": [
+     "Resourceful, thrifty management.",
+     "Grasping or overly tight with funds."
+    ],
+    "growth": [
+     "Own your confidence and warmth.",
+     "Letting jealousy or pride get in the way."
+    ],
+    "reflection": [
+     "Where can I lead warmly and confidently?",
+     "Where does insecurity make me hold on too tightly?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'Queen of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.king-of-wands",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "King of Wands (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: An honest, conscientious and dependable leader with a vision. Reversed: Good intentions with a severe edge; austere yet fair.",
+   "domains": {
+    "love": [
+     "Loyal, honest commitment.",
+     "Strictness or rigidity at home."
+    ],
+    "career": [
+     "Visionary leadership and sound authority.",
+     "Overly stern management."
+    ],
+    "money": [
+     "Steady, honest dealing and the possibility of an inheritance or windfall.",
+     "Over-cautious or austere handling of money."
+    ],
+    "growth": [
+     "Lead by your own example with integrity.",
+     "Domineering behaviour."
+    ],
+    "reflection": [
+     "What vision do I want to lead others toward?",
+     "Where am I too harsh with myself or others?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Wands, entry 'King of Wands'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ace-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ace of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: An opening of the heart: joy, nourishment, abundance and emotional fulfilment. Reversed: Instability or insincere feeling; emotion held back or flooding out.",
+   "domains": {
+    "love": [
+     "A new emotional opening, affection offered freely.",
+     "Guarded feelings, or affection that is not quite sincere."
+    ],
+    "career": [
+     "Work that feeds your sense of purpose.",
+     "Disengagement, or an unreliable offer."
+    ],
+    "money": [
+     "A gift or gain that brings real satisfaction.",
+     "Money-related unease or inconsistency."
+    ],
+    "growth": [
+     "Let yourself feel and receive.",
+     "Blocking your emotions."
+    ],
+    "reflection": [
+     "What would it look like to open my heart here?",
+     "Where am I cutting myself off from feeling?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Ace of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.two-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Two of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Mutual affection, friendship and union: two sides meeting in sympathy. Reversed: Waite gives no reversed wording here; read as a strained or unbalanced partnership.",
+   "domains": {
+    "love": [
+     "A mutual bond built on respect and affinity.",
+     "A partnership that is lopsided or strained."
+    ],
+    "career": [
+     "Productive partnership or a good working friendship.",
+     "A collaboration that is out of step."
+    ],
+    "money": [
+     "Shared finances with trust.",
+     "Disagreement over joint resources."
+    ],
+    "growth": [
+     "Growth through honest exchange with another.",
+     "Difficulty meeting someone halfway."
+    ],
+    "reflection": [
+     "Who is a true counterpart for me, and what do we offer each other?",
+     "Where is a relationship out of balance?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Two of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.three-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Three of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Happy completion and shared celebration; healing and plenty in company. Reversed: Quick finish, or excess and indulgence in pleasure.",
+   "domains": {
+    "love": [
+     "Joyful time with friends and loved ones.",
+     "Overindulgence or social drama."
+    ],
+    "career": [
+     "A team success worth celebrating.",
+     "Gossip or too much socializing at the expense of work."
+    ],
+    "money": [
+     "Shared gain and generosity.",
+     "Spending too freely on pleasure."
+    ],
+    "growth": [
+     "Celebrate progress with your community.",
+     "Using company to dodge what needs attention."
+    ],
+    "reflection": [
+     "What am I glad to share with others?",
+     "Where has enjoyment tipped into excess?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Three of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.four-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Four of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Weariness and discontent; a gift is on offer but goes unnoticed. Reversed: Novelty, new instruction and fresh approaches arriving.",
+   "domains": {
+    "love": [
+     "Apathy or boredom in a bond; a fresh gesture unseen.",
+     "A new interest or a change in how you relate."
+    ],
+    "career": [
+     "Boredom with the job; missing an offer in front of you.",
+     "New ideas and instruction opening up."
+    ],
+    "money": [
+     "Dissatisfaction with what you have.",
+     "Fresh sources or a new approach to money."
+    ],
+    "growth": [
+     "Notice what is being offered before dismissing it.",
+     "Awareness returns and new options appear."
+    ],
+    "reflection": [
+     "What am I ignoring because I am tired of it?",
+     "What new thing is asking for my attention?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Four of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.five-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Five of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Loss and regret, with something left to build on. Reversed: Return, news and recovery; old connections resurfacing, or false plans.",
+   "domains": {
+    "love": [
+     "Grief over what ended; some bond remains.",
+     "Reconnecting or letting go of regret."
+    ],
+    "career": [
+     "Disappointment after a setback; salvage what remains.",
+     "Recovery, or a former role returning."
+    ],
+    "money": [
+     "A financial or inheritance disappointment, with something left.",
+     "Recovering after a loss."
+    ],
+    "growth": [
+     "Turn from what is spilled toward what remains.",
+     "Brooding over the past too long."
+    ],
+    "reflection": [
+     "What have I lost, and what still stands?",
+     "What am I ready to stop mourning?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Five of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.six-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Six of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Memory and past happiness; sometimes new connections and renewal. Reversed: Looking ahead, renewal, what is coming next.",
+   "domains": {
+    "love": [
+     "Old ties, nostalgia or a simple, kind gesture.",
+     "Letting go of the past to allow something new."
+    ],
+    "career": [
+     "Reconnecting with past colleagues; familiar, comfortable work.",
+     "Moving beyond old routines."
+    ],
+    "money": [
+     "Helpful gifts or support, perhaps from the past.",
+     "Planning for the future."
+    ],
+    "growth": [
+     "Draw on happy memories for strength.",
+     "Stuck on how things used to be."
+    ],
+    "reflection": [
+     "What from my past still nourishes me?",
+     "Am I living in memory instead of the present?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Six of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.seven-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Seven of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Many appealing images and dreams; nothing yet solid. Reversed: Desire and determination to turn one wish into a plan.",
+   "domains": {
+    "love": [
+     "Attractive fantasies about love; check what is real.",
+     "Choosing a path and committing."
+    ],
+    "career": [
+     "Many options; clarity needed on which to pursue.",
+     "A project taking shape from a clear choice."
+    ],
+    "money": [
+     "Tempting but uncertain opportunities.",
+     "Making a concrete plan with money."
+    ],
+    "growth": [
+     "Dream widely, then choose.",
+     "Illusions that cloud the decision."
+    ],
+    "reflection": [
+     "Which of my wishes am I willing to work for?",
+     "Which options are daydreams?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Seven of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.eight-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Eight of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Moving away from a settled situation that no longer satisfies; a matter in decline. Reversed: Joy and celebration; or returning to what was left.",
+   "domains": {
+    "love": [
+     "Leaving a bond or phase that feels hollow.",
+     "Staying, or returning after reflection."
+    ],
+    "career": [
+     "Moving on from a job that no longer fits.",
+     "Staying and finding satisfaction after all."
+    ],
+    "money": [
+     "Leaving something comfortable but unfulfilling.",
+     "Return to a prior arrangement."
+    ],
+    "growth": [
+     "Walk away from what no longer serves you.",
+     "Clinging to the familiar from fear."
+    ],
+    "reflection": [
+     "What have I outgrown?",
+     "What am I afraid to leave behind?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Eight of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.nine-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Nine of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Contentment, satisfaction and getting what you hoped for. Reversed: Honest self-appraisal; imperfection or loyalty over show.",
+   "domains": {
+    "love": [
+     "Satisfaction and ease in a bond.",
+     "Complacency or a flaw you have overlooked."
+    ],
+    "career": [
+     "Satisfaction with your results.",
+     "Success that feels hollow or overstated."
+    ],
+    "money": [
+     "Comfort and enough resources to enjoy life.",
+     "Spending on comfort over substance."
+    ],
+    "growth": [
+     "Enjoy what you have earned.",
+     "Chasing satisfaction through show."
+    ],
+    "reflection": [
+     "What makes me truly content?",
+     "Am I confusing comfort with fulfilment?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Nine of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ten-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ten of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Emotional fulfilment, peace and the love of a home and community. Reversed: A false peace; resentment or conflict under the surface.",
+   "domains": {
+    "love": [
+     "Lasting contentment and loving family life.",
+     "Hidden tension beneath a happy picture."
+    ],
+    "career": [
+     "Satisfaction and harmony at work.",
+     "Resentment among colleagues."
+    ],
+    "money": [
+     "Security that supports family life.",
+     "Money disputes in the home."
+    ],
+    "growth": [
+     "Let love and belonging nourish you.",
+     "Ignoring an unresolved conflict."
+    ],
+    "reflection": [
+     "What does a good home life mean to me?",
+     "What is not being said under the surface?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Ten of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.page-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Page of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A thoughtful, studious messenger; willingness to help and reflect, with news arriving. Reversed: Taste turning to inclination, attachment or artifice.",
+   "domains": {
+    "love": [
+     "A tender, sincere message or a gentle admirer.",
+     "Charm used to deceive, or emotional immaturity."
+    ],
+    "career": [
+     "Studious, creative approach; news about work.",
+     "Daydreaming and avoiding responsibilities."
+    ],
+    "money": [
+     "A small, thoughtful gain.",
+     "Naivety about money."
+    ],
+    "growth": [
+     "Trust your inner imagery and intuition.",
+     "Letting emotion cloud your judgement."
+    ],
+    "reflection": [
+     "What message is my heart sending me?",
+     "Where am I being naive or evasive?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Page of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.knight-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Knight of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: An approach, offer or invitation arriving; a romantic, courteous mover. Reversed: Trickery, smooth talk or empty promises.",
+   "domains": {
+    "love": [
+     "A romantic overture or proposal.",
+     "Charm without follow-through; be wary of flattery."
+    ],
+    "career": [
+     "An invitation or an offer to consider.",
+     "An offer that is not what it seems."
+    ],
+    "money": [
+     "Opportunities offered by contacts.",
+     "Misleading financial pitches."
+    ],
+    "growth": [
+     "Follow your idealism, but check the facts.",
+     "Chasing a feeling and ignoring reality."
+    ],
+    "reflection": [
+     "What offer or invitation am I considering?",
+     "Where am I swayed by charm?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Knight of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.queen-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Queen of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A devoted, intuitive and caring person with emotional intelligence and a gift for seeing. Reversed: Mixed accounts: care that can turn unreliable, perverse or dishonest.",
+   "domains": {
+    "love": [
+     "Loving, devoted and attuned affection.",
+     "Moodiness or emotional manipulation."
+    ],
+    "career": [
+     "Compassionate leadership and good listening.",
+     "Absorbing others' feelings; overly sensitive."
+    ],
+    "money": [
+     "Generosity guided by care.",
+     "Giving more than is wise."
+    ],
+    "growth": [
+     "Trust your intuition and nurture yourself.",
+     "Emotions that overwhelm judgement."
+    ],
+    "reflection": [
+     "How well do I listen to my own feelings?",
+     "Where am I too trusting or too self-sacrificing?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'Queen of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.king-of-cups",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "King of Cups (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A responsible, helpful and balanced person who combines feeling with discipline, in business, law or the arts. Reversed: Double-dealing, unfairness or abuse of position.",
+   "domains": {
+    "love": [
+     "Calm, caring and emotionally steady partner.",
+     "Emotional manipulation or distance."
+    ],
+    "career": [
+     "A fair, diplomatic leader.",
+     "Unscrupulous dealing and favouritism."
+    ],
+    "money": [
+     "Prudent, fair handling of money.",
+     "Exploitation or double-dealing over money."
+    ],
+    "growth": [
+     "Guide emotion with wisdom.",
+     "Suppressing feeling or using it to control."
+    ],
+    "reflection": [
+     "How can I stay compassionate and clear-headed?",
+     "Where am I hiding behind control?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Cups, entry 'King of Cups'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ace-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ace of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A decisive truth or breakthrough of will and intellect; force that can help or harm. Reversed: The same force turned destructive, or an idea that multiplies.",
+   "domains": {
+    "love": [
+     "Honest clarity that cuts through confusion.",
+     "Words used harshly, or a decision made in anger."
+    ],
+    "career": [
+     "A sharp new idea and the resolve to act on it.",
+     "Overreach, or a plan pushed too hard."
+    ],
+    "money": [
+     "A clear financial decision.",
+     "Decisions made in haste."
+    ],
+    "growth": [
+     "Seek the truth and say it plainly.",
+     "Misusing your intellect to win."
+    ],
+    "reflection": [
+     "What truth do I need to name?",
+     "Where am I using force when clarity would do?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Ace of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.two-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Two of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A stalemate held in poise; defensive balance and a refusal to look. Reversed: Deceit, disloyalty or false appearances.",
+   "domains": {
+    "love": [
+     "Holding back from a decision about the heart.",
+     "Hidden dishonesty or a pretence of peace."
+    ],
+    "career": [
+     "A deadlock; two options held in balance.",
+     "Bluffing or covering up the truth."
+    ],
+    "money": [
+     "Delaying a choice about money.",
+     "Misleading accounts."
+    ],
+    "growth": [
+     "Take the blindfold off and look.",
+     "Avoiding what you know."
+    ],
+    "reflection": [
+     "What choice am I avoiding by staying neutral?",
+     "What am I refusing to see?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Two of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.three-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Three of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Heartache, separation and painful truth. Reversed: Confusion, loss and disorder easing slowly.",
+   "domains": {
+    "love": [
+     "Sorrow or a rupture in a bond.",
+     "Recovering; confusion still lingers."
+    ],
+    "career": [
+     "A painful break or disagreement at work.",
+     "Distraction and errors after a blow."
+    ],
+    "money": [
+     "Separation or division of resources.",
+     "Mistakes born of distraction."
+    ],
+    "growth": [
+     "Let yourself feel the hurt in order to heal.",
+     "Holding on to pain."
+    ],
+    "reflection": [
+     "What hurt am I carrying?",
+     "What would healing look like?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Three of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.four-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Four of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Rest, retreat and quiet recovery. Reversed: Careful restarting, prudence, or restlessness.",
+   "domains": {
+    "love": [
+     "Time apart to recover from strain.",
+     "Returning to engagement, or restlessness."
+    ],
+    "career": [
+     "A pause to recharge before the next push.",
+     "Premature return, or overly cautious planning."
+    ],
+    "money": [
+     "Conserve resources; wait.",
+     "Hoarding out of fear."
+    ],
+    "growth": [
+     "Rest is part of the work.",
+     "Refusing to rest."
+    ],
+    "reflection": [
+     "What do I need to rest from?",
+     "Am I resting, or hiding?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Four of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.five-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Five of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A hollow victory; conflict with a cost in dignity or goodwill. Reversed: Echoes of the same loss; ending the conflict and repairing.",
+   "domains": {
+    "love": [
+     "Winning an argument and losing closeness.",
+     "Making peace after a needless fight."
+    ],
+    "career": [
+     "Underhanded tactics and bruised trust.",
+     "Conceding, or repairing relations."
+    ],
+    "money": [
+     "A deal won at the cost of goodwill.",
+     "Settling a dispute."
+    ],
+    "growth": [
+     "Ask if the win is worth the price.",
+     "Pride dragging out conflict."
+    ],
+    "reflection": [
+     "What did this fight really cost me?",
+     "What conflict am I ready to end?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Five of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.six-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Six of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A passage toward calmer waters; a route, a journey, an envoy. Reversed: A disclosure, a confession or a proposal made openly.",
+   "domains": {
+    "love": [
+     "Moving on from a hard period together or apart.",
+     "Speaking honestly about what is wanted."
+    ],
+    "career": [
+     "A transition to a better situation.",
+     "Making your plans public."
+    ],
+    "money": [
+     "A move toward steadier finances.",
+     "Disclosing something that was held back."
+    ],
+    "growth": [
+     "Leave the turmoil behind, carrying the lessons.",
+     "Resisting a necessary transition."
+    ],
+    "reflection": [
+     "What am I moving away from?",
+     "What do I need to say out loud?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Six of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.seven-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Seven of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A plan or attempt made with caution or secrecy; hope mixed with risk. Reversed: Advice, instruction, or idle chatter.",
+   "domains": {
+    "love": [
+     "Not being fully open; strategy over honesty.",
+     "Being told the truth or caught out in gossip."
+    ],
+    "career": [
+     "A discreet, independent approach.",
+     "Good advice, or rumours."
+    ],
+    "money": [
+     "A risky or clever manoeuvre with money.",
+     "Warnings about speculation."
+    ],
+    "growth": [
+     "Be honest with yourself about your motives.",
+     "Letting others' talk steer you."
+    ],
+    "reflection": [
+     "Where am I being less than direct?",
+     "Whose advice should I actually follow?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Seven of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.eight-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Eight of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Feeling restricted; power in bonds, conflict and criticism. Reversed: Difficulty, unease, or the unforeseen.",
+   "domains": {
+    "love": [
+     "Feeling stuck in a bond by fear.",
+     "A tough period with opposition."
+    ],
+    "career": [
+     "Boxed in at work, or feeling blocked.",
+     "Unexpected obstacles."
+    ],
+    "money": [
+     "Money options that feel limited.",
+     "Unforeseen costs."
+    ],
+    "growth": [
+     "Look for the exits you have not tried.",
+     "Staying bound by thoughts alone."
+    ],
+    "reflection": [
+     "What is restricting me, and is it real or imagined?",
+     "What unexpected thing is asking for flexibility?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Eight of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.nine-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Nine of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Anxiety, worry and a heavy night of the mind. Reversed: Suspicion, doubt, reasonable fear and shame.",
+   "domains": {
+    "love": [
+     "Sleepless worry about a bond.",
+     "Doubt and feeling ashamed to speak."
+    ],
+    "career": [
+     "Stress and overthinking about work.",
+     "A fear that needs to be examined."
+    ],
+    "money": [
+     "Worry about money.",
+     "Doubt about a deal."
+    ],
+    "growth": [
+     "Say the fear aloud and share it.",
+     "Isolating with your thoughts."
+    ],
+    "reflection": [
+     "What am I afraid of, and what is real?",
+     "Whom could I tell?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Nine of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ten-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ten of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A painful ending and desolation; Waite stresses it is not a card of literal death. Reversed: Advantage that is not lasting; recovery and some authority regained.",
+   "domains": {
+    "love": [
+     "The end of a painful phase; the worst is over.",
+     "A partial recovery, still fragile."
+    ],
+    "career": [
+     "A role or plan finished; nothing more to push.",
+     "A partial upturn that may not last."
+    ],
+    "money": [
+     "A loss that has fully played out.",
+     "A gain that is temporary."
+    ],
+    "growth": [
+     "Accept that it is over and begin again.",
+     "Dwelling in the pain."
+    ],
+    "reflection": [
+     "What has finished that I need to accept?",
+     "What small recovery can I build on?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Ten of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.page-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Page of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Watchfulness, curiosity and a keen, examining mind. Reversed: Being caught unprepared, or watchfulness turning into suspicion.",
+   "domains": {
+    "love": [
+     "Curious and alert; asking honest questions.",
+     "Suspicion or prying."
+    ],
+    "career": [
+     "Observing, learning and gathering facts.",
+     "Surprises you did not prepare for."
+    ],
+    "money": [
+     "Checking the details.",
+     "Overlooking a risk."
+    ],
+    "growth": [
+     "Keep asking sharp questions.",
+     "Cynical testing of everyone."
+    ],
+    "reflection": [
+     "What do I need to look at more closely?",
+     "Am I being vigilant or merely suspicious?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Page of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.knight-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Knight of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Skill, speed and bravery; direct, assertive action and a readiness to defend. Reversed: Imprudence, recklessness and extravagance.",
+   "domains": {
+    "love": [
+     "Direct, passionate pursuit; sometimes blunt.",
+     "Careless words or rushing a bond."
+    ],
+    "career": [
+     "Bold, fast action with sharp skill.",
+     "Impatience and reckless moves."
+    ],
+    "money": [
+     "Quick decisive trades.",
+     "Rash spending."
+    ],
+    "growth": [
+     "Courage in action, with care for impact.",
+     "Charging ahead without a plan."
+    ],
+    "reflection": [
+     "Where do I need to act swiftly and clearly?",
+     "Where is speed making me careless?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Knight of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.queen-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Queen of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Independent, discerning clarity; Waite reads absence, mourning and separation as part of the card's shadow. Reversed: Bitterness, rigidity and cold judgement.",
+   "domains": {
+    "love": [
+     "Clear, honest boundaries, possibly after loss.",
+     "Coldness, prudishness or hidden bitterness."
+    ],
+    "career": [
+     "Sharp, fair judgement and straight speaking.",
+     "Harsh criticism or being closed off."
+    ],
+    "money": [
+     "Careful, unsentimental decisions.",
+     "Withholding or over-strictness."
+    ],
+    "growth": [
+     "Be direct and clear about your needs.",
+     "Letting hurt harden into judgement."
+    ],
+    "reflection": [
+     "What boundary do I need to state?",
+     "Has caution turned into closing off?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'Queen of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.king-of-swords",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "King of Swords (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Authority, judgement and command by intellect and law. Reversed: Cruelty or perversity of authority; judgement turned against others.",
+   "domains": {
+    "love": [
+     "Honest, fair-minded communication.",
+     "Cold or domineering behaviour."
+    ],
+    "career": [
+     "Expert authority and clear decisions.",
+     "Abuse of authority; strict or biased."
+    ],
+    "money": [
+     "Contracts and clear terms.",
+     "Unfair terms or exploitation."
+    ],
+    "growth": [
+     "Reason with fairness and integrity.",
+     "Using intellect to dominate."
+    ],
+    "reflection": [
+     "What judgement do I need to make fairly?",
+     "Where am I using my authority too harshly?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Swords, entry 'King of Swords'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ace-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ace of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A tangible gift: contentment, prosperity and a practical opening. Reversed: Wealth that carries a shadow, or misjudged intelligence.",
+   "domains": {
+    "love": [
+     "A grounded, generous start in love.",
+     "Material concerns overshadowing a bond."
+    ],
+    "career": [
+     "A concrete new opportunity.",
+     "An opportunity handled badly."
+    ],
+    "money": [
+     "A new source of income or savings.",
+     "Greed or overvaluing money."
+    ],
+    "growth": [
+     "Plant a seed you can nurture.",
+     "Sacrificing meaning for money."
+    ],
+    "reflection": [
+     "What practical opening is in front of me?",
+     "Is my wealth serving or limiting me?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Ace of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.two-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Two of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Juggling demands with playfulness; messages, agitation and balance. Reversed: Forced cheer; messages and paperwork.",
+   "domains": {
+    "love": [
+     "Balancing time between a bond and other duties.",
+     "Superficial cheer; hidden strain."
+    ],
+    "career": [
+     "Handling two tasks or jobs at once.",
+     "Struggling to keep up."
+    ],
+    "money": [
+     "Managing income and outgoings in motion.",
+     "Mismanaged cash flow or paperwork."
+    ],
+    "growth": [
+     "Stay flexible and keep both in rhythm.",
+     "Overcommitting."
+    ],
+    "reflection": [
+     "What am I juggling, and what can I put down?",
+     "Am I pretending it is easy?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Two of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.three-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Three of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Skilled craft and trade; recognition for good work. Reversed: Mediocrity and petty effort.",
+   "domains": {
+    "love": [
+     "Building something lasting together.",
+     "Lack of effort or shared vision."
+    ],
+    "career": [
+     "Craftsmanship, teamwork and recognition.",
+     "Shoddy work or a team not pulling together."
+    ],
+    "money": [
+     "Payment for skill.",
+     "Wasted effort."
+    ],
+    "growth": [
+     "Develop your skill with others' input.",
+     "Cutting corners."
+    ],
+    "reflection": [
+     "What skill do I want to master?",
+     "Where am I settling for less than my best?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Three of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.four-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Four of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Holding on to what you have; security and inheritance. Reversed: Delay, suspense and opposition.",
+   "domains": {
+    "love": [
+     "Possessiveness, or a need for security in love.",
+     "Loosening your grip after holding on too hard."
+    ],
+    "career": [
+     "Protecting your position.",
+     "A delay or block at work."
+    ],
+    "money": [
+     "Saving carefully; holding wealth tightly.",
+     "Delay or resistance in money matters."
+    ],
+    "growth": [
+     "Notice where fear of loss turns into grip.",
+     "Releasing control."
+    ],
+    "reflection": [
+     "What am I holding too tightly?",
+     "What could I release?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Four of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.five-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Five of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Material hardship and feeling shut out in the cold. Reversed: Disorder and recklessness, or turning a corner.",
+   "domains": {
+    "love": [
+     "Feeling alone or shut out of warmth.",
+     "Letting help in; support appears."
+    ],
+    "career": [
+     "Financial or job insecurity.",
+     "Chaos, or recovery from an upheaval."
+    ],
+    "money": [
+     "A tight period; help may be near.",
+     "Reckless handling of money."
+    ],
+    "growth": [
+     "Ask for help; there may be a door you are not seeing.",
+     "Isolation by pride or shame."
+    ],
+    "reflection": [
+     "Where might I be too proud to ask for help?",
+     "What is closer than I think?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Five of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.six-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Six of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Giving and receiving fairly; gifts and shared prosperity. Reversed: Envy, illusion and desire for what others have.",
+   "domains": {
+    "love": [
+     "Generosity and reciprocity in a bond.",
+     "Lopsided giving or jealousy."
+    ],
+    "career": [
+     "Fair pay and mentoring; helping up.",
+     "Favouritism or strings attached."
+    ],
+    "money": [
+     "Money shared in balance.",
+     "Debt or unequal exchange."
+    ],
+    "growth": [
+     "Both give and receive with grace.",
+     "Resentment about who has what."
+    ],
+    "reflection": [
+     "Where is the balance of giving and receiving fair?",
+     "What am I envying?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Six of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.seven-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Seven of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Patient waiting for results to mature; contradictory readings of gain and worry. Reversed: Anxiety about lending or about wasted effort.",
+   "domains": {
+    "love": [
+     "A relationship needs time and care to grow.",
+     "Impatience or worry about investment of feeling."
+    ],
+    "career": [
+     "Stepping back to assess your progress.",
+     "Worry about wasted work."
+    ],
+    "money": [
+     "Slow-growing investments.",
+     "Concern over loans or poor returns."
+    ],
+    "growth": [
+     "Trust the slow process and tend your work.",
+     "Giving up too soon."
+    ],
+    "reflection": [
+     "What have I planted that needs time?",
+     "Is my worry about results helping?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Seven of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.eight-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Eight of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Careful craft and steady, skilled work. Reversed: Wasted ambition, vanity or exploitation.",
+   "domains": {
+    "love": [
+     "Working at a bond with patience and care.",
+     "Neglect or taking more than you give."
+    ],
+    "career": [
+     "Training and mastery; detail-oriented work.",
+     "Cutting corners, or ambition without substance."
+    ],
+    "money": [
+     "Income earned through skill.",
+     "Poor value or exploitation."
+    ],
+    "growth": [
+     "Devote yourself to practice.",
+     "Doing work without engagement."
+    ],
+    "reflection": [
+     "What skill deserves my steady effort?",
+     "Where am I going through the motions?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Eight of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.nine-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Nine of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Prudence, self-reliance and secure accomplishment. Reversed: Bad faith or a project that has come to nothing.",
+   "domains": {
+    "love": [
+     "Independence and self-respect in love.",
+     "Dishonesty or a plan failing."
+    ],
+    "career": [
+     "Reaping rewards of discipline.",
+     "Questionable dealings."
+    ],
+    "money": [
+     "Comfortable security that you earned.",
+     "Unreliable arrangements."
+    ],
+    "growth": [
+     "Enjoy your independence.",
+     "Relying on appearances."
+    ],
+    "reflection": [
+     "What have I earned that I can appreciate?",
+     "Where am I fooling myself about security?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Nine of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.ten-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Ten of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Family wealth, stability and an enduring legacy. Reversed: Chance, loss or a gift of dowry or pension.",
+   "domains": {
+    "love": [
+     "A stable family life and lasting bonds.",
+     "Family tensions around wealth."
+    ],
+    "career": [
+     "Long-term stability and family business.",
+     "Unexpected loss or instability."
+    ],
+    "money": [
+     "Lasting assets and inheritance.",
+     "Risky speculation or losses."
+    ],
+    "growth": [
+     "Build something that will last.",
+     "Neglecting long-term security."
+    ],
+    "reflection": [
+     "What legacy do I want to build?",
+     "What risk am I taking with what matters?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Ten of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.page-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Page of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Study, application and a diligent learner; news about practical matters. Reversed: Dissipation, wastefulness, or unfavourable news.",
+   "domains": {
+    "love": [
+     "Steady, sincere interest.",
+     "Spending effort or money carelessly."
+    ],
+    "career": [
+     "Learning new skills; a promising training opportunity.",
+     "Neglecting studies."
+    ],
+    "money": [
+     "Early steps toward a savings goal.",
+     "Wasteful spending."
+    ],
+    "growth": [
+     "Take practical steps toward your goals.",
+     "Day-dreaming without action."
+    ],
+    "reflection": [
+     "What do I want to learn?",
+     "Where am I being wasteful?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Page of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.knight-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Knight of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Reliable, steady usefulness and a sense of duty. Reversed: Inertia, idleness and discouragement.",
+   "domains": {
+    "love": [
+     "Dependability and slow, steady commitment.",
+     "Stagnation or lack of effort."
+    ],
+    "career": [
+     "Methodical progress and reliable follow-through.",
+     "Boredom, procrastination."
+    ],
+    "money": [
+     "Steady, disciplined saving.",
+     "Stagnant finances."
+    ],
+    "growth": [
+     "Consistent effort, one step at a time.",
+     "Stuck in routine."
+    ],
+    "reflection": [
+     "Where is slow and steady the right pace?",
+     "Where have I become stuck?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Knight of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.queen-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "Queen of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: Generous provision, security and practical care. Reversed: Suspicion, mistrust and fear of scarcity.",
+   "domains": {
+    "love": [
+     "Warm, nurturing, practical affection.",
+     "Insecurity or mistrust."
+    ],
+    "career": [
+     "Resourceful, supportive management.",
+     "Fear of scarcity affecting decisions."
+    ],
+    "money": [
+     "Comfortable, generous management of resources.",
+     "Overly cautious or distrustful with money."
+    ],
+    "growth": [
+     "Care for yourself and your surroundings.",
+     "Letting worry rule."
+    ],
+    "reflection": [
+     "How do I nourish myself and others?",
+     "Where does fear of lack drive me?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'Queen of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.card.king-of-pentacles",
+   "system": "tarot",
+   "topic": "card-meaning",
+   "concept": "King of Pentacles (upright and reversed) in the Rider-Waite-Smith deck",
+   "explanation": "Upright: A capable provider with business sense and steady success. Reversed: Corruption or weakness; success pursued at the wrong price.",
+   "domains": {
+    "love": [
+     "Dependable, protective commitment.",
+     "Using wealth to control."
+    ],
+    "career": [
+     "Strong, practical leadership.",
+     "Greed or poor stewardship."
+    ],
+    "money": [
+     "Prosperity with sound judgement.",
+     "Risky or corrupt money decisions."
+    ],
+    "growth": [
+     "Build abundance responsibly.",
+     "Equating worth with wealth."
+    ],
+    "reflection": [
+     "What does real prosperity look like for me?",
+     "Where is money making me compromise?"
+    ]
+   },
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Suit of Pentacles, entry 'King of Pentacles'"
+   },
+   "conditions": "Needs a drawn card, its orientation and (for spreads) its position; no other calculation. Reflective guidance, not prediction.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.kings",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Kings appearing together in one reading",
+   "explanation": "Two Kings suggest advice that helps with a smaller matter; three suggest a need to consult others; all four suggest a moment of standing or honour. Reversed, the same cards lean toward speed, trade and plans in the making.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.queens",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Queens appearing together in one reading",
+   "explanation": "Two Queens point to genuine friendship; three to caution about being misled in a social circle; all four to a lively debate. Reversed, they lean toward unhelpful company and everyday work.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Waite's phrase for three Queens is gendered; restated as a general caution."
+  },
+  {
+   "id": "tarot.combo.knights",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Knights appearing together in one reading",
+   "explanation": "Two Knights suggest closeness; three a spirited exchange of views; four serious matters at hand. Reversed, they point to alliances, direct encounters and heightened sensitivity.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.pages",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Pages appearing together in one reading",
+   "explanation": "Two Pages suggest unease; three a disagreement; four a heavy, worrying stretch that calls for care. Reversed, they lean toward scarcity, idleness and social life.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Waite names four Pages as dangerous illness; no health predictions are made."
+  },
+  {
+   "id": "tarot.combo.tens",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Tens appearing together in one reading",
+   "explanation": "Two Tens signal a change; three a new set of conditions; four a harsh verdict or reckoning. Reversed, they point to events, disappointment, or an expectation that proves justified.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.nines",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Nines appearing together in one reading",
+   "explanation": "Two Nines suggest something received; three success; four a dependable friend. Reversed, they suggest a modest gain, rash judgement, or unfair dealing.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.eights",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Eights appearing together in one reading",
+   "explanation": "Two Eights suggest new knowledge; three a union or partnership; four a setback. Reversed, they point to misfortune, a spectacle, or error.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.sevens",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Sevens appearing together in one reading",
+   "explanation": "Two Sevens suggest news; three fragile or unstable plans; four scheming. Reversed, they suggest quarrels, or, with three, pleasure.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Waite's 'infirmity' (three Sevens) and a derogatory phrase for reversed pairs are not used."
+  },
+  {
+   "id": "tarot.combo.sixes",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Sixes appearing together in one reading",
+   "explanation": "Two Sixes suggest irritability; three success; four plenty. Reversed, they suggest a fall in position, satisfaction (with three), or burdens of care.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.fives",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Fives appearing together in one reading",
+   "explanation": "Two Fives suggest sleepless watchfulness; three firm determination; four regularity. Reversed, they suggest a setback, hesitation, or a return to order.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.fours",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Fours appearing together in one reading",
+   "explanation": "Two Fours suggest restlessness; three a matter worth reflecting on; four a short trip. Reversed, they suggest dispute, unease, or travel abroad.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.threes",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Threes appearing together in one reading",
+   "explanation": "Two Threes suggest calm; three togetherness; four progress. Reversed, they suggest safety, serenity, or great success.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.twos",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Twos appearing together in one reading",
+   "explanation": "Two Twos suggest agreement; three security; four contention. Reversed, they suggest mistrust, apprehension, or reconciliation.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "tarot.combo.aces",
+   "system": "tarot",
+   "topic": "card-combination",
+   "concept": "Several Aces appearing together in one reading",
+   "explanation": "Two Aces suggest trickery or a ploy; three a small success; four a favourable chance. Reversed, they suggest opposition, loss of reputation, or excess.",
+   "source": {
+    "id": "waite-pkt-1911",
+    "locator": "Part III, The Recurrence of Cards in Dealing"
+   },
+   "conditions": "Needs a spread with two or more cards of the same rank. Waite's list pairs each count with a theme; the model applies it only when the cards really repeat.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Waite's 'debauchery' for three reversed Aces is restated as excess."
+  }
+ ]
+}
