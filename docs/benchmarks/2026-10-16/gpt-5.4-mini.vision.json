@@ -1,0 +1,205 @@
+{
+ "model": "gpt-5.4-mini",
+ "results": [
+  {
+   "task": "V1-palm",
+   "wallMs": 4518,
+   "ok": true,
+   "observation": {
+    "quality": "good",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "o1",
+      "feature": "Palm shape",
+      "description": "The palm appears broad and fairly rectangular, with long, slender fingers.",
+      "location": "Overall hand shape",
+      "confidence": "high"
+     },
+     {
+      "id": "o2",
+      "feature": "Fingers",
+      "description": "Fingers are long and relatively straight; the thumb is held open at a wide angle from the palm.",
+      "location": "All fingers, especially thumb",
+      "confidence": "high"
+     },
+     {
+      "id": "o3",
+      "feature": "Heart line",
+      "description": "A relatively clear upper transverse line is visible below the fingers, running across the palm with a slight curve.",
+      "location": "Upper palm below fingers",
+      "confidence": "high"
+     },
+     {
+      "id": "o4",
+      "feature": "Head line",
+      "description": "A prominent diagonal line runs across the middle of the palm, slanting downward toward the outer edge.",
+      "location": "Mid-palm",
+      "confidence": "high"
+     },
+     {
+      "id": "o5",
+      "feature": "Life line",
+      "description": "A curved line arcs around the base of the thumb, extending from the area between thumb and index finger down toward the wrist.",
+      "location": "Around the base of the thumb",
+      "confidence": "high"
+     },
+     {
+      "id": "o6",
+      "feature": "Fate line",
+      "description": "A faint vertical line is visible rising through the center-lower palm toward the middle of the hand.",
+      "location": "Central palm",
+      "confidence": "medium"
+     },
+     {
+      "id": "o7",
+      "feature": "Mount of Venus",
+      "description": "The mount at the base of the thumb appears moderately full.",
+      "location": "Thenar area",
+      "confidence": "high"
+     },
+     {
+      "id": "o8",
+      "feature": "Mount of Luna",
+      "description": "The outer lower palm appears moderately developed and rounded.",
+      "location": "Outer lower palm",
+      "confidence": "medium"
+     },
+     {
+      "id": "o9",
+      "feature": "Markings/branches",
+      "description": "Several fine intersecting lines and small branches cross the central palm, including intersections near the head and fate line region.",
+      "location": "Center of palm",
+      "confidence": "high"
+     },
+     {
+      "id": "o10",
+      "feature": "Ring",
+      "description": "A metallic ring is visible on the ring finger.",
+      "location": "Ring finger",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 4114,
+    "in": 1773,
+    "out": 429,
+    "reasoning": 0,
+    "cost": 0.00326025,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V2-face",
+   "wallMs": 3528,
+   "ok": true,
+   "observation": {
+    "quality": "good",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "1",
+      "feature": "Broad proportions",
+      "description": "The face appears oval with a relatively balanced width-to-height ratio and a gently rounded jawline.",
+      "location": "overall face",
+      "confidence": "high"
+     },
+     {
+      "id": "2",
+      "feature": "Three zones",
+      "description": "Forehead, midface, and lower face are all clearly visible; the forehead looks moderately tall, the midface is moderate in length, and the lower face appears shorter than the upper zones.",
+      "location": "full face",
+      "confidence": "high"
+     },
+     {
+      "id": "3",
+      "feature": "Eyes",
+      "description": "The eyes are visible and appear lightly hooded with a calm, level gaze.",
+      "location": "upper-mid face",
+      "confidence": "high"
+     },
+     {
+      "id": "4",
+      "feature": "Nose",
+      "description": "The nose appears straight and moderate in width and projection.",
+      "location": "center face",
+      "confidence": "high"
+     },
+     {
+      "id": "5",
+      "feature": "Mouth and chin",
+      "description": "The mouth is closed with a relatively straight lip line; the chin appears rounded and modest in size.",
+      "location": "lower face",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 3121,
+    "in": 1539,
+    "out": 231,
+    "reasoning": 0,
+    "cost": 0.00219375,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V3-palm-as-face",
+   "wallMs": 3100,
+   "ok": true,
+   "observation": {
+    "quality": "good",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "obs1",
+      "feature": "broad proportions",
+      "description": "The palm appears broad with a relatively wide base and a rectangular overall hand shape.",
+      "location": "overall hand/palm",
+      "confidence": "high"
+     },
+     {
+      "id": "obs2",
+      "feature": "three zones",
+      "description": "The upper zone (fingers) is long relative to the palm, the middle zone (palm) is moderate in length, and the lower zone (wrist/base) is clearly visible and narrower than the palm.",
+      "location": "from fingertips to wrist",
+      "confidence": "high"
+     },
+     {
+      "id": "obs3",
+      "feature": "thumb",
+      "description": "The thumb is spread outward at a wide angle from the palm and looks sturdy with a rounded tip.",
+      "location": "left side of the hand in the image",
+      "confidence": "high"
+     },
+     {
+      "id": "obs4",
+      "feature": "fingers",
+      "description": "The fingers are long and slender, with the middle finger tallest and the little finger noticeably shorter.",
+      "location": "top half of the hand",
+      "confidence": "high"
+     },
+     {
+      "id": "obs5",
+      "feature": "skin creases / lines",
+      "description": "Prominent palm creases are visible across the center of the palm, including a deep diagonal line and multiple intersecting fine lines.",
+      "location": "center and lower palm",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 2695,
+    "in": 1791,
+    "out": 272,
+    "reasoning": 0,
+    "cost": 0.00256725,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}

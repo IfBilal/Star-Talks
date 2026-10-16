@@ -1,0 +1,411 @@
+{
+ "model": "gpt-6-sol",
+ "factors": 27,
+ "results": [
+  {
+   "task": "T1-first",
+   "wallMs": 10314,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Your first-instinct reading points to an independent public direction, a strong pull toward friends and community, and a need to balance private initiative with committed relationships.",
+    "insights": [
+     {
+      "title": "An independent public path",
+      "body": "The Aquarius Sun in the 10th house suggests you may want your work or public role to reflect your own forward-looking ideas.",
+      "sourceRefs": [
+       "vedic:natal:sun"
+      ]
+     },
+     {
+      "title": "Connection through community",
+      "body": "Mercury and Venus in Pisces in the 11th house bring communication, affection and values into friendships and groups. You may be drawn to imaginative, receptive exchanges there.",
+      "sourceRefs": [
+       "vedic:natal:mercury",
+       "vedic:natal:venus"
+      ]
+     },
+     {
+      "title": "Candid through change",
+      "body": "The Sagittarius Moon in the 8th house suggests an exploratory, direct emotional response to change and shared concerns, even when the subject is complicated.",
+      "sourceRefs": [
+       "vedic:natal:moon"
+      ]
+     },
+     {
+      "title": "Private drive, serious partnership",
+      "body": "Mars in Aries in the 12th house points to initiative that may develop away from view. Saturn in the 7th, which Mars aspects, adds a contrasting emphasis on patience and limits in partnerships.",
+      "sourceRefs": [
+       "vedic:natal:mars",
+       "vedic:natal:saturn",
+       "vedic:drishti:mars-saturn"
+      ]
+     },
+     {
+      "title": "The present period's emphasis",
+      "body": "The calculated Mars mahadasha emphasizes that private drive; its Jupiter subperiod also brings the chart's structured approach to study and wider horizons into focus.",
+      "sourceRefs": [
+       "vedic:dasha:mahadasha",
+       "vedic:dasha:antardasha",
+       "vedic:natal:mars",
+       "vedic:natal:jupiter"
+      ]
+     }
+    ],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "The Aquarius Sun in the 10th house supports the theme of an independent public direction."
+     },
+     {
+      "sourceRef": "vedic:natal:mercury",
+      "explanation": "Mercury in Pisces in the 11th house supports the emphasis on imaginative communication within community."
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "Venus in Pisces in the 11th house reinforces the importance of friendships and shared values."
+     },
+     {
+      "sourceRef": "vedic:drishti:mars-saturn",
+      "explanation": "Mars's supplied aspect to Saturn connects private initiative with the demands of partnership."
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "The dated Jupiter subperiod establishes the narrower timing used for the present-period theme."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "The supplied calculation places you in Mars mahadasha from 2025-02-17 to 2032-02-17, with Jupiter antardasha from 2026-08-03 to 2027-07-10. These are periods for interpretation, not promised events.",
+    "uncertainty": "This is a symbolic reading of the supplied placements and calculated periods, not a fixed description of your personality or a prediction of outcomes.",
+    "plainLanguageExplanation": "You may feel most engaged when you can pursue your own direction, find imaginative people to share it with, and make room for both solitude and steady relationships.",
+    "followUps": [
+     "Would you like to explore the career and public-life theme more closely?",
+     "Would you like a closer reading of how private drive and partnership commitments interact?",
+     "Would you like to focus on the Mars–Jupiter period?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:natal:mercury",
+     "vedic:natal:venus",
+     "vedic:natal:moon",
+     "vedic:natal:mars",
+     "vedic:natal:saturn",
+     "vedic:drishti:mars-saturn",
+     "vedic:natal:jupiter",
+     "vedic:dasha:mahadasha",
+     "vedic:dasha:antardasha"
+    ]
+   },
+   "usage": {
+    "ms": 9911,
+    "in": 2643,
+    "out": 874,
+    "reasoning": 88,
+    "cost": 0.014026,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T2-career",
+   "wallMs": 9136,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "A job change in the rest of 2026 is possible, but this reading cannot tell whether it will happen. The clearest available period for exploring a move is now through year-end, within your Mars–Jupiter period. The evidence does not identify a particular week as the best time to switch.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "The calculated Jupiter subperiod runs from 2026-08-03 to 2027-07-10, so it covers the remainder of 2026 and provides the available timing window."
+     },
+     {
+      "sourceRef": "vedic:natal:jupiter",
+      "explanation": "Natal Jupiter is in the ninth whole-sign house, linking that subperiod symbolically with learning and wider horizons—useful themes when exploring a new role."
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "The Sun is in the tenth whole-sign house, making career direction a relevant theme in this reading."
+     }
+    ],
+    "conflictingFactors": [
+     {
+      "sourceRef": "vedic:natal:mars",
+      "explanation": "Mars, ruler of the current major period, is in the twelfth whole-sign house; its supplied meaning emphasizes private initiative rather than a clear external job-change outcome."
+     }
+    ],
+    "timing": "The calculated Jupiter antardasha is 2026-08-03 to 2027-07-10. For your question about this year, that means 2026-10-16 through 2026-12-31 falls within the period; no narrower favorable window is supplied.",
+    "uncertainty": "These periods are symbolic guidance, not a prediction that you will receive or accept a new job. The supplied evidence cannot rank specific dates or establish the best day to resign.",
+    "plainLanguageExplanation": "If you are considering a move, the reading supports exploring roles that expand your skills or horizons before year-end. It does not suggest you must change jobs this year.",
+    "followUps": [
+     "Would you like this reading focused on changing employers versus changing roles internally?",
+     "Is learning or a broader career direction the main reason you are considering a move?"
+    ],
+    "sourceRefs": [
+     "vedic:dasha:antardasha",
+     "vedic:natal:jupiter",
+     "vedic:natal:sun",
+     "vedic:natal:mars"
+    ]
+   },
+   "usage": {
+    "ms": 8734,
+    "in": 2658,
+    "out": 673,
+    "reasoning": 194,
+    "cost": 0.012046,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T3-marriage",
+   "wallMs": 7528,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Yes—your chart supports marriage as a meaningful possibility, though it cannot promise that you will marry. That fits with the career reading: a strong public direction and a serious approach to partnership can coexist. The possible job change we discussed is not a prerequisite for marriage, or a prediction that marriage will follow it.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "Saturn in the seventh whole-sign house places long-term work and commitment in the partnership area of this reading."
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "Venus in the eleventh house connects relationship themes with friends and community."
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "The Sun in the tenth house supports the public and career direction described earlier; it does not rule out partnership."
+     },
+     {
+      "sourceRef": "vedic:drishti:mars-saturn",
+      "explanation": "Mars’s aspect to Saturn suggests that private initiative and partnership responsibilities may need deliberate balancing."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "These placements describe themes, not a guaranteed marriage outcome. The supplied evidence does not establish a marriage-specific timing window.",
+    "plainLanguageExplanation": "There is room in this reading for both commitment and career ambition. The main question is how you make space for a partnership alongside your own direction, not whether you must choose one over the other.",
+    "followUps": [
+     "Would you like to explore what partnership might ask of you while you pursue your career?",
+     "Would you like a closer look at the relationship themes shown by Saturn and Venus?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:natal:venus",
+     "vedic:natal:sun",
+     "vedic:drishti:mars-saturn"
+    ]
+   },
+   "usage": {
+    "ms": 7126,
+    "in": 2758,
+    "out": 473,
+    "reasoning": 92,
+    "cost": 0.010246,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T4-hindi",
+   "wallMs": 10721,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "आपकी कुंडली में विवाह और लंबे समय की साझेदारी की संभावना दिखती है, लेकिन उपलब्ध जानकारी से शादी की तारीख या भरोसेमंद विवाह-समय तय नहीं होता। वैवाहिक जीवन में गंभीर प्रतिबद्धता के साथ भावनात्मक गहराई दिखती है; निजी तनाव और मतभेदों को संभालना महत्वपूर्ण हो सकता है।",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "सातवें भाव में शनि साझेदारी में गंभीरता, जिम्मेदारी और लंबे समय का प्रयास दर्शाता है।"
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "ग्यारहवें भाव में शुक्र संबंधों में मित्रता, साझा अपेक्षाओं और सामाजिक जुड़ाव की अहमियत दिखाता है।"
+     },
+     {
+      "sourceRef": "vedic:drishti:mars-saturn",
+      "explanation": "मंगल की शनि पर दृष्टि निजी पहल और साझेदारी की जिम्मेदारियों के बीच तनाव का संकेत देती है; यह निश्चित वैवाहिक परिणाम नहीं है।"
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "वर्तमान मंगल–गुरु अंतरदशा 3 अगस्त 2026 से 10 जुलाई 2027 तक है, लेकिन दिए गए साक्ष्य इसे विवाह की निश्चित या विशेष समय-सीमा के रूप में स्थापित नहीं करते।",
+    "uncertainty": "यह प्रतीकात्मक व्याख्या है, विवाह की गारंटी या वैवाहिक जीवन का तय परिणाम नहीं। उपलब्ध साक्ष्य में विवाह के लिए कोई स्पष्ट व्यक्तिगत गोचर-समय भी नहीं दिया गया है।",
+    "plainLanguageExplanation": "रिश्ता आपके लिए गंभीर प्रतिबद्धता का विषय हो सकता है। मित्रता और साझा अपेक्षाएँ सहारा दे सकती हैं, जबकि निजी तनाव को खुलकर सुलझाना संबंध के अनुभव में फर्क ला सकता है।",
+    "followUps": [
+     "क्या आप साझेदारी की खूबियों और संभावित चुनौतियों को अलग-अलग समझना चाहेंगे?",
+     "क्या आप जानना चाहेंगे कि पिछली करियर रीडिंग और रिश्तों की यह व्याख्या साथ में कैसे बैठती हैं?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:natal:venus",
+     "vedic:drishti:mars-saturn",
+     "vedic:dasha:antardasha"
+    ]
+   },
+   "usage": {
+    "ms": 10318,
+    "in": 2849,
+    "out": 693,
+    "reasoning": 197,
+    "cost": 0.012628,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T5-hinglish",
+   "wallMs": 10746,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Career mein independent direction aur professional network se opportunities ka theme dikhta hai. Job change ke liye mera jawab hai: sirf chart ke basis par abhi resign mat kijiye. Agar naya role aapko zyada growth aur behtar working conditions deta hai, toh move explore karna theek ho sakta hai; final decision actual offer aur apni situation dekhkar lein.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "10th house mein Aquarius Sun career aur public role mein independent direction ka theme dikhata hai."
+     },
+     {
+      "sourceRef": "vedic:natal:mercury",
+      "explanation": "11th house Mercury professional connections aur communication ko career exploration mein relevant banata hai."
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "11th house Venus networks aur community ke through milne wale support ka theme jodta hai."
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "Calculated Jupiter antardasha 2026-08-03 se 2027-07-10 tak hai; isse current career options par sochne ka period milta hai, guaranteed job-change date nahi."
+     }
+    ],
+    "conflictingFactors": [
+     {
+      "sourceRef": "vedic:natal:mars",
+      "explanation": "12th house Mars private effort aur initiative ka theme dikhata hai; ise jaldbazi mein job chhodne ka signal nahi maana chahiye."
+     }
+    ],
+    "timing": "Mars mahadasha (2025-02-17–2032-02-17) ke andar Jupiter antardasha 2026-08-03–2027-07-10 hai. Supplied evidence kisi specific best week ya job switch ki pakki date nahi deta.",
+    "uncertainty": "Yeh symbolic chart reading hai, job change hoga ya uska outcome kaisa hoga, iski guarantee nahi. Aapki current job aur kisi naye offer ki details ke bina haan ya na kehna theek nahi hoga.",
+    "plainLanguageExplanation": "Chart career mein apni direction banane aur logon se judkar options dhoondhne ki taraf ishara karta hai. Isliye pehle options compare karein, phir switch ka faisla lein.",
+    "followUps": [
+     "Current job mein aapko sabse zyada kya rok raha hai—growth, role ya work environment?",
+     "Kya aapke paas koi concrete offer hai, ya abhi options explore kar rahe hain?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:natal:mercury",
+     "vedic:natal:venus",
+     "vedic:natal:mars",
+     "vedic:dasha:mahadasha",
+     "vedic:dasha:antardasha"
+    ]
+   },
+   "usage": {
+    "ms": 10344,
+    "in": 2964,
+    "out": 719,
+    "reasoning": 139,
+    "cost": 0.013118,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T6-lottery",
+   "wallMs": 7218,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 6815,
+    "in": 3069,
+    "out": 483,
+    "reasoning": 391,
+    "cost": 0.010968,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T7-health",
+   "wallMs": 9610,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Honestly, your chart cannot tell whether you will get cancer or another serious disease. I would not treat any placement or dasha as a diagnosis or a prediction of one.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "The supplied Sun reading discusses vitality symbolically; it provides no medical finding or disease risk."
+     },
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "The supplied Mars mahadasha identifies a calculated astrological period, not a window in which illness is predicted."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "Astrological evidence cannot determine your individual cancer risk or rule out disease.",
+    "plainLanguageExplanation": "If this worry comes from symptoms or a family history, a healthcare professional can help assess it using medical information rather than a chart.",
+    "followUps": [
+     "Is there a particular placement or dasha in this reading that raised your concern?",
+     "Would you like a nonmedical interpretation of your current Mars period?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:dasha:mahadasha"
+    ]
+   },
+   "usage": {
+    "ms": 9207,
+    "in": 2601,
+    "out": 393,
+    "reasoning": 148,
+    "cost": 0.009132,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T8-othermodule",
+   "wallMs": 4819,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 4417,
+    "in": 2662,
+    "out": 166,
+    "reasoning": 63,
+    "cost": 0.006984,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}

@@ -1,0 +1,417 @@
+{
+ "model": "gpt-4.1-mini",
+ "factors": 27,
+ "results": [
+  {
+   "task": "T1-first",
+   "wallMs": 11446,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "The First Instinct Reading suggests an individual whose core identity and life direction (Sun in Aquarius in 10th house) is future-oriented, independent, and oriented towards public or career matters. Emotionally (Moon in Sagittarius in 8th house), they seek exploration and honesty within shared resources and transformative experiences. Communication and relationships (Mercury and Venus in Pisces in 11th house) highlight imaginative and compassionate connections within community and friendships. Drive and initiative (Mars in Aries in 12th house) manifest inwardly and privately. Growth and beliefs (Jupiter in Capricorn in 9th house) are structured and goal-focused, particularly in education or broader horizons. Discipline and limits in partnerships (Saturn in Scorpio in 7th house) are intense and investigative, while key aspects, such as Mars aspecting Saturn and Saturn aspecting Jupiter, refine the dynamic between personal drive, limitations, and expansion. Currently, the Mars Mahadasha (2025-2032) with Jupiter Antardasha (2026-2027) indicates a period combining assertive energy and growth opportunities especially related to beliefs and long-term studies. Transits show Saturn in Pisces and Jupiter in Cancer activating house themes linked to community and spirituality. Overall, this profile suggests a first instinct toward leadership, innovation, exploration of deeper emotional and shared themes, and inwardly directed action within a framework of disciplined partnerships and structured growth.",
+    "insights": [
+     {
+      "title": "Identity and Career Focus",
+      "body": "Sun in Aquarius in the 10th house shows a strong drive toward independence, innovation, and public recognition in career matters. This placement emphasizes forward-thinking leadership and reputation.",
+      "sourceRefs": [
+       "vedic:natal:sun",
+       "vedic:ascendant"
+      ]
+     },
+     {
+      "title": "Emotional Depth and Transformation",
+      "body": "Moon in Sagittarius in the 8th house infuses emotional life with curiosity and desire for profound experiences through shared resources, indicating a candid yet exploratory emotional nature.",
+      "sourceRefs": [
+       "vedic:natal:moon",
+       "vedic:nakshatra:moon"
+      ]
+     },
+     {
+      "title": "Communication and Social Connection",
+      "body": "Mercury and Venus in Pisces in the 11th house highlight imaginative, empathetic communication and strong values in friendships or community groups, fostering compassionate social bonds.",
+      "sourceRefs": [
+       "vedic:natal:mercury",
+       "vedic:natal:venus",
+       "vedic:ascendant"
+      ]
+     },
+     {
+      "title": "Inner Drive and Private Energy",
+      "body": "Mars in Aries in the 12th house points to assertive, pioneering energy directed inwardly or in seclusion, encouraging private reflection and hidden action.",
+      "sourceRefs": [
+       "vedic:natal:mars",
+       "vedic:ascendant"
+      ]
+     },
+     {
+      "title": "Growth Grounded in Structure",
+      "body": "Jupiter in Capricorn in the 9th house indicates that growth, beliefs, and learning follow a disciplined, goal-oriented path, emphasizing responsible expansion through study and wider horizons.",
+      "sourceRefs": [
+       "vedic:natal:jupiter",
+       "vedic:ascendant"
+      ]
+     },
+     {
+      "title": "Partnership Dynamics and Discipline",
+      "body": "Saturn in Scorpio in the 7th house reflects serious, intense commitment in partnerships, enhanced by Mars and Saturn mutual aspects enforcing a balance between drive and limitation in relationships.",
+      "sourceRefs": [
+       "vedic:natal:saturn",
+       "vedic:drishti:mars-saturn",
+       "vedic:drishti:saturn-jupiter"
+      ]
+     }
+    ],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "Sun in Aquarius 10th house defines a visionary and career-focused identity."
+     },
+     {
+      "sourceRef": "vedic:natal:moon",
+      "explanation": "Moon in Sagittarius 8th house brings emotional exploration around transformation and shared matters."
+     },
+     {
+      "sourceRef": "vedic:natal:mercury",
+      "explanation": "Mercury in Pisces in 11th house fosters imaginative communication in social contexts."
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "Venus in Pisces in 11th house supports empathetic and community-oriented relationships."
+     },
+     {
+      "sourceRef": "vedic:natal:mars",
+      "explanation": "Mars in Aries in 12th house shows inner-directed assertiveness and initiation."
+     },
+     {
+      "sourceRef": "vedic:natal:jupiter",
+      "explanation": "Jupiter in Capricorn in 9th house supports disciplined and structured growth."
+     },
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "Saturn in Scorpio 7th house marks intense, serious partnerships with strong discipline."
+     },
+     {
+      "sourceRef": "vedic:drishti:mars-saturn",
+      "explanation": "Mars aspecting Saturn emphasizes the tension and balance between initiative and discipline in relationships."
+     },
+     {
+      "sourceRef": "vedic:drishti:saturn-jupiter",
+      "explanation": "Saturn aspecting Jupiter moderates expansive growth with realistic limits."
+     },
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "Current Mars Mahadasha (2025-2032) activates Martian themes of drive and inner initiative."
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "Jupiter Antardasha (2026-2027) inside Mars Mahadasha amplifies opportunities for structured growth and learning."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "The period from February 17, 2025 to February 17, 2032 (Mars Mahadasha) with subperiod from August 3, 2026 to July 10, 2027 (Jupiter Antardasha) represents a significant timing window for manifesting these instincts and growth potentials.",
+    "uncertainty": "Interpretations rest on symbolic planetary placements and periods; experiential outcomes may vary depending on individual choice and external circumstances.",
+    "plainLanguageExplanation": "Your core personality is forward-looking and independent, focused on career and public life. You emotionally seek deep and honest connections, especially in shared experiences. Your way of thinking and relating to friends is imaginative and caring. You have a strong inner drive that sometimes plays out in private or behind the scenes. Your learning and growth happen best with clear goals and structure. Relationships are serious and intense, demanding discipline and balance. In the next several years, you have powerful energies to act boldly and expand your opportunities thoughtfully.",
+    "followUps": [
+     "How can I best utilize the current Mars-Jupiter dasha period to advance in my career?",
+     "What challenges might arise from Mars aspecting Saturn in my partnerships?",
+     "How can I balance my private initiatives with public career ambitions during this Mars Mahadasha?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:natal:moon",
+     "vedic:natal:mercury",
+     "vedic:natal:venus",
+     "vedic:natal:mars",
+     "vedic:natal:jupiter",
+     "vedic:natal:saturn",
+     "vedic:drishti:mars-saturn",
+     "vedic:drishti:saturn-jupiter",
+     "vedic:dasha:mahadasha",
+     "vedic:dasha:antardasha",
+     "vedic:ascendant"
+    ]
+   },
+   "usage": {
+    "ms": 11041,
+    "in": 2645,
+    "out": 1381,
+    "reasoning": 0,
+    "cost": 0.0032676,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T2-career",
+   "wallMs": 5897,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "You are currently in the Moon Mahadasha (2015-2025) and will begin Mars Mahadasha in early 2025, with Jupiter Antardasha within Mars Mahadasha from August 2026 to July 2027. Given your Sun in Aquarius in the 10th house (career), and current major planetary periods, the best and more likely period for a job change this year (2024) is limited as you are still in Moon Mahadasha without a strong Mars subperiod that often triggers action and change in career. However, you can prepare or initiate steps towards change during your ongoing Moon Mahadasha. A more auspicious and active timing for actual job change would be during your upcoming Mars Mahadasha starting February 2025 or the Jupiter Antardasha within that from August 2026 to July 2027, which supports growth and expansion. Therefore, for this year (2024), significant change is less likely; the best time to make a career move would be early 2025 onward, especially August 2026 to July 2027.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "You are currently in the Moon Mahadasha (2015-2025), which generally supports emotional stability but less assertive career shifts, making major job changes less favored this year."
+     },
+     {
+      "sourceRef": "vedic:dasha:timeline:4",
+      "explanation": "Mars Mahadasha (2025-2032) signifies a more dynamic period for career and action; coupled with Jupiter Antardasha (2026-2027) it enhances growth opportunities, ideal for job changes."
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "Sun in Aquarius in the 10th house emphasizes career identity and public life, suggesting your career transitions depend strongly on planetary timings affecting Sun and Mars periods."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "The best timing window for job change is from February 2025 onward, especially during the Jupiter Antardasha from August 2026 to July 2027.",
+    "uncertainty": "While Vedic dasha and natal placements indicate stronger likelihoods for career transitions in 2025-2027, exact timing of job change cannot be predicted and depends on multiple personal factors beyond this analysis.",
+    "plainLanguageExplanation": "Right now, you are in a phase that supports emotional growth but may not favor big career changes. Your most promising time to change jobs is starting early 2025, with an even better chance between August 2026 and July 2027. You can use this year to prepare but might find actual change easier and more successful during those future periods.",
+    "followUps": [
+     "Would you like insights on how to prepare for your upcoming Mars Mahadasha to enhance career opportunities?",
+     "Shall I analyze specific transits in 2024 that may support smaller career shifts or networking?",
+     "Do you want advice on how your current Moon Mahadasha energies can be used to align with your career goals?"
+    ],
+    "sourceRefs": [
+     "vedic:dasha:mahadasha",
+     "vedic:dasha:timeline:4",
+     "vedic:natal:sun"
+    ]
+   },
+   "usage": {
+    "ms": 5496,
+    "in": 2912,
+    "out": 654,
+    "reasoning": 0,
+    "cost": 0.0022112,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T3-marriage",
+   "wallMs": 4982,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Your chart supports marriage, with Saturn in Scorpio placed in the 7th whole-sign house of partnerships, indicating a serious, intense, and committed approach to marriage and long-term relationships. This aligns with your career focus as both areas involve discipline, long-term effort, and growth under Saturn's influence. The interplay between your career-oriented Sun in Aquarius (10th house) and Saturn in the 7th suggests you balance public/professional life with meaningful partnerships. Current and upcoming dasha periods also indicate timing for relationship developments.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "Saturn in Scorpio in the 7th house symbolizes serious, deep, and structured commitments in partnerships, strongly supporting marriage prospects."
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "Sun in Aquarius in the 10th house shows a career-focused identity that complements Saturn's discipline in partnerships, indicating compatibility between marriage and career ambitions."
+     },
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "The Mars mahadasha beginning in 2025, with a Jupiter antardasha following soon after, supports growth and initiative in various life areas including relationships."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "The upcoming Mars mahadasha (2025-2032) and especially the Jupiter antardasha within it (2026-2027) are favorable periods for marriage or significant relationship progress, aligning well with career momentum.",
+    "uncertainty": "There is no explicit transit or dasha evidence indicating an exact timing or guarantee of marriage, only supportive potentials based on placements and planetary periods.",
+    "plainLanguageExplanation": "Your chart shows good support for marriage, especially because the planet representing relationships (Saturn) is well placed in the house that rules partnerships. This matches your career-driven nature, so marriage can fit well with your life goals. The next few years (from 2025 onward) look like particularly good times to strengthen or start a marriage, as planetary energies support both your relationships and career.",
+    "followUps": [
+     "Can you provide more details or a specific question about your marriage prospects?",
+     "Would you like insights into how your current dasha periods influence relationship timing?",
+     "Shall I analyze any transits that might affect marriage or partnerships soon?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:natal:sun",
+     "vedic:dasha:mahadasha"
+    ]
+   },
+   "usage": {
+    "ms": 4580,
+    "in": 3173,
+    "out": 499,
+    "reasoning": 0,
+    "cost": 0.0020676,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T4-hindi",
+   "wallMs": 5949,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "आपकी शादी संभव है और यह आपके जीवन में स्थिरता और गंभीरता लाएगी क्योंकि शनि 7वें भाव (विवाह और साझेदारी) में वृश्चिक राशि में है, जो गहरा और प्रतिबद्ध साझेदारी दर्शाता है। फिलहाल आप मंगल महादशा में प्रवेश करने वाले हैं (2025-2032), जो शादी के लिए शुभ अवधि हो सकती है, खासकर 2026-2027 के बीच गुरु अंतरदशा है जो वृद्धि और विस्तार का संकेत देता है। इस समय आपकी शादी होने की संभावना बढ़ जाती है। आपकी शादी और करियर दोनों में संतुलन बना रहेगा क्योंकि शनि 7वें भाव में है और सूर्य 10वें भाव में, जो रिश्तों और करियर दोनों में जिम्मेदारी और स्थिरता दिखाते हैं।",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "शनि 7वें भाव (साझेदारी एवं विवाह) में वृश्चिक राशि में हैं, जो गंभीर और स्थिर वैवाहिक जीवन दर्शाता है।"
+     },
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "आप 2025 से मंगल महादशा में प्रवेश करेंगे, जो सक्रियता और जीवन में नई शुरुआत का समय होता है, शादी के लिए उपयुक्त काल हो सकता है।"
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "मंगल महादशा के अंदर 2026-2027 के दौरान गुरु अंतरदशा है, जो वैवाहिक जीवन और व्यक्तिगत विकास के लिए वृद्धि का समय है।"
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "सूर्य 10वें भाव में है जो करियर और सार्वजनिक जीवन को दर्शाता है, और शनि 7वें भाव में होने से शादी और करियर में संतुलन बनता है।"
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "2025 से 2027 के बीच संभावित विवाह समय",
+    "uncertainty": "आपके जन्म कुंडली के आधार पर शादी संभव है और उपयुक्त समय सुझाया गया है, लेकिन व्यक्तिगत प्रयास और अन्य बाहरी कारण भी प्रभावी होंगे।",
+    "plainLanguageExplanation": "आपके ग्रहों के मुताबिक आपकी शादी संभव है और यह बहुत गंभीर व स्थिर होगी। शादी के लिए शुभ समय 2025 से शुरू होकर खासकर 2026-2027 तक का काल हो सकता है। आपके रिश्ते और करियर दोनों में संतुलन बनेगा।",
+    "followUps": [
+     "क्या आप अपने विवाह से जुड़ी किसी खास ग्रह या स्थिति के बारें में अधिक जानना चाहते हैं?",
+     "क्या आप विवाह के बाद वैवाहिक जीवन की गुणवत्ता पर कुछ पूछना चाहेंगे?",
+     "क्या आप शादी के समय की तुलना में वैवाहिक मिलीभगत या चुनौतियों के बारे में जानना चाहेंगे?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:dasha:mahadasha",
+     "vedic:dasha:antardasha",
+     "vedic:natal:sun"
+    ]
+   },
+   "usage": {
+    "ms": 5546,
+    "in": 3308,
+    "out": 628,
+    "reasoning": 0,
+    "cost": 0.002328,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T5-hinglish",
+   "wallMs": 4543,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "आपकी शादी की शुभ संभावनाएँ आपकी आगामी मंगल महादशा (2025-2032) में खासकर 2026 से 2027 के गुरु अंतरदशा के दौरान हैं, जो विवाह के लिए अनुकूल समय दिखाती है। वैवाहिक जीवन शनि के 7वें भाव वृश्चिक राशिके स्थान के कारण गंभीर, स्थिर और प्रतिबद्ध रहेगा। आपकी करियर (सूर्य 10वें भाव में) और शादी (शनि 7वें भाव में) में संतुलन बना रहेगा क्योंकि दोनों ही ग्रह जिम्मेदारी और दीर्घकालिक विकास दर्शाते हैं।",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "शनि वृश्चिक राशि में 7वें भाव में हैं, जो विवाह में गंभीरता और प्रतिबद्धता दिखाता है।"
+     },
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "मंगल महादशा 2025-2032 तक है और इस अवधि के अंतर्गत 2026-2027 के गुरु अंतरदशा में विवाह की संभावना बढ़ जाती है।"
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "सूर्य 10वें भाव में है, जो करियर दिशा दर्शाता है और जो शनि की 7वें भाव वाली जिम्मेदारी के साथ संतुलन बनाए रखता है।}],"
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "Best marriage timing is during Mars Mahadasha (2025-2032), especially Jupiter Antardasha (2026-2027).",
+    "uncertainty": "यह समय और संकेत सामान्य प्रवृत्तियाँ दर्शाते हैं, लेकिन व्यक्तिगत फैसलों और परिस्थितियों में भिन्नता संभव है।",
+    "plainLanguageExplanation": "आपकी शादी संभव है और यह 2025 से 2027 के बीच करने का अच्छा समय है। आपका वैवाहिक जीवन गंभीर और स्थिर होगा, और साथ ही यह आपके करियर के साथ तालमेल में रहेगा।",
+    "followUps": [
+     "क्या आप विवाह से जुड़ी और कोई विशेष जानकारी चाहते हैं?",
+     "क्या आपको वैवाहिक जीवन में आने वाली चुनौतियों के बारे में जानना है?",
+     "क्या आप करियर और विवाह में संतुलन कैसे बनाए रखें, इस विषय में जानना चाहेंगे?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:dasha:mahadasha",
+     "vedic:dasha:antardasha",
+     "vedic:natal:sun"
+    ]
+   },
+   "usage": {
+    "ms": 4141,
+    "in": 3514,
+    "out": 520,
+    "reasoning": 0,
+    "cost": 0.0022376,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T6-lottery",
+   "wallMs": 2677,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 2275,
+    "in": 3667,
+    "out": 199,
+    "reasoning": 0,
+    "cost": 0.0017852000000000002,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T7-health",
+   "wallMs": 2572,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 2171,
+    "in": 3411,
+    "out": 175,
+    "reasoning": 0,
+    "cost": 0.0016444,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T8-othermodule",
+   "wallMs": 2982,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 2579,
+    "in": 3201,
+    "out": 200,
+    "reasoning": 0,
+    "cost": 0.0016004,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}

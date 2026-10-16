@@ -1,0 +1,204 @@
+{
+ "model": "gpt-5.5",
+ "results": [
+  {
+   "task": "V1-palm",
+   "wallMs": 15045,
+   "ok": true,
+   "observation": {
+    "quality": "good",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "obs1",
+      "feature": "Palm shape",
+      "description": "Palm appears broad and slightly rectangular, with a relatively long palm length compared with the width.",
+      "location": "Overall palm",
+      "confidence": "high"
+     },
+     {
+      "id": "obs2",
+      "feature": "Fingers",
+      "description": "Fingers appear long and fairly straight. The middle finger is the longest; the ring and index fingers are close in length, and the little finger is shorter and set slightly apart.",
+      "location": "Upper hand",
+      "confidence": "high"
+     },
+     {
+      "id": "obs3",
+      "feature": "Thumb",
+      "description": "Thumb is held open at a wide angle from the palm, with visible crease lines at the thumb joints.",
+      "location": "Left side of image, thumb area",
+      "confidence": "high"
+     },
+     {
+      "id": "obs4",
+      "feature": "Heart line",
+      "description": "A clear upper transverse line runs from the outer edge below the little finger across the upper palm toward the index/middle finger area. It is slightly curved and has small fine branches and interruptions along it.",
+      "location": "Upper palm beneath the fingers",
+      "confidence": "high"
+     },
+     {
+      "id": "obs5",
+      "feature": "Head line",
+      "description": "A long, distinct line begins near the space between the thumb and index finger and travels diagonally downward across the palm toward the outer/lower side. It appears deeper through the center and has intersecting fine lines.",
+      "location": "Middle of palm",
+      "confidence": "high"
+     },
+     {
+      "id": "obs6",
+      "feature": "Life line",
+      "description": "A prominent curved line begins near the thumb-index area and arcs around the base of the thumb toward the wrist. It is well defined, with several smaller lines crossing or running near it.",
+      "location": "Around the mount at the base of the thumb",
+      "confidence": "high"
+     },
+     {
+      "id": "obs7",
+      "feature": "Fate line",
+      "description": "A vertical to slightly diagonal central line is visible rising from the lower palm toward the middle of the palm, crossing other major lines and becoming less clear higher up.",
+      "location": "Center of palm",
+      "confidence": "medium"
+     },
+     {
+      "id": "obs8",
+      "feature": "Branches and intersections",
+      "description": "Several diagonal branch lines cross the central palm, including lines moving from the lower thumb-side area toward the outer upper palm and lines intersecting the head and fate-line region.",
+      "location": "Central palm",
+      "confidence": "high"
+     },
+     {
+      "id": "obs9",
+      "feature": "Mount of Venus",
+      "description": "The area at the base of the thumb appears full and heavily lined with many fine cross-lines.",
+      "location": "Base of thumb",
+      "confidence": "high"
+     },
+     {
+      "id": "obs10",
+      "feature": "Mount of Luna",
+      "description": "The outer lower palm appears broad with multiple fine diagonal and vertical markings.",
+      "location": "Lower outer palm opposite the thumb",
+      "confidence": "medium"
+     },
+     {
+      "id": "obs11",
+      "feature": "Mounts below fingers",
+      "description": "The padded areas below the index, middle, ring, and little fingers are visible with fine texture and minor lines; the area below the ring finger is partly obscured by a ring.",
+      "location": "Upper palm below fingers",
+      "confidence": "medium"
+     },
+     {
+      "id": "obs12",
+      "feature": "Markings",
+      "description": "Fine cross-hatching and small intersecting lines are visible throughout the palm, especially near the thumb base and central lower palm. No single isolated symbol is clearly dominant.",
+      "location": "Across palm, strongest in lower and thumb-side areas",
+      "confidence": "high"
+     },
+     {
+      "id": "obs13",
+      "feature": "Obstruction",
+      "description": "A metal ring on the ring finger partially hides skin creases and the base of that finger.",
+      "location": "Ring finger, lower segment",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 14641,
+    "in": 1773,
+    "out": 1103,
+    "reasoning": 381,
+    "cost": 0.041955,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V2-face",
+   "wallMs": 9254,
+   "ok": true,
+   "observation": {
+    "quality": "good",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "1",
+      "feature": "Broad proportions",
+      "description": "The visible face appears longer than it is wide, with a relatively straight vertical orientation and a balanced width between the upper and lower face.",
+      "location": "Overall face",
+      "confidence": "high"
+     },
+     {
+      "id": "2",
+      "feature": "Three facial zones",
+      "description": "The upper zone from hairline to brows appears moderately tall; the middle zone from brows to base of nose appears similar in height; the lower zone from base of nose to chin appears slightly fuller due to the visible jaw and chin area.",
+      "location": "Forehead, midface, lower face",
+      "confidence": "medium"
+     },
+     {
+      "id": "3",
+      "feature": "Forehead and hairline",
+      "description": "The forehead is visible and moderately broad, with a high, gently curved hairline partly covered by side-parted hair.",
+      "location": "Upper face",
+      "confidence": "high"
+     },
+     {
+      "id": "4",
+      "feature": "Eyes and brows",
+      "description": "The eyes are evenly set and forward-facing; the brows appear light and relatively straight with a mild arch.",
+      "location": "Upper-mid face",
+      "confidence": "high"
+     },
+     {
+      "id": "5",
+      "feature": "Nose",
+      "description": "The nose appears straight from the frontal view, with a medium bridge width and a rounded tip.",
+      "location": "Center of face",
+      "confidence": "high"
+     },
+     {
+      "id": "6",
+      "feature": "Mouth and lips",
+      "description": "The mouth is closed, with a mostly horizontal line; the lips appear medium-thin and symmetrical in this view.",
+      "location": "Lower midface",
+      "confidence": "high"
+     },
+     {
+      "id": "7",
+      "feature": "Jaw and chin",
+      "description": "The jawline appears fairly broad with a rounded-square chin, giving the lower face a stable, defined outline.",
+      "location": "Lower face",
+      "confidence": "medium"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 8845,
+    "in": 1520,
+    "out": 697,
+    "reasoning": 331,
+    "cost": 0.02851,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V3-palm-as-face",
+   "wallMs": 3429,
+   "ok": true,
+   "observation": {
+    "quality": "poor",
+    "retakeReason": "No face is visible in the image; it shows an open hand/palm instead. Please provide a clear, front-facing face image with good lighting for a non-sensitive facial-structure observation.",
+    "observations": []
+   },
+   "usage": {
+    "ms": 3024,
+    "in": 1772,
+    "out": 162,
+    "reasoning": 101,
+    "cost": 0.01372,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}

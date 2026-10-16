@@ -32,7 +32,11 @@ globalThis.fetch = async (url, init) => {
   if (String(url).endsWith('/responses')) {
     if (readLedger().total >= CAP) throw new Error('Budget cap reached; stopping.');
     const body = JSON.parse(init.body); if (reasoning) body.max_output_tokens = 12000; init = { ...init, body: JSON.stringify(body) };
-    const t0 = Date.now(); const res = await realFetch(url, init); const copy = res.clone();
+    const t0 = Date.now(); let res;
+    for (let attempt = 0; ; attempt++) { // retry connection-level failures only (no tokens are billed when no response arrives)
+      try { res = await realFetch(url, init); break; } catch (e) { if (attempt >= 2 || /abort|timeout/i.test(String(e))) throw e; await new Promise(r => setTimeout(r, 3000)); }
+    }
+    const copy = res.clone();
     copy.json().then(j => { const u = j.usage || {}; const cost = ((u.input_tokens || 0) * price[0] + (u.output_tokens || 0) * price[1]) / 1e6;
       last = { ms: Date.now() - t0, in: u.input_tokens, out: u.output_tokens, reasoning: u.output_tokens_details?.reasoning_tokens ?? null, cost, status: j.status, incomplete: j.incomplete_details?.reason ?? null }; addLedger(cost); }).catch(() => {});
     return res;
@@ -43,6 +47,23 @@ globalThis.Deno = { env: { get: (k) => process.env[k] } };
 
 const { buildChartEvidence } = await import(path.join(root, 'supabase/functions/_shared/chart-evidence.ts'));
 const { generateAnswer } = await import(path.join(root, 'supabase/functions/_shared/openai.ts'));
+
+// --- Vision mode: node model-benchmark.mjs <model> VISION  (images read from $VISION_DIR: palm.jpg, face.jpg; never committed)
+if (process.argv[3] === 'VISION') {
+  const { observeImage } = await import(path.join(root, 'supabase/functions/_shared/openai.ts'));
+  const dir = process.env.VISION_DIR; const url = (f) => 'data:image/jpeg;base64,' + fs.readFileSync(path.join(dir, f)).toString('base64');
+  const jobs = [['V1-palm', 'palm', 'palm.jpg'], ['V2-face', 'face', 'face.jpg'], ['V3-palm-as-face', 'face', 'palm.jpg']];
+  const vres = [];
+  for (const [id, kind, file] of jobs) {
+    last = null; let r; const t0 = Date.now();
+    try { r = { ok: true, observation: await observeImage(kind, url(file)) }; } catch (e) { r = { ok: false, error: String(e.message || e) }; }
+    await new Promise(res => setTimeout(res, 400));
+    vres.push({ task: id, wallMs: Date.now() - t0, ...r, usage: last }); const u = last || {};
+    console.log(`${model} ${id}: ${r.ok ? 'OK obs=' + r.observation.observations.length + ' retake=' + (r.observation.retakeReason ? 'YES' : 'no') : 'FAIL ' + r.error} | ${u.ms ?? '?'}ms in=${u.in} out=${u.out} $${(u.cost ?? 0).toFixed(4)} | ledger $${readLedger().total.toFixed(3)}`);
+  }
+  fs.writeFileSync(path.join(outDir, `${model}.vision.json`), JSON.stringify({ model, results: vres }, null, 1));
+  process.exit(0);
+}
 
 // Fictional profile (not a real person): Delhi, 14 Mar 1985, 10:30 IST.
 const profile = { birth_date: '1985-03-14', birth_instant: '1985-03-14T05:00:00.000Z', birth_time_known: true, latitude: 28.61, longitude: 77.21, time_zone: 'Asia/Kolkata' };
@@ -73,4 +94,9 @@ for (const t of tasks) {
   results.push({ task: t.id, wallMs: Date.now() - t0, ...r, usage: last });
   const u = last || {}; console.log(`${model} ${t.id}: ${r.ok ? 'OK' : 'FAIL ' + r.error} | ${u.ms ?? '?'}ms in=${u.in} out=${u.out} think=${u.reasoning} $${(u.cost ?? 0).toFixed(4)} | ledger $${readLedger().total.toFixed(3)}`);
 }
-fs.writeFileSync(path.join(outDir, `${model}.json`), JSON.stringify({ model, factors: refs.length, results }, null, 1));
+const outFile = path.join(outDir, `${model}.json`); let merged = results;
+if (only && fs.existsSync(outFile)) { // partial rerun: keep earlier results for other tasks
+  const prev = JSON.parse(fs.readFileSync(outFile, 'utf8')).results.filter(r => !results.some(n => n.task === r.task));
+  merged = [...prev, ...results].sort((a, b) => a.task.localeCompare(b.task));
+}
+fs.writeFileSync(outFile, JSON.stringify({ model, factors: refs.length, results: merged }, null, 1));

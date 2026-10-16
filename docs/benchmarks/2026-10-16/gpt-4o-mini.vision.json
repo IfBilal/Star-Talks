@@ -1,0 +1,184 @@
+{
+ "model": "gpt-4o-mini",
+ "results": [
+  {
+   "task": "V1-palm",
+   "wallMs": 4174,
+   "ok": true,
+   "observation": {
+    "quality": "good",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "1",
+      "feature": "Head Line",
+      "description": "A clear line running horizontally across the palm, indicating intellectual tendencies.",
+      "location": "Middle of the palm",
+      "confidence": "high"
+     },
+     {
+      "id": "2",
+      "feature": "Heart Line",
+      "description": "A prominent curve at the top of the palm, suggesting emotional depth and relationships.",
+      "location": "Top edge of the palm",
+      "confidence": "high"
+     },
+     {
+      "id": "3",
+      "feature": "Life Line",
+      "description": "A well-defined line arcing around the base of the thumb, representing vitality and life experiences.",
+      "location": "Base of the palm",
+      "confidence": "high"
+     },
+     {
+      "id": "4",
+      "feature": "Fate Line",
+      "description": "A faint vertical line in the center of the palm, potentially representing career or life path.",
+      "location": "Center of the palm",
+      "confidence": "medium"
+     },
+     {
+      "id": "5",
+      "feature": "Mount of Venus",
+      "description": "Well-developed area beneath the index finger, indicating affection and warmth.",
+      "location": "Below the index finger",
+      "confidence": "high"
+     },
+     {
+      "id": "6",
+      "feature": "Fingers",
+      "description": "Fingers appear elongated and well proportioned, suggesting communication and expression abilities.",
+      "location": "Fingers extending upward",
+      "confidence": "high"
+     },
+     {
+      "id": "7",
+      "feature": "Palm Shape",
+      "description": "The palm is rectangular, suggesting practicality and a grounded nature.",
+      "location": "Entire palm",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 3771,
+    "in": 36988,
+    "out": 278,
+    "reasoning": 0,
+    "cost": 0.005715,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V2-face",
+   "wallMs": 3912,
+   "ok": true,
+   "observation": {
+    "quality": "high",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "1",
+      "feature": "Shape",
+      "description": "Broad, oval face",
+      "location": "Overall",
+      "confidence": "high"
+     },
+     {
+      "id": "2",
+      "feature": "Eyes",
+      "description": "Average-sized, positioned evenly",
+      "location": "Face",
+      "confidence": "high"
+     },
+     {
+      "id": "3",
+      "feature": "Nose",
+      "description": "Straight and well-defined",
+      "location": "Center of face",
+      "confidence": "high"
+     },
+     {
+      "id": "4",
+      "feature": "Mouth",
+      "description": "Medium-sized, neutral expression",
+      "location": "Lower face",
+      "confidence": "high"
+     },
+     {
+      "id": "5",
+      "feature": "Jawline",
+      "description": "Defined and strong",
+      "location": "Chin area",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 3505,
+    "in": 25672,
+    "out": 141,
+    "reasoning": 0,
+    "cost": 0.0039353999999999995,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V3-palm-as-face",
+   "wallMs": 3567,
+   "ok": true,
+   "observation": {
+    "quality": "good",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "1",
+      "feature": "shape",
+      "description": "The hand is broadly proportioned with extended fingers and an open palm.",
+      "location": "overall hand",
+      "confidence": "high"
+     },
+     {
+      "id": "2",
+      "feature": "fingers",
+      "description": "Five fingers are visible, with a prominent spacing between them.",
+      "location": "fingers",
+      "confidence": "high"
+     },
+     {
+      "id": "3",
+      "feature": "palm",
+      "description": "The palm is clear, showing distinct lines and the overall shape is rectangular.",
+      "location": "palm",
+      "confidence": "high"
+     },
+     {
+      "id": "4",
+      "feature": "ring",
+      "description": "A silver ring is worn on the ring finger.",
+      "location": "ring finger",
+      "confidence": "high"
+     },
+     {
+      "id": "5",
+      "feature": "skin texture",
+      "description": "Skin appears textured with noticeable lines and creases.",
+      "location": "overall hand",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 3163,
+    "in": 37006,
+    "out": 176,
+    "reasoning": 0,
+    "cost": 0.0056565,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}

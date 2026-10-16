@@ -124,8 +124,8 @@ export async function generateAnswer(args: {
 
 export async function observeImage(kind: 'palm'|'face', signedUrl: string, onUsage?: UsageSink) {
   const instructions = kind === 'palm'
-    ? 'Describe only clearly visible palm features: head, heart, life and fate lines, mounts, fingers, palm shape, branches and markings. Do not infer lifespan, health, identity or future. If image quality is poor, request a retake.'
-    : 'Describe only clearly visible non-sensitive facial structure: broad proportions, three zones, five features. Do not infer ethnicity, age, health, personality, attractiveness, religion, wealth or future. If image quality is poor, request a retake.';
+    ? 'Describe only clearly visible palm features: head, heart, life and fate lines, mounts, fingers, palm shape, branches and markings. Do not infer lifespan, health, identity or future. If image quality is poor, request a retake. If the image does not clearly show a palm, set retakeReason and return no observations.'
+    : 'Describe only clearly visible non-sensitive facial structure: broad proportions, three zones, five features. Do not infer ethnicity, age, health, personality, attractiveness, religion, wealth or future. If image quality is poor, request a retake. If the image does not clearly show a palm, set retakeReason and return no observations.';
   const schema = { type:'object', additionalProperties:false, properties: {
     quality: { type:'string' }, retakeReason: { type:['string','null'] },
     observations: { type:'array', items: { type:'object', additionalProperties:false,
@@ -141,6 +141,8 @@ export async function observeImage(kind: 'palm'|'face', signedUrl: string, onUsa
   const raw=outputText(response);
   if(!raw)throw new Error('Image could not be analyzed.');
   const data=JSON.parse(raw) as {quality:string;retakeReason:string|null;observations:Array<{id:string;feature:string;description:string;location:string;confidence:string}>};
+  // Some models write the text "null"/"none" instead of JSON null; that must not count as a retake request.
+  if(typeof data?.retakeReason==='string'&&/^\s*(null|none|n\/a|no|false)?\s*$/i.test(data.retakeReason))data.retakeReason=null;
   if(!data || !nonempty(data.quality) || !(data.retakeReason===null || nonempty(data.retakeReason)) || !Array.isArray(data.observations)||data.observations.length>20 || data.observations.some(item=>!item || ![item.id,item.feature,item.description,item.location,item.confidence].every(nonempty)))throw new Error('Image observations were invalid.');
   return data;
 }

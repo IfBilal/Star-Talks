@@ -1,7 +1,7 @@
 import { calculateChart } from '../../../src/features/astrology/chart.ts';
 import { calculateFourPillars } from './four-pillars.ts';
 import { calculateNumerology } from './numerology.ts';
-import { drawTarot } from './tarot.ts';
+import { drawTarot, TAROT_LIBRARY_VERSION } from './tarot.ts';
 
 export const COMPATIBILITY_VERSION = 'symbolic-compatibility/1.1.0';
 export type CompatibilityMethod = 'western'|'vedic'|'numerology'|'chinese-zodiac'|'korean-astrology'|'tarot';
@@ -24,7 +24,7 @@ export function buildCompatibility(a:Person,b:Person,method:CompatibilityMethod)
     const roles=['Shared background','Current dynamic','Possible direction'];
     const cards=drawTarot('three');
     cards.forEach((card,index)=>factors.push({id:card.id,label:`${roles[index]} — ${card.cardName} (${card.orientation})`,value:card.meaning,explanation:`${card.positionMeaning}; a symbolic relationship card for ${a.display_name} and ${b.display_name}.`}));
-    return {version:COMPATIBILITY_VERSION+'+tarot-rules/1.0.0',method,factors,warnings,score:null,scoreExplanation:'A Tarot relationship spread has no numerical compatibility score. The cards are symbolic guidance, not a prediction.'};
+    return {version:COMPATIBILITY_VERSION+'+'+TAROT_LIBRARY_VERSION,method,factors,warnings,score:null,scoreExplanation:'A Tarot relationship spread has no numerical compatibility score. The cards are symbolic guidance, not a prediction.'};
   }
   if(method==='western'||method==='vedic') {
     if(!a.birth_instant||!b.birth_instant||!a.birth_time_known||!b.birth_time_known)

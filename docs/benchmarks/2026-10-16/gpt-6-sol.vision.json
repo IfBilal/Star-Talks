@@ -1,0 +1,176 @@
+{
+ "model": "gpt-6-sol",
+ "results": [
+  {
+   "task": "V1-palm",
+   "wallMs": 11752,
+   "ok": true,
+   "observation": {
+    "quality": "clear",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "1",
+      "feature": "Palm shape",
+      "description": "The palm appears broad and slightly rectangular.",
+      "location": "Center of the image",
+      "confidence": "high"
+     },
+     {
+      "id": "2",
+      "feature": "Fingers",
+      "description": "The fingers are extended and slightly spread; the middle finger appears longest.",
+      "location": "Above the palm",
+      "confidence": "high"
+     },
+     {
+      "id": "3",
+      "feature": "Heart line",
+      "description": "An upper crease runs from the little-finger side across the palm, angling toward the index-finger side.",
+      "location": "Upper palm, below the fingers",
+      "confidence": "medium"
+     },
+     {
+      "id": "4",
+      "feature": "Head line",
+      "description": "A prominent crease crosses the middle of the palm and slopes downward toward the outer edge.",
+      "location": "Middle palm",
+      "confidence": "medium"
+     },
+     {
+      "id": "5",
+      "feature": "Life line",
+      "description": "A curved crease arcs around the base of the thumb toward the lower palm.",
+      "location": "Thumb side of the palm",
+      "confidence": "high"
+     },
+     {
+      "id": "6",
+      "feature": "Fate line",
+      "description": "A faint, partly interrupted vertical crease is visible through the central palm.",
+      "location": "Lower to middle palm",
+      "confidence": "low"
+     },
+     {
+      "id": "7",
+      "feature": "Mounts and markings",
+      "description": "The thumb pad is rounded, with several fine intersecting creases. Finer lines also appear across the lower palm.",
+      "location": "Base of the thumb and lower palm",
+      "confidence": "high"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 11348,
+    "in": 1773,
+    "out": 783,
+    "reasoning": 340,
+    "cost": 0.011376,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V2-face",
+   "wallMs": 7420,
+   "ok": true,
+   "observation": {
+    "quality": "Clear",
+    "retakeReason": null,
+    "observations": [
+     {
+      "id": "proportions",
+      "feature": "Broad proportions",
+      "description": "The face appears slightly longer than it is wide, with a rounded jawline.",
+      "location": "Overall face",
+      "confidence": "High"
+     },
+     {
+      "id": "upper_zone",
+      "feature": "Upper zone",
+      "description": "The forehead is visible beneath a side-parted hairline.",
+      "location": "Hairline to eyebrows",
+      "confidence": "High"
+     },
+     {
+      "id": "middle_zone",
+      "feature": "Middle zone",
+      "description": "The cheeks curve gently toward the nose.",
+      "location": "Eyebrows to base of nose",
+      "confidence": "High"
+     },
+     {
+      "id": "lower_zone",
+      "feature": "Lower zone",
+      "description": "The lower face tapers gently toward a rounded chin.",
+      "location": "Base of nose to chin",
+      "confidence": "High"
+     },
+     {
+      "id": "eyebrows",
+      "feature": "Eyebrows",
+      "description": "The eyebrows are relatively straight with a slight arch.",
+      "location": "Above the eyes",
+      "confidence": "High"
+     },
+     {
+      "id": "eyes",
+      "feature": "Eyes",
+      "description": "The eyes are set beneath the brow line and appear similar in size.",
+      "location": "Upper middle face",
+      "confidence": "High"
+     },
+     {
+      "id": "nose",
+      "feature": "Nose",
+      "description": "The nose has a fairly straight bridge and a rounded tip.",
+      "location": "Center of face",
+      "confidence": "High"
+     },
+     {
+      "id": "mouth",
+      "feature": "Mouth",
+      "description": "The lips form a nearly level, closed line.",
+      "location": "Lower middle face",
+      "confidence": "High"
+     },
+     {
+      "id": "ears",
+      "feature": "Ears",
+      "description": "The ear on the image’s left is visible; the other is partly obscured.",
+      "location": "Sides of head",
+      "confidence": "High"
+     }
+    ]
+   },
+   "usage": {
+    "ms": 7013,
+    "in": 1520,
+    "out": 602,
+    "reasoning": 84,
+    "cost": 0.00906,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "V3-palm-as-face",
+   "wallMs": 3726,
+   "ok": true,
+   "observation": {
+    "quality": "No face visible",
+    "retakeReason": "The image shows a hand, not a face. Please provide a clear, front-facing photo of the face.",
+    "observations": []
+   },
+   "usage": {
+    "ms": 3323,
+    "in": 1772,
+    "out": 88,
+    "reasoning": 41,
+    "cost": 0.004424,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}

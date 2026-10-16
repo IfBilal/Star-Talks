@@ -1,0 +1,319 @@
+{
+ "model": "gpt-4o-mini",
+ "factors": 27,
+ "results": [
+  {
+   "task": "T1-first",
+   "wallMs": 8747,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Your First Instinct Reading reveals themes of identity, emotional exploration, and relationships shaped by imaginative expression, particularly influenced by your current Mars mahadasha, which spans from February 17, 2025, to February 17, 2032. This period aligns with an energetic focus on personal goals and motivations.",
+    "insights": [
+     {
+      "title": "Constructing Identity",
+      "body": "Your Natal Sun in Aquarius highlights a future-oriented career path that emphasizes independence and authenticity, particularly in public life.",
+      "sourceRefs": [
+       "vedic:natal:sun"
+      ]
+     },
+     {
+      "title": "Emotional Depth and Exploration",
+      "body": "The Natal Moon in Sagittarius signifies a desire for emotional honesty and exploration, particularly in areas involving shared resources and transformation.",
+      "sourceRefs": [
+       "vedic:natal:moon"
+      ]
+     },
+     {
+      "title": "Imaginative Connections",
+      "body": "Both your Mercury and Venus in Pisces reflect an imaginative approach to communication and relationships, suggesting a strong connection with friends and community during your current dasha periods.",
+      "sourceRefs": [
+       "vedic:natal:mercury",
+       "vedic:natal:venus"
+      ]
+     }
+    ],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "The Sun's placement defines your core identity and public persona, crucial for understanding your direction and motivations."
+     },
+     {
+      "sourceRef": "vedic:natal:moon",
+      "explanation": "The Moon's position provides insight into your emotional needs, pivotal for how you navigate transformative experiences in partnerships."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "Although the astrological placements provide guidance, their interpretations may vary based on personal experiences.",
+    "plainLanguageExplanation": "Your astrological chart shows a strong focus on individuality in your career, an adventurous emotional life, and imaginative relationships. This suggests that your journey during the next few years will be filled with personal growth and meaningful connections.",
+    "followUps": [
+     "What specific areas of life should I focus on during my Mars mahadasha?",
+     "How can I enhance my friendships and social connections during this time?",
+     "What potential challenges should I be aware of in my current dasha?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:natal:moon",
+     "vedic:natal:mercury",
+     "vedic:natal:venus"
+    ]
+   },
+   "usage": {
+    "ms": 8345,
+    "in": 2645,
+    "out": 451,
+    "reasoning": 0,
+    "cost": 0.0006673499999999999,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T2-career",
+   "wallMs": 4816,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Yes, you may consider changing your job this year, particularly aligning this move with your antardasha of Jupiter beginning August 3, 2026, which can support opportunities for growth and expansion in your career.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "Your Natal Sun in Aquarius indicates a strong focus on your career and public life, suggesting you seek independence and innovation in your job. This aligns well with potential job changes."
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "During your upcoming Jupiter antardasha starting in August 2026, you'll be in a favorable period for growth and opportunity, making it an ideal time for job changes."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "The best timing for a job change aligns with your Jupiter antardasha, beginning August 2026.",
+    "uncertainty": "While the chart indicates favorable conditions, personal decisions and external factors may influence the timing and outcome.",
+    "plainLanguageExplanation": "You could change your job this year, especially when Jupiter's favorable energy kicks in around August 2026, supporting growth and new opportunities.",
+    "followUps": [
+     "What kind of job changes should I consider?",
+     "How will my current workplace affect this change?",
+     "Are there specific industries or roles that align best with my chart?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:dasha:antardasha"
+    ]
+   },
+   "usage": {
+    "ms": 4415,
+    "in": 2692,
+    "out": 299,
+    "reasoning": 0,
+    "cost": 0.0005832000000000001,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T3-marriage",
+   "wallMs": 5401,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Your chart does support the possibility of marriage. Saturn, which symbolizes discipline and long-term commitment, is placed in your 7th house, indicating a potential for serious partnerships. Moreover, your Venus, the planet of love and relationships, is in the 11th house, suggesting that love may come through social connections or friendships, which might align with your career aspirations too.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "Saturn's presence in the 7th house indicates a serious attitude towards committed relationships, suggesting a potential for marriage."
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "Venus in the 11th house points to relationships formed through social contexts, which can integrate with your career, hinting that professional and personal lives may enhance each other."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "The timing for marriage could be favorable during your Jupiter antardasha starting August 3, 2026, as it typically promotes growth and opportunities in personal relationships.",
+    "uncertainty": "While your chart shows supportive factors for marriage, the specific timing and nature of relationships can vary based on personal circumstances.",
+    "plainLanguageExplanation": "Your astrological indicators suggest that marriage is likely, especially through connections related to your social life, and the Jupiter period starting in August 2026 could be a good time for pursuing such a commitment.",
+    "followUps": [
+     "What specific qualities are you looking for in a partner?",
+     "Have you considered any timing or events that might lead to a proposal?",
+     "How does your career vision align with your personal goals?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:natal:venus"
+    ]
+   },
+   "usage": {
+    "ms": 4998,
+    "in": 2774,
+    "out": 354,
+    "reasoning": 0,
+    "cost": 0.0006285,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T4-hindi",
+   "wallMs": 5129,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "आपकी शादी 2025 से 2032 के बीच संभव है, खासकर जब आप मंगल महादशा के प्रभाव में हैं, जो आपके व्यक्तिगत और व्यावसायिक लक्ष्यों पर ध्यान केंद्रित करता है। वैवाहिक जीवन में स्थिरता और कड़ी मेहनत की संभावना है, क्योंकि आपके सप्तम भाव में शनि है, जो दीर्घकालिक रिश्तों को प्रोत्साहित करता है।",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "शनि का सप्तम भाव में होना दीर्घकालिक रिश्तों और स्थिरता को दर्शाता है, indicating a supportive foundation for marriage."
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "शुक्र का 11वें भाव में होना आपको सामाजिक संबंधों में प्रेम की संभावनाएं प्रदान कर सकता है, जो आपके करियर से भी जुड़े हो सकते हैं."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "2025-02-17 to 2032-02-17",
+    "uncertainty": "शादी के समय पर निश्चितता नहीं है, क्योंकि यह कई कारकों पर निर्भर करता है।",
+    "plainLanguageExplanation": "आपकी जन्म कुंडली शादी के लिए सकारात्मक संकेत देती है, और यह आपके करियर के साथ भी जोड़ी जा सकती है।",
+    "followUps": [
+     "आपके शादी के बाद के जीवन के बारे में क्या संकेत हैं?",
+     "क्या आप विवाह से पहले किसी अन्य महत्वपूर्ण करियर बदलाव के बारे में जानना चाहते हैं?",
+     "आपको कब अपनी प्रेमिका/प्रेमिका से मिलने की संभावना है?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:natal:venus"
+    ]
+   },
+   "usage": {
+    "ms": 4728,
+    "in": 2878,
+    "out": 358,
+    "reasoning": 0,
+    "cost": 0.0006465,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T5-hinglish",
+   "wallMs": 4427,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Aapki shaadi 2025 se 2032 ke beech ho sakti hai, jab aap Mars ki mahadasha mein hain, jo aapke personal aur career goals par focus karega. Aapka vyaahik jeevan stable aur serious hoga.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "Saturn ka 7th house mein hona aapke long-term partnerships aur commitment ko support karta hai, jo ki shaadi ke liye accha hai."
+     },
+     {
+      "sourceRef": "vedic:nakshatra:moon",
+      "explanation": "Aapka Moon nakshatra Mula, jo deeper emotional connections ko dikhata hai, shaadi mein samarpan aur exploration ki taraf ishara karta hai."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "2025 se 2032",
+    "uncertainty": "Aapki shaadi ki exact timing clear nahi hai, lekin yeh time frame aapke dasha ke hisaab se supportive hai.",
+    "plainLanguageExplanation": "Aapki shaadi ki sambhavna 2025 se 2032 ke beech zyada hai. Aapka vyaahik jeevan stabil aur meaningful hoga due to Saturn's influence.",
+    "followUps": [
+     "Aapki shaadi ke liye kisi specific mahine ka kya plan hai?",
+     "Aap apne career aur marriage ko kaise balance karna chahenge?",
+     "Kya aap kisi specific relationship mein hain abhi?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:nakshatra:moon"
+    ]
+   },
+   "usage": {
+    "ms": 4024,
+    "in": 3004,
+    "out": 346,
+    "reasoning": 0,
+    "cost": 0.0006582,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T6-lottery",
+   "wallMs": 2565,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 2165,
+    "in": 3086,
+    "out": 145,
+    "reasoning": 0,
+    "cost": 0.0005499,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T7-health",
+   "wallMs": 2140,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 1737,
+    "in": 3050,
+    "out": 99,
+    "reasoning": 0,
+    "cost": 0.0005168999999999999,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T8-othermodule",
+   "wallMs": 3578,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 3176,
+    "in": 3019,
+    "out": 107,
+    "reasoning": 0,
+    "cost": 0.0005170499999999999,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}

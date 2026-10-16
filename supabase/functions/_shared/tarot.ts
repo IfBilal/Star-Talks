@@ -1,6 +1,8 @@
-// Original, concise interpretation text keyed to the traditional 78-card deck.
-// The card names and structure are public-domain conventions; no third-party artwork is bundled.
-export const TAROT_LIBRARY_VERSION = 'tarot-rules/1.0.0';
+// Each card carries (1) a short modern gloss written for Star Talks and (2) A.E. Waite's own
+// divinatory wording from The Pictorial Key to the Tarot (public domain), generated into tarot-waite.ts.
+// The model receives both, with the citation. No third-party artwork is bundled.
+import { WAITE_CARDS, WAITE_SOURCE, WAITE_RULES_VERSION } from './tarot-waite.ts';
+export const TAROT_LIBRARY_VERSION = `tarot-rules/2.0.0+${WAITE_RULES_VERSION}`;
 
 type Card = { id: string; name: string; upright: string; reversed: string };
 const major: Array<[string, string, string]> = [
@@ -75,6 +77,16 @@ export const TAROT_DECK: readonly Card[] = [
   }))),
 ];
 
+/** Gloss plus Waite's verbatim meaning for the drawn orientation, with citation. */
+function cardMeaning(card: Card, orientation: 'upright' | 'reversed'): string {
+  const waite = WAITE_CARDS[card.id];
+  if (!waite) throw new Error(`No Waite source entry for ${card.id}.`);
+  const gloss = card[orientation];
+  const text = waite[orientation];
+  if (!text) return `${gloss} (Waite gives no reversed meaning for this card; this is a modern gloss, not a cited rule.)`;
+  return `${gloss}. Waite: "${text}" [${WAITE_SOURCE}, ${waite.section}]`;
+}
+
 const SPREADS = {
   three: [
     ['Past','influence or pattern carried into the present'],
@@ -110,7 +122,7 @@ export function drawTarot(spreadId: SpreadId = 'three') {
     return {
       id: `tarot:${card.id}:${orientation}:${slug(position)}`,
       cardId: card.id, cardName: card.name, orientation, position, positionMeaning,
-      meaning: card[orientation],
+      meaning: cardMeaning(card, orientation),
     };
   });
 }

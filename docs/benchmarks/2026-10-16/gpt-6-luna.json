@@ -1,0 +1,406 @@
+{
+ "model": "gpt-6-luna",
+ "factors": 27,
+ "results": [
+  {
+   "task": "T1-first",
+   "wallMs": 12036,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Your first instinct appears to combine candid exploration with private, direct action: you may want to get to the root of a situation, while also needing time alone to decide what to do. In groups, imagination and connection can guide how you communicate; in public or career matters, you may lean toward an independent, future-minded direction.",
+    "insights": [
+     {
+      "title": "You look for what is underneath",
+      "body": "The Sagittarius Moon in the eighth house suggests an instinctive, exploratory response to change and shared matters. The Moon’s Mula nakshatra is part of this pattern, though the supplied reading does not provide a specific interpretation for it.",
+      "sourceRefs": [
+       "vedic:natal:moon",
+       "vedic:nakshatra:moon"
+      ]
+     },
+     {
+      "title": "Action may happen privately and decisively",
+      "body": "Mars in Aries in the twelfth house points to direct initiative expressed through retreat or your private inner life. When a response is strong, you may prefer to act away from the spotlight or first regain space for yourself.",
+      "sourceRefs": [
+       "vedic:natal:mars"
+      ]
+     },
+     {
+      "title": "Imagination shapes your social instincts",
+      "body": "Mercury and Venus in Pisces in the eleventh house link communication, values, and attraction with an imaginative, receptive style among friends and communities. This can make you responsive to the mood and possibilities of a group.",
+      "sourceRefs": [
+       "vedic:natal:mercury",
+       "vedic:natal:venus"
+      ]
+     },
+     {
+      "title": "Your public direction favors independence",
+      "body": "The Aquarius Sun in the tenth house suggests an identity and sense of direction expressed through independent, future-minded approaches to career and public life. This gives your private, exploratory instincts a broader outward-facing channel.",
+      "sourceRefs": [
+       "vedic:natal:sun",
+       "vedic:ascendant"
+      ]
+     }
+    ],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:moon",
+      "explanation": "The supplied Moon placement connects emotional responses with exploration and change in shared matters, supporting the description of looking beneath the surface."
+     },
+     {
+      "sourceRef": "vedic:natal:mars",
+      "explanation": "Mars in Aries in the twelfth house directly supports the theme of decisive initiative expressed in retreat or private life."
+     },
+     {
+      "sourceRef": "vedic:natal:mercury",
+      "explanation": "Mercury in Pisces in the eleventh house supports an imaginative, receptive communication style in friends and community."
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "The Aquarius Sun in the tenth house supports an independent, future-minded orientation in public and career matters."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is a symbolic reading of the supplied placements, not a fixed description of how you will react in every situation. The evidence does not specify how these tendencies show up in particular events.",
+    "plainLanguageExplanation": "In everyday terms, you may first want to understand what is really going on, then make your move privately and directly. You can be imaginative and attuned to people in your circles, while still wanting your public path to feel independent and forward-looking.",
+    "followUps": [
+     "Would you like to explore how this first-instinct pattern may show up in relationships?",
+     "Would you like a reading of how the current Mars–Jupiter period relates to these natal tendencies?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:moon",
+     "vedic:nakshatra:moon",
+     "vedic:natal:mars",
+     "vedic:natal:mercury",
+     "vedic:natal:venus",
+     "vedic:natal:sun",
+     "vedic:ascendant"
+    ]
+   },
+   "usage": {
+    "ms": 11633,
+    "in": 2643,
+    "out": 1110,
+    "reasoning": 241,
+    "cost": 0.0008192999999999999,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T2-career",
+   "wallMs": 16934,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "A job change is possible, but this reading cannot say that you definitely will change jobs. The clearest timing period supplied is your Jupiter antardasha, August 3, 2026–July 10, 2027, within your Mars mahadasha. That makes the remainder of 2026 part of the period to consider a move, but the evidence does not identify a single best date.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "Your Sun is in the whole-sign 10th house, connecting the reading's identity and direction themes with career and public life; this makes a career-direction question relevant to the chart."
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "The supplied calculation places you in Jupiter antardasha from August 3, 2026 to July 10, 2027, giving an explicit period that overlaps the remainder of 2026 and can be used for considering or pursuing a transition."
+     },
+     {
+      "sourceRef": "vedic:natal:mars",
+      "explanation": "Mars is in Aries in the 12th house, and the supplied rule associates Mars with initiative and drive; this can describe taking action privately or after reflection, rather than proving that a job change will occur."
+     }
+    ],
+    "conflictingFactors": [
+     {
+      "sourceRef": "vedic:drishti:saturn-jupiter",
+      "explanation": "Saturn aspects Jupiter in the supplied whole-sign aspect data, which tempers the Jupiter-period interpretation and supports a measured, structured approach rather than assuming an easy or immediate change."
+     },
+     {
+      "sourceRef": "vedic:transit:jupiter",
+      "explanation": "The supplied transit is Jupiter in Cancer as of October 16, 2026, but the evidence explicitly says a sign alone does not establish a personal timing window."
+     }
+    ],
+    "timing": "The only explicit current timing window supplied is Jupiter antardasha, August 3, 2026–July 10, 2027, within Mars mahadasha (February 17, 2025–February 17, 2032). This includes the remainder of 2026, but no more precise best date is supported.",
+    "uncertainty": "Astrological timing is interpretive, not a guarantee. The supplied evidence can frame a period for considering a change, but it cannot confirm that you will change jobs or distinguish an exact ideal date.",
+    "plainLanguageExplanation": "The chart places career direction in focus, while the current period can be read as supporting initiative and considered growth. Treat the coming months as a time to explore options and assess them carefully, not as a promise that a move will happen.",
+    "followUps": [
+     "Would you like a reading focused on what kind of work environment may suit you?",
+     "Would you like to compare staying versus seeking a new role using the same chart evidence?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:dasha:antardasha",
+     "vedic:natal:mars",
+     "vedic:drishti:saturn-jupiter",
+     "vedic:transit:jupiter"
+    ]
+   },
+   "usage": {
+    "ms": 16532,
+    "in": 2693,
+    "out": 1272,
+    "reasoning": 545,
+    "cost": 0.0009052999999999999,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T3-marriage",
+   "wallMs": 11788,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Your chart does symbolically support taking partnership seriously, but it cannot guarantee marriage or say whether or when it will happen. The relationship and career themes could fit together if you make room for both shared commitment and an independent public direction.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "Saturn is in your whole-sign 7th house of partnerships, in Scorpio. This points to a serious, effortful approach to partnership and long-term responsibilities, rather than making marriage a certainty."
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "Venus, associated in this reading with relationships and values, is in Pisces in your 11th house of friends and community. This suggests that connection through shared circles or common aspirations may be important."
+     },
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "Your Sun is in Aquarius in the 10th house of career and public life, matching the independent, future-minded career theme described earlier. That can coexist with partnership, though it may require balancing personal direction with shared priorities."
+     },
+     {
+      "sourceRef": "vedic:drishti:mars-saturn",
+      "explanation": "Mars aspects Saturn, linking initiative and partnership themes. Symbolically, this can make it useful to handle disagreements directly and thoughtfully, rather than letting career pressures or private frustrations spill into the relationship."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is a symbolic reading of the supplied placements, not a prediction of marriage. No specific marriage-timing window is established by the evidence provided.",
+    "plainLanguageExplanation": "The chart leans toward treating partnership as a meaningful commitment, while also showing a strong career and public-direction theme. Those themes need not compete: friendship, shared goals, and clear communication about time and priorities could help them fit together. The chart does not establish a guaranteed marriage or its timing.",
+    "followUps": [
+     "Would you like me to explore what kind of partnership dynamic these placements suggest?",
+     "Would you like a focused comparison of relationship and career themes in the current dasha, without treating it as a prediction?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:natal:venus",
+     "vedic:natal:sun",
+     "vedic:drishti:mars-saturn"
+    ]
+   },
+   "usage": {
+    "ms": 11386,
+    "in": 2814,
+    "out": 796,
+    "reasoning": 235,
+    "cost": 0.0006794000000000001,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T4-hindi",
+   "wallMs": 15861,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "इस दिए गए चार्ट से शादी कब होगी, यह भरोसेमंद रूप से तय नहीं किया जा सकता। वैवाहिक जीवन के संकेतों में रिश्ते को गंभीरता और दीर्घकालिक प्रतिबद्धता से लेने की प्रवृत्ति दिखती है; साथ ही आदर्श अपेक्षाओं और निजी सीमाओं पर साफ संवाद उपयोगी रहेगा।",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:saturn",
+      "explanation": "सातवें भाव में शनि को दीर्घकालिक साझेदारी में जिम्मेदारी, धैर्य और गंभीरता के प्रतीक के रूप में पढ़ा जा सकता है; यह अपने-आप शादी में देरी या किसी निश्चित परिणाम की गारंटी नहीं देता।"
+     },
+     {
+      "sourceRef": "vedic:drishti:mars-saturn",
+      "explanation": "मंगल की शनि पर दृष्टि साझेदारी में दृढ़ इच्छाशक्ति के साथ तनाव या अधीरता की संभावना का संकेत दे सकती है; मतभेदों में संयम और स्पष्ट सीमाएँ मददगार हो सकती हैं।"
+     },
+     {
+      "sourceRef": "vedic:natal:venus",
+      "explanation": "ग्यारहवें भाव में मीन राशि का शुक्र रिश्तों और आकर्षण को मित्रता, समुदाय तथा आदर्शवादी जुड़ाव से जोड़ता है; यह संभावित संबंध-शैली का संकेत है, विवाह का वादा नहीं।"
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "दिए गए गणना-अवधि में गुरु अंतर्दशा 3 अगस्त 2026 से 10 जुलाई 2027 तक है, लेकिन उपलब्ध साक्ष्य इसे विवाह-घटना की खास अवधि के रूप में स्थापित नहीं करते।"
+     }
+    ],
+    "conflictingFactors": [
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "मंगल महादशा की तारीखें उपलब्ध हैं, पर दिए गए साक्ष्य में विवाह के लिए कोई निश्चित या विशेष रूप से सत्यापित समय-खिड़की नहीं है।"
+     }
+    ],
+    "timing": "विवाह की तारीख या निश्चित अवधि बताना संभव नहीं। उपलब्ध निकटतम गणितीय अवधि गुरु अंतर्दशा, 3 अगस्त 2026–10 जुलाई 2027 है; इसे विवाह का पूर्वानुमान न मानें।",
+    "uncertainty": "यह प्रतीकात्मक ज्योतिषीय व्याख्या है, निश्चित घटना-पूर्वानुमान नहीं। उपलब्ध सामग्री में विवाह-विशिष्ट समय-निर्धारण के लिए पर्याप्त गणना या संकेत नहीं दिए गए हैं।",
+    "plainLanguageExplanation": "संक्षेप में, चार्ट रिश्तों को गंभीरता से लेने और उन्हें समय देकर बनाने की थीम दिखाता है। आकर्षण या जुड़ाव मित्रों और सामाजिक दायरे से उभर सकता है, जबकि अपेक्षाओं और मतभेदों पर खुलकर बात करना अहम रहेगा। इससे शादी की तारीख या वैवाहिक जीवन का निश्चित परिणाम नहीं बताया जा सकता।",
+    "followUps": [
+     "क्या आप रिश्ते की शैली—जैसे भावनात्मक जरूरतें और संवाद—पर और विस्तार चाहेंगी/चाहेंगे?",
+     "क्या आप उपलब्ध दशा-अवधियों के बारे में केवल सामान्य, गैर-निश्चित संबंधपरक संकेत जानना चाहेंगे?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:saturn",
+     "vedic:drishti:mars-saturn",
+     "vedic:natal:venus",
+     "vedic:dasha:antardasha",
+     "vedic:dasha:mahadasha"
+    ]
+   },
+   "usage": {
+    "ms": 15458,
+    "in": 2889,
+    "out": 1245,
+    "reasoning": 417,
+    "cost": 0.0009114000000000001,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T5-hinglish",
+   "wallMs": 11669,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Career mein independent, future-focused direction aur logon/community ke saath communication ya networking se judne wale kaam meaningful lag sakte hain. Job change ko chart pakka “haan” ya “nahin” nahi kehta; agar nayi role mein behtar growth, structure aur aapke goals se fit ho, toh options explore karna munasib hai—bina practical details dekhe impulsively resign karne ka sanket nahi nikalta.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:sun",
+      "explanation": "Sun 10th house mein hai, aur supplied reading ise career/public life mein independent, future-minded direction se jodti hai; yeh career mein apni direction chunne ki theme ko support karta hai."
+     },
+     {
+      "sourceRef": "vedic:natal:mercury",
+      "explanation": "Mercury 11th house mein hai; supplied symbolism communication aur learning ko friends/community se jodta hai, isliye networking aur collaborative connections career options dhoondhne mein relevant ho sakte hain."
+     },
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "Aap Mars mahadasha mein hain (17 Feb 2025–17 Feb 2032); Mars ki supplied symbolism initiative aur drive par zor deti hai, par natal Mars 12th house mein hone se ise seedha job-change ki guarantee nahi maana ja sakta."
+     },
+     {
+      "sourceRef": "vedic:dasha:antardasha",
+      "explanation": "Jupiter antardasha 3 Aug 2026–10 Jul 2027 tak hai. Yeh ek explicit dasha window hai jismein aap career ke options aur growth ko evaluate kar sakte hain; evidence kisi ek best date ko nahi batata."
+     },
+     {
+      "sourceRef": "vedic:natal:jupiter",
+      "explanation": "Jupiter 9th house mein hai aur supplied symbolism growth ko structured, goal-minded approach se jodta hai; isliye nayi opportunity ko long-term learning aur practical goals ke against parakhna relevant hoga."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": "Di hui dasha ke mutabik Jupiter antardasha 3 August 2026 se 10 July 2027 tak hai, Mars mahadasha ke andar. Is period ko options evaluate karne ki symbolic window samjhein, guaranteed job-change timing ya kisi ek “best” date ke roop mein nahi.",
+    "uncertainty": "Yeh symbolic Vedic reading hai, job outcome ki guarantee nahi. Role, financial situation, offer terms aur personal priorities ki jaankari nahi di gayi, isliye change karne ya rukne ka final faisla chart se akela nahi kiya ja sakta.",
+    "plainLanguageExplanation": "Seedhi baat: career mein apni alag direction aur connections se aane wale maukon par dhyaan dena theek lagta hai. Job change tab consider karein jab nayi opportunity aapke goals aur practical zarooraton se match kare; keval dasha ke basis par resign na karein. Di hui Jupiter antardasha ke dauran options ko soch-samajh kar assess kar sakte hain.",
+    "followUps": [
+     "Aap kis field ya role mein kaam karte hain, aur kis tarah ki opportunity dhoondh rahe hain?",
+     "Kya aapke paas abhi koi concrete offer ya interview process chal raha hai?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:sun",
+     "vedic:natal:mercury",
+     "vedic:dasha:mahadasha",
+     "vedic:dasha:antardasha",
+     "vedic:natal:jupiter"
+    ]
+   },
+   "usage": {
+    "ms": 11268,
+    "in": 3000,
+    "out": 1013,
+    "reasoning": 167,
+    "cost": 0.0008065,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T6-lottery",
+   "wallMs": 8381,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 7978,
+    "in": 3117,
+    "out": 507,
+    "reasoning": 410,
+    "cost": 0.0005652000000000001,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T7-health",
+   "wallMs": 10541,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "in_scope",
+    "directAnswer": "Honestly, this chart cannot tell whether you will get cancer or another serious disease. The supplied placements and dasha periods are not medical evidence, so I can’t use them to predict or rule out illness.",
+    "insights": [],
+    "supportingFactors": [
+     {
+      "sourceRef": "vedic:natal:moon",
+      "explanation": "This evidence describes the Moon symbolically in terms of emotional needs and responses; it provides no medical findings or disease risk assessment."
+     },
+     {
+      "sourceRef": "vedic:dasha:mahadasha",
+      "explanation": "The current Mars period is a calculated astrological period, not a medical test or basis for forecasting cancer."
+     }
+    ],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "There is no reliable way to assess your personal cancer risk from the supplied astrology evidence. Only appropriate medical evaluation can address symptoms or individual risk.",
+    "plainLanguageExplanation": "Nothing in this reading can honestly answer whether you will develop cancer. If you have symptoms or are worried about your risk, contact a healthcare professional and ask what evaluation or routine screening is appropriate for you. If you have severe or rapidly worsening symptoms, seek urgent medical care.",
+    "followUps": [
+     "If something specific prompted this fear, I can help you prepare questions to ask a clinician.",
+     "Would you like help finding general information about routine screening discussions?"
+    ],
+    "sourceRefs": [
+     "vedic:natal:moon",
+     "vedic:dasha:mahadasha"
+    ]
+   },
+   "usage": {
+    "ms": 10138,
+    "in": 3078,
+    "out": 595,
+    "reasoning": 239,
+    "cost": 0.0006052999999999999,
+    "status": "completed",
+    "incomplete": null
+   }
+  },
+  {
+   "task": "T8-othermodule",
+   "wallMs": 4287,
+   "ok": true,
+   "answer": {
+    "scopeDecision": "out_of_scope",
+    "directAnswer": "I can help interpret this Star Talks reading and its supporting evidence. Please ask about the reading.",
+    "insights": [],
+    "supportingFactors": [],
+    "conflictingFactors": [],
+    "timing": null,
+    "uncertainty": "This is symbolic guidance only.",
+    "plainLanguageExplanation": "Please ask a question grounded in this module.",
+    "followUps": [],
+    "sourceRefs": []
+   },
+   "usage": {
+    "ms": 3885,
+    "in": 3030,
+    "out": 168,
+    "reasoning": 69,
+    "cost": 0.000387,
+    "status": "completed",
+    "incomplete": null
+   }
+  }
+ ]
+}
