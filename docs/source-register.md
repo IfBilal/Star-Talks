@@ -130,22 +130,6 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
 - **Unresolved concerns:**
   - Proofreading pending on the site; not yet read.
 
-## Lal Kitab (five volumes, 1939, 1940, 1941, 1942, 1952)
-
-- **ID:** `lalkitab-joshi-1939-1952`  |  **Systems:** lal-kitab  |  **Status:** blocked
-- **Author:** Attributed to Pt. Roop Chand Joshi (authorship disputed)
-- **Original year:** 1939-1952
-- **Edition used:** Original Urdu; Hindi editions exist. No lawful copy obtained.
-- **Kind:** original/translated (to be determined)
-- **URL:** https://archive.org/details/LalKitab1941  |  **Accessed:** 2026-10-16
-- **Copyright:** Treat as in copyright. Joshi reportedly died 1982 (weak sources); India's term of life+60 would run to 2043. Disputed authorship may change the rule. Own inference, not legal advice.
-- **Permitted use:** NOT USABLE YET. Client instruction: no unofficial scan as a production source. The Internet Archive copy is an unofficial, watermarked redistribution.
-- **Locator style:** Volume, page and rule number
-- **Unresolved concerns:**
-  - No lawful copy obtained. Needs a purchased edition (client asked us to establish lawful access).
-  - Original is cryptic Urdu verse; interpretation needs a qualified reader.
-  - Existing Star Talks Lal Kitab rules (_shared/lal-kitab.ts) are generic placeholders, not from this source.
-
 ## Ziping Zhenquan (子平真詮)
 
 - **ID:** `ziping-zhenquan`  |  **Systems:** bazi, korean-saju  |  **Status:** blocked
@@ -225,3 +209,56 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
   - Frames numbers through reincarnation ('previous lifetimes') and religious language; not reproduced.
   - Some negative aspects contain moral judgements ('destroyer of homes', 'black magic'); excluded or softened.
   - Author death date unknown: rights outside the US unverified.
+
+## Lal Kitab 1941 (third book, 'Gutka'), Hindi edition
+
+- **ID:** `lalkitab-1941-hindi`  |  **Systems:** lal-kitab  |  **Status:** conditional
+- **Author:** Attributed to Pt. Roop Chand Joshi (authorship disputed); Hindi edition prepared by a student group
+- **Original year:** 1941
+- **Edition used:** Free internet release, publisher notice 'Lal Kitab ke Vidyarthi, Haresh Pancholi, Ahmedabad'; client-supplied PDF, 456 pages
+- **Kind:** translated/transliterated (Hindi from Urdu), unofficial free release
+- **URL:** client-supplied file docs/लालकिताब1941.pdf  |  **Accessed:** 2026-10-17
+- **Copyright:** Treat as in copyright; rights unresolved. Attributed to Pt. Roop Chand Joshi (reported died 1982, so India's life+60 term would run to 2043; disputed authorship may change this). This Hindi edition is a free internet release by a student group ('Lal Kitab ke Vidyarthi') that prints its own publisher's copyright notice. Own inference, not legal advice.
+- **Permitted use:** Supplied by the client as a PDF on 2026-10-17. Private research only: independent rules in our own words citing volume and printed page. No reproduction of verses, text or diagrams. The PDF is git-ignored and must never be committed or redistributed. Rules from this source are marked needs-rights and kept out of the live app until the client confirms or a legal check is done.
+- **Locator style:** Planet, house and printed page number
+- **Unresolved concerns:**
+  - Original is cryptic Urdu verse and proverb; the Hindi edition's OCR and my reading may mistake idioms. Needs a qualified reader.
+  - Digits in the OCR copy are sometimes misread (house 10, 11, 12 appear as 40, 44, 42); checked against chapter order.
+  - The Hindi edition is an unofficial release; the original publisher's and the author's estate's rights are unconfirmed.
+  - Death, illness, widowhood and similar predictions are not used; remedies are recorded only as optional traditional practices.
+
+## Lal Kitab ke Farman 1939 (first book), Hindi edition
+
+- **ID:** `lalkitab-1939-hindi`  |  **Systems:** lal-kitab  |  **Status:** pending
+- **Author:** Attributed to Pt. Roop Chand Joshi (authorship disputed); Hindi edition prepared by a student group
+- **Original year:** 1939
+- **Edition used:** Client-supplied PDF, 402 page scan (uploader credit Haresh Pancholi); not yet read
+- **Kind:** translated/transliterated (Hindi from Urdu), unofficial free release
+- **URL:** client-supplied file docs/253866774-…-Lal-Kitab-Ke-Farman-1939.pdf  |  **Accessed:** 2026-10-17
+- **Copyright:** Treat as in copyright; rights unresolved. Attributed to Pt. Roop Chand Joshi (reported died 1982, so India's life+60 term would run to 2043; disputed authorship may change this). This Hindi edition is a free internet release by a student group ('Lal Kitab ke Vidyarthi') that prints its own publisher's copyright notice. Own inference, not legal advice.
+- **Permitted use:** Supplied by the client as a PDF on 2026-10-17. Private research only: independent rules in our own words citing volume and printed page. No reproduction of verses, text or diagrams. The PDF is git-ignored and must never be committed or redistributed. Rules from this source are marked needs-rights and kept out of the live app until the client confirms or a legal check is done.
+- **Locator style:** Planet, house and printed page number
+- **Unresolved concerns:**
+  - Original is cryptic Urdu verse and proverb; the Hindi edition's OCR and my reading may mistake idioms. Needs a qualified reader.
+  - Digits in the OCR copy are sometimes misread (house 10, 11, 12 appear as 40, 44, 42); checked against chapter order.
+  - The Hindi edition is an unofficial release; the original publisher's and the author's estate's rights are unconfirmed.
+  - Death, illness, widowhood and similar predictions are not used; remedies are recorded only as optional traditional practices.
+  - Not yet read.
+
+## Lal Kitab 1952 (fifth book), grammar portion, Hindi edition
+
+- **ID:** `lalkitab-1952-grammar-hindi`  |  **Systems:** lal-kitab  |  **Status:** pending
+- **Author:** Attributed to Pt. Roop Chand Joshi (authorship disputed); Hindi edition prepared by a student group
+- **Original year:** 1952
+- **Edition used:** Client-supplied PDF, 241 pages, 'grammar portion pages 1-234'; not yet read
+- **Kind:** translated/transliterated (Hindi from Urdu), unofficial free release
+- **URL:** client-supplied file docs/Lal-Kitab-1952 Grammer Portion Page-1-to-234.pdf  |  **Accessed:** 2026-10-17
+- **Copyright:** Treat as in copyright; rights unresolved. Attributed to Pt. Roop Chand Joshi (reported died 1982, so India's life+60 term would run to 2043; disputed authorship may change this). This Hindi edition is a free internet release by a student group ('Lal Kitab ke Vidyarthi') that prints its own publisher's copyright notice. Own inference, not legal advice.
+- **Permitted use:** Supplied by the client as a PDF on 2026-10-17. Private research only: independent rules in our own words citing volume and printed page. No reproduction of verses, text or diagrams. The PDF is git-ignored and must never be committed or redistributed. Rules from this source are marked needs-rights and kept out of the live app until the client confirms or a legal check is done.
+- **Locator style:** Planet, house and printed page number
+- **Unresolved concerns:**
+  - Original is cryptic Urdu verse and proverb; the Hindi edition's OCR and my reading may mistake idioms. Needs a qualified reader.
+  - Digits in the OCR copy are sometimes misread (house 10, 11, 12 appear as 40, 44, 42); checked against chapter order.
+  - The Hindi edition is an unofficial release; the original publisher's and the author's estate's rights are unconfirmed.
+  - Death, illness, widowhood and similar predictions are not used; remedies are recorded only as optional traditional practices.
+  - Not yet read.

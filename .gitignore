@@ -49,3 +49,8 @@ docs/*Lal-Kitab*.pdf
 docs/*Lal-Kitab*.PDF
 docs/लाल*.pdf
 docs/*[Ll]al*[Kk]itab*.pdf
+
+# Lal Kitab rules derive from a copyrighted book whose rights are unresolved and the repo is public.
+# Keep local until the client confirms or a legal check is done (see docs/milestone-2-client-directives.md).
+knowledge/rules/lal-kitab.json
+docs/interpretation-rules/lal-kitab.md

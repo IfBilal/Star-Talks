@@ -202,31 +202,6 @@
    "status": "pending"
   },
   {
-   "id": "lalkitab-joshi-1939-1952",
-   "system": [
-    "lal-kitab"
-   ],
-   "title": "Lal Kitab (five volumes, 1939, 1940, 1941, 1942, 1952)",
-   "author": "Attributed to Pt. Roop Chand Joshi (authorship disputed)",
-   "originalYear": "1939-1952",
-   "edition": "Original Urdu; Hindi editions exist. No lawful copy obtained.",
-   "kind": "original/translated (to be determined)",
-   "url": "https://archive.org/details/LalKitab1941",
-   "accessed": "2026-10-16",
-   "copyright": {
-    "status": "Treat as in copyright",
-    "basis": "Joshi reportedly died 1982 (weak sources); India's term of life+60 would run to 2043. Disputed authorship may change the rule. Own inference, not legal advice."
-   },
-   "permittedUse": "NOT USABLE YET. Client instruction: no unofficial scan as a production source. The Internet Archive copy is an unofficial, watermarked redistribution.",
-   "locatorStyle": "Volume, page and rule number",
-   "concerns": [
-    "No lawful copy obtained. Needs a purchased edition (client asked us to establish lawful access).",
-    "Original is cryptic Urdu verse; interpretation needs a qualified reader.",
-    "Existing Star Talks Lal Kitab rules (_shared/lal-kitab.ts) are generic placeholders, not from this source."
-   ],
-   "status": "blocked"
-  },
-  {
    "id": "ziping-zhenquan",
    "system": [
     "bazi",
@@ -353,6 +328,86 @@
     "Author death date unknown: rights outside the US unverified."
    ],
    "status": "ready"
+  },
+  {
+   "id": "lalkitab-1941-hindi",
+   "system": [
+    "lal-kitab"
+   ],
+   "title": "Lal Kitab 1941 (third book, 'Gutka'), Hindi edition",
+   "author": "Attributed to Pt. Roop Chand Joshi (authorship disputed); Hindi edition prepared by a student group",
+   "originalYear": "1941",
+   "edition": "Free internet release, publisher notice 'Lal Kitab ke Vidyarthi, Haresh Pancholi, Ahmedabad'; client-supplied PDF, 456 pages",
+   "kind": "translated/transliterated (Hindi from Urdu), unofficial free release",
+   "url": "client-supplied file docs/लालकिताब1941.pdf",
+   "accessed": "2026-10-17",
+   "copyright": {
+    "status": "Treat as in copyright; rights unresolved",
+    "basis": "Attributed to Pt. Roop Chand Joshi (reported died 1982, so India's life+60 term would run to 2043; disputed authorship may change this). This Hindi edition is a free internet release by a student group ('Lal Kitab ke Vidyarthi') that prints its own publisher's copyright notice. Own inference, not legal advice."
+   },
+   "permittedUse": "Supplied by the client as a PDF on 2026-10-17. Private research only: independent rules in our own words citing volume and printed page. No reproduction of verses, text or diagrams. The PDF is git-ignored and must never be committed or redistributed. Rules from this source are marked needs-rights and kept out of the live app until the client confirms or a legal check is done.",
+   "locatorStyle": "Planet, house and printed page number",
+   "concerns": [
+    "Original is cryptic Urdu verse and proverb; the Hindi edition's OCR and my reading may mistake idioms. Needs a qualified reader.",
+    "Digits in the OCR copy are sometimes misread (house 10, 11, 12 appear as 40, 44, 42); checked against chapter order.",
+    "The Hindi edition is an unofficial release; the original publisher's and the author's estate's rights are unconfirmed.",
+    "Death, illness, widowhood and similar predictions are not used; remedies are recorded only as optional traditional practices."
+   ],
+   "status": "conditional"
+  },
+  {
+   "id": "lalkitab-1939-hindi",
+   "system": [
+    "lal-kitab"
+   ],
+   "title": "Lal Kitab ke Farman 1939 (first book), Hindi edition",
+   "author": "Attributed to Pt. Roop Chand Joshi (authorship disputed); Hindi edition prepared by a student group",
+   "originalYear": "1939",
+   "edition": "Client-supplied PDF, 402 page scan (uploader credit Haresh Pancholi); not yet read",
+   "kind": "translated/transliterated (Hindi from Urdu), unofficial free release",
+   "url": "client-supplied file docs/253866774-…-Lal-Kitab-Ke-Farman-1939.pdf",
+   "accessed": "2026-10-17",
+   "copyright": {
+    "status": "Treat as in copyright; rights unresolved",
+    "basis": "Attributed to Pt. Roop Chand Joshi (reported died 1982, so India's life+60 term would run to 2043; disputed authorship may change this). This Hindi edition is a free internet release by a student group ('Lal Kitab ke Vidyarthi') that prints its own publisher's copyright notice. Own inference, not legal advice."
+   },
+   "permittedUse": "Supplied by the client as a PDF on 2026-10-17. Private research only: independent rules in our own words citing volume and printed page. No reproduction of verses, text or diagrams. The PDF is git-ignored and must never be committed or redistributed. Rules from this source are marked needs-rights and kept out of the live app until the client confirms or a legal check is done.",
+   "locatorStyle": "Planet, house and printed page number",
+   "concerns": [
+    "Original is cryptic Urdu verse and proverb; the Hindi edition's OCR and my reading may mistake idioms. Needs a qualified reader.",
+    "Digits in the OCR copy are sometimes misread (house 10, 11, 12 appear as 40, 44, 42); checked against chapter order.",
+    "The Hindi edition is an unofficial release; the original publisher's and the author's estate's rights are unconfirmed.",
+    "Death, illness, widowhood and similar predictions are not used; remedies are recorded only as optional traditional practices.",
+    "Not yet read."
+   ],
+   "status": "pending"
+  },
+  {
+   "id": "lalkitab-1952-grammar-hindi",
+   "system": [
+    "lal-kitab"
+   ],
+   "title": "Lal Kitab 1952 (fifth book), grammar portion, Hindi edition",
+   "author": "Attributed to Pt. Roop Chand Joshi (authorship disputed); Hindi edition prepared by a student group",
+   "originalYear": "1952",
+   "edition": "Client-supplied PDF, 241 pages, 'grammar portion pages 1-234'; not yet read",
+   "kind": "translated/transliterated (Hindi from Urdu), unofficial free release",
+   "url": "client-supplied file docs/Lal-Kitab-1952 Grammer Portion Page-1-to-234.pdf",
+   "accessed": "2026-10-17",
+   "copyright": {
+    "status": "Treat as in copyright; rights unresolved",
+    "basis": "Attributed to Pt. Roop Chand Joshi (reported died 1982, so India's life+60 term would run to 2043; disputed authorship may change this). This Hindi edition is a free internet release by a student group ('Lal Kitab ke Vidyarthi') that prints its own publisher's copyright notice. Own inference, not legal advice."
+   },
+   "permittedUse": "Supplied by the client as a PDF on 2026-10-17. Private research only: independent rules in our own words citing volume and printed page. No reproduction of verses, text or diagrams. The PDF is git-ignored and must never be committed or redistributed. Rules from this source are marked needs-rights and kept out of the live app until the client confirms or a legal check is done.",
+   "locatorStyle": "Planet, house and printed page number",
+   "concerns": [
+    "Original is cryptic Urdu verse and proverb; the Hindi edition's OCR and my reading may mistake idioms. Needs a qualified reader.",
+    "Digits in the OCR copy are sometimes misread (house 10, 11, 12 appear as 40, 44, 42); checked against chapter order.",
+    "The Hindi edition is an unofficial release; the original publisher's and the author's estate's rights are unconfirmed.",
+    "Death, illness, widowhood and similar predictions are not used; remedies are recorded only as optional traditional practices.",
+    "Not yet read."
+   ],
+   "status": "pending"
   }
  ]
 }
