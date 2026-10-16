@@ -674,6 +674,421 @@
    "review": "not-reviewed",
    "readiness": "excluded",
    "omitted": "Excluded by product policy: no ethnicity-based inference."
+  },
+  {
+   "id": "palmistry.lines.general-quality",
+   "system": "palmistry",
+   "topic": "lines",
+   "concept": "Reading a line's clarity, depth, breaks and islands",
+   "explanation": "In the tradition a clear, steady, well-defined line reads as that area of life being strong and settled, while a faint, broken, chained or wavy line reads as that area being uneven or changeable. No single sign is treated as decisive; a pattern repeated across several lines counts for more than one mark.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. III 'In Relation to the Lines' (chapter starts p. 74)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source links line colour to health and temper and treats some marks as warnings of disaster; not used."
+  },
+  {
+   "id": "palmistry.lines.branches",
+   "system": "palmistry",
+   "topic": "lines",
+   "concept": "Branches rising from or falling away from a line",
+   "explanation": "Branches that rise from a line are traditionally read as extra strength or progress in that area; branches that fall away are read as a draining or lessening of it. A fork at a line's end adds range but can suggest a divided approach.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. III 'In Relation to the Lines' (chapter starts p. 74)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.lines.sister-line",
+   "system": "palmistry",
+   "topic": "lines",
+   "concept": "A fine line running alongside a main line ('sister line')",
+   "explanation": "Read as support for the main line: a reinforcing influence that steadies that area of life.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. III 'In Relation to the Lines' (chapter starts p. 74)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hands.left-right",
+   "system": "palmistry",
+   "topic": "hands",
+   "concept": "Comparing the left and right hand",
+   "explanation": "The classic guide is to look at both hands: the hand a person is born with is read as natural character, and the hand they use most as what experience and choices have built. Marked differences between them are read as a life that has changed course; similar hands as a more consistent path. Left-handed people are said to reverse this emphasis.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. IV 'The Right and Left Hands' (chapter starts p. 77)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.life.vitality",
+   "system": "palmistry",
+   "topic": "life-line",
+   "concept": "Life line: the curve around the base of the thumb",
+   "explanation": "Traditionally read as a symbol of vitality, energy and how steadily a person moves through life, and not as a measure of lifespan. A long, deep, even curve is read as steady stamina; a faint, shorter or fragmented one as energy that comes in bursts and may need pacing.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. V 'The Line of Life' (chapter starts p. 79)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source uses the line, its breaks and islands to predict illness, death and accidents; not used. Star Talks never equates the life line with lifespan."
+  },
+  {
+   "id": "palmistry.line.life.start",
+   "system": "palmistry",
+   "topic": "life-line",
+   "concept": "Where the life line begins relative to the index finger and head line",
+   "explanation": "Starting high, from the base of the index finger's mount, is traditionally read as early ambition. Starting joined to the head line is read as a thoughtful, careful, sensitive approach. A moderate gap between the life line and head line is read as energy and freedom to act on ideas; a very wide gap as impulsiveness and overconfidence.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. V 'The Line of Life' (chapter starts p. 79)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.life.branches",
+   "system": "palmistry",
+   "topic": "life-line",
+   "concept": "Branches leaving the life line",
+   "explanation": "Branches running upward toward the Jupiter, Saturn, Sun or Mercury mounts are traditionally read as gains in that field: a rise in status or leadership (Jupiter), wealth through own effort (Saturn), recognition (Sun) or success in business or science (Mercury). A branch crossing toward the Luna mount is read as restlessness and a pull to travel or change.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. V 'The Line of Life' (chapter starts p. 79)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also reads lines crossing the life line as divorce, scandal, family interference and ill-fated relationships; not used."
+  },
+  {
+   "id": "palmistry.line.head.meaning",
+   "system": "palmistry",
+   "topic": "head-line",
+   "concept": "Head line: the line across the middle of the palm",
+   "explanation": "Traditionally read as the line of thinking style: how a person reasons, what kind of talent they have and which way their mind leans, practical or imaginative.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. VII 'The Line of Head' (chapter starts p. 87)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also reads this line for insanity, brain disease, criminal propensities and early death; not used."
+  },
+  {
+   "id": "palmistry.line.head.start",
+   "system": "palmistry",
+   "topic": "head-line",
+   "concept": "Where the head line begins",
+   "explanation": "Beginning on the Jupiter mount is read as ambition combined with sound judgment and a talent for leading. Beginning joined to the life line is read as a careful, sensitive mind that may rein itself in too tightly. A wide gap from the life line is read as bold, quick, sometimes hasty decision-making.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. VII 'The Line of Head' (chapter starts p. 87)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.head.course",
+   "system": "palmistry",
+   "topic": "head-line",
+   "concept": "Straight versus sloping head line",
+   "explanation": "A straight, even head line is read as practical common sense and attention to concrete matters. A gently sloping line is read as a balance between practical and imaginative thinking. A strongly sloping line is read as a taste for imagination, idealism, romance and creative work; ending in a small fork on the Luna mount is read as literary gifts.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. VII 'The Line of Head' (chapter starts p. 87)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.head.length",
+   "system": "palmistry",
+   "topic": "head-line",
+   "concept": "Long versus short head line",
+   "explanation": "A long, straight line reaching the hand's outer edge is read as considerable mental power, with the caution that it can be used selfishly. A line that barely passes the middle of the palm is read as a plain, practical, here-and-now way of thinking.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. VII 'The Line of Head' (chapter starts p. 87)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.head.branches",
+   "system": "palmistry",
+   "topic": "head-line",
+   "concept": "Branches from the head line to mounts",
+   "explanation": "A branch toward Luna is read as imagination and interest in the mystical; toward Mercury as business or science; toward the Sun as a wish for recognition; toward Saturn as depth, music or a religious bent; toward Jupiter as pride and ambition for power.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. VII 'The Line of Head' (chapter starts p. 87)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.head.chained",
+   "system": "palmistry",
+   "topic": "head-line",
+   "concept": "Chained or broken-up head line",
+   "explanation": "Traditionally read as a mind that finds it hard to settle on one idea, so decisions may shift.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. VII 'The Line of Head' (chapter starts p. 87)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.head.by-hand-type",
+   "system": "palmistry",
+   "topic": "head-line",
+   "concept": "Head line read against the hand type",
+   "explanation": "The tradition says a head line should be judged against the hand it sits on: a sloping line is a bigger sign of imagination on a square hand than on a conic or psychic hand, and a straight line on a conic hand points to unusual practicality for an artistic type. Features that go against the hand's type are treated as the more telling.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. VIII 'The Line of Head in Relation to the Seven Types' (chapter starts p. 91)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.heart.meaning",
+   "system": "palmistry",
+   "topic": "heart-line",
+   "concept": "Heart line: the line across the top of the palm under the fingers",
+   "explanation": "Traditionally read as the line of affection: how a person loves, shows feeling and relates emotionally.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. X 'The Line of Heart' (chapter starts p. 98)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.heart.start",
+   "system": "palmistry",
+   "topic": "heart-line",
+   "concept": "Where the heart line begins",
+   "explanation": "Beginning on the Jupiter mount is read as idealistic, loyal love with high standards and a tendency to put loved ones on a pedestal. Beginning between the index and middle fingers is read as a calm, steady, quietly deep way of loving. Beginning under the Saturn mount is read as more intense, physical and self-focused affection, less outwardly expressive at home.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. X 'The Line of Heart' (chapter starts p. 98)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source uses sensual and selfish labels and predicts marriage outcomes; softened."
+  },
+  {
+   "id": "palmistry.line.heart.form",
+   "system": "palmistry",
+   "topic": "heart-line",
+   "concept": "Shape and length of the heart line",
+   "explanation": "A deep, clear line is read as strong, clear feelings. A line stretching right across the palm is read as a very intense, possibly jealous, attachment style. A line dotted with many small lines is read as changeable affections. A thin, bare line is read as reserved feelings.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. X 'The Line of Heart' (chapter starts p. 98)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also reads thin lines as sterility and 'coldness of heart'; not used."
+  },
+  {
+   "id": "palmistry.line.heart.head-distance",
+   "system": "palmistry",
+   "topic": "heart-line",
+   "concept": "Distance between the heart line and the head line",
+   "explanation": "A heart line low on the palm, close to the head line, is read as feelings that tend to colour thinking. A heart line high on the palm with the head line crowding it is read as reason that overrules feeling.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. X 'The Line of Heart' (chapter starts p. 98)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.heart.fork",
+   "system": "palmistry",
+   "topic": "heart-line",
+   "concept": "Forked end of the heart line",
+   "explanation": "A small fork at the start under Jupiter is read as an honest, enthusiastic nature in love. A fork with branches on Jupiter and between the first two fingers is read as a contented, balanced nature. A very wide fork over Jupiter and Saturn is read as a divided, unsettled approach to love.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. X 'The Line of Heart' (chapter starts p. 98)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.fate.meaning",
+   "system": "palmistry",
+   "topic": "fate-line",
+   "concept": "Fate line: the central vertical line toward the middle finger",
+   "explanation": "Traditionally read as the line of career path and worldly direction: the structure of one's work life, helpers and obstacles, and how steady the path feels. Its absence is not a bad sign in itself; some people live a life with no marked single track.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XI 'The Line of Fate' (chapter starts p. 102)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source states that people with no fate line lead a 'vegetable' existence; not used."
+  },
+  {
+   "id": "palmistry.line.fate.origin",
+   "system": "palmistry",
+   "topic": "fate-line",
+   "concept": "Where the fate line begins",
+   "explanation": "Beginning at the wrist and rising straight toward Saturn is read as a clear, early, self-driven career path. Beginning from the life line is read as success built on one's own merit. Beginning from the Luna mount is read as a path shaped by the favour and tastes of other people. Beginning late, high in the palm, is read as direction that comes in the later part of life.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XI 'The Line of Fate' (chapter starts p. 102)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.fate.end",
+   "system": "palmistry",
+   "topic": "fate-line",
+   "concept": "Where the fate line ends",
+   "explanation": "Rising to the Jupiter mount is read as aspiring to leadership and influence. A line that ends at the head line is read as plans checked by a misjudgement, and one that ends at the heart line as plans entangled with personal affection.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XI 'The Line of Fate' (chapter starts p. 102)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source states these as certain failures; presented as tendencies only."
+  },
+  {
+   "id": "palmistry.line.fate.breaks",
+   "system": "palmistry",
+   "topic": "fate-line",
+   "concept": "Breaks and overlapping segments in the fate line",
+   "explanation": "A broken or uneven line is read as an uncertain, up-and-down career. Where a new segment begins alongside the old before it ends, it is read as a change of direction, often toward what the person wants. A doubled fate line is read as two parallel lines of work or two careers.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XI 'The Line of Fate' (chapter starts p. 102)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also reads breaks as certain loss and islands as disaster; not used."
+  },
+  {
+   "id": "palmistry.line.fate.by-hand-type",
+   "system": "palmistry",
+   "topic": "fate-line",
+   "concept": "Fate line weight depends on the hand type",
+   "explanation": "The tradition says a fate line is more common and so less significant on conic and psychic hands, while even a short one is meaningful on a square or spatulate hand.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XI 'The Line of Fate' (chapter starts p. 102)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.sun.meaning",
+   "system": "palmistry",
+   "topic": "sun-line",
+   "concept": "Sun (Apollo) line: vertical line toward the ring finger",
+   "explanation": "Traditionally read as brilliance, recognition and the arts: how visible and appreciated one's talents may become, and a love of beauty. Its meaning depends on what talent the rest of the hand shows, so it points to success in art, writing, wealth or status according to the person.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XII 'The Line of Sun' (chapter starts p. 106)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.sun.origin",
+   "system": "palmistry",
+   "topic": "sun-line",
+   "concept": "Where the sun line begins",
+   "explanation": "From the life line: a life drawn to beauty and creative pursuits. From the fate line: it adds to career success from that point on. From the Luna mount: recognition that depends partly on other people's taste and help. From the Plain of Mars: success that follows effort. From the head line: success built on one's own talent, usually later in life. From the heart line: a love of the arts and distinction late in life.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XII 'The Line of Sun' (chapter starts p. 106)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.line.sun.excluded-health",
+   "system": "palmistry",
+   "topic": "health-line",
+   "concept": "Health line (hepatica) and its use for disease and death",
+   "explanation": "Not used. The source reads this line to predict illness, heart and lung disease and the moment of death, which Star Talks does not offer.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part II, ch. XIII 'The Line of Health, or the Hepatica' (chapter starts p. 109)"
+   },
+   "conditions": "Visible clear palm photo; the line must be identifiable. No calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy: no health, illness or death predictions."
   }
  ]
 }
