@@ -1,0 +1,289 @@
+{
+ "system": "face-reading",
+ "rules": [
+  {
+   "id": "face.forehead.high-or-broad",
+   "system": "face-reading",
+   "topic": "forehead",
+   "concept": "Forehead that is notably high or notably broad",
+   "explanation": "In Western physiognomy a high forehead is traditionally linked with breadth of thought and ease in grasping ideas, and a broad forehead with careful attention and accuracy. Offered as a cultural reading, not a measure of ability.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Forehead' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "face.forehead.profile",
+   "system": "face-reading",
+   "topic": "forehead",
+   "concept": "Forehead profile: upright and rising versus sloping back",
+   "explanation": "The classic view treats a gently rising, upright forehead as the 'open' profile and a strongly receding one as a more action-oriented, less abstract style. A symbolic shorthand only; many cultures read this differently.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Forehead' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source calls receding foreheads a sign of lower intelligence; not used."
+  },
+  {
+   "id": "face.forehead.zones",
+   "system": "face-reading",
+   "topic": "forehead",
+   "concept": "Reading the forehead in three bands",
+   "explanation": "Traditionally the forehead is read in three bands: the lowest, near the brows, for observation and practical perception; the middle for memory and knowledge; the upper for reasoning and original thought. A fuller band is read as an emphasis on that quality.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Forehead' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "The underlying phrenology (organs of the brain) is not presented as fact."
+  },
+  {
+   "id": "face.nose.arched",
+   "system": "face-reading",
+   "topic": "nose",
+   "concept": "Prominent, arched nose",
+   "explanation": "Traditionally read as a forceful, enterprising and determined manner, with a taste for competition.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Nose' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source assigns nose shapes to named ethnic and national groups with character verdicts; all of that is excluded. Only the shape itself is used."
+  },
+  {
+   "id": "face.nose.straight",
+   "system": "face-reading",
+   "topic": "nose",
+   "concept": "Straight, regular nose",
+   "explanation": "Traditionally read as an orderly, refined and balanced manner with an eye for form.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Nose' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "face.nose.upturned",
+   "system": "face-reading",
+   "topic": "nose",
+   "concept": "Short, upturned nose",
+   "explanation": "Traditionally read as a lively, curious and inquisitive manner, quick to take an interest and to chat.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Nose' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also calls short noses unreliable and uses them to judge groups of people; not used."
+  },
+  {
+   "id": "face.nose.long-drooping",
+   "system": "face-reading",
+   "topic": "nose",
+   "concept": "Long nose that curves downward at the tip",
+   "explanation": "Traditionally read as a thoughtful, reserved and penetrating manner that prefers to learn before speaking.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Nose' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "face.nose.nostrils",
+   "system": "face-reading",
+   "topic": "nose",
+   "concept": "Wide versus narrow nostrils",
+   "explanation": "Traditionally wide nostrils are read as boldness and confident breathing space, while small narrow ones are read as a more cautious temperament.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Nose' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source ties nostril size to health and cowardice; not used."
+  },
+  {
+   "id": "face.eyes.full-clear",
+   "system": "face-reading",
+   "topic": "eyes",
+   "concept": "Full, bright, clear eyes with mobile expression",
+   "explanation": "Traditionally read as expressiveness and an observant, communicative nature; the idea is that open, lively eyes go with fluency and good recall of what was seen and heard.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VI 'Signs of Character in the Face, Continued', section 'The Eyes' (chapter starts p. 71)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "face.eyes.spacing",
+   "system": "face-reading",
+   "topic": "eyes",
+   "concept": "Distance between the eyes",
+   "explanation": "Traditionally a moderate gap is read as balanced perception and willingness to learn. Eyes set wide apart are read as watchful and gentle, and eyes set close together as intensely focused.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VI 'Signs of Character in the Face, Continued', section 'The Eyes' (chapter starts p. 71)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source calls narrow-set eyes treacherous and vicious; not used."
+  },
+  {
+   "id": "face.eyes.shape",
+   "system": "face-reading",
+   "topic": "eyes",
+   "concept": "Long, almond-shaped eyes versus round eyes",
+   "explanation": "Traditionally almond-shaped eyes are read as sensitivity and impressionability, and round eyes as openness and straightforwardness.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VI 'Signs of Character in the Face, Continued', section 'The Eyes' (chapter starts p. 71)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also links eye shape to genius, intellect, and voluptuousness; not used."
+  },
+  {
+   "id": "face.mouth.lips-full",
+   "system": "face-reading",
+   "topic": "mouth",
+   "concept": "Well-proportioned, fairly full lips",
+   "explanation": "Traditionally read as warmth, expressiveness and a readiness to share feelings. An evenly balanced upper and lower lip is read as harmony in how someone speaks and relates.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VII 'Signs of Character in the Face, Continued', section 'The Mouth' (chapter starts p. 88)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source moralises about very full or very thin lips (sensuality, stupidity, unkindness); not used."
+  },
+  {
+   "id": "face.mouth.firm-closed",
+   "system": "face-reading",
+   "topic": "mouth",
+   "concept": "Mouth held firmly closed with thin or compressed lips",
+   "explanation": "Traditionally read as self-control, resolve and a tendency to weigh words before speaking.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VII 'Signs of Character in the Face, Continued', section 'The Mouth' (chapter starts p. 88)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source calls thin lips unsocial and hard-hearted; not used."
+  },
+  {
+   "id": "face.mouth.size",
+   "system": "face-reading",
+   "topic": "mouth",
+   "concept": "Wide versus small mouth",
+   "explanation": "Traditionally a wide mouth is read as boldness of expression and a capacity for public speaking, and a smaller mouth as reserve or refinement.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VII 'Signs of Character in the Face, Continued', section 'The Mouth' (chapter starts p. 88)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source calls small mouths trivial and vain, and large coarse mouths animal; not used."
+  },
+  {
+   "id": "face.ears.balanced",
+   "system": "face-reading",
+   "topic": "ears",
+   "concept": "Ears of moderate size, set at a balanced height",
+   "explanation": "Traditionally ears that are neither very large nor very small and sit between brow and nose level are read as a balanced temperament, with symmetry mattering more than any single dimension.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VIII 'Signs of Character in the Face, Continued', section 'The Ears' (chapter starts p. 109)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source links ear size and placement to criminality, brutality and 'savage' natures; not used."
+  },
+  {
+   "id": "face.excluded.race",
+   "system": "face-reading",
+   "topic": "excluded",
+   "concept": "Nose, eye colour, ears or head shape attributed to races or nations",
+   "explanation": "Not used. Source ranks races and nations by facial features and assigns character to eye colour; Star Talks makes no ethnicity-based inference.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Nose' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy."
+  },
+  {
+   "id": "face.excluded.moral-intellect",
+   "system": "face-reading",
+   "topic": "excluded",
+   "concept": "Features read as intelligence, morality, honesty or criminality",
+   "explanation": "Not used. Source judges worth, virtue, vice and criminal tendency from the face; excluded by client policy.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. VI 'Signs of Character in the Face, Continued', section 'The Eyes' (chapter starts p. 71)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy."
+  },
+  {
+   "id": "face.excluded.health",
+   "system": "face-reading",
+   "topic": "excluded",
+   "concept": "Features read as health, disease or 'vital force'",
+   "explanation": "Not used. Source reads health and constitution from the face; excluded by client policy.",
+   "source": {
+    "id": "coates-faces-1880",
+    "locator": "Ch. V 'Signs of Character in the Face', section 'The Nose' (chapter starts p. 60)"
+   },
+   "conditions": "Needs a clear, front-facing photo with the feature visible. Symbolic and traditional only; never used to judge character, morality, health, ethnicity, age or attractiveness. Tradition: Western physiognomy, not Chinese Mian Xiang.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy."
+  }
+ ]
+}

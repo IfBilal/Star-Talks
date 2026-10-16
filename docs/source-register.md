@@ -66,6 +66,7 @@ Copyright conclusions are our own reading, not legal advice. Status: **ready** =
 - **Unresolved concerns:**
   - Client noted that Wellcome Collection's own catalogue edition is CC BY-NC. The Internet Archive item says Public Domain Mark; conflict unresolved. We use only the text for research and write original rules, and reuse no scan images.
   - Victorian physiognomy contains character, morality and racial judgements; not used. Only descriptive feature symbolism, framed as tradition.
+  - Coates describes Western physiognomy (and phrenology), not Chinese Mian Xiang, which the Star Talks module is named after. Mian Xiang rules (three zones, five features) need a Chinese source (e.g. Ma Yi Xiang Fa); none read yet.
 
 ## Brihat Parashara Hora Shastra (Sanskrit text, ch. 1-97)
 
