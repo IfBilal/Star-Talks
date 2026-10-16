@@ -318,6 +318,362 @@
    "testing": "untested",
    "review": "not-reviewed",
    "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hand.psychic",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Psychic hand: long, narrow, delicate-looking with slender tapering fingers",
+   "explanation": "Traditionally read as a gentle, idealistic and highly impressionable temperament with a strong response to beauty, colour and music, and a leaning toward intuition and the spiritual. The tradition adds that practical, orderly affairs may feel harder and that such people can be easily swayed by stronger personalities.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. VII 'The Psychic Hand' (chapter starts p. 40)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source links this type to insanity, early death and mediumship and gives a sentimental allegory; none of that is used."
+  },
+  {
+   "id": "palmistry.hand.mixed",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Mixed hand: no single type fits; fingers differ in shape",
+   "explanation": "Traditionally read as an adaptable, many-sided mind that gets along with different kinds of people and picks up new ideas readily. The same tradition warns that interests can shift often, so staying with one aim takes deliberate effort; a strong head line is said to help the person choose their best talent.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. VIII 'The Mixed Hand' (chapter starts p. 43)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.thumb.length-and-balance",
+   "system": "palmistry",
+   "topic": "thumb",
+   "concept": "Thumb that is long, firm and well proportioned versus short or small",
+   "explanation": "Traditionally the thumb is treated as the single most important feature for reading will. A long, firm, well-balanced thumb is read as self-directed determination that works through thought and planning; a short or slight one is read as a gentler, less assertive will that may need encouragement to push a plan through.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IX 'The Thumb' (chapter starts p. 45)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source also says short thick thumbs show brutishness and weak thumbs show mental deficiency; not used."
+  },
+  {
+   "id": "palmistry.thumb.three-phalanges",
+   "system": "palmistry",
+   "topic": "thumb",
+   "concept": "The thumb's three sections: tip (will), middle (reason), base (affection)",
+   "explanation": "Palmistry splits the thumb into three parts: the tip stands for willpower, the middle section for reasoning, and the base, which borders the Mount of Venus, for warmth and affection. Whichever section looks longest or fullest shows where the person leans. A strong tip with a short middle is read as acting on will before thinking things through; a long middle with a short tip as sound judgment that can stall without drive.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IX 'The Thumb' (chapter starts p. 45)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source describes a very long base as sensuality overriding the person; softened to an emphasis on warmth and comfort."
+  },
+  {
+   "id": "palmistry.thumb.angle",
+   "system": "palmistry",
+   "topic": "thumb",
+   "concept": "How far the thumb stands away from the palm",
+   "explanation": "A thumb that stands out at a wide angle is read as strong independence and resistance to being told what to do. A thumb held tight against the palm's edge is read as caution and reserve, a person who keeps plans to themselves. A thumb between the two, sloping gently toward the fingers, is read as balanced: enough independence for dignity and enough care for steadiness.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IX 'The Thumb' (chapter starts p. 45)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.thumb.joint-supple",
+   "system": "palmistry",
+   "topic": "thumb",
+   "concept": "Supple top joint: the thumb tip bends back into an arch",
+   "explanation": "Traditionally read as an easygoing, adaptable and generous nature that settles into new surroundings quickly and spends time, money and effort freely.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IX 'The Thumb' (chapter starts p. 45)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source ties this to particular nations and to weaker conscience; not used."
+  },
+  {
+   "id": "palmistry.thumb.joint-firm",
+   "system": "palmistry",
+   "topic": "thumb",
+   "concept": "Stiff top joint: the thumb tip does not bend back",
+   "explanation": "Traditionally read as a practical, steady and determined nature that proceeds step by step, keeps its own counsel and sticks with a chosen course. Seen as dependable but slower to change direction.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IX 'The Thumb' (chapter starts p. 45)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source ties this to particular nations; not used."
+  },
+  {
+   "id": "palmistry.thumb.waisted-second-phalange",
+   "system": "palmistry",
+   "topic": "thumb",
+   "concept": "Middle thumb section narrow ('waisted') versus full and thick",
+   "explanation": "A narrow, waisted middle section is read as tact and diplomacy: getting results through finesse. A fuller, heavier middle section is read as a more direct, forceful way of getting things done.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IX 'The Thumb' (chapter starts p. 45)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.thumb.excluded-clubbed",
+   "system": "palmistry",
+   "topic": "thumb",
+   "concept": "Thick, heavy thumb tip with a short flat nail ('clubbed thumb')",
+   "explanation": "Not used. The source links this thumb to violent temper and crime, which Star Talks does not present as readings.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. IX 'The Thumb' (chapter starts p. 45)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy: no judgments of morality, violence or character."
+  },
+  {
+   "id": "palmistry.fingers.joints-smooth",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Smooth finger joints",
+   "explanation": "Traditionally read as a quick, intuitive way of thinking that reaches conclusions by instinct and prefers the overall picture to details. Small matters such as tidy filing can get less attention.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. X 'The Joints of the Fingers' (chapter starts p. 51)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.fingers.joints-knotty",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Prominent, knotty finger joints",
+   "explanation": "Traditionally read as a deliberate, analytical way of thinking: someone who weighs evidence, notices detail and likes order before reaching a view.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. X 'The Joints of the Fingers' (chapter starts p. 51)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.fingers.long",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Long fingers relative to the palm",
+   "explanation": "Traditionally read as attention to detail, exactness and sensitivity to small courtesies. The flip side is a tendency to fret over minor things.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XI 'The Fingers' (chapter starts p. 53)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.fingers.short",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Short fingers relative to the palm",
+   "explanation": "Traditionally read as a quick, big-picture, impulsive style: comfortable with the overall sweep of things, less interested in fine detail or social formality, and direct in speech.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XI 'The Fingers' (chapter starts p. 53)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source calls thick, short fingers cruel and selfish; not used."
+  },
+  {
+   "id": "palmistry.fingers.index-long",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Index finger unusually long (as long as the middle finger)",
+   "explanation": "Traditionally read as strong pride, ambition and a wish to lead or be in charge.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XI 'The Fingers' (chapter starts p. 53)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.fingers.ring-length",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Ring finger long, close to the index finger in length",
+   "explanation": "Traditionally read as an artistic streak combined with ambition for recognition. Very long is read as a love of risk and a taste for the dramatic. A flared tip is read as suited to performing and public speaking.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XI 'The Fingers' (chapter starts p. 53)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source calls the very long version a gambler's mark; softened to risk-taking."
+  },
+  {
+   "id": "palmistry.fingers.little-finger-long",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Little finger long and well shaped",
+   "explanation": "Traditionally read as skill in expression and influence: a good communicator, in writing or speech, who can interest others in what they know.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XI 'The Fingers' (chapter starts p. 53)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.fingers.spacing",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Wide gaps between fingers when the hand is relaxed open",
+   "explanation": "Traditionally a wide gap between the index and middle fingers is read as independence of thought, and a wide gap between the ring and little fingers as independence in action.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XI 'The Fingers' (chapter starts p. 53)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.fingers.excluded-character-judgments",
+   "system": "palmistry",
+   "topic": "fingers",
+   "concept": "Stiff, curved, crooked or thick fingers read as cowardice, crookedness or cruelty",
+   "explanation": "Not used. The source links finger shapes to cowardice, cruelty and 'evil nature', which Star Talks does not present as readings.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XI 'The Fingers' (chapter starts p. 53)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy."
+  },
+  {
+   "id": "palmistry.palm.firm-elastic",
+   "system": "palmistry",
+   "topic": "palm",
+   "concept": "Palm that feels firm and springy, in proportion to the fingers",
+   "explanation": "Traditionally read as steady energy, an even temper and quick thinking. A soft, yielding palm is read as a more relaxed, comfort-loving temperament that takes things at an easy pace.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XII 'The Palm, and Large and Small Hands' (chapter starts p. 56)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready",
+   "omitted": "Source links soft, thick palms to sensuality and thin dry palms to timidity and a worrying nature, and hollow palms to misfortune; not used."
+  },
+  {
+   "id": "palmistry.hand.size",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Large hands versus small hands",
+   "explanation": "Traditionally large hands are associated with enjoying fine, detailed work, and small hands with preferring large ideas and big plans, sometimes bolder than the means to carry them out.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XII 'The Palm, and Large and Small Hands' (chapter starts p. 56)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.mount.luna",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "Mount of Luna: outer edge of the palm opposite the thumb",
+   "explanation": "Traditionally read as imagination, refinement, romantic taste and a love of poetry, landscapes and imaginative stories.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.mount.leaning",
+   "system": "palmistry",
+   "topic": "mounts",
+   "concept": "A mount leaning toward its neighbour",
+   "explanation": "When one mount tilts toward another, the traditions of the two blend. Examples: the Saturn mount leaning toward Jupiter adds seriousness and caution to ambition; Saturn leaning toward the Sun mixes reflective moods into artistic taste; the Sun mount leaning toward Mercury brings artistry into business or scientific work.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XV 'The Mounts, their Position and their Meanings' (chapter starts p. 63)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "ready"
+  },
+  {
+   "id": "palmistry.hands-of-nations.excluded",
+   "system": "palmistry",
+   "topic": "hand-shape",
+   "concept": "Hand shapes attributed to nations and races",
+   "explanation": "Not used. The source assigns hand types to nations and ethnic groups with sweeping character claims. Star Talks does not make judgments about ethnicity.",
+   "source": {
+    "id": "cheiro-hand-1897",
+    "locator": "Part I, ch. XVI 'The Hands of Nations' (chapter starts p. 66)"
+   },
+   "conditions": "Visible hand or palm photo; no calculation needed.",
+   "testing": "untested",
+   "review": "not-reviewed",
+   "readiness": "excluded",
+   "omitted": "Excluded by product policy: no ethnicity-based inference."
   }
  ]
 }
