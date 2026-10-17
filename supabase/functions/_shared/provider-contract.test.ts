@@ -23,6 +23,11 @@ Deno.test('Provider contracts fail closed without live credentials or network',a
     for(const bad of [null,{...answer,conflictingFactors:null},{...answer,directAnswer:42},{...answer,followUps:[{}]}]){output=response(bad);await rejects(()=>generateAnswer(args),'incomplete');}
     output={output:[{content:[{type:'refusal',refusal:'No'}]}]};await rejects(()=>generateAnswer(args),'readable answer');
     output=response({quality:'blurred',retakeReason:'Please retake in daylight.',observations:[]});assert(Boolean((await observeImage('palm','https://example.invalid/private')).retakeReason),'Retake preserved');
+    output=response({quality:'clear',retakeReason:null,observations:[{id:'a',feature:'Forehead',description:'Visible',location:'upper',confidence:'high'}]});
+    await observeImage('face','https://example.invalid/private');const faceInstructions=String(requests.at(-1)!.instructions);
+    assert(faceInstructions.includes('does not clearly show a face')&&!faceInstructions.includes('palm'),'Face prompt must refer to a face, not a palm');
+    await observeImage('palm','https://example.invalid/private');const palmInstructions=String(requests.at(-1)!.instructions);
+    assert(palmInstructions.includes('does not clearly show a palm')&&!palmInstructions.includes('facial'),'Palm prompt must refer to a palm, not a face');
     output=response({quality:'clear',retakeReason:null,observations:[{id:'x'}]});await rejects(()=>observeImage('palm','https://example.invalid/private'),'invalid');
     output=response({overview:'x',strengths:[],challenges:[],dynamics:'x',longTermOutlook:'x',timing:null});await rejects(()=>generateCompatibility({method:'tarot',relationshipType:'love',firstName:'A',secondName:'B',factors:[],warnings:[],language:'English'}),'supplied factors');
     output=response({summary:'x',userFacts:[null],openQuestions:[]});await rejects(()=>summarizeConversation('',[]),'invalid');

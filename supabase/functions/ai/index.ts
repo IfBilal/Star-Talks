@@ -7,7 +7,8 @@ import { calculateFourPillars } from '../_shared/four-pillars.ts';
 import { MODULES, MODULE_POLICY_VERSION, explicitlyRequestedOtherModule, isModuleId, type ModuleId } from '../_shared/modules.ts';
 import { calculateNumerology, NUMBER_MEANINGS } from '../_shared/numerology.ts';
 import { AI_MODEL, generateAnswer, generateCompatibility, moderate, observeImage, summarizeConversation } from '../_shared/openai.ts';
-import { drawTarot, TAROT_LIBRARY_VERSION, type SpreadId } from '../_shared/tarot.ts';
+import { drawTarot, tarotCombinationFactors, TAROT_LIBRARY_VERSION, type SpreadId } from '../_shared/tarot.ts';
+import { ilganText, koreanGapText, numerologyRuleText, selectImageRules, stemRuleText, tenGodKey, tenGodText } from '../_shared/knowledge.ts';
 import { clearlyOutsideReadingScope, OUT_OF_SCOPE_REPLY } from '../_shared/scope.ts';
 
 const respond = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...cors, 'content-type': 'application/json' } });
@@ -132,7 +133,7 @@ async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleI
   if(moduleId==='tarot') {
     const spread:SpreadId=body.spread==='celtic'?'celtic':'three';
     const tarotCards=drawTarot(spread);
-    return {profileId:null,snapshot:{moduleId,version:TAROT_LIBRARY_VERSION,factors:tarotCards.map(card=>({id:card.id,label:`${card.cardName} — ${card.position}`,value:card.orientation,rule:`${card.meaning}; position: ${card.positionMeaning}`})),warnings:[],tarotCards}};
+    return {profileId:null,snapshot:{moduleId,version:TAROT_LIBRARY_VERSION,factors:[...tarotCards.map(card=>({id:card.id,label:`${card.cardName} — ${card.position}`,value:card.orientation,rule:`${card.meaning} Position meaning: ${card.positionMeaning}.`})),...tarotCombinationFactors(tarotCards)],warnings:[],tarotCards}};
   }
   if(moduleId==='palmistry'||moduleId==='face-reading') {
     const mediaId=must(uuid(body.mediaId)?body.mediaId:null,`Upload a ${moduleId==='palmistry'?'palm':'face'} image first.`);
@@ -147,19 +148,28 @@ async function evidenceFor(db: SupabaseClient, userId: string, moduleId: ModuleI
     const observation=await observeImage(expectedKind,signed.signedUrl,usage=>recordUsage(db,userId,requestId,usage));
     if(observation.retakeReason||observation.observations.length<2)throw new HttpError(422,observation.retakeReason||'Please provide a clearer image with the requested features visible.');
     const factors=observation.observations.map((item,index)=>({id:`${expectedKind}:visible:${index+1}`,label:item.feature,value:item.description,rule:`Visible at ${item.location}; confidence: ${item.confidence}. Symbolic interpretation only.`}));
+    // Traditional meanings are attached only for features the image actually shows; the model chooses among them.
+    for(const rule of selectImageRules(expectedKind,observation.observations.map(item=>`${item.feature} ${item.description}`)))
+      factors.push({id:rule.id,label:`Tradition: ${rule.concept}`,value:'traditional reading',rule:`${rule.text} Use only if the image clearly shows this feature.`});
     return {profileId:null,snapshot:{moduleId,version:'visible-features/1.0.0',factors,warnings:[],mediaId,data:{quality:observation.quality,hand:media.metadata?.hand??null}}};
   }
   const profile=await selectedProfile(db,userId,body.profileId);
   if(moduleId==='numerology') {
     const result=calculateNumerology(profile.birth_date,profile.numerology_name,new Date(),profile.time_zone);
-    return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors:result.evidence.map(item=>({id:item.id,label:item.label,value:item.value,rule:`${item.meaning} Interpretation: ${NUMBER_MEANINGS[item.value]??'a personal theme'}.`})),warnings:result.warnings,data:{normalizedName:result.normalizedName}}};
+    return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors:result.evidence.map(item=>({id:item.id,label:item.label,value:item.value,rule:`${item.meaning} ${numerologyRuleText(item.id,item.value,NUMBER_MEANINGS[item.value]??'a personal theme')}`})),warnings:result.warnings,data:{normalizedName:result.normalizedName}}};
   }
   if(moduleId==='chinese-zodiac'||moduleId==='korean-astrology') {
     const result=calculateFourPillars({birthDate:profile.birth_date,birthTime:profile.birth_time,birthInstant:profile.birth_instant,timeZone:profile.time_zone});
     const factors=result.pillars.map(pillar=>({id:pillar.id,label:`${pillar.id.slice(7)} pillar`,value:moduleId==='korean-astrology'?pillar.korean:pillar.chinese,rule:`${pillar.yinYang} ${pillar.stemElement} stem over ${pillar.branchElement} ${pillar.animal} branch.`}));
-    factors.push({id:'pillar:day-master',label:moduleId==='korean-astrology'?'Ilgan':'Day Master',value:moduleId==='korean-astrology'?result.ilgan:result.dayMaster,rule:'Day stem at the centre of the Four Pillars interpretation.'});
+    const dayPillar=result.pillars[2];
+    factors.push({id:'pillar:day-master',label:moduleId==='korean-astrology'?'Ilgan':'Day Master',value:moduleId==='korean-astrology'?result.ilgan:result.dayMaster,rule:`${moduleId==='korean-astrology'?(ilganText()??''):''} ${stemRuleText(dayPillar.stem)??'Day stem at the centre of the Four Pillars interpretation.'}`.trim()});
+    for(const pillar of result.pillars){
+      if(pillar.id==='pillar:day')continue;
+      const god=tenGodText(tenGodKey({element:dayPillar.stemElement,yinYang:dayPillar.yinYang},{element:pillar.stemElement,yinYang:pillar.yinYang}));
+      if(god)factors.push({id:`${pillar.id}:ten-god`,label:`${pillar.id.slice(7)} stem relation to the day stem`,value:god.id.replace('bazi.tengod.',''),rule:god.text});
+    }
     factors.push({id:'pillar:element-balance',label:'Five-element balance',value:JSON.stringify(result.elementBalance),rule:'Count of the eight stem/branch characters, excluding an unknown hour.'});
-    return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors,warnings:result.warnings,data:{animals:result.animals,boundary:result.boundary}}};
+    return {profileId:profile.id,snapshot:{moduleId,version:result.version,profileName:profile.display_name,factors,warnings:[...result.warnings,...(moduleId==='korean-astrology'&&koreanGapText()?[koreanGapText()!]:[])],data:{animals:result.animals,boundary:result.boundary}}};
   }
   if(moduleId==='vedic'||moduleId==='western'||moduleId==='lal-kitab') {
     if(moduleId==='lal-kitab'&&!profile.birth_time_known)throw new HttpError(422,'A known birth time is needed for Lal Kitab house rules. Edit this birth profile to add it.');
@@ -232,13 +242,20 @@ async function commitMessages(db:SupabaseClient,rows:Array<Record<string,unknown
   return data;
 }
 
+/** The snapshot keeps the full calculation for audit; the model only needs the factors, so bulky data is left out. */
+function forModel(snapshot:Snapshot):Snapshot {
+  const data=snapshot.data as Record<string,unknown>|undefined;
+  if(!data||!('dashaTimeline' in data))return snapshot;
+  const {dashaTimeline:_omitted,...rest}=data;
+  return {...snapshot,data:rest};
+}
 async function generated(db:SupabaseClient,conversation:{id:string;user_id:string;module_id:ModuleId;input_snapshot:Snapshot;summary:string;summary_message_count?:number},question:string,requestId:string,first:boolean) {
   const snapshot=conversation.input_snapshot;
   const refs=snapshot.factors.map(factor=>factor.id);
   const recent=first?{data:[],count:0,error:null}:await db.from('ai_messages').select('role,body',{count:'exact'}).eq('conversation_id',conversation.id).order('sequence',{ascending:false}).limit(10);
   if(recent.error)throw new HttpError(503,'Conversation context could not be loaded.');
   const messages=(recent.data??[]).reverse();
-  const {answer,model}=await generateAnswer({moduleId:conversation.module_id,evidence:snapshot,allowedSourceRefs:refs,question,
+  const {answer,model}=await generateAnswer({moduleId:conversation.module_id,evidence:forModel(snapshot),allowedSourceRefs:refs,question,
     history:messages.slice(-10).map(item=>({role:item.role,body:item.body})),summary:conversation.summary||'',language:await languageFor(db,conversation.user_id),first,
     onUsage:usage=>recordUsage(db,conversation.user_id,requestId,usage)});
   if(answer.scopeDecision==='in_scope'){

@@ -1,8 +1,9 @@
 import { resolveLocalBirthTime } from '../../../src/features/birth/timezone.ts';
 import { calculateChart, transitLongitudes, CALCULATOR_VERSION, type ChartResult } from '../../../src/features/astrology/chart.ts';
 import { lalKitabHouseRule, LAL_KITAB_RULES_VERSION } from './lal-kitab.ts';
+import { KNOWLEDGE_VERSION, SIGN_RULER, dignity, dignityResultText, grahaClassificationText, grahaText, signModalityText, signRulersText } from './knowledge.ts';
 
-export const CHART_RULES_VERSION = 'chart-rules/1.1.0';
+export const CHART_RULES_VERSION = 'chart-rules/1.2.0';
 type Profile = { birth_date: string; birth_instant: string | null; birth_time_known: boolean; latitude: number; longitude: number; time_zone: string };
 type Factor = { id: string; label: string; value: string; rule: string };
 
@@ -146,12 +147,34 @@ export function buildChartEvidence(profile: Profile, moduleId: 'vedic'|'western'
     const theme=planetThemes[planet.name]??'a planetary theme';
     const style=signStyles[planet.sign]??'its sign style';
     const house=exact?houseFor(planet.sign,rising):null;
+    const graha=moduleId==='vedic'?grahaText(planet.name):undefined;
+    const dig=moduleId==='vedic'&&exact?dignity(planet.name,planet.sign,planet.degree):'neutral';
+    const digNote=dig==='neutral'?'':` Dignity: ${dig}.`;
     factors.push({id:`${moduleId}:natal:${planet.name.toLowerCase()}`,label:`Natal ${planet.name}`,
-      value:`${planet.sign}${exact?` ${planet.degree.toFixed(1)}°`:' (date-only estimate)'}${house?`, whole-sign house ${house}`:''}`,
-      rule:`${planet.name} relates symbolically to ${theme}; ${planet.sign} expresses this in a ${style} way${house?` in ${houseThemes[house-1]}`:''}.`});
+      value:`${planet.sign}${exact?` ${planet.degree.toFixed(1)}°`:' (date-only estimate)'}${house?`, whole-sign house ${house}`:''}${dig==='neutral'?'':` (${dig})`}`,
+      rule:graha?`${graha} Sign: ${planet.sign}, ruled by ${SIGN_RULER[planet.sign]} (style: ${style})${house?`; house ${house} is the area of ${houseThemes[house-1]}`:''}.${digNote}`
+        :`${planet.name} relates symbolically to ${theme}; ${planet.sign} expresses this in a ${style} way${house?` in ${houseThemes[house-1]}`:''}.`});
   }
   if(exact){
     factors.push({id:`${moduleId}:ascendant`,label:'Ascendant',value:rising,rule:`Whole-sign houses begin with ${rising}.`});
+    if(moduleId==='vedic'){
+      const nodes=[['Rahu',chart.vedic.meanLunarNode.rahuLongitude],['Ketu',chart.vedic.meanLunarNode.ketuLongitude]] as const;
+      for(const [name,longitude] of nodes){
+        const sign=Object.keys(signStyles)[Math.floor(mod(longitude,360)/30)],house=houseFor(sign,rising);
+        factors.push({id:`vedic:natal:${name.toLowerCase()}`,label:`Natal ${name}`,value:`${sign} ${(mod(longitude,360)%30).toFixed(1)}°, whole-sign house ${house} (mean node)`,
+          rule:`${grahaText(name)??`${name} is a shadow planet.`} House ${house} is the area of ${houseThemes[house-1]}.`});
+      }
+      const signNames=Object.keys(signStyles),risingIndex=signNames.indexOf(rising);
+      const where=new Map(planets.map(p=>[p.name,houseFor(p.sign,rising)]));
+      const lords=signNames.map((_,i)=>{const sign=signNames[(risingIndex+i)%12],ruler=SIGN_RULER[sign];return `House ${i+1} ${sign}: ruled by ${ruler}${where.has(ruler)?` (in house ${where.get(ruler)})`:''}`;}).join('; ');
+      factors.push({id:'vedic:house-lords',label:'House rulers and where they sit',value:lords,rule:`${signRulersText()??''} Connect a life area to the house where its ruler sits.`.trim()});
+      const natures=grahaClassificationText();
+      if(natures)factors.push({id:'vedic:method:planet-natures',label:'Benefic and malefic planets',value:'Sun, Mars, Saturn, Rahu, Ketu (and a waning Moon) are natural malefics; the rest are benefic',rule:natures});
+      const modality=signModalityText();
+      if(modality)factors.push({id:'vedic:method:sign-modality',label:'Movable, fixed and dual signs',value:'Sign quality classification',rule:modality});
+      const strength=dignityResultText();
+      if(strength)factors.push({id:'vedic:method:dignity-strength',label:'Dignity and how fully a planet delivers',value:'Exalted, own, moolatrikona, debilitated',rule:strength});
+    }
     factors.push(...(system==='western'?majorAspects(chart,system):vedicAspects(chart)));
     if(system==='western')factors.push(...westernTransitWindows(chart,asOf));
     if(moduleId==='vedic'){
@@ -165,5 +188,5 @@ export function buildChartEvidence(profile: Profile, moduleId: 'vedic'|'western'
     for(const p of moving.filter(p=>['Sun','Mars','Jupiter','Saturn'].includes(p.name)))
       factors.push({id:`${moduleId}:transit:${p.name.toLowerCase()}`,label:`Current ${p.name} transit`,value:`${p.sign} as of ${asOf.toISOString().slice(0,10)}`,rule:'Current transit position; no personal timing window is established by sign alone.'});
   }
-  return {version:`${CALCULATOR_VERSION}+${CHART_RULES_VERSION}`,method:moduleId,asOf:asOf.toISOString(),exactBirthTime:exact,factors,warnings,dashaTimeline:moduleId==='vedic'&&exact?vimshottariTimeline(chart,instant):undefined};
+  return {version:`${CALCULATOR_VERSION}+${CHART_RULES_VERSION}+${KNOWLEDGE_VERSION}`,method:moduleId,asOf:asOf.toISOString(),exactBirthTime:exact,factors,warnings,dashaTimeline:moduleId==='vedic'&&exact?vimshottariTimeline(chart,instant):undefined};
 }

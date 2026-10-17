@@ -1,8 +1,9 @@
-// Each card carries (1) a short modern gloss written for Star Talks and (2) A.E. Waite's own
-// divinatory wording from The Pictorial Key to the Tarot (public domain), generated into tarot-waite.ts.
-// The model receives both, with the citation. No third-party artwork is bundled.
-import { WAITE_CARDS, WAITE_SOURCE, WAITE_RULES_VERSION } from './tarot-waite.ts';
-export const TAROT_LIBRARY_VERSION = `tarot-rules/2.0.0+${WAITE_RULES_VERSION}`;
+// Card identity and spreads live here; meanings come from Star Talks' own interpretation library
+// (knowledge/rules/tarot.json via knowledge.ts), written in original wording from public-domain research.
+// No third-party artwork or source text is bundled.
+import { KNOWLEDGE_VERSION, tarotCardText, tarotCombinationFactors } from './knowledge.ts';
+export { tarotCombinationFactors };
+export const TAROT_LIBRARY_VERSION = `tarot-rules/3.0.0+${KNOWLEDGE_VERSION}`;
 
 type Card = { id: string; name: string; upright: string; reversed: string };
 const major: Array<[string, string, string]> = [
@@ -77,16 +78,6 @@ export const TAROT_DECK: readonly Card[] = [
   }))),
 ];
 
-/** Gloss plus Waite's verbatim meaning for the drawn orientation, with citation. */
-function cardMeaning(card: Card, orientation: 'upright' | 'reversed'): string {
-  const waite = WAITE_CARDS[card.id];
-  if (!waite) throw new Error(`No Waite source entry for ${card.id}.`);
-  const gloss = card[orientation];
-  const text = waite[orientation];
-  if (!text) return `${gloss} (Waite gives no reversed meaning for this card; this is a modern gloss, not a cited rule.)`;
-  return `${gloss}. Waite: "${text}" [${WAITE_SOURCE}, ${waite.section}]`;
-}
-
 const SPREADS = {
   three: [
     ['Past','influence or pattern carried into the present'],
@@ -118,11 +109,11 @@ export function drawTarot(spreadId: SpreadId = 'three') {
   }
   return SPREADS[spreadId].map(([position,positionMeaning], index) => {
     const card = shuffled[index];
-    const orientation = unbiasedIndex(2) === 0 ? 'upright' : 'reversed';
+    const orientation = (unbiasedIndex(2) === 0 ? 'upright' : 'reversed') as 'upright' | 'reversed';
     return {
       id: `tarot:${card.id}:${orientation}:${slug(position)}`,
       cardId: card.id, cardName: card.name, orientation, position, positionMeaning,
-      meaning: cardMeaning(card, orientation),
+      meaning: tarotCardText(card.id, orientation),
     };
   });
 }
