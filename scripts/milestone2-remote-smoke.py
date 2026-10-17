@@ -115,16 +115,17 @@ def main(live):
         quota_args = {"p_user_id": first_id, "p_request_id": quota_id, "p_daily_limit": 1,
                       "p_fingerprint": hashlib.sha256(b"qa-quota").hexdigest(),
                       "p_global_daily_limit": 100, "p_user_minute_limit": 100,
-                      "p_global_minute_limit": 100}
+                      "p_global_minute_limit": 100, "p_user_daily_unit_limit": 1000000,
+                      "p_global_daily_unit_limit": 10000000, "p_reserved_units": 1000}
         status, granted = rest("rpc/claim_ai_preview_request", first_jwt, "POST", quota_args, owner=True)
         expect("first preview quota claim", status, 200, granted)
-        assert granted is True
+        assert granted == 'claimed', granted
         status, replay = rest("rpc/claim_ai_preview_request", first_jwt, "POST", quota_args, owner=True)
         expect("quota request replay", status, 200, replay)
-        assert replay is True
+        assert replay == 'existing', replay
         status, refused = rest("rpc/claim_ai_preview_request", first_jwt, "POST", {**quota_args, "p_request_id": str(uuid.uuid4())}, owner=True)
         expect("quota cap response", status, 200, refused)
-        assert refused is False
+        assert refused == 'user_daily', refused
         print("PASS per-account quota cap with idempotent replay")
 
         status, foreign = rest("birth_profiles", second_jwt, query=f"?id=eq.{first_profile}&select=id")
